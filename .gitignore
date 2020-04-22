@@ -1,0 +1,7 @@
+Release/
+ReleaseIntermediate/
+Debug/
+DebugIntermediate/
+Analysis
+AnalysisIntermediate
+.vs/
