@@ -1,0 +1,3 @@
+[submodule "commonItems"]
+	path = commonItems
+	url = https://github.com/ParadoxGameConverters/commonItems.git
