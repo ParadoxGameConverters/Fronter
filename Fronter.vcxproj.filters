@@ -19,6 +19,9 @@
     <Filter Include="Fronter\Frames\Tabs">
       <UniqueIdentifier>{d72203bf-ebbb-4ba1-95e3-c8f39873f304}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fronter\LogWatcher">
+      <UniqueIdentifier>{52dee387-8a19-47c0-896f-5bb709b6b0ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\newParser.cpp">
@@ -57,6 +60,9 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\LogWatcher\LogWatcher.cpp">
+      <Filter>Fronter\LogWatcher</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\newParser.h">
@@ -94,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\LogWatcher\LogWatcher.h">
+      <Filter>Fronter\LogWatcher</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
