@@ -1,25 +1,104 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="FronterCore">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Fronter">
+      <UniqueIdentifier>{8bf5443e-c0d0-48fc-b338-955a5a9b4b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{e4e5c633-3b78-4090-abce-2bba593c3205}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commonItems">
+      <UniqueIdentifier>{969ac4a9-09b8-41ab-90c0-49ad0670d34c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\ConfigurationParser">
+      <UniqueIdentifier>{0670e4ee-6bc0-4362-8bb6-ec2d531ee3a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\Frames">
+      <UniqueIdentifier>{09fe9420-b6ad-4203-8ee4-168ef6a56fef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\Frames\Tabs">
+      <UniqueIdentifier>{d72203bf-ebbb-4ba1-95e3-c8f39873f304}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FronterCore\Fronter.cpp">
-      <Filter>FronterCore</Filter>
+    <ClCompile Include="commonItems\newParser.cpp">
+      <Filter>commonItems</Filter>
     </ClCompile>
-    <ClCompile Include="FronterCore\MainFrame.cpp">
-      <Filter>FronterCore</Filter>
+    <ClCompile Include="commonItems\ParserHelpers.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\Log.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\WinUtils.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\iconvlite.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\ConfigurationParser\Configuration.cpp">
+      <Filter>Fronter\ConfigurationParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFile.cpp">
+      <Filter>Fronter\ConfigurationParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFolder.cpp">
+      <Filter>Fronter\ConfigurationParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Frontend.cpp">
+      <Filter>Fronter</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Frames\MainFrame.cpp">
+      <Filter>Fronter\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Frames\LogWindow.cpp">
+      <Filter>Fronter\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp">
+      <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FronterCore\Fronter.h">
-      <Filter>FronterCore</Filter>
+    <ClInclude Include="commonItems\newParser.h">
+      <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="FronterCore\MainFrame.h">
-      <Filter>FronterCore</Filter>
+    <ClInclude Include="commonItems\ParserHelpers.h">
+      <Filter>commonItems</Filter>
     </ClInclude>
+    <ClInclude Include="commonItems\Log.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\OSCompatibilityLayer.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\iconvlite.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConfigurationParser\Configuration.h">
+      <Filter>Fronter\ConfigurationParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFile.h">
+      <Filter>Fronter\ConfigurationParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFolder.h">
+      <Filter>Fronter\ConfigurationParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Frontend.h">
+      <Filter>Fronter</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Frames\MainFrame.h">
+      <Filter>Fronter\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Frames\LogWindow.h">
+      <Filter>Fronter\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h">
+      <Filter>Fronter\Frames\Tabs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Fronter\Resources\converter.ico">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>
