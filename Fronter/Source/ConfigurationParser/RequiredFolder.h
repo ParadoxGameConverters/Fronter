@@ -19,10 +19,11 @@ class RequiredFolder: commonItems::parser
 	[[nodiscard]] auto isOutputtable() const { return outputtable; }
 	[[nodiscard]] const auto& getSearchPathID() const { return searchPathID; }
 	[[nodiscard]] auto getID() const { return ID; }
+	[[nodiscard]] const auto& getValue() const { return value; }
+
 	void setID(int theID) { ID = theID; }
 	void setValue(const std::string& theValue) { value = theValue; }
 
-	
   private:
 	void registerKeys();
 	std::string name;

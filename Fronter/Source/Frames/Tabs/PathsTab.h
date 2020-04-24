@@ -3,28 +3,28 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include <wx/notebook.h>
 #include "../../ConfigurationParser/Configuration.h"
 #include <wx/filepicker.h>
+#include <wx/notebook.h>
 
-class PathsTab : public wxNotebookPage
+class PathsTab: public wxNotebookPage
 {
-public:
+  public:
 	PathsTab(wxWindow* parent);
 
 	[[nodiscard]] const auto& getTabName() const { return tabName; }
 
 	void loadConfiguration(std::shared_ptr<Configuration::Configuration> theConfiguration) { configuration = theConfiguration; }
 	void initializePaths();
-	
-private:
+
+  private:
 	[[nodiscard]] std::optional<std::string> getSteamInstallPath(const std::string& steamID) const;
 
 	void OnPathChanged(wxFileDirPickerEvent& evt);
-	void OnChooseDir(wxCommandEvent& evt);
-	
+
+	int pickerCounter = 0;
 	std::string tabName = "Paths";
-   wxDECLARE_EVENT_TABLE();
+	wxDECLARE_EVENT_TABLE();
 
 	std::shared_ptr<Configuration::Configuration> configuration;
 };

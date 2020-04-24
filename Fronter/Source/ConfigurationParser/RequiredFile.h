@@ -17,12 +17,13 @@ class RequiredFile: commonItems::parser
 	[[nodiscard]] const auto& getTooltip() const { return tooltip; }
 	[[nodiscard]] const auto& getFilename() const { return fileName; }
 	[[nodiscard]] const auto& getAllowedExtension() const { return allowedExtension; }
+	[[nodiscard]] const auto& getValue() const { return value; }
 	[[nodiscard]] auto isMandatory() const { return mandatory; }
 	[[nodiscard]] auto isOutputtable() const { return outputtable; }
 	[[nodiscard]] auto getID() const { return ID; }
 	void setID(int theID) { ID = theID; }
 	void setValue(const std::string& theValue) { value = theValue; }
-	
+
   private:
 	void registerKeys();
 	std::string name;

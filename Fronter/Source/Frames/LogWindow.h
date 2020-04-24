@@ -4,16 +4,15 @@
 #include <wx/wx.h>
 #endif
 
-class LogWindow : public wxScrolledWindow
+class LogWindow: public wxScrolledWindow
 {
-public:
-	LogWindow(wxWindow* parent, const wxPoint& pos, const wxSize& size);
+  public:
+	LogWindow(wxWindow* parent);
 
-	void PerformCalculation(int someParameter);
-	void OnMyThread(wxCommandEvent& event);
-	
-private:
-   wxDECLARE_EVENT_TABLE();
+	void initializeTail();
+	void OnTailPush(wxCommandEvent& event);
 
-
+  private:
+	wxDECLARE_EVENT_TABLE();
+	int logCounter = 0;
 };

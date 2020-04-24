@@ -1,30 +1,31 @@
 #include "LogWindow.h"
-#include "Log.h"
 #include "../LogWatcher/LogWatcher.h"
+#include "Log.h"
 
-BEGIN_EVENT_TABLE(LogWindow,wxScrolledWindow)
-    EVT_COMMAND(wxID_ANY, wxEVT_MYTHREAD, LogWindow::OnMyThread)
+BEGIN_EVENT_TABLE(LogWindow, wxScrolledWindow)
+EVT_COMMAND(wxID_ANY, wxEVT_TAILTHREAD, LogWindow::OnTailPush)
 END_EVENT_TABLE()
 
-LogWindow::LogWindow(wxWindow* parent, const wxPoint& pos, const wxSize& size): wxScrolledWindow(parent, wxID_ANY, pos, size)
+LogWindow::LogWindow(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, -1))
 {
-	PerformCalculation(2);
+	SetScrollRate(0, 16);
+	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
+	SetSizer(logBox);
+	initializeTail();
 }
 
-void LogWindow::PerformCalculation(int someParameter){
-    //create the thread
-    MyThread *thread = new MyThread(this, someParameter);
-    thread->Create();
-    thread->Run();
-    //Don't worry about deleting the thread, there are two types of wxThreads 
-    //and this kind deletes itself when it's finished.
-}
-void LogWindow::OnMyThread(wxCommandEvent& event)
+void LogWindow::initializeTail()
 {
-    std::string* temp = (std::string*)event.GetClientData();
-    //do something with temp, which holds unsigned char* data from the thread
-    //GetClientData() can return any kind of data you want, but you have to cast it.
-    //auto temp = event.GetId();
-    Log(LogLevel::Debug) << "got data |" << *temp << "|";
-    delete temp; 
-}    
+	LogWatcher* logWatcher = new LogWatcher(this);
+	logWatcher->Create();
+	logWatcher->Run();
+}
+void LogWindow::OnTailPush(wxCommandEvent& event)
+{
+	logCounter++;
+	std::string* temp = static_cast<std::string*>(event.GetClientData());
+	wxStaticText* st = new wxStaticText(this, wxID_ANY, *temp, wxDefaultPosition, wxSize(-1, 14));
+	GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER | wxEXPAND | wxALL, 1);
+	GetParent()->Layout();
+	Scroll(0, logCounter);
+}

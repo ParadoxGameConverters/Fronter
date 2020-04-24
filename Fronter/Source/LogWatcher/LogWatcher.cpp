@@ -1,30 +1,30 @@
 #include "LogWatcher.h"
 #include <fstream>
+#include "Log.h"
 
-//DEFINE_EVENT_TYPE(wxEVT_MYTHREAD)
+DEFINE_EVENT_TYPE(wxEVT_TAILTHREAD)
 
-void* MyThread::Entry()
+void* LogWatcher::Entry()
 {
-	wxCommandEvent evt(wxEVT_MYTHREAD, GetId());
-	// can be used to set some identifier for the data
-	// evt.SetInt(r);
-	// whatever data your thread calculated, to be returned to GUI
-	std::string *vm = new std::string();
-	*vm = "no";
-	evt.SetClientData((void*)vm);
-	wxPostEvent(m_pParent, evt);
+	wxCommandEvent evt(wxEVT_TAILTHREAD, GetId());
+	
+	std::string* lineptr = new std::string();
+	std::ifstream logfile("log.txt", std::ifstream::in);
 
-	while (true)
+	while (!terminate)
 	{
-		auto linesreadsofar = linesRead
-		std::ifstream logfile("log.txt", std::ifstream::in);
-		for (auto i = 0; i < linesRead; i++)
+		std::string line;
+		while (std::getline(logfile, line))
 		{
-			std::string line;
-			std::getline(logfile,line);
+			*lineptr = line;
+			evt.SetClientData(static_cast<void*>(lineptr));
+			wxPostEvent(m_pParent, evt);
 			linesRead++;
 		}
+		wxMilliSleep(500);
+		logfile.clear();
 	}
+	logfile.close();
 
 	
 	return 0;

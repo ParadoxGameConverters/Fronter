@@ -1,14 +1,16 @@
 #include "Configuration.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include <fstream>
 
 Configuration::Configuration::Configuration()
 {
+	std::ofstream clearLog("log.txt");
+	clearLog.close();
 	registerKeys();
-	Log(LogLevel::Debug) << "in";
 	parseFile("Configuration/fronter-configuration.txt");
+	Log(LogLevel::Info) << "Frontend configuration loaded.";
 	clearRegisteredKeywords();
-	Log(LogLevel::Debug) << "out";
 }
 
 Configuration::Configuration::Configuration(std::istream& theStream)
