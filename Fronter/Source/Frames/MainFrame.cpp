@@ -16,7 +16,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	menuBar->Append(menuHelp, "&Help");
 	SetMenuBar(menuBar);
 	CreateStatusBar();
-	SetStatusText("Paradox Game Converters Team");
+	SetStatusText("Paradox Game Converters Group");
 }
 
 void MainFrame::initFrame()
