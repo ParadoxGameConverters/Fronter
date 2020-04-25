@@ -25,6 +25,5 @@ class PathsTab: public wxNotebookPage
 	int pickerCounter = 0;
 	std::string tabName = "Paths";
 	wxDECLARE_EVENT_TABLE();
-
 	std::shared_ptr<Configuration::Configuration> configuration;
 };

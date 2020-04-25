@@ -38,9 +38,10 @@ void PathsTab::initializePaths()
 		wxDirPickerCtrl* dirPickerCtrl =
 			 new wxDirPickerCtrl(this, pickerCounter, folderPath, wxDirSelectorPromptStr, wxDefaultPosition, wxSize(650, wxDefaultCoord));
 		dirPickerCtrl->Connect(wxEVT_DIRPICKER_CHANGED, (wxObjectEventFunction)&PathsTab::OnPathChanged, nullptr, this);
-		dirPickerCtrl->SetInitialDirectory(folderPath);
+		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
 		folder.second->setID(pickerCounter);
 		folder.second->setValue(folderPath);
+		st->SetToolTip(folder.second->getTooltip());
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 		GetSizer()->Add(dirPickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 	}
@@ -58,7 +59,7 @@ void PathsTab::initializePaths()
 		if (file.second->getSearchPathType() == "windowsUsersFolder")
 		{
 			filePath = documentsDir + '\\' + file.second->getSearchPath() + '\\' + file.second->getFilename();
-			initialPath = documentsDir + '\\' + file.second->getSearchPath();
+			initialPath = documentsDir + '\\' + file.second->getSearchPath() + '\\';
 		}
 		else if (file.second->getSearchPathType() == "converterFolder")
 		{
@@ -66,7 +67,7 @@ void PathsTab::initializePaths()
 			GetCurrentDirectory(256, buf);
 			auto currentDirectory = Utils::convertUTF16ToUTF8(std::wstring(buf)) + '\\';
 			filePath = currentDirectory + file.second->getSearchPath() + '\\' + file.second->getFilename();
-			initialPath = currentDirectory + file.second->getSearchPath();
+			initialPath = currentDirectory + file.second->getSearchPath() + '\\';
 		}
 
 		wxFilePickerCtrl* filePickerCtrl = new wxFilePickerCtrl(this,
@@ -77,7 +78,8 @@ void PathsTab::initializePaths()
 			 wxDefaultPosition,
 			 wxSize(650, wxDefaultCoord));
 		filePickerCtrl->Connect(wxEVT_FILEPICKER_CHANGED, (wxObjectEventFunction)&PathsTab::OnPathChanged, nullptr, this);
-		filePickerCtrl->SetInitialDirectory(initialPath);
+		filePickerCtrl->SetInitialDirectory(wxString(initialPath));
+		st->SetToolTip(file.second->getTooltip());
 		file.second->setID(pickerCounter);
 		file.second->setValue(filePath);
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
@@ -127,13 +129,13 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 		if (folder.second->getID() == evt.GetId())
 		{
 			folder.second->setValue(evt.GetPath().ToStdString());
-			Log(LogLevel::Debug) << "folder changed to:" << folder.second->getValue();
+			Log(LogLevel::Debug) << folder.second->getName() << " changed to:" << folder.second->getValue();
 		}
 	for (const auto& file: configuration->getRequiredFiles())
 		if (file.second->getID() == evt.GetId())
 		{
 			file.second->setValue(evt.GetPath().ToStdString());
-			Log(LogLevel::Debug) << "file changed to:" << file.second->getValue();
+			Log(LogLevel::Debug) << file.second->getName() << " changed to:" << file.second->getValue();
 		}
 }
 

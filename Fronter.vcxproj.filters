@@ -22,6 +22,9 @@
     <Filter Include="Fronter\LogWatcher">
       <UniqueIdentifier>{52dee387-8a19-47c0-896f-5bb709b6b0ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fronter\ConfigurationParser\Options">
+      <UniqueIdentifier>{6ec128cc-c752-4c5d-b26a-4ef4d468d553}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\newParser.cpp">
@@ -63,6 +66,15 @@
     <ClCompile Include="Fronter\Source\LogWatcher\LogWatcher.cpp">
       <Filter>Fronter\LogWatcher</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioOption.cpp">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.cpp">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\Option.cpp">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\newParser.h">
@@ -103,6 +115,15 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\LogWatcher\LogWatcher.h">
       <Filter>Fronter\LogWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioOption.h">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.h">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\Option.h">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

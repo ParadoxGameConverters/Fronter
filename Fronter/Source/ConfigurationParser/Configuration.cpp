@@ -10,6 +10,8 @@ Configuration::Configuration::Configuration()
 	registerKeys();
 	parseFile("Configuration/fronter-configuration.txt");
 	Log(LogLevel::Info) << "Frontend configuration loaded.";
+	parseFile("Configuration/fronter-options.txt");
+	Log(LogLevel::Info) << "Frontend options loaded.";
 	clearRegisteredKeywords();
 }
 
@@ -59,6 +61,11 @@ void Configuration::Configuration::registerKeys()
 			requiredFiles.insert(std::pair(newFile->getName(), newFile));
 		else
 			Log(LogLevel::Error) << "Required File has no mandatory field: name!";
+	});
+	registerKeyword("option", [this](const std::string& unused, std::istream& theStream) {
+		optionCounter++;
+		auto newOption = std::make_shared<Option>(theStream, optionCounter);
+		options.emplace_back(newOption);
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
