@@ -8,7 +8,7 @@ END_EVENT_TABLE()
 
 LogWindow::LogWindow(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, -1))
 {
-	SetScrollRate(0, 16);
+	SetScrollRate(0, 20);
 	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
 	SetSizer(logBox);
 	initializeTail();
@@ -23,8 +23,8 @@ void LogWindow::initializeTail()
 void LogWindow::OnTailPush(wxCommandEvent& event)
 {
 	logCounter++;
-	std::string* temp = static_cast<std::string*>(event.GetClientData());
-	wxStaticText* st = new wxStaticText(this, wxID_ANY, *temp, wxDefaultPosition, wxSize(-1, 14));
+	const auto message = event.GetString();
+	wxStaticText* st = new wxStaticText(this, wxID_ANY, message, wxDefaultPosition, wxSize(-1, 18));
 	GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER | wxEXPAND | wxALL, 1);
 	GetParent()->Layout();
 	Scroll(0, logCounter);

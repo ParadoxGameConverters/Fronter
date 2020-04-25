@@ -7,23 +7,17 @@
 #include <wx/filepicker.h>
 #include <wx/notebook.h>
 
-class PathsTab: public wxNotebookPage
+class OptionsTab: public wxNotebookPage
 {
   public:
-	PathsTab(wxWindow* parent);
+	OptionsTab(wxWindow* parent);
 
 	[[nodiscard]] const auto& getTabName() const { return tabName; }
 
 	void loadConfiguration(std::shared_ptr<Configuration::Configuration> theConfiguration) { configuration = theConfiguration; }
-	void initializePaths();
+	void initializeOptions();
 
   private:
-	[[nodiscard]] std::optional<std::string> getSteamInstallPath(const std::string& steamID) const;
-
-	void OnPathChanged(wxFileDirPickerEvent& evt);
-
-	int pickerCounter = 0;
-	std::string tabName = "Paths";
-	wxDECLARE_EVENT_TABLE();
+	std::string tabName = "Options";
 	std::shared_ptr<Configuration::Configuration> configuration;
 };

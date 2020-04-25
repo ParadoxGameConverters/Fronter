@@ -36,6 +36,25 @@ option = {
 	}
 }
 option = {
+	name = shatter_hre_level
+	displayName = "If we're shattering HRE, how far down do we go?"
+	tooltip = "HRE should be shattered to duchies as it increases prince number and thus stability."
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = "1 - Down to duchies [default]"
+			tooltip = "Need Duchies for stability"
+			default = true
+		}
+		radioOption = {
+			name = 2
+			displayName = "2 - Keep kingdoms if any [not recommended]"
+			tooltip = "Kingdoms remain."
+			default = false
+		}
+	}
+}
+option = {
 	name = shatter_empires
 	displayName = "Should we shatter other empires?"
 	tooltip = "Makes the game more dynamic. New countries won't be united."
@@ -50,25 +69,6 @@ option = {
 			name = 2
 			displayName = "2 - All of them! [interesting]"
 			tooltip = "All empires are broken down."
-			default = false
-		}
-	}
-}
-option = {
-	name = shatter_level
-	displayName = "If we're shattering non-HRE empires, how far down do we go?"
-	tooltip = "Makes the game more dynamic. New countries won't be united."
-	radioSelector = {
-		radioOption = {
-			name = 1
-			displayName = "1 - Down to duchies"
-			tooltip = "Duchies make sense."
-			default = true
-		}
-		radioOption = {
-			name = 2
-			displayName = "2 - Keep kingdoms if any"
-			tooltip = "Kingdoms remain."
 			default = false
 		}
 	}
@@ -115,8 +115,9 @@ option = {
 	name = output_name
 	displayName = "Mod Output Name (optional):"
 	tooltip = "Please don't use cyrillic or chinese..."
-	textFieldSelector = {
+	textSelector = {	
 		value = ""
 		editable = true
+		tooltip = "Optional name for the converted mod"
 	}
 }
