@@ -17,13 +17,9 @@ void OptionsTab::initializeOptions()
 	// Load options from configuration and initialize option boxes to be inserted into sizer.
 	for (const auto option: configuration->getOptions())
 	{
-		OptionBox* newOption = new OptionBox(this, option);		
+		OptionBox* newOption = new OptionBox(this, option->getName(), option);		
 		newOption->initializeOption();
 		optionsSizer->Add(newOption);
 	}
 	Layout();
 }
-
-
-wxBEGIN_EVENT_TABLE(OptionsTab, wxNotebookPage)
-wxEND_EVENT_TABLE()

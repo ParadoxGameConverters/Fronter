@@ -19,6 +19,5 @@ class OptionsTab: public wxNotebookPage
 
   private:
 	std::string tabName = "Options";
-	wxDECLARE_EVENT_TABLE();
 	std::shared_ptr<Configuration::Configuration> configuration;
 };

@@ -115,8 +115,9 @@ option = {
 	name = output_name
 	displayName = "Mod Output Name (optional):"
 	tooltip = "Please don't use cyrillic or chinese..."
-	textFieldSelector = {
+	textSelector = {	
 		value = ""
 		editable = true
+		tooltip = "Optional name for the converted mod"
 	}
 }

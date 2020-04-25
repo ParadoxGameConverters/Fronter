@@ -81,6 +81,9 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionBox.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\TextSelector.cpp">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\newParser.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionBox.h">
       <Filter>Fronter\Frames\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\TextSelector.h">
+      <Filter>Fronter\ConfigurationParser\Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

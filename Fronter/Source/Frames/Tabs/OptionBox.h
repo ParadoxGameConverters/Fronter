@@ -13,7 +13,7 @@ class Option;
 class OptionBox: public wxWindow
 {
   public:
-	OptionBox(wxWindow* parent, std::shared_ptr<Configuration::Option> theOption);
+	OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Configuration::Option> theOption);
 
 	[[nodiscard]] const auto& getOptionName() const { return optionName; }
 
@@ -22,7 +22,5 @@ class OptionBox: public wxWindow
 	
   private:
 	std::string optionName;
-	wxDECLARE_EVENT_TABLE();
 	std::shared_ptr<Configuration::Option> option;
-	wxFlexGridSizer* flexGridSizer;
 };

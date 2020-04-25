@@ -2,6 +2,7 @@
 #define CONFIGURATION_OPTION
 #include "newParser.h"
 #include "RadioSelector.h"
+#include "TextSelector.h"
 
 namespace Configuration
 {
@@ -17,8 +18,10 @@ class Option: commonItems::parser
 	[[nodiscard]] std::string getValue() const;
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] const auto& getRadioSelector() const { return radioSelector; }
+	[[nodiscard]] const auto& getTextSelector() const { return textSelector; }
 
 	void setRadioSelectorValue(int selection) const;
+	void setTextSelectorValue(const std::string& selection) const;
 
   private:
 	void registerKeys();
@@ -26,6 +29,7 @@ class Option: commonItems::parser
 	std::string tooltip;
 	std::string displayName;
 	std::pair<bool, std::shared_ptr<RadioSelector>> radioSelector; // enabled, selector.
+	std::pair<bool, std::shared_ptr<TextSelector>> textSelector; // enabled, selector.
 	int ID = 0;
 };
 } // namespace Configuration

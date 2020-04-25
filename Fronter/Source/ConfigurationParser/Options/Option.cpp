@@ -27,6 +27,10 @@ void Configuration::Option::registerKeys()
 		auto newSelector = std::make_shared<RadioSelector>(theStream);
 		radioSelector = std::pair(true, newSelector);
 	});
+	registerKeyword("textSelector", [this](const std::string& unused, std::istream& theStream) {
+		auto newSelector = std::make_shared<TextSelector>(theStream);
+		textSelector = std::pair(true, newSelector);
+	});
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
 }
 
@@ -40,11 +44,25 @@ void Configuration::Option::setRadioSelectorValue(int selection) const
 	radioSelector.second->setSelectedValue(selection);
 }
 
+void Configuration::Option::setTextSelectorValue(const std::string& selection) const
+{
+	if (!textSelector.first)
+	{
+		Log(LogLevel::Warning) << "Attempted setting a text control which does not exist!";
+		return;
+	}
+	textSelector.second->setValue(selection);
+}
+
 std::string Configuration::Option::getValue() const
 {
 	if (radioSelector.first)
 	{
 		return radioSelector.second->getSelectedValue();
+	}
+	if (textSelector.first)
+	{
+		return textSelector.second->getValue();
 	}
 
 	return std::string();

@@ -28,6 +28,7 @@
     <ClCompile Include="Fronter\Source\ConfigurationParser\Options\Option.cpp" />
     <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioOption.cpp" />
     <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.cpp" />
+    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\TextSelector.cpp" />
     <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFile.cpp" />
     <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFolder.cpp" />
     <ClCompile Include="Fronter\Source\Frames\LogWindow.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Fronter\Source\ConfigurationParser\Options\Option.h" />
     <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioOption.h" />
     <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.h" />
+    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\TextSelector.h" />
     <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFile.h" />
     <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFolder.h" />
     <ClInclude Include="Fronter\Source\Frames\LogWindow.h" />
