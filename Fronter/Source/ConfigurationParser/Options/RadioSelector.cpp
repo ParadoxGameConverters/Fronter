@@ -26,3 +26,20 @@ std::string Configuration::RadioSelector::getSelectedValue() const
 			return option->getName();
 	return std::string();
 }
+
+void Configuration::RadioSelector::setSelectedValue(int selection)
+{
+	bool isSet = false;
+	for (const auto& option: radioOptions)
+	{
+		if (option->getID() == selection)
+		{
+			option->setValue();
+			isSet = true;
+		}		
+		else
+			option->unsetValue();
+	}
+	if (!isSet)
+		Log(LogLevel::Warning) << "Attempted setting a radio selector value that does not exist!";
+}

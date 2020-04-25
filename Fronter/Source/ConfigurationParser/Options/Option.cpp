@@ -29,3 +29,23 @@ void Configuration::Option::registerKeys()
 	});
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
 }
+
+void Configuration::Option::setRadioSelectorValue(int selection) const
+{
+	if (!radioSelector.first)
+	{
+		Log(LogLevel::Warning) << "Attempted setting a radio control in unknown radio option!";
+		return;
+	}
+	radioSelector.second->setSelectedValue(selection);
+}
+
+std::string Configuration::Option::getValue() const
+{
+	if (radioSelector.first)
+	{
+		return radioSelector.second->getSelectedValue();
+	}
+
+	return std::string();
+}

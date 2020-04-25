@@ -26,6 +26,8 @@ void Configuration::RadioOption::registerKeys()
 	registerKeyword("default", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString defaultStr(theStream);
 		defaulted = defaultStr.getString() == "true";
+		if (defaulted)
+			value = true;
 	});
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
 }

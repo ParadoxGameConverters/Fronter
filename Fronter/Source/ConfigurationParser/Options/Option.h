@@ -18,6 +18,8 @@ class Option: commonItems::parser
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] const auto& getRadioSelector() const { return radioSelector; }
 
+	void setRadioSelectorValue(int selection) const;
+
   private:
 	void registerKeys();
 	std::string name;

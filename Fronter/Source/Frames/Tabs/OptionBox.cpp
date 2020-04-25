@@ -38,6 +38,13 @@ void OptionBox::initializeOption()
 			}
 			theButton->SetToolTip(radioOption->getTooltip());
 			theButton->SetValue(radioOption->isDefault());
+			
+			theButton->Bind(wxEVT_RADIOBUTTON, [this](wxCommandEvent& event) {
+				auto id = event.GetId();
+				Log(LogLevel::Debug) << optionName << " selected: " << id;
+				option->setRadioSelectorValue(id);
+			});
+			
 			flexGridSizer->Add(theButton);
 			SetMinSize(wxSize(std::max(theButton->GetSize().GetWidth(), GetMinWidth()), 150));
 		}
@@ -48,4 +55,5 @@ void OptionBox::initializeOption()
 	Layout();
 }
 
-wxBEGIN_EVENT_TABLE(OptionBox, wxWindow) wxEND_EVENT_TABLE()
+wxBEGIN_EVENT_TABLE(OptionBox, wxWindow)
+wxEND_EVENT_TABLE()
