@@ -16,6 +16,7 @@ class Option: commonItems::parser
 	[[nodiscard]] const auto& getTooltip() const { return tooltip; }
 	[[nodiscard]] std::string getValue() const;
 	[[nodiscard]] auto getID() const { return ID; }
+	[[nodiscard]] const auto& getRadioSelector() const { return radioSelector; }
 
   private:
 	void registerKeys();

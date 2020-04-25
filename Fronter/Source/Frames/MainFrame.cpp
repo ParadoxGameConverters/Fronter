@@ -3,6 +3,7 @@
 #include "Tabs/PathsTab.h"
 #include "wx/splitter.h"
 #include <wx/notebook.h>
+#include "Tabs/OptionsTab.h"
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(NULL, wxID_ANY, title, pos, size)
 {
@@ -31,8 +32,12 @@ void MainFrame::initFrame()
 	pathsTab->loadConfiguration(configuration);
 	pathsTab->initializePaths();
 
+	OptionsTab* optionsTab = new OptionsTab(notebook);
+	optionsTab->loadConfiguration(configuration);
+	optionsTab->initializeOptions();
+
+	notebook->AddPage(optionsTab, optionsTab->getTabName());
 	notebook->AddPage(pathsTab, pathsTab->getTabName());
-	notebook->AddPage(new wxNotebookPage(notebook, -1), L"Options");
 	notebook->AddPage(new wxNotebookPage(notebook, -1), L"Convert");
 	notebook->Layout();
 
