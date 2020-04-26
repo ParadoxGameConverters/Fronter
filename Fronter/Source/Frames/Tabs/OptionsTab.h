@@ -4,10 +4,8 @@
 #include <wx/wx.h>
 #endif
 #include "../../ConfigurationParser/Configuration.h"
-#include <wx/filepicker.h>
-#include <wx/notebook.h>
 
-class OptionsTab: public wxNotebookPage
+class OptionsTab: public wxScrolledWindow
 {
   public:
 	OptionsTab(wxWindow* parent);

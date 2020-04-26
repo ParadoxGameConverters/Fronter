@@ -24,10 +24,8 @@ void MainFrame::initFrame()
 {
 	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
 
-	wxPanel* notePanel = new wxPanel(this, wxID_ANY, wxPoint(0, 0), wxSize(1200, 400));
-	wxNotebook* notebook = new wxNotebook(notePanel, wxID_ANY, wxPoint(0, 0), wxSize(1200, 400));
+	wxNotebook* notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	notebook->SetMaxSize(wxSize(-1, 400));
-	notePanel->SetMaxSize(wxSize(-1, 400));
 
 	PathsTab* pathsTab = new PathsTab(notebook);
 	pathsTab->loadConfiguration(configuration);
@@ -42,15 +40,15 @@ void MainFrame::initFrame()
 	convertTab->initializeConvert();
 
 	notebook->AddPage(convertTab, convertTab->getTabName());
-	notebook->AddPage(optionsTab, optionsTab->getTabName());
 	notebook->AddPage(pathsTab, pathsTab->getTabName());
+	notebook->AddPage(optionsTab, optionsTab->getTabName());
 	notebook->Layout();
 
 	LogWindow* logWindow = new LogWindow(this);
 	logWindow->SetMinSize(wxSize(-1, 200));
 
-	vbox->Add(notePanel, 1, wxEXPAND | wxALL, 1);
-	vbox->Add(logWindow, 1, wxEXPAND | wxALL, 1);
+	vbox->Add(notebook, wxSizerFlags(1).Expand().Border(wxALL, 1));
+	vbox->Add(logWindow, wxSizerFlags(1).Expand().Border(wxALL, 1));
 
 	this->SetSizer(vbox);
 	this->Centre();
@@ -63,7 +61,7 @@ void MainFrame::OnExit(wxCommandEvent& event)
 
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
-	std::string message = "Copyright (c) 2014 The Paradox Game Converters Group\n";
+	std::string message = "Copyright (c) 2020 The Paradox Game Converters Group\n";
 	message += "\n";
 	message += "This converter, as all others, is free and available at our Github repository.\n ";
 	message += "\n";
