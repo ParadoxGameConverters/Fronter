@@ -36,10 +36,6 @@ void Configuration::Configuration::registerKeys()
 		const commonItems::singleString nameStr(theStream);
 		displayName = nameStr.getString();
 	});
-	registerKeyword("optionsFile", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString fileStr(theStream);
-		optionsFile = fileStr.getString();
-	});
 	registerKeyword("sourceGame", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString gameStr(theStream);
 		sourceGame = gameStr.getString();

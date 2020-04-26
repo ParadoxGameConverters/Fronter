@@ -1,7 +1,6 @@
 ﻿name = CK2ToEU4
 converterFolder = CK2ToEU4
 displayName = "Crusader Kings II To Europa Universalis IV"
-optionsFile = "fronter-options.txt"
 sourceGame = "Crusader Kings II"
 targetGame = "Europa Universalis IV"
 

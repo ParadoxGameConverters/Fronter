@@ -17,7 +17,6 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getTargetGame() const { return targetGame; }
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
-	[[nodiscard]] const auto& getOptionsFile() const { return optionsFile; }
 	[[nodiscard]] const auto& getRequiredFiles() const { return requiredFiles; }
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getOptions() const { return options; }
@@ -29,7 +28,6 @@ class Configuration: commonItems::parser
 	std::string name;
 	std::string converterFolder;
 	std::string displayName;
-	std::string optionsFile;
 	std::string sourceGame;
 	std::string targetGame;
 	std::map<std::string, std::shared_ptr<RequiredFile>> requiredFiles;

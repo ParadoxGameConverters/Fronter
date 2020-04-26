@@ -11,6 +11,9 @@ namely anything dealing with windows registry and related file/folder paths.
 Fronter expects to find fronter-configuration.txt and fronter-options.txt inside a folder named "Configuration/".
 These two files need to be provided with bundled converters as they define converter-specific required folders, files, and options.
 
+Why two files instead of a single one? Completely irrelevant! Feel free to dump all options into *either* of the two files,
+but Fronter will whine if it can't find either. It's better to have them separate as options change often and the configuration changes basically never.
+
 ### Supported and required tags (with examples):
 #### fronter-configuration.txt
 
@@ -18,7 +21,6 @@ These two files need to be provided with bundled converters as they define conve
 name = CK2ToEU4
 converterFolder = CK2ToEU4
 displayName = "Crusader Kings II To Europa Universalis IV"
-optionsFile = "fronter-options.txt"
 sourceGame = "Crusader Kings II"
 targetGame = "Europa Universalis IV"
 
@@ -64,12 +66,12 @@ requiredFolder = {
 searchPathType:
 - converterFolder - looks in the profided converterFolder in current directory
 - steamFolder - uses searchPathID to look for an "installation path" from windows/steam registry
-- windowsUsersFolder - looks in USERHOMEDIR\Documents folder
+- windowsUsersFolder - looks in $USERHOMEDIR$\Documents folder
 
 mandatory:
 - true - will appear in the Paths Tab of the Fronter
 
-outputtable:
+outputtable (relevant for files only):
 - true - will be sent to configuration.txt
 
 Rest is self-explanatory! Shoestring Budget!
@@ -109,3 +111,22 @@ option = {
 ```
 
 Entirely self-explanatory. Why waste words on such simplicity.
+
+#### cofiguration.txt
+
+Fronter will export a single configuration.txt in converterFolder/ with paired values, for all outputtable files/folders and all options:
+
+```
+SaveGame = "somepath/autosave.ck2"
+CK2directory = "c:\Path\To\Game Installation\"
+targetGameModPath = "d:\somePath\to\mods"
+shatter_hre_level = "1"
+output_name = "some user input"
+```
+
+Slashes and backslashes depend on OS, so Converter is responsible for parsing them.
+
+### Mod move after conversion
+
+Fronter will attempt to move "\[output_name\].mod" and "\[output_name\]/" folder (or "\[SaveGame\].mod" and "\[SaveGame\]/" in case output_name was not set) from "\[converterFolder\]/output/" subdirectory to "\[targetGameModPath\]/".
+Success will undoubtedly vary of the amount of effort invested in this program.
