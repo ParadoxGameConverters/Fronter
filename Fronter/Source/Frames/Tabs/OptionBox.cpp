@@ -39,7 +39,15 @@ void OptionBox::initializeOption()
 				theButton = new wxRadioButton(this, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize);
 			}
 			theButton->SetToolTip(radioOption->getTooltip());
-			theButton->SetValue(radioOption->isDefault());
+			if (!option->getRadioSelector().second->getSelectedValue().empty() &&
+				 std::stoi(option->getRadioSelector().second->getSelectedValue()) == radioOption->getID())
+			{
+				theButton->SetValue(true);
+			}
+			else
+			{
+				theButton->SetValue(radioOption->isDefault());
+			}			
 
 			theButton->Bind(wxEVT_RADIOBUTTON, [this](wxCommandEvent& event) {
 				Log(LogLevel::Debug) << optionName << " selected: " << event.GetId();

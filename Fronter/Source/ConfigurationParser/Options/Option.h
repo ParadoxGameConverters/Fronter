@@ -22,6 +22,7 @@ class Option: commonItems::parser
 
 	void setRadioSelectorValue(int selection) const;
 	void setTextSelectorValue(const std::string& selection) const;
+	void setValue(const std::string& selection) const;
 
   private:
 	void registerKeys();

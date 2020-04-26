@@ -8,3 +8,8 @@ rem Create Configuration
 del "Release\Configuration" /Q
 rmdir "Release\Configuration" /S /Q
 xcopy "Fronter\Configuration" "Release\Configuration" /Y /E /I
+
+
+del "Release\CK2ToEU4" /Q
+rmdir "Release\CK2ToEU4" /S /Q
+xcopy "..\CK2ToEU4\Release\CK2ToEU4" "Release\CK2ToEU4" /Y /E /I

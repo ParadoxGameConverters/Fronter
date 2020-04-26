@@ -24,7 +24,11 @@ void PathsTab::initializePaths()
 		wxStaticText* st = new wxStaticText(this, wxID_ANY, folder.second->getDisplayName(), wxDefaultPosition);
 
 		std::string folderPath;
-		if (folder.second->getSearchPathType() == "windowsUsersFolder")
+		if (!folder.second->getValue().empty())
+		{
+			folderPath = folder.second->getValue();
+		}
+		else if (folder.second->getSearchPathType() == "windowsUsersFolder")
 			folderPath = documentsDir + '\\' + folder.second->getSearchPath();
 		else if (folder.second->getSearchPathType() == "steamFolder")
 		{
@@ -56,7 +60,13 @@ void PathsTab::initializePaths()
 		std::string filePath;
 		std::string initialPath;
 
-		if (file.second->getSearchPathType() == "windowsUsersFolder")
+		if (!file.second->getValue().empty())
+		{
+			filePath = file.second->getValue();
+			auto pos(filePath.find_last_of('\\'));
+			initialPath = filePath.substr(0, pos + 1);
+		}
+		else if (file.second->getSearchPathType() == "windowsUsersFolder")
 		{
 			filePath = documentsDir + '\\' + file.second->getSearchPath() + '\\' + file.second->getFilename();
 			initialPath = documentsDir + '\\' + file.second->getSearchPath() + '\\';

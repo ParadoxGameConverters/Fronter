@@ -67,3 +67,11 @@ std::string Configuration::Option::getValue() const
 
 	return std::string();
 }
+
+void Configuration::Option::setValue(const std::string& selection) const
+{
+	if (textSelector.first)
+		textSelector.second->setValue(selection);
+	if (radioSelector.first)
+		radioSelector.second->setSelectedValue(std::stoi(selection));
+}

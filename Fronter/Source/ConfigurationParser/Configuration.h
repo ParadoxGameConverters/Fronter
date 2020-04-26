@@ -21,10 +21,11 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getOptions() const { return options; }
 
-	bool exportConfiguration();
+	bool exportConfiguration() const;
 
   private:
 	void registerKeys();
+	void registerPreloadKeys();
 	std::string name;
 	std::string converterFolder;
 	std::string displayName;
