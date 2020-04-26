@@ -22,6 +22,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getOptions() const { return options; }
 
 	bool exportConfiguration() const;
+	bool executeConverter() const;
 
   private:
 	void registerKeys();

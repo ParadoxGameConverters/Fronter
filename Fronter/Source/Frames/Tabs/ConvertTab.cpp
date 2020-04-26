@@ -51,10 +51,27 @@ void ConvertTab::initializeConvert()
 
 void ConvertTab::onConvertStarted(wxCommandEvent& event)
 {
-	Log(LogLevel::Debug) << "CLICK";
-	statusSave->SetLabelMarkup("In Progress.");
+	// Reset statuses
+	statusSave->SetLabel("Not Started.");
+	statusConvert->SetLabel("Not Started.");
+	statusCopy->SetLabel("Not Started.");
+	
+	statusSave->SetLabel("In Progress.");
 	if (configuration->exportConfiguration())
 		statusSave->SetLabel("Finished.");
-	else		
-		statusSave->SetLabelMarkup("<b><span foreground='red'>Failed!</span></b>");
+	else
+	{
+		statusSave->SetLabel("Failed!");
+		return;
+	}
+
+	statusConvert->SetLabel("In Progress.");
+	if (configuration->executeConverter())
+		statusConvert->SetLabel("Finished.");
+	else
+	{
+		statusConvert->SetLabel("Failed!");
+		return;
+	}
 }
+
