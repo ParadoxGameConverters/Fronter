@@ -4,6 +4,7 @@
 #include "wx/splitter.h"
 #include <wx/notebook.h>
 #include "Tabs/OptionsTab.h"
+#include "Tabs/ConvertTab.h"
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(NULL, wxID_ANY, title, pos, size)
 {
@@ -36,9 +37,13 @@ void MainFrame::initFrame()
 	optionsTab->loadConfiguration(configuration);
 	optionsTab->initializeOptions();
 
+	ConvertTab* convertTab = new ConvertTab(notebook);
+	convertTab->loadConfiguration(configuration);
+	convertTab->initializeConvert();
+
+	notebook->AddPage(convertTab, convertTab->getTabName());
 	notebook->AddPage(optionsTab, optionsTab->getTabName());
 	notebook->AddPage(pathsTab, pathsTab->getTabName());
-	notebook->AddPage(new wxNotebookPage(notebook, -1), L"Convert");
 	notebook->Layout();
 
 	LogWindow* logWindow = new LogWindow(this);
