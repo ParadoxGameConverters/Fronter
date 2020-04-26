@@ -69,3 +69,8 @@ void Configuration::Configuration::registerKeys()
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
+
+bool Configuration::Configuration::exportConfiguration()
+{
+	return true;
+}

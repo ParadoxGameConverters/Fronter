@@ -22,6 +22,8 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getOptions() const { return options; }
 
+	bool exportConfiguration();
+
   private:
 	void registerKeys();
 	std::string name;

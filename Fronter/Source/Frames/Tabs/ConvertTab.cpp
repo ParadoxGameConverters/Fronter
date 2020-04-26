@@ -40,8 +40,8 @@ void ConvertTab::initializeConvert()
 	// in second row goes a button
 
 	wxButton* convertButton = new wxButton(this, wxID_ANY, "Convert Save", wxDefaultPosition, wxDefaultSize);
-	convertButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ConvertTab::onConvertStarted));
-	
+	convertButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, (wxEventFunction)&ConvertTab::onConvertStarted, nullptr, this);
+
 	convertSizer->AddStretchSpacer(0);
 	convertSizer->Add(convertButton, wxSizerFlags(1).Top().CenterHorizontal());
 	convertSizer->AddStretchSpacer(0);
@@ -52,4 +52,9 @@ void ConvertTab::initializeConvert()
 void ConvertTab::onConvertStarted(wxCommandEvent& event)
 {
 	Log(LogLevel::Debug) << "CLICK";
+	statusSave->SetLabelMarkup("In Progress.");
+	if (configuration->exportConfiguration())
+		statusSave->SetLabel("Finished.");
+	else		
+		statusSave->SetLabelMarkup("<b><span foreground='red'>Failed!</span></b>");
 }
