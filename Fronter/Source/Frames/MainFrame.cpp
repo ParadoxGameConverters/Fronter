@@ -37,6 +37,7 @@ void MainFrame::initFrame()
 
 	ConvertTab* convertTab = new ConvertTab(notebook);
 	convertTab->loadConfiguration(configuration);
+	convertTab->loadSelf(this);
 	convertTab->initializeConvert();
 
 	notebook->AddPage(convertTab, convertTab->getTabName());
@@ -44,7 +45,7 @@ void MainFrame::initFrame()
 	notebook->AddPage(optionsTab, optionsTab->getTabName());
 	notebook->Layout();
 
-	LogWindow* logWindow = new LogWindow(this);
+	logWindow = new LogWindow(this);
 	logWindow->SetMinSize(wxSize(-1, 200));
 
 	vbox->Add(notebook, wxSizerFlags(1).Expand().Border(wxALL, 1));
@@ -52,6 +53,16 @@ void MainFrame::initFrame()
 
 	this->SetSizer(vbox);
 	this->Centre();
+}
+
+void MainFrame::initSecondTail(const std::string& tailSource) const
+{
+	logWindow->initializeSecondTail(tailSource);
+}
+
+void MainFrame::terminateSecondTail() const
+{
+	logWindow->terminateSecondTail();
 }
 
 void MainFrame::OnExit(wxCommandEvent& event)

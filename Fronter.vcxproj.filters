@@ -25,6 +25,9 @@
     <Filter Include="Fronter\ConfigurationParser\Options">
       <UniqueIdentifier>{6ec128cc-c752-4c5d-b26a-4ef4d468d553}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fronter\ConverterLauncher">
+      <UniqueIdentifier>{a6302d15-8623-4ef6-9d72-d104014ad7ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\newParser.cpp">
@@ -87,6 +90,9 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\ConvertTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\ConverterLauncher\ConverterLauncher.cpp">
+      <Filter>Fronter\ConverterLauncher</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\newParser.h">
@@ -148,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\ConvertTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\ConverterLauncher\ConverterLauncher.h">
+      <Filter>Fronter\ConverterLauncher</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

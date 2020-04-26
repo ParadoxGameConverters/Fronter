@@ -16,10 +16,25 @@ LogWindow::LogWindow(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDef
 
 void LogWindow::initializeTail()
 {
-	LogWatcher* logWatcher = new LogWatcher(this);
+	logWatcher = new LogWatcher(this);
 	logWatcher->Create();
+	logWatcher->setTailSource("log.txt");
 	logWatcher->Run();
 }
+
+void LogWindow::initializeSecondTail(const std::string& tailSource)
+{
+	logWatcher2 = new LogWatcher(this);
+	logWatcher2->Create();
+	logWatcher2->setTailSource(tailSource);
+	logWatcher2->Run();
+}
+
+void LogWindow::terminateSecondTail() const
+{
+	logWatcher2->terminateTail();
+}
+
 void LogWindow::OnTailPush(wxCommandEvent& event)
 {
 	logCounter++;

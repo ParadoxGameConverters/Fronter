@@ -5,6 +5,7 @@
 #endif
 
 #include "../ConfigurationParser/Configuration.h"
+#include "LogWindow.h"
 
 class MainFrame: public wxFrame
 {
@@ -13,10 +14,14 @@ class MainFrame: public wxFrame
 
 	void loadConfiguration(std::shared_ptr<Configuration::Configuration> theConfiguration) { configuration = std::move(theConfiguration); }
 	void initFrame();
+	void initSecondTail(const std::string& tailSource) const;
+	void terminateSecondTail() const;
 
   private:
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
+	LogWindow* logWindow = nullptr;
+	
 	wxDECLARE_EVENT_TABLE();
 
 	std::shared_ptr<Configuration::Configuration> configuration;

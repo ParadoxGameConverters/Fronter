@@ -21,8 +21,10 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getOptions() const { return options; }
 
+	[[nodiscard]] std::string getSecondTailSource() const;
+	
 	bool exportConfiguration() const;
-	bool executeConverter() const;
+	bool copyMod() const;
 
   private:
 	void registerKeys();

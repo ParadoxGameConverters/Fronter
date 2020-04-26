@@ -8,7 +8,7 @@ void* LogWatcher::Entry()
 {
 	wxCommandEvent evt(wxEVT_TAILTHREAD, GetId());
 
-	std::ifstream logfile("log.txt", std::ifstream::in);
+	std::ifstream logfile(tailSource, std::ifstream::in);
 
 	std::string line;
 	while (!terminate)
@@ -19,10 +19,9 @@ void* LogWatcher::Entry()
 			{
 				evt.SetString(line);
 				m_pParent->AddPendingEvent(evt);
-				linesRead++;
 			}
 		}
-		wxMilliSleep(500);
+		wxMilliSleep(300);
 		logfile.clear();
 	}
 	logfile.close();

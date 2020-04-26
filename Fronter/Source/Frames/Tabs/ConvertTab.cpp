@@ -2,6 +2,12 @@
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <wx/wrapsizer.h>
+#include "../MainFrame.h"
+#include <fstream>
+
+BEGIN_EVENT_TABLE(ConvertTab, wxNotebookPage)
+EVT_COMMAND(wxID_ANY, wxEVT_CONVERTERDONE, ConvertTab::onConverterDone)
+END_EVENT_TABLE()
 
 ConvertTab::ConvertTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
@@ -66,12 +72,37 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 	}
 
 	statusConvert->SetLabel("In Progress.");
-	if (configuration->executeConverter())
+
+	std::ofstream ofile(configuration->getSecondTailSource());
+	ofile.close();
+	mainFrame->initSecondTail(configuration->getSecondTailSource());
+	
+	converterLauncher = new ConverterLauncher(this);
+	converterLauncher->loadConfiguration(configuration);
+	converterLauncher->Create();
+	converterLauncher->Run();
+}
+
+void ConvertTab::onConverterDone(wxCommandEvent& event)
+{
+	const auto message = event.GetInt();
+	if (message)
+	{
 		statusConvert->SetLabel("Finished.");
+		wxMilliSleep(400); // waiting on second tail to finish transcribing.
+		mainFrame->terminateSecondTail();
+	}
 	else
 	{
 		statusConvert->SetLabel("Failed!");
+		mainFrame->terminateSecondTail();
 		return;
 	}
+	statusCopy->SetLabel("Copying Mod.");
+	if (configuration->copyMod())
+		statusCopy->SetLabel("Finished.");
+	else
+	{
+		statusCopy->SetLabel("Failed!");
+	}
 }
-

@@ -4,10 +4,6 @@
 #include "ParserHelpers.h"
 #include <fstream>
 #include <filesystem>
-#include <windows.h>
-#include <processthreadsapi.h>
-#include <handleapi.h>
-#include <winbase.h>
 namespace fs = std::filesystem;
 
 Configuration::Configuration::Configuration()
@@ -155,58 +151,12 @@ bool Configuration::Configuration::exportConfiguration() const
 	return true;
 }
 
-bool Configuration::Configuration::executeConverter() const
+bool Configuration::Configuration::copyMod() const
 {
-	const auto& exeItr = requiredFiles.find("converterExe");
-	if (exeItr == requiredFiles.end())
-	{
-		Log(LogLevel::Error) << "Converter location has not been loaded!";
-		return false;
-	}
-	std::string converterExe = exeItr->second->getValue();
-	if (converterExe.empty())
-	{
-		Log(LogLevel::Error) << "Converter location has not been set!";
-		return false;
-	}
-	if (!fs::exists(fs::u8path(converterExe)))
-	{
-		Log(LogLevel::Error) << "Could not find converter executable!";
-		return false;
-	}
+	return false;
+}
 
-	STARTUPINFO si = {sizeof(si)};
-	PROCESS_INFORMATION pi;
-	const auto pos = converterExe.find_last_of('\\');
-	const auto workDir = converterExe.substr(0, pos + 1);
-
-	const wchar_t* workDirPtr = Utils::convertUTF8ToUTF16(workDir).c_str();
-	LPWSTR rawexeptr = const_cast<LPWSTR>(Utils::convertUTF8ToUTF16(converterExe).c_str());
-
-	auto stopWatchStart = std::chrono::steady_clock::now();
-	
-	if (CreateProcess(NULL, // No module name (use command line)
-			  rawexeptr,		 // Command line
-			  NULL,				// Process handle not inheritable
-			  NULL,				// Thread handle not inheritable
-			  FALSE,				// Set handle inheritance to FALSE
-			  CREATE_NO_WINDOW, // No creation flags
-			  NULL,				// Use parent's environment block
-			  workDirPtr,		 // Use parent's starting directory
-			  &si,				// Pointer to STARTUPINFO structure
-			  &pi))
-	{
-		WaitForSingleObject(pi.hProcess, INFINITE);
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);
-		auto stopWatchEnd = std::chrono::steady_clock::now();
-		Log(LogLevel::Info) << "Converter finished at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count() << " seconds.";
-	}
-	else
-	{
-		Log(LogLevel::Error) << "Could not execute converter: " << std::to_string(GetLastError());
-	}
-
-	
-	return true;
+std::string Configuration::Configuration::getSecondTailSource() const
+{
+	return converterFolder + "/log.txt";
 }
