@@ -1,5 +1,4 @@
 #include "ConvertTab.h"
-#include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <wx/wrapsizer.h>
 #include "../MainFrame.h"
@@ -45,7 +44,7 @@ void ConvertTab::initializeConvert()
 
 	// in second row goes a button
 
-	wxButton* convertButton = new wxButton(this, wxID_ANY, "Convert Save", wxDefaultPosition, wxDefaultSize);
+	convertButton = new wxButton(this, wxID_ANY, "Convert Save", wxDefaultPosition, wxDefaultSize);
 	convertButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, (wxEventFunction)&ConvertTab::onConvertStarted, nullptr, this);
 
 	convertSizer->AddStretchSpacer(0);
@@ -57,6 +56,7 @@ void ConvertTab::initializeConvert()
 
 void ConvertTab::onConvertStarted(wxCommandEvent& event)
 {
+	convertButton->Disable();
 	// Reset statuses
 	statusSave->SetLabel("Not Started.");
 	statusConvert->SetLabel("Not Started.");
@@ -96,6 +96,7 @@ void ConvertTab::onConverterDone(wxCommandEvent& event)
 	{
 		statusConvert->SetLabel("Failed!");
 		mainFrame->terminateSecondTail();
+		convertButton->Enable();
 		return;
 	}
 	statusCopy->SetLabel("Copying Mod.");
@@ -105,4 +106,5 @@ void ConvertTab::onConverterDone(wxCommandEvent& event)
 	{
 		statusCopy->SetLabel("Failed!");
 	}
+	convertButton->Enable();
 }

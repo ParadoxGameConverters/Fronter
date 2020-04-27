@@ -177,7 +177,7 @@ Configuration::LogMessage Configuration::Configuration::sliceMessage(const std::
 		logMessage.message = message;
 		return logMessage;		
 	}
-	const auto logLevel = message.substr(posOpen, posClose);
+	const auto logLevel = message.substr(posOpen + 1, posClose - posOpen - 1);
 	if (logLevel == "INFO") logMessage.logLevel = LogLevel::Info;
 	else if (logLevel == "DEBUG") logMessage.logLevel = LogLevel::Debug;
 	else if (logLevel == "WARNING") logMessage.logLevel = LogLevel::Warning;

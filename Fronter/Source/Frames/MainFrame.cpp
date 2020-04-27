@@ -40,9 +40,9 @@ void MainFrame::initFrame()
 	convertTab->loadSelf(this);
 	convertTab->initializeConvert();
 
-	notebook->AddPage(convertTab, convertTab->getTabName());
 	notebook->AddPage(pathsTab, pathsTab->getTabName());
 	notebook->AddPage(optionsTab, optionsTab->getTabName());
+	notebook->AddPage(convertTab, convertTab->getTabName());
 	notebook->Layout();
 
 	logWindow = new LogWindow(this);
