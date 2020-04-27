@@ -4,11 +4,11 @@
 #include <wx/wx.h>
 #endif
 
-#include "ConfigurationParser/Configuration.h"
+#include "Configuration/Configuration.h"
 
-class Frontend : public wxApp
+class Frontend: public wxApp
 {
-public:
-   virtual bool OnInit();
- std::shared_ptr<Configuration::Configuration> configuration;
+  public:
+	virtual bool OnInit();
+	std::shared_ptr<Configuration> configuration;
 };

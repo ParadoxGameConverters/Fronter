@@ -4,7 +4,7 @@
 #include <wx/wx.h>
 #endif
 
-#include "../ConfigurationParser/Configuration.h"
+#include "../Configuration/Configuration.h"
 #include "LogWindow.h"
 #include <wx/notebook.h>
 #include "Tabs/OptionsTab.h"
@@ -14,7 +14,7 @@ class MainFrame: public wxFrame
   public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 
-	void loadConfiguration(std::shared_ptr<Configuration::Configuration> theConfiguration) { configuration = std::move(theConfiguration); }
+	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = std::move(theConfiguration); }
 	void initFrame();
 	void initSecondTail(const std::string& tailSource) const;
 	void terminateSecondTail() const;
@@ -28,5 +28,5 @@ class MainFrame: public wxFrame
 	
 	wxDECLARE_EVENT_TABLE();
 	void onResize(wxSizeEvent& evt);
-	std::shared_ptr<Configuration::Configuration> configuration;
+	std::shared_ptr<Configuration> configuration;
 };

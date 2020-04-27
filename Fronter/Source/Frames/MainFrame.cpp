@@ -1,9 +1,9 @@
 #include "MainFrame.h"
 #include "LogWindow.h"
+#include "Tabs/ConvertTab.h"
+#include "Tabs/OptionsTab.h"
 #include "Tabs/PathsTab.h"
 #include "wx/splitter.h"
-#include "Tabs/OptionsTab.h"
-#include "Tabs/ConvertTab.h"
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(NULL, wxID_ANY, title, pos, size)
 {
@@ -12,8 +12,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	wxMenu* menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT);
 	wxMenuBar* menuBar = new wxMenuBar;
-	menuBar->Append(menuFile, "&File");
-	menuBar->Append(menuHelp, "&Help");
+	menuBar->Append(menuFile, "&Converter");
+	menuBar->Append(menuHelp, "&PGCG");
 	SetMenuBar(menuBar);
 	CreateStatusBar();
 	SetStatusText("Paradox Game Converters Group");

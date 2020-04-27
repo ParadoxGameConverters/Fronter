@@ -10,9 +10,6 @@
     <Filter Include="commonItems">
       <UniqueIdentifier>{969ac4a9-09b8-41ab-90c0-49ad0670d34c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fronter\ConfigurationParser">
-      <UniqueIdentifier>{0670e4ee-6bc0-4362-8bb6-ec2d531ee3a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fronter\Frames">
       <UniqueIdentifier>{09fe9420-b6ad-4203-8ee4-168ef6a56fef}</UniqueIdentifier>
     </Filter>
@@ -22,11 +19,14 @@
     <Filter Include="Fronter\LogWatcher">
       <UniqueIdentifier>{52dee387-8a19-47c0-896f-5bb709b6b0ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fronter\ConfigurationParser\Options">
-      <UniqueIdentifier>{6ec128cc-c752-4c5d-b26a-4ef4d468d553}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fronter\ConverterLauncher">
       <UniqueIdentifier>{a6302d15-8623-4ef6-9d72-d104014ad7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\Configuration">
+      <UniqueIdentifier>{6ed3be2c-93c8-4eb2-a036-510222632e84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\Configuration\Options">
+      <UniqueIdentifier>{8e5637fd-1958-4418-a2bc-d21d2aa6a2f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,15 +45,6 @@
     <ClCompile Include="commonItems\iconvlite.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Configuration.cpp">
-      <Filter>Fronter\ConfigurationParser</Filter>
-    </ClCompile>
-    <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFile.cpp">
-      <Filter>Fronter\ConfigurationParser</Filter>
-    </ClCompile>
-    <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFolder.cpp">
-      <Filter>Fronter\ConfigurationParser</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\Frontend.cpp">
       <Filter>Fronter</Filter>
     </ClCompile>
@@ -69,29 +60,38 @@
     <ClCompile Include="Fronter\Source\LogWatcher\LogWatcher.cpp">
       <Filter>Fronter\LogWatcher</Filter>
     </ClCompile>
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioOption.cpp">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
-    </ClCompile>
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.cpp">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
-    </ClCompile>
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\Option.cpp">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionsTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionBox.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\TextSelector.cpp">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\Frames\Tabs\ConvertTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
     <ClCompile Include="Fronter\Source\ConverterLauncher\ConverterLauncher.cpp">
       <Filter>Fronter\ConverterLauncher</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Configuration.cpp">
+      <Filter>Fronter\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\RequiredFile.cpp">
+      <Filter>Fronter\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\RequiredFolder.cpp">
+      <Filter>Fronter\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Options\Option.cpp">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Options\RadioOption.cpp">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Options\RadioSelector.cpp">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Options\TextSelector.cpp">
+      <Filter>Fronter\Configuration\Options</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,15 +110,6 @@
     <ClInclude Include="commonItems\iconvlite.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Configuration.h">
-      <Filter>Fronter\ConfigurationParser</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFile.h">
-      <Filter>Fronter\ConfigurationParser</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFolder.h">
-      <Filter>Fronter\ConfigurationParser</Filter>
-    </ClInclude>
     <ClInclude Include="Fronter\Source\Frontend.h">
       <Filter>Fronter</Filter>
     </ClInclude>
@@ -134,23 +125,11 @@
     <ClInclude Include="Fronter\Source\LogWatcher\LogWatcher.h">
       <Filter>Fronter\LogWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioOption.h">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.h">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\Option.h">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
-    </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionsTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionBox.h">
       <Filter>Fronter\Frames\Tabs</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\TextSelector.h">
-      <Filter>Fronter\ConfigurationParser\Options</Filter>
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\ConvertTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
@@ -160,6 +139,27 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\LogWatcher\LogMessageEvent.h">
       <Filter>Fronter\LogWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Configuration.h">
+      <Filter>Fronter\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\RequiredFile.h">
+      <Filter>Fronter\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\RequiredFolder.h">
+      <Filter>Fronter\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Options\Option.h">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Options\RadioOption.h">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Options\RadioSelector.h">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Options\TextSelector.h">
+      <Filter>Fronter\Configuration\Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

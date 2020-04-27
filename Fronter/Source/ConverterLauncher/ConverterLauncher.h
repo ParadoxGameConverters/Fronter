@@ -4,8 +4,8 @@
 #include <wx/wx.h>
 #endif
 
+#include "../Configuration/Configuration.h"
 #include <wx/thread.h>
-#include "../ConfigurationParser/Configuration.h"
 
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE(wxEVT_CONVERTERDONE, wxID_ANY)
@@ -15,11 +15,11 @@ class ConverterLauncher: public wxThread
 {
   public:
 	ConverterLauncher(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
-	void loadConfiguration(std::shared_ptr<Configuration::Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
 
   private:
 	void* Entry();
-	std::shared_ptr<Configuration::Configuration> configuration;
+	std::shared_ptr<Configuration> configuration;
 
   protected:
 	wxEvtHandler* m_pParent;

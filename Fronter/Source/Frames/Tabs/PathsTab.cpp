@@ -1,9 +1,8 @@
 #include "PathsTab.h"
-#include "Log.h"
 #include "OSCompatibilityLayer.h"
-#include <wx/filepicker.h>
-#include <filesystem>
 #include <codecvt>
+#include <filesystem>
+#include <wx/filepicker.h>
 namespace fs = std::filesystem;
 
 
@@ -141,12 +140,12 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 {
 	for (const auto& folder: configuration->getRequiredFolders())
 		if (folder.second->getID() == evt.GetId())
-		{			
+		{
 			std::wstring theString = evt.GetPath().ToStdWstring();
 			std::u16string u16str(theString.begin(), theString.end());
 			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
 			std::string result = conversion.to_bytes(u16str);
-			
+
 			folder.second->setValue(result);
 		}
 	for (const auto& file: configuration->getRequiredFiles())
@@ -156,11 +155,7 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 			std::u16string u16str(theString.begin(), theString.end());
 			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
 			std::string result = conversion.to_bytes(u16str);
-			
+
 			file.second->setValue(result);
 		}
 }
-
-wxBEGIN_EVENT_TABLE(PathsTab, wxNotebookPage)
-wxEND_EVENT_TABLE()
-

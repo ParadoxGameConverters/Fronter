@@ -3,7 +3,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include "../ConfigurationParser/Configuration.h"
+#include "../Configuration/Configuration.h"
 #include <wx/thread.h>
 #include "LogMessageEvent.h"
 

@@ -1,8 +1,8 @@
 #include "ConvertTab.h"
-#include "OSCompatibilityLayer.h"
-#include <wx/wrapsizer.h>
 #include "../MainFrame.h"
+#include "OSCompatibilityLayer.h"
 #include <fstream>
+#include <wx/wrapsizer.h>
 
 BEGIN_EVENT_TABLE(ConvertTab, wxNotebookPage)
 EVT_COMMAND(wxID_ANY, wxEVT_CONVERTERDONE, ConvertTab::onConverterDone)
@@ -62,7 +62,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 	statusSave->SetLabel("Not Started.");
 	statusConvert->SetLabel("Not Started.");
 	statusCopy->SetLabel("Not Started.");
-	
+
 	statusSave->SetLabel("In Progress.");
 	if (configuration->exportConfiguration())
 		statusSave->SetLabel("Finished.");
@@ -72,7 +72,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 		return;
 	}
 
-	statusConvert->SetLabel("In Progress.");	
+	statusConvert->SetLabel("In Progress.");
 	converterLauncher = new ConverterLauncher(this);
 	converterLauncher->loadConfiguration(configuration);
 	converterLauncher->Create();

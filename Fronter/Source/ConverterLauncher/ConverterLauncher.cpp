@@ -23,7 +23,7 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	std::string converterExe = exeItr->second->getValue();
+	const auto converterExe = exeItr->second->getValue();
 	if (converterExe.empty())
 	{
 		Log(LogLevel::Error) << "Converter location has not been set!";
@@ -42,27 +42,26 @@ void* ConverterLauncher::Entry()
 	STARTUPINFOA si = {0};
 	PROCESS_INFORMATION pi = {0};
 
-
 	const auto pos = converterExe.find_last_of('\\');
 	const auto workDir = converterExe.substr(0, pos + 1);
 	const char* workDirPtr = workDir.c_str();
-	auto stopWatchStart = std::chrono::steady_clock::now();
+	const auto stopWatchStart = std::chrono::steady_clock::now();
 
 	if (CreateProcessA(converterExe.c_str(), // No module name (use command line)
-			  nullptr,				  // Command line
-			  nullptr,				  // Process handle not inheritable
-			  nullptr,				  // Thread handle not inheritable
-			  FALSE,					  // Set handle inheritance to FALSE
-			  CREATE_NO_WINDOW,	  // No creation flags
-			  nullptr,				  // Use parent's environment block
-			  workDirPtr,			  // Use parent's starting directory
-			  &si,					  // Pointer to STARTUPINFO structure
+			  nullptr,								  // Command line
+			  nullptr,								  // Process handle not inheritable
+			  nullptr,								  // Thread handle not inheritable
+			  FALSE,									  // Set handle inheritance to FALSE
+			  CREATE_NO_WINDOW,					  // No creation flags
+			  nullptr,								  // Use parent's environment block
+			  workDirPtr,							  // Use parent's starting directory
+			  &si,									  // Pointer to STARTUPINFO structure
 			  &pi))
 	{
 		WaitForSingleObject(pi.hProcess, INFINITE);
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
-		auto stopWatchEnd = std::chrono::steady_clock::now();
+		const auto stopWatchEnd = std::chrono::steady_clock::now();
 		Log(LogLevel::Info) << "Converter finished at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count()
 								  << " seconds.";
 	}

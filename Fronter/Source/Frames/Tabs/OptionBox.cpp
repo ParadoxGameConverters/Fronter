@@ -1,12 +1,11 @@
 #include "OptionBox.h"
-#include "../../ConfigurationParser/Configuration.h"
-#include "../../ConfigurationParser/Options/Option.h"
+#include "../../Configuration/Configuration.h"
+#include "../../Configuration/Options/Option.h"
 #include "Log.h"
 #include <codecvt>
-#include <wx/filepicker.h>
 #include <wx/textctrl.h>
 
-OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Configuration::Option> theOption):
+OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Option> theOption):
 	 wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxEXPAND), optionName(theName)
 {
 	option = theOption;
@@ -42,18 +41,13 @@ void OptionBox::initializeOption()
 			wxRadioButton* theButton;
 			if (first)
 			{
-				theButton = new wxRadioButton(boxHolder,
-					 radioOption->getID(),
-					 radioOption->getDisplayName(),
-					 wxDefaultPosition,
-					 wxDefaultSize,
-					 wxRB_GROUP | wxEXPAND);
+				theButton =
+					 new wxRadioButton(boxHolder, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize, wxRB_GROUP | wxEXPAND);
 				first = false;
 			}
 			else
 			{
-				theButton =
-					 new wxRadioButton(boxHolder, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize, wxEXPAND);
+				theButton = new wxRadioButton(boxHolder, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize, wxEXPAND);
 			}
 			theButton->SetToolTip(radioOption->getTooltip());
 			if (!option->getRadioSelector().second->getSelectedValue().empty() &&
@@ -95,7 +89,7 @@ void OptionBox::initializeOption()
 			std::u16string u16str(theString.begin(), theString.end());
 			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
 			std::string result = conversion.to_bytes(u16str);
-			result = Configuration::Configuration::normalizeStringPath(result);
+			result = Configuration::normalizeStringPath(result);
 			option->setTextSelectorValue(result);
 			if (event.GetString() != wxString(result))
 			{

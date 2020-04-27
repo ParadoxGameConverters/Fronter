@@ -17,14 +17,15 @@ void* LogWatcher::Entry()
 		{
 			if (std::getline(logfile, line))
 			{
-				auto logMessage = Configuration::Configuration::sliceMessage(line);				
-				if (transcriberMode) {
+				auto logMessage = Configuration::Configuration::sliceMessage(line);
+				if (transcriberMode)
+				{
 					Log(logMessage.logLevel) << logMessage.message;
 				}
 				if (emitterMode)
 				{
 					evt.SetMessage(logMessage);
-					m_pParent->AddPendingEvent(evt);					
+					m_pParent->AddPendingEvent(evt);
 				}
 			}
 		}
