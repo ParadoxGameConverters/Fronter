@@ -1,12 +1,28 @@
 #ifndef CONFIGURATION
 #define CONFIGURATION
+#include "Log.h"
+#include "Options/Option.h"
 #include "RequiredFile.h"
 #include "RequiredFolder.h"
 #include "newParser.h"
-#include "Options/Option.h"
 
 namespace Configuration
 {
+enum class MessageSource
+{
+	UNINITIALIZED = 0,
+	UI = 1,
+	CONVERTER = 2
+};
+
+typedef struct
+{
+	std::string timestamp;
+	LogLevel logLevel = LogLevel::Info;
+	MessageSource source = MessageSource::UNINITIALIZED;
+	std::string message;
+} LogMessage;
+
 class Configuration: commonItems::parser
 {
   public:
@@ -20,9 +36,10 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getRequiredFiles() const { return requiredFiles; }
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getOptions() const { return options; }
+	static LogMessage sliceMessage(const std::string& message);
 
 	[[nodiscard]] std::string getSecondTailSource() const;
-	
+
 	bool exportConfiguration() const;
 	bool copyMod() const;
 

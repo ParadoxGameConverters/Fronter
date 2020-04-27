@@ -62,6 +62,7 @@
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionsTab.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h" />
     <ClInclude Include="Fronter\Source\Frontend.h" />
+    <ClInclude Include="Fronter\Source\LogWatcher\LogMessageEvent.h" />
     <ClInclude Include="Fronter\Source\LogWatcher\LogWatcher.h" />
   </ItemGroup>
   <ItemGroup>

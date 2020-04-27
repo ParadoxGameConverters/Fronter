@@ -13,11 +13,10 @@ class LogWindow: public wxScrolledWindow
 	void initializeTail();
 	void initializeSecondTail(const std::string& tailSource);
 	void terminateSecondTail() const;
-	void OnTailPush(wxCommandEvent& event);
+	void OnTailPush(LogMessageEvent& event);
 	
   private:
 	LogWatcher* logWatcher = nullptr;
 	LogWatcher* logWatcher2 = nullptr;
-	wxDECLARE_EVENT_TABLE();
 	int logCounter = 0;
 };

@@ -158,6 +158,9 @@
     <ClInclude Include="Fronter\Source\ConverterLauncher\ConverterLauncher.h">
       <Filter>Fronter\ConverterLauncher</Filter>
     </ClInclude>
+    <ClInclude Include="Fronter\Source\LogWatcher\LogMessageEvent.h">
+      <Filter>Fronter\LogWatcher</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Fronter\Resources\converter.ico">
