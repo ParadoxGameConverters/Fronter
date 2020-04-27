@@ -43,6 +43,10 @@ class Configuration: commonItems::parser
 	bool exportConfiguration() const;
 	bool copyMod() const;
 
+	static std::string normalizeStringPath(const std::string& stringPath);
+	static std::string replaceCharacter(std::string fileName, char character);
+	static std::string trimPath(const std::string& fileName);
+
   private:
 	void registerKeys();
 	void registerPreloadKeys();
@@ -55,6 +59,7 @@ class Configuration: commonItems::parser
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;
 	int optionCounter = 0;
+	
 };
 } // namespace Configuration
 

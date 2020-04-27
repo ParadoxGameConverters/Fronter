@@ -152,7 +152,98 @@ bool Configuration::Configuration::exportConfiguration() const
 
 bool Configuration::Configuration::copyMod() const
 {
-	return false;
+	if (!fs::exists(converterFolder))
+	{
+		Log(LogLevel::Error) << "Copy failed - where is the converter?";
+		return false;
+	}
+	if (!fs::exists(converterFolder + "/output"))
+	{
+		Log(LogLevel::Error) << "Copy failed - where is the converter's output folder?";
+		return false;		
+	}
+	
+	const auto& folderItr = requiredFolders.find("targetGameModPath");
+	if (folderItr == requiredFolders.end())
+	{
+		Log(LogLevel::Error) << "Copy failed - Target Folder isn't loaded!";
+		return false;	
+	}
+	const auto& destinationFolder = folderItr->second->getValue();
+	if (!fs::exists( fs::u8path(destinationFolder)))
+	{
+		Log(LogLevel::Error) << "Copy failed - Target Folder does not exist!";
+		return false;	
+	}
+	std::string targetName;
+	for (const auto& option: options)
+	{
+		if (option->getName() == "output_name" && !option->getValue().empty())
+		{
+			targetName = option->getValue();
+		}
+	}
+	if (targetName.empty())
+	{
+		const auto& fileItr = requiredFiles.find("SaveGame");
+		if (fileItr == requiredFiles.end())
+		{
+			Log(LogLevel::Error) << "Copy failed - SaveGame is does not exist!";
+			return false;	
+		}
+		std::string saveGamePath = fileItr->second->getValue();
+		if (saveGamePath.empty())
+		{
+			Log(LogLevel::Error) << "Copy Failed - save game path is empty, did we even convert anything?";
+			return false;	
+		}
+		if (!fs::exists(fs::u8path(saveGamePath)))
+		{
+			Log(LogLevel::Error) << "Copy Failed - save game does not exist, did we even convert anything?";
+			return false;	
+		}
+		if (fs::is_directory(fs::u8path(saveGamePath)))
+		{
+			Log(LogLevel::Error) << "Copy Failed - Save game is a directory...";
+			return false;	
+		}
+		saveGamePath = trimPath(saveGamePath);
+		saveGamePath = normalizeStringPath(saveGamePath);
+		auto pos = saveGamePath.find_last_of('.');
+		if (pos != std::string::npos) saveGamePath = saveGamePath.substr(0, pos);
+		targetName = saveGamePath;
+	}
+	if (!fs::exists(fs::u8path(converterFolder + "/output/" + targetName + ".mod")))
+	{
+		Log(LogLevel::Error) << "Copy Failed - Cound not find mod: " << converterFolder + "/output/" + targetName + ".mod";
+		return false;	
+	}
+	if (!fs::exists(fs::u8path(converterFolder + "/output/" + targetName)))
+	{
+		Log(LogLevel::Error) << "Copy Failed - Cound not find mod folder: " << converterFolder + "/output/" + targetName;
+		return false;
+	}
+	if (!fs::is_directory(fs::u8path(converterFolder + "/output/" + targetName)))
+	{
+		Log(LogLevel::Error) << "Copy Failed - Mod folder is not a directory: " << converterFolder + "/output/" + targetName;
+		return false;
+	}
+	if (fs::exists(fs::u8path(destinationFolder + "/" + targetName + ".mod")))
+		fs::remove(fs::u8path(destinationFolder + "/" + targetName + ".mod"));
+	if (fs::exists(fs::u8path(destinationFolder + "/" + targetName)))
+		fs::remove_all(fs::u8path(destinationFolder + "/" + targetName));		
+	try
+	{
+		fs::copy(fs::u8path(converterFolder + "/output/" + targetName + ".mod"), fs::u8path(destinationFolder + "/" + targetName + ".mod"));
+		fs::copy(fs::u8path(converterFolder + "/output/" + targetName), fs::u8path(destinationFolder + "/" + targetName), std::filesystem::copy_options::recursive);
+	}
+	catch (std::filesystem::filesystem_error& theError)
+	{
+		Log(LogLevel::Error) << theError.what();
+		return false;
+	}
+	Log(LogLevel::Info) << "Mod successfully copied to: " << destinationFolder + "/" + targetName;
+	return true;	
 }
 
 std::string Configuration::Configuration::getSecondTailSource() const
@@ -185,4 +276,34 @@ Configuration::LogMessage Configuration::Configuration::sliceMessage(const std::
 	logMessage.timestamp = message.substr(0, 19);
 	logMessage.message = message.substr(posClose + 2, message.length());
 	return logMessage;
+}
+
+std::string Configuration::Configuration::normalizeStringPath(const std::string& stringPath)
+{
+	std::string toReturn = Utils::normalizeUTF8Path(stringPath);
+	toReturn = replaceCharacter(toReturn, '-');
+	toReturn = replaceCharacter(toReturn, ' ');
+
+	return toReturn;
+}
+
+std::string Configuration::Configuration::replaceCharacter(std::string fileName, char character)
+{
+	auto position = fileName.find_first_of(character);
+	while (position != std::string::npos)
+	{
+		fileName.replace(position, 1, "_");
+		position = fileName.find_first_of(character);
+	}
+
+	return fileName;
+}
+
+std::string Configuration::Configuration::trimPath(const std::string& fileName)
+{
+	int lastSlash = fileName.find_last_of("\\");
+	auto trimmedFileName = fileName.substr(lastSlash + 1, fileName.length());
+	lastSlash = trimmedFileName.find_last_of("/");
+	trimmedFileName = trimmedFileName.substr(lastSlash + 1, trimmedFileName.length());
+	return trimmedFileName;
 }

@@ -34,6 +34,5 @@ class ConvertTab: public wxNotebookPage
 	ConverterLauncher* converterLauncher = nullptr;
 	wxButton* convertButton = nullptr;
 	wxDECLARE_EVENT_TABLE();
-
 	void onConvertStarted(wxCommandEvent& event);
 };

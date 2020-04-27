@@ -23,4 +23,5 @@ class OptionBox: public wxWindow
   private:
 	std::string optionName;
 	std::shared_ptr<Configuration::Option> option;
+	wxTextCtrl* textField = nullptr;
 };

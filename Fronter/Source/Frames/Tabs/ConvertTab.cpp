@@ -71,16 +71,12 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 		return;
 	}
 
-	statusConvert->SetLabel("In Progress.");
-
-	std::ofstream ofile(configuration->getSecondTailSource());
-	ofile.close();
-	mainFrame->initSecondTail(configuration->getSecondTailSource());
-	
+	statusConvert->SetLabel("In Progress.");	
 	converterLauncher = new ConverterLauncher(this);
 	converterLauncher->loadConfiguration(configuration);
 	converterLauncher->Create();
 	converterLauncher->Run();
+	mainFrame->initSecondTail(configuration->getSecondTailSource());
 }
 
 void ConvertTab::onConverterDone(wxCommandEvent& event)
