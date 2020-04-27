@@ -24,15 +24,17 @@
     <ClCompile Include="commonItems\newParser.cpp" />
     <ClCompile Include="commonItems\ParserHelpers.cpp" />
     <ClCompile Include="commonItems\WinUtils.cpp" />
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Configuration.cpp" />
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\Option.cpp" />
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioOption.cpp" />
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.cpp" />
-    <ClCompile Include="Fronter\Source\ConfigurationParser\Options\TextSelector.cpp" />
-    <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFile.cpp" />
-    <ClCompile Include="Fronter\Source\ConfigurationParser\RequiredFolder.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Configuration.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Options\Option.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Options\RadioOption.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Options\RadioSelector.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Options\TextSelector.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\RequiredFile.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\RequiredFolder.cpp" />
+    <ClCompile Include="Fronter\Source\ConverterLauncher\ConverterLauncher.cpp" />
     <ClCompile Include="Fronter\Source\Frames\LogWindow.cpp" />
     <ClCompile Include="Fronter\Source\Frames\MainFrame.cpp" />
+    <ClCompile Include="Fronter\Source\Frames\Tabs\ConvertTab.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionBox.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp" />
@@ -45,19 +47,22 @@
     <ClInclude Include="commonItems\newParser.h" />
     <ClInclude Include="commonItems\OSCompatibilityLayer.h" />
     <ClInclude Include="commonItems\ParserHelpers.h" />
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Configuration.h" />
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\Option.h" />
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioOption.h" />
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\RadioSelector.h" />
-    <ClInclude Include="Fronter\Source\ConfigurationParser\Options\TextSelector.h" />
-    <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFile.h" />
-    <ClInclude Include="Fronter\Source\ConfigurationParser\RequiredFolder.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Configuration.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Options\Option.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Options\RadioOption.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Options\RadioSelector.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Options\TextSelector.h" />
+    <ClInclude Include="Fronter\Source\Configuration\RequiredFile.h" />
+    <ClInclude Include="Fronter\Source\Configuration\RequiredFolder.h" />
+    <ClInclude Include="Fronter\Source\ConverterLauncher\ConverterLauncher.h" />
     <ClInclude Include="Fronter\Source\Frames\LogWindow.h" />
     <ClInclude Include="Fronter\Source\Frames\MainFrame.h" />
+    <ClInclude Include="Fronter\Source\Frames\Tabs\ConvertTab.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionBox.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionsTab.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h" />
     <ClInclude Include="Fronter\Source\Frontend.h" />
+    <ClInclude Include="Fronter\Source\LogWatcher\LogMessageEvent.h" />
     <ClInclude Include="Fronter\Source\LogWatcher\LogWatcher.h" />
   </ItemGroup>
   <ItemGroup>
@@ -152,10 +157,10 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\commonItems;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\wx\3.1.3\include\msvc;$(ProjectDir)\commonItems;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -192,10 +197,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\commonItems;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\wx\3.1.3\include\msvc;$(ProjectDir)\commonItems;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

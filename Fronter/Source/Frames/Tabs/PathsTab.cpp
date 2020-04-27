@@ -1,7 +1,10 @@
 #include "PathsTab.h"
-#include "Log.h"
 #include "OSCompatibilityLayer.h"
+#include <codecvt>
+#include <filesystem>
 #include <wx/filepicker.h>
+namespace fs = std::filesystem;
+
 
 PathsTab::PathsTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
@@ -24,7 +27,11 @@ void PathsTab::initializePaths()
 		wxStaticText* st = new wxStaticText(this, wxID_ANY, folder.second->getDisplayName(), wxDefaultPosition);
 
 		std::string folderPath;
-		if (folder.second->getSearchPathType() == "windowsUsersFolder")
+		if (!folder.second->getValue().empty())
+		{
+			folderPath = folder.second->getValue();
+		}
+		else if (folder.second->getSearchPathType() == "windowsUsersFolder")
 			folderPath = documentsDir + '\\' + folder.second->getSearchPath();
 		else if (folder.second->getSearchPathType() == "steamFolder")
 		{
@@ -56,7 +63,13 @@ void PathsTab::initializePaths()
 		std::string filePath;
 		std::string initialPath;
 
-		if (file.second->getSearchPathType() == "windowsUsersFolder")
+		if (!file.second->getValue().empty())
+		{
+			filePath = file.second->getValue();
+			auto pos(filePath.find_last_of('\\'));
+			initialPath = filePath.substr(0, pos + 1);
+		}
+		else if (file.second->getSearchPathType() == "windowsUsersFolder")
 		{
 			filePath = documentsDir + '\\' + file.second->getSearchPath() + '\\' + file.second->getFilename();
 			initialPath = documentsDir + '\\' + file.second->getSearchPath() + '\\';
@@ -128,16 +141,21 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& folder: configuration->getRequiredFolders())
 		if (folder.second->getID() == evt.GetId())
 		{
-			folder.second->setValue(evt.GetPath().ToStdString());
-			Log(LogLevel::Debug) << folder.second->getName() << " changed to:" << folder.second->getValue();
+			std::wstring theString = evt.GetPath().ToStdWstring();
+			std::u16string u16str(theString.begin(), theString.end());
+			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
+			std::string result = conversion.to_bytes(u16str);
+
+			folder.second->setValue(result);
 		}
 	for (const auto& file: configuration->getRequiredFiles())
 		if (file.second->getID() == evt.GetId())
 		{
-			file.second->setValue(evt.GetPath().ToStdString());
-			Log(LogLevel::Debug) << file.second->getName() << " changed to:" << file.second->getValue();
+			std::wstring theString = evt.GetPath().ToStdWstring();
+			std::u16string u16str(theString.begin(), theString.end());
+			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
+			std::string result = conversion.to_bytes(u16str);
+
+			file.second->setValue(result);
 		}
 }
-
-wxBEGIN_EVENT_TABLE(PathsTab, wxNotebookPage)
-wxEND_EVENT_TABLE()

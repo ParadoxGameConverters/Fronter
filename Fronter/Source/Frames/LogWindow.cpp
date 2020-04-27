@@ -1,31 +1,80 @@
 #include "LogWindow.h"
-#include "../LogWatcher/LogWatcher.h"
 #include "Log.h"
-
-BEGIN_EVENT_TABLE(LogWindow, wxScrolledWindow)
-EVT_COMMAND(wxID_ANY, wxEVT_TAILTHREAD, LogWindow::OnTailPush)
-END_EVENT_TABLE()
 
 LogWindow::LogWindow(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, -1))
 {
+	Bind(wxEVT_TAILTHREAD, &LogWindow::OnTailPush, this);
+
 	SetScrollRate(0, 20);
-	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
+	wxFlexGridSizer* logBox = new wxFlexGridSizer(3);
 	SetSizer(logBox);
 	initializeTail();
+	logBox->AddGrowableCol(2);
 }
 
 void LogWindow::initializeTail()
 {
-	LogWatcher* logWatcher = new LogWatcher(this);
+	logWatcher = new LogWatcher(this);
 	logWatcher->Create();
+	logWatcher->setEmitterMode(true);
+	logWatcher->setTailSource("log.txt");
 	logWatcher->Run();
 }
-void LogWindow::OnTailPush(wxCommandEvent& event)
+
+void LogWindow::initializeSecondTail(const std::string& tailSource)
+{
+	logWatcher2 = new LogWatcher(this);
+	logWatcher2->Create();
+	logWatcher2->setTranscriberMode(true);
+	logWatcher2->setTailSource(tailSource);
+	logWatcher2->Run();
+}
+
+void LogWindow::terminateSecondTail() const
+{
+	logWatcher2->terminateTail();
+}
+
+void LogWindow::OnTailPush(LogMessageEvent& event)
 {
 	logCounter++;
-	const auto message = event.GetString();
-	wxStaticText* st = new wxStaticText(this, wxID_ANY, message, wxDefaultPosition, wxSize(-1, 18));
-	GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER | wxEXPAND | wxALL, 1);
+	const auto logMessage = event.GetMessage();
+	wxStaticText* timestamp = new wxStaticText(this, wxID_ANY, "  " + logMessage.timestamp + "  ", wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE);
+	timestamp->SetBackgroundColour(0x00FFFFFF);
+	timestamp->SetMinSize(wxSize(-1, 20));
+	GetSizer()->Add(timestamp, 1, wxALIGN_CENTER);
+
+
+	wxColour bgcolor = wxColour(0, 0, 0);
+	std::string severity;
+	if (logMessage.logLevel == LogLevel::Info)
+	{
+		bgcolor = wxColour(255, 255, 255);
+		severity = "  INFO  ";
+	}
+	else if (logMessage.logLevel == LogLevel::Debug)
+	{
+		bgcolor = wxColour(200, 200, 200);
+		severity = "  DEBUG  ";
+	}
+	else if (logMessage.logLevel == LogLevel::Warning)
+	{
+		bgcolor = wxColour(255, 255, 200);
+		severity = "  WARNING  ";
+	}
+	else if (logMessage.logLevel == LogLevel::Error)
+	{
+		bgcolor = wxColour(255, 200, 200);
+		severity = "  ERROR  ";
+	}
+	wxStaticText* sev = new wxStaticText(this, wxID_ANY, severity, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxALIGN_CENTRE_HORIZONTAL);
+	sev->SetBackgroundColour(bgcolor);
+	GetSizer()->Add(sev, 1, wxCENTER | wxEXPAND);
+
+	wxStaticText* st = new wxStaticText(this, wxID_ANY, "  " + logMessage.message + "  ", wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE);
+	st->SetBackgroundColour(bgcolor);
+	GetSizer()->Add(st, 1, wxALIGN_LEFT | wxEXPAND);
+
 	GetParent()->Layout();
-	Scroll(0, logCounter);
+	Scroll(0, logCounter - 1);
 }

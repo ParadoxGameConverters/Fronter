@@ -3,21 +3,19 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include "../../ConfigurationParser/Configuration.h"
-#include <wx/filepicker.h>
-#include <wx/notebook.h>
+#include "../../Configuration/Configuration.h"
 
-class OptionsTab: public wxNotebookPage
+class OptionsTab: public wxScrolledWindow
 {
   public:
 	OptionsTab(wxWindow* parent);
 
 	[[nodiscard]] const auto& getTabName() const { return tabName; }
 
-	void loadConfiguration(std::shared_ptr<Configuration::Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
 	void initializeOptions();
 
   private:
 	std::string tabName = "Options";
-	std::shared_ptr<Configuration::Configuration> configuration;
+	std::shared_ptr<Configuration> configuration;
 };

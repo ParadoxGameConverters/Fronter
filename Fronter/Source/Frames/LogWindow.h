@@ -1,4 +1,5 @@
 #pragma once
+#include "../LogWatcher/LogWatcher.h"
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
@@ -10,9 +11,12 @@ class LogWindow: public wxScrolledWindow
 	LogWindow(wxWindow* parent);
 
 	void initializeTail();
-	void OnTailPush(wxCommandEvent& event);
+	void initializeSecondTail(const std::string& tailSource);
+	void terminateSecondTail() const;
+	void OnTailPush(LogMessageEvent& event);
 
   private:
-	wxDECLARE_EVENT_TABLE();
+	LogWatcher* logWatcher = nullptr;
+	LogWatcher* logWatcher2 = nullptr;
 	int logCounter = 0;
 };

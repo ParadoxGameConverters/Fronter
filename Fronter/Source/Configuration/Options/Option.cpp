@@ -2,14 +2,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-Configuration::Option::Option(std::istream& theStream, int theID): ID(theID)
+Option::Option(std::istream& theStream, int theID): ID(theID)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Configuration::Option::registerKeys()
+void Option::registerKeys()
 {
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
@@ -34,7 +34,7 @@ void Configuration::Option::registerKeys()
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
 }
 
-void Configuration::Option::setRadioSelectorValue(int selection) const
+void Option::setRadioSelectorValue(int selection) const
 {
 	if (!radioSelector.first)
 	{
@@ -44,7 +44,7 @@ void Configuration::Option::setRadioSelectorValue(int selection) const
 	radioSelector.second->setSelectedValue(selection);
 }
 
-void Configuration::Option::setTextSelectorValue(const std::string& selection) const
+void Option::setTextSelectorValue(const std::string& selection) const
 {
 	if (!textSelector.first)
 	{
@@ -54,7 +54,7 @@ void Configuration::Option::setTextSelectorValue(const std::string& selection) c
 	textSelector.second->setValue(selection);
 }
 
-std::string Configuration::Option::getValue() const
+std::string Option::getValue() const
 {
 	if (radioSelector.first)
 	{
@@ -66,4 +66,12 @@ std::string Configuration::Option::getValue() const
 	}
 
 	return std::string();
+}
+
+void Option::setValue(const std::string& selection) const
+{
+	if (textSelector.first)
+		textSelector.second->setValue(selection);
+	if (radioSelector.first)
+		radioSelector.second->setSelectedValue(std::stoi(selection));
 }

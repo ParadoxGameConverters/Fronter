@@ -2,8 +2,6 @@
 #define CONFIGURATION_TEXT_SELECTOR
 #include "newParser.h"
 
-namespace Configuration
-{
 class TextSelector: commonItems::parser
 {
   public:
@@ -14,16 +12,17 @@ class TextSelector: commonItems::parser
 	[[nodiscard]] const auto& getTooltip() const { return tooltip; }
 	[[nodiscard]] auto getID() const { return ID; }
 	[[nodiscard]] auto isEditable() const { return editable; }
+
 	void setID(int theID) { ID = theID; }
 	void setValue(const std::string& theValue) { value = theValue; }
-	
+
   private:
 	void registerKeys();
+
+	bool editable = true; // editable unless disabled
 	int ID = 0;
 	std::string value;
 	std::string tooltip;
-	bool editable = true; // editable unless disabled
 };
-} // namespace Configuration
 
 #endif // CONFIGURATION_TEXT_SELECTOR

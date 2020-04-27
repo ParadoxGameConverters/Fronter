@@ -2,14 +2,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-Configuration::RequiredFolder::RequiredFolder(std::istream& theStream)
+RequiredFolder::RequiredFolder(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Configuration::RequiredFolder::registerKeys()
+void RequiredFolder::registerKeys()
 {
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);

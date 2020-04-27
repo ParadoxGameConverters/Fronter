@@ -2,14 +2,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-Configuration::RadioSelector::RadioSelector(std::istream& theStream)
+RadioSelector::RadioSelector(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Configuration::RadioSelector::registerKeys()
+void RadioSelector::registerKeys()
 {
 	registerKeyword("radioOption", [this](const std::string& unused, std::istream& theStream) {
 		optionCounter++;
@@ -19,7 +19,7 @@ void Configuration::RadioSelector::registerKeys()
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
 }
 
-std::string Configuration::RadioSelector::getSelectedValue() const
+std::string RadioSelector::getSelectedValue() const
 {
 	for (const auto& option: radioOptions)
 		if (option->getValue())
@@ -27,16 +27,16 @@ std::string Configuration::RadioSelector::getSelectedValue() const
 	return std::string();
 }
 
-void Configuration::RadioSelector::setSelectedValue(int selection)
+void RadioSelector::setSelectedValue(int selection)
 {
-	bool isSet = false;
+	auto isSet = false;
 	for (const auto& option: radioOptions)
 	{
 		if (option->getID() == selection)
 		{
 			option->setValue();
 			isSet = true;
-		}		
+		}
 		else
 			option->unsetValue();
 	}

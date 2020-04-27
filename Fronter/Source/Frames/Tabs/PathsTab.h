@@ -3,7 +3,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include "../../ConfigurationParser/Configuration.h"
+#include "../../Configuration/Configuration.h"
 #include <wx/filepicker.h>
 #include <wx/notebook.h>
 
@@ -14,7 +14,7 @@ class PathsTab: public wxNotebookPage
 
 	[[nodiscard]] const auto& getTabName() const { return tabName; }
 
-	void loadConfiguration(std::shared_ptr<Configuration::Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
 	void initializePaths();
 
   private:
@@ -24,6 +24,5 @@ class PathsTab: public wxNotebookPage
 
 	int pickerCounter = 0;
 	std::string tabName = "Paths";
-	wxDECLARE_EVENT_TABLE();
-	std::shared_ptr<Configuration::Configuration> configuration;
+	std::shared_ptr<Configuration> configuration;
 };

@@ -2,14 +2,14 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-Configuration::RadioOption::RadioOption(std::istream& theStream, int theID): ID(theID)
+RadioOption::RadioOption(std::istream& theStream, int theID): ID(theID)
 {
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
 }
 
-void Configuration::RadioOption::registerKeys()
+void RadioOption::registerKeys()
 {
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);

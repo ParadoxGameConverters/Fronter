@@ -1,27 +1,37 @@
 #include "OptionBox.h"
-#include "../../ConfigurationParser/Options/Option.h"
+#include "../../Configuration/Configuration.h"
+#include "../../Configuration/Options/Option.h"
 #include "Log.h"
-#include <wx/filepicker.h>
+#include <codecvt>
 #include <wx/textctrl.h>
 
-OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Configuration::Option> theOption):
-	 wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME | wxEXPAND), optionName(theName)
+OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Option> theOption):
+	 wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxEXPAND), optionName(theName)
 {
 	option = theOption;
 }
 
 void OptionBox::initializeOption()
 {
-	SetMaxSize(wxSize(350, 250));
+	SetMinSize(wxSize(280, 250));
 
-	wxFlexGridSizer* flexGridSizer = new wxFlexGridSizer(1, 2, 2);
-	SetSizer(flexGridSizer);
+	wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
+	SetSizer(boxSizer);
+	SetBackgroundColour(wxColour(240, 240, 240));
 
-	wxStaticText* st = new wxStaticText(this, wxID_ANY, option->getDisplayName(), wxDefaultPosition, wxDefaultSize);
-	st->SetSize(wxSize(st->GetSize().GetWidth() + 10, st->GetSize().GetHeight() + 10));
+	wxWindow* boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
+	boxHolder->SetMinSize(wxSize(270, 240));
+
+	boxSizer->Add(boxHolder, wxSizerFlags(1).Border(wxALL, 5));
+	wxFlexGridSizer* flexGridSizer = new wxFlexGridSizer(1, 3, 3);
+	boxHolder->SetSizer(flexGridSizer);
+	boxHolder->SetBackgroundColour(wxColour(230, 230, 230));
+
+	wxStaticText* st = new wxStaticText(boxHolder, wxID_ANY, option->getDisplayName(), wxDefaultPosition, wxDefaultSize);
 	st->SetToolTip(option->getTooltip());
-	flexGridSizer->Add(st);
-	SetMinSize(wxSize(st->GetSize().GetWidth(), 150));
+	flexGridSizer->Add(st, wxSizerFlags(1).Border(wxALL, 5));
+	st->SetMinSize(wxSize(260, -1));
+	st->Wrap(260);
 
 	if (option->getRadioSelector().first)
 	{
@@ -31,22 +41,30 @@ void OptionBox::initializeOption()
 			wxRadioButton* theButton;
 			if (first)
 			{
-				theButton = new wxRadioButton(this, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+				theButton =
+					 new wxRadioButton(boxHolder, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize, wxRB_GROUP | wxEXPAND);
 				first = false;
 			}
 			else
 			{
-				theButton = new wxRadioButton(this, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize);
+				theButton = new wxRadioButton(boxHolder, radioOption->getID(), radioOption->getDisplayName(), wxDefaultPosition, wxDefaultSize, wxEXPAND);
 			}
 			theButton->SetToolTip(radioOption->getTooltip());
-			theButton->SetValue(radioOption->isDefault());
+			if (!option->getRadioSelector().second->getSelectedValue().empty() &&
+				 std::stoi(option->getRadioSelector().second->getSelectedValue()) == radioOption->getID())
+			{
+				theButton->SetValue(true);
+			}
+			else
+			{
+				theButton->SetValue(radioOption->isDefault());
+			}
 
 			theButton->Bind(wxEVT_RADIOBUTTON, [this](wxCommandEvent& event) {
-				Log(LogLevel::Debug) << optionName << " selected: " << event.GetId();
 				option->setRadioSelectorValue(event.GetId());
 			});
 
-			flexGridSizer->Add(theButton);
+			flexGridSizer->Add(theButton, wxSizerFlags(1).Border(wxLEFT | wxRIGHT, 5).Expand());
 			SetMinSize(wxSize(std::max(theButton->GetSize().GetWidth(), GetMinWidth()), 150));
 		}
 	}
@@ -63,15 +81,24 @@ void OptionBox::initializeOption()
 		{
 			flag = wxBORDER_DEFAULT | wxTE_READONLY;
 		}
-		wxTextCtrl* textField = new wxTextCtrl(this, wxID_ANY, selector->getValue(), wxDefaultPosition, wxDefaultSize, flag);
-		textField->SetToolTip(selector->getTooltip());		
+		textField = new wxTextCtrl(boxHolder, wxID_ANY, selector->getValue(), wxDefaultPosition, wxDefaultSize, flag);
+		textField->SetToolTip(selector->getTooltip());
 
 		textField->Bind(wxEVT_TEXT, [this](wxCommandEvent& event) {
-			Log(LogLevel::Debug) << optionName << " entered: " << event.GetString();
-			option->setTextSelectorValue(event.GetString().ToStdString());
+			std::wstring theString = event.GetString().ToStdWstring();
+			std::u16string u16str(theString.begin(), theString.end());
+			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
+			std::string result = conversion.to_bytes(u16str);
+			result = Configuration::normalizeStringPath(result);
+			option->setTextSelectorValue(result);
+			if (event.GetString() != wxString(result))
+			{
+				textField->SetValue(result);
+			}
 		});
-		flexGridSizer->Add(textField);
+		flexGridSizer->Add(textField, wxSizerFlags(1).Border(wxALL, 5).Expand().CenterHorizontal());
 		SetMinSize(wxSize(std::max(textField->GetSize().GetWidth(), GetMinWidth()), 150));
 	}
-	Layout();
+
+	boxHolder->Layout();
 }

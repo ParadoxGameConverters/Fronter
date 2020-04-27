@@ -1,9 +1,9 @@
 #include "MainFrame.h"
 #include "LogWindow.h"
+#include "Tabs/ConvertTab.h"
+#include "Tabs/OptionsTab.h"
 #include "Tabs/PathsTab.h"
 #include "wx/splitter.h"
-#include <wx/notebook.h>
-#include "Tabs/OptionsTab.h"
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(NULL, wxID_ANY, title, pos, size)
 {
@@ -12,8 +12,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	wxMenu* menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT);
 	wxMenuBar* menuBar = new wxMenuBar;
-	menuBar->Append(menuFile, "&File");
-	menuBar->Append(menuHelp, "&Help");
+	menuBar->Append(menuFile, "&Converter");
+	menuBar->Append(menuHelp, "&PGCG");
 	SetMenuBar(menuBar);
 	CreateStatusBar();
 	SetStatusText("Paradox Game Converters Group");
@@ -23,32 +23,57 @@ void MainFrame::initFrame()
 {
 	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
 
-	wxPanel* notePanel = new wxPanel(this, wxID_ANY, wxPoint(0, 0), wxSize(1200, 400));
-	wxNotebook* notebook = new wxNotebook(notePanel, wxID_ANY, wxPoint(0, 0), wxSize(1200, 400));
+	notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	notebook->SetMaxSize(wxSize(-1, 400));
-	notePanel->SetMaxSize(wxSize(-1, 400));
 
 	PathsTab* pathsTab = new PathsTab(notebook);
 	pathsTab->loadConfiguration(configuration);
 	pathsTab->initializePaths();
+	pathsTab->SetBackgroundColour(wxColour(255, 245, 245));
 
-	OptionsTab* optionsTab = new OptionsTab(notebook);
+	optionsTab = new OptionsTab(notebook);
 	optionsTab->loadConfiguration(configuration);
 	optionsTab->initializeOptions();
+	optionsTab->SetBackgroundColour(wxColour(245, 255, 245));
 
-	notebook->AddPage(optionsTab, optionsTab->getTabName());
+	ConvertTab* convertTab = new ConvertTab(notebook);
+	convertTab->loadConfiguration(configuration);
+	convertTab->loadSelf(this);
+	convertTab->initializeConvert();
+	convertTab->SetBackgroundColour(wxColour(245, 245, 255));
+
 	notebook->AddPage(pathsTab, pathsTab->getTabName());
-	notebook->AddPage(new wxNotebookPage(notebook, -1), L"Convert");
+	notebook->AddPage(optionsTab, optionsTab->getTabName());
+	notebook->AddPage(convertTab, convertTab->getTabName());
 	notebook->Layout();
 
-	LogWindow* logWindow = new LogWindow(this);
+	logWindow = new LogWindow(this);
 	logWindow->SetMinSize(wxSize(-1, 200));
 
-	vbox->Add(notePanel, 1, wxEXPAND | wxALL, 1);
-	vbox->Add(logWindow, 1, wxEXPAND | wxALL, 1);
+	vbox->Add(notebook, wxSizerFlags(1).Expand().Border(wxALL, 1));
+	vbox->Add(logWindow, wxSizerFlags(1).Expand().Border(wxALL, 1));
 
 	this->SetSizer(vbox);
 	this->Centre();
+	Bind(wxEVT_SIZE, &MainFrame::onResize, this);
+}
+
+void MainFrame::onResize(wxSizeEvent& event)
+{
+	// layout everything in the dialog
+	optionsTab->SetVirtualSize(event.GetSize());
+	optionsTab->Layout();
+	event.Skip();
+}
+
+void MainFrame::initSecondTail(const std::string& tailSource) const
+{
+	logWindow->initializeSecondTail(tailSource);
+}
+
+void MainFrame::terminateSecondTail() const
+{
+	logWindow->terminateSecondTail();
 }
 
 void MainFrame::OnExit(wxCommandEvent& event)
@@ -58,7 +83,7 @@ void MainFrame::OnExit(wxCommandEvent& event)
 
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
-	std::string message = "Copyright (c) 2014 The Paradox Game Converters Group\n";
+	std::string message = "Copyright (c) 2020 The Paradox Game Converters Group\n";
 	message += "\n";
 	message += "This converter, as all others, is free and available at our Github repository.\n ";
 	message += "\n";

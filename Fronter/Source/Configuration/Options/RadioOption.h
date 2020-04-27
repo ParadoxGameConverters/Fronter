@@ -2,8 +2,6 @@
 #define CONFIGURATION_RADIO_OPTION
 #include "newParser.h"
 
-namespace Configuration
-{
 class RadioOption: commonItems::parser
 {
   public:
@@ -16,18 +14,19 @@ class RadioOption: commonItems::parser
 	[[nodiscard]] auto getValue() const { return value; }
 	[[nodiscard]] auto isDefault() const { return defaulted; }
 	[[nodiscard]] auto getID() const { return ID; }
+
 	void setValue() { value = true; }
 	void unsetValue() { value = false; }
 
   private:
 	void registerKeys();
-	std::string name;
-	std::string tooltip;
-	std::string displayName;
+
 	bool defaulted = false;
 	bool value = false;
 	int ID = 0;
+	std::string name;
+	std::string tooltip;
+	std::string displayName;
 };
-} // namespace Configuration
 
 #endif // CONFIGURATION_RADIO_OPTION

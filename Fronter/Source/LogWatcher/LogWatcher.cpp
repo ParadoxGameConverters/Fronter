@@ -2,13 +2,13 @@
 #include "Log.h"
 #include <fstream>
 
-DEFINE_EVENT_TYPE(wxEVT_TAILTHREAD)
+wxDEFINE_EVENT(wxEVT_TAILTHREAD, LogMessageEvent);
 
 void* LogWatcher::Entry()
 {
-	wxCommandEvent evt(wxEVT_TAILTHREAD, GetId());
+	LogMessageEvent evt(wxEVT_TAILTHREAD);
 
-	std::ifstream logfile("log.txt", std::ifstream::in);
+	std::ifstream logfile(tailSource, std::ifstream::in);
 
 	std::string line;
 	while (!terminate)
@@ -17,12 +17,19 @@ void* LogWatcher::Entry()
 		{
 			if (std::getline(logfile, line))
 			{
-				evt.SetString(line);
-				m_pParent->AddPendingEvent(evt);
-				linesRead++;
+				auto logMessage = Configuration::Configuration::sliceMessage(line);
+				if (transcriberMode)
+				{
+					Log(logMessage.logLevel) << logMessage.message;
+				}
+				if (emitterMode)
+				{
+					evt.SetMessage(logMessage);
+					m_pParent->AddPendingEvent(evt);
+				}
 			}
 		}
-		wxMilliSleep(500);
+		wxMilliSleep(300);
 		logfile.clear();
 	}
 	logfile.close();
