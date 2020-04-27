@@ -1,10 +1,9 @@
 #include "OptionsTab.h"
-#include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include "OptionBox.h"
 #include <wx/wrapsizer.h>
 
-OptionsTab::OptionsTab(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
+OptionsTab::OptionsTab(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_NOPAGETHEME)
 {
 }
 

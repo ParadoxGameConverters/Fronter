@@ -6,6 +6,8 @@
 
 #include "../ConfigurationParser/Configuration.h"
 #include "LogWindow.h"
+#include <wx/notebook.h>
+#include "Tabs/OptionsTab.h"
 
 class MainFrame: public wxFrame
 {
@@ -21,8 +23,10 @@ class MainFrame: public wxFrame
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	LogWindow* logWindow = nullptr;
+	wxNotebook* notebook = nullptr;
+	OptionsTab* optionsTab = nullptr;
 	
 	wxDECLARE_EVENT_TABLE();
-
+	void onResize(wxSizeEvent& evt);
 	std::shared_ptr<Configuration::Configuration> configuration;
 };

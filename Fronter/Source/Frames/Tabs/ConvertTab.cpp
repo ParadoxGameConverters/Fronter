@@ -21,6 +21,7 @@ void ConvertTab::initializeConvert()
 
 	// In the first cell goes a 2cx3r status table
 	wxPanel* statusPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
+	statusPanel->SetBackgroundColour(wxColour(240, 240, 240));
 	wxGridSizer* statusSizer = new wxGridSizer(3, 2, 5, 5);
 	statusPanel->SetSizer(statusSizer);
 

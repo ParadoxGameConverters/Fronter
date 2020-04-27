@@ -2,7 +2,6 @@
 #include "LogWindow.h"
 #include "Tabs/PathsTab.h"
 #include "wx/splitter.h"
-#include <wx/notebook.h>
 #include "Tabs/OptionsTab.h"
 #include "Tabs/ConvertTab.h"
 
@@ -24,21 +23,24 @@ void MainFrame::initFrame()
 {
 	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
 
-	wxNotebook* notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
+	notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	notebook->SetMaxSize(wxSize(-1, 400));
 
 	PathsTab* pathsTab = new PathsTab(notebook);
 	pathsTab->loadConfiguration(configuration);
 	pathsTab->initializePaths();
+	pathsTab->SetBackgroundColour(wxColour(255, 245, 245));
 
-	OptionsTab* optionsTab = new OptionsTab(notebook);
+	optionsTab = new OptionsTab(notebook);
 	optionsTab->loadConfiguration(configuration);
 	optionsTab->initializeOptions();
+	optionsTab->SetBackgroundColour(wxColour(245, 255, 245));
 
 	ConvertTab* convertTab = new ConvertTab(notebook);
 	convertTab->loadConfiguration(configuration);
 	convertTab->loadSelf(this);
 	convertTab->initializeConvert();
+	convertTab->SetBackgroundColour(wxColour(245, 245, 255));
 
 	notebook->AddPage(pathsTab, pathsTab->getTabName());
 	notebook->AddPage(optionsTab, optionsTab->getTabName());
@@ -53,6 +55,15 @@ void MainFrame::initFrame()
 
 	this->SetSizer(vbox);
 	this->Centre();
+	Bind(wxEVT_SIZE, &MainFrame::onResize, this);
+}
+
+void MainFrame::onResize(wxSizeEvent& event)
+{
+	// layout everything in the dialog
+	optionsTab->SetVirtualSize(event.GetSize());
+	optionsTab->Layout();
+	event.Skip();
 }
 
 void MainFrame::initSecondTail(const std::string& tailSource) const
