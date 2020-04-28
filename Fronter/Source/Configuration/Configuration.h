@@ -4,7 +4,7 @@
 #include "Options/Option.h"
 #include "RequiredFile.h"
 #include "RequiredFolder.h"
-#include "newParser.h"
+#include "Parser.h"
 
 enum class MessageSource
 {

@@ -1,6 +1,6 @@
 #ifndef CONFIGURATION_TEXT_SELECTOR
 #define CONFIGURATION_TEXT_SELECTOR
-#include "newParser.h"
+#include "Parser.h"
 
 class TextSelector: commonItems::parser
 {

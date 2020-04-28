@@ -30,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="commonItems\newParser.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="commonItems\ParserHelpers.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
@@ -93,11 +90,14 @@
     <ClCompile Include="Fronter\Source\Configuration\Options\TextSelector.cpp">
       <Filter>Fronter\Configuration\Options</Filter>
     </ClCompile>
+    <ClCompile Include="commonItems\Parser.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\StringUtils.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonItems\newParser.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="commonItems\ParserHelpers.h">
       <Filter>commonItems</Filter>
     </ClInclude>
@@ -160,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Configuration\Options\TextSelector.h">
       <Filter>Fronter\Configuration\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\Parser.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\StringUtils.h">
+      <Filter>commonItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
