@@ -1,7 +1,7 @@
 #ifndef CONFIGURATION_RADIO_SELECTOR
 #define CONFIGURATION_RADIO_SELECTOR
 #include "RadioOption.h"
-#include "newParser.h"
+#include "Parser.h"
 
 class RadioSelector: commonItems::parser
 {

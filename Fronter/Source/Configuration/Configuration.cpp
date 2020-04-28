@@ -26,7 +26,7 @@ Configuration::Configuration()
 	}
 	else
 	{
-		Log(LogLevel::Warning) << "Configuration/fronter-configuration.txt not found!";
+		Log(LogLevel::Warning) << "Configuration/fronter-options.txt not found!";
 	}
 	clearRegisteredKeywords();
 	registerPreloadKeys();

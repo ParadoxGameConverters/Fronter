@@ -21,8 +21,9 @@
   <ItemGroup>
     <ClCompile Include="commonItems\iconvlite.cpp" />
     <ClCompile Include="commonItems\Log.cpp" />
-    <ClCompile Include="commonItems\newParser.cpp" />
+    <ClCompile Include="commonItems\Parser.cpp" />
     <ClCompile Include="commonItems\ParserHelpers.cpp" />
+    <ClCompile Include="commonItems\StringUtils.cpp" />
     <ClCompile Include="commonItems\WinUtils.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Configuration.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\Option.cpp" />
@@ -44,9 +45,10 @@
   <ItemGroup>
     <ClInclude Include="commonItems\iconvlite.h" />
     <ClInclude Include="commonItems\Log.h" />
-    <ClInclude Include="commonItems\newParser.h" />
     <ClInclude Include="commonItems\OSCompatibilityLayer.h" />
+    <ClInclude Include="commonItems\Parser.h" />
     <ClInclude Include="commonItems\ParserHelpers.h" />
+    <ClInclude Include="commonItems\StringUtils.h" />
     <ClInclude Include="Fronter\Source\Configuration\Configuration.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\Option.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\RadioOption.h" />

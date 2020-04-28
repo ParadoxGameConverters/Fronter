@@ -2,7 +2,7 @@
 #define CONFIGURATION_OPTION
 #include "RadioSelector.h"
 #include "TextSelector.h"
-#include "newParser.h"
+#include "Parser.h"
 
 class Option: commonItems::parser
 {

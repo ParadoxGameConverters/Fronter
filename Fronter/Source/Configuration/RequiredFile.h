@@ -1,6 +1,6 @@
 #ifndef CONFIGURATION_REQUIRED_FILE
 #define CONFIGURATION_REQUIRED_FILE
-#include "newParser.h"
+#include "Parser.h"
 
 class RequiredFile: commonItems::parser
 {
