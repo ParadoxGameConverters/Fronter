@@ -27,6 +27,14 @@ std::string RadioSelector::getSelectedValue() const
 	return std::string();
 }
 
+int RadioSelector::getSelectedID() const
+{
+	for (const auto& option: radioOptions)
+		if (option->getValue())
+			return option->getID();
+	return 0;
+}
+
 void RadioSelector::setSelectedValue(int selection)
 {
 	auto isSet = false;

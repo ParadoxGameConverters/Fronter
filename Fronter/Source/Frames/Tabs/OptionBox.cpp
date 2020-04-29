@@ -51,7 +51,7 @@ void OptionBox::initializeOption()
 			}
 			theButton->SetToolTip(radioOption->getTooltip());
 			if (!option->getRadioSelector().second->getSelectedValue().empty() &&
-				 std::stoi(option->getRadioSelector().second->getSelectedValue()) == radioOption->getID())
+				 option->getRadioSelector().second->getSelectedID() == radioOption->getID())
 			{
 				theButton->SetValue(true);
 			}
