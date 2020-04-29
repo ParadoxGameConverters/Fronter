@@ -4,12 +4,10 @@
 #include <fstream>
 #include <wx/wrapsizer.h>
 
-BEGIN_EVENT_TABLE(ConvertTab, wxNotebookPage)
-EVT_COMMAND(wxID_ANY, wxEVT_CONVERTERDONE, ConvertTab::onConverterDone)
-END_EVENT_TABLE()
-
 ConvertTab::ConvertTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
+	Bind(wxEVT_CONVERTERDONE, &ConvertTab::onConverterDone, this, wxID_ANY);
+	Bind(wxEVT_COPIERDONE, &ConvertTab::onCopierDone, this, wxID_ANY);
 }
 
 void ConvertTab::initializeConvert()
@@ -97,7 +95,16 @@ void ConvertTab::onConverterDone(wxCommandEvent& event)
 		return;
 	}
 	statusCopy->SetLabel("Copying Mod.");
-	if (configuration->copyMod())
+	modCopier = new ModCopier(this);
+	modCopier->loadConfiguration(configuration);
+	modCopier->Create();
+	modCopier->Run();
+}
+
+void ConvertTab::onCopierDone(wxCommandEvent& event)
+{
+	const auto message = event.GetInt();
+	if (message)
 		statusCopy->SetLabel("Finished.");
 	else
 	{

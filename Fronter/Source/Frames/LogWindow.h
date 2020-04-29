@@ -1,9 +1,10 @@
 #pragma once
-#include "../LogWatcher/LogWatcher.h"
+#include "../WorkerThreads/LogWatcher/LogWatcher.h"
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+#include "../WorkerThreads/LogWatcher/LogMessageEvent.h"
 
 class LogWindow: public wxScrolledWindow
 {

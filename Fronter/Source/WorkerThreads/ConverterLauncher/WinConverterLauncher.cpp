@@ -8,11 +8,11 @@
 #include <windows.h>
 namespace fs = std::filesystem;
 
-DEFINE_EVENT_TYPE(wxEVT_CONVERTERDONE)
+wxDEFINE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
 
 void* ConverterLauncher::Entry()
 {
-	wxCommandEvent evt(wxEVT_CONVERTERDONE, GetId());
+	wxCommandEvent evt(wxEVT_CONVERTERDONE);
 
 	const auto reqFiles = configuration->getRequiredFiles();
 	const auto& exeItr = reqFiles.find("converterExe");

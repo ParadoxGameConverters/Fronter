@@ -5,18 +5,11 @@
 #include "Tabs/PathsTab.h"
 #include "wx/splitter.h"
 
+
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(NULL, wxID_ANY, title, pos, size)
 {
-	wxMenu* menuFile = new wxMenu;
-	menuFile->Append(wxID_EXIT);
-	wxMenu* menuHelp = new wxMenu;
-	menuHelp->Append(wxID_ABOUT);
-	wxMenuBar* menuBar = new wxMenuBar;
-	menuBar->Append(menuFile, "&Converter");
-	menuBar->Append(menuHelp, "&PGCG");
-	SetMenuBar(menuBar);
-	CreateStatusBar();
-	SetStatusText("Paradox Game Converters Group");
+	Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
+	Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
 }
 
 void MainFrame::initFrame()

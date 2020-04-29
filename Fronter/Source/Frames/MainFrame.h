@@ -26,7 +26,6 @@ class MainFrame: public wxFrame
 	wxNotebook* notebook = nullptr;
 	OptionsTab* optionsTab = nullptr;
 	
-	wxDECLARE_EVENT_TABLE();
 	void onResize(wxSizeEvent& evt);
 	std::shared_ptr<Configuration> configuration;
 };

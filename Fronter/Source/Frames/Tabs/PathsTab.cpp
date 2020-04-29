@@ -1,10 +1,9 @@
 #include "PathsTab.h"
 #include "OSCompatibilityLayer.h"
-#include <codecvt>
 #include <filesystem>
 #include <wx/filepicker.h>
 namespace fs = std::filesystem;
-
+#include "../../Utils/OSFunctions.h"
 
 PathsTab::PathsTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
@@ -48,7 +47,7 @@ void PathsTab::initializePaths()
 
 		wxDirPickerCtrl* dirPickerCtrl =
 			 new wxDirPickerCtrl(this, pickerCounter, folderPath, wxDirSelectorPromptStr, wxDefaultPosition, wxSize(650, wxDefaultCoord));
-		dirPickerCtrl->Connect(wxEVT_DIRPICKER_CHANGED, (wxObjectEventFunction)&PathsTab::OnPathChanged, nullptr, this);
+		dirPickerCtrl->Bind(wxEVT_DIRPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
 		folder.second->setID(pickerCounter);
 		folder.second->setValue(folderPath);
@@ -94,7 +93,7 @@ void PathsTab::initializePaths()
 			 file.second->getAllowedExtension(),
 			 wxDefaultPosition,
 			 wxSize(650, wxDefaultCoord));
-		filePickerCtrl->Connect(wxEVT_FILEPICKER_CHANGED, (wxObjectEventFunction)&PathsTab::OnPathChanged, nullptr, this);
+		filePickerCtrl->Bind(wxEVT_FILEPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		filePickerCtrl->SetInitialDirectory(wxString(initialPath));
 		st->SetToolTip(file.second->getTooltip());
 		file.second->setID(pickerCounter);
@@ -104,62 +103,19 @@ void PathsTab::initializePaths()
 	}
 }
 
-std::optional<std::string> PathsTab::getSteamInstallPath(const std::string& steamID) const
-{
-	if (steamID.empty())
-		return std::nullopt;
-
-	wchar_t value[255];
-	DWORD BufferSize = 8192;
-	std::wstring registryPath = Utils::convertUTF8ToUTF16(R"(SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App )" + steamID);
-	const std::wstring installPath = Utils::convertUTF8ToUTF16(R"(InstallLocation)");
-
-	RegGetValue(HKEY_LOCAL_MACHINE, registryPath.c_str(), installPath.c_str(), RRF_RT_ANY, nullptr, (PVOID)&value, &BufferSize);
-
-	if (value)
-	{
-		auto result = Utils::convertUTF16ToUTF8(std::wstring(value));
-		if (!result.empty() && result.length() > 2)
-		{
-			return result;
-		}
-	}
-
-	registryPath = Utils::convertUTF8ToUTF16(R"(SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App )" + steamID);
-	RegGetValue(HKEY_LOCAL_MACHINE, registryPath.c_str(), installPath.c_str(), RRF_RT_ANY, nullptr, (PVOID)&value, &BufferSize);
-
-	if (value)
-	{
-		auto result = Utils::convertUTF16ToUTF8(std::wstring(value));
-		if (!result.empty() && result.length() > 2)
-		{
-			return result;
-		}
-	}
-
-	return std::nullopt;
-}
 
 void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 {
 	for (const auto& folder: configuration->getRequiredFolders())
 		if (folder.second->getID() == evt.GetId())
 		{
-			std::wstring theString = evt.GetPath().ToStdWstring();
-			std::u16string u16str(theString.begin(), theString.end());
-			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
-			std::string result = conversion.to_bytes(u16str);
-
+			std::string result = UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			folder.second->setValue(result);
 		}
 	for (const auto& file: configuration->getRequiredFiles())
 		if (file.second->getID() == evt.GetId())
 		{
-			std::wstring theString = evt.GetPath().ToStdWstring();
-			std::u16string u16str(theString.begin(), theString.end());
-			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
-			std::string result = conversion.to_bytes(u16str);
-
+			std::string result = UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			file.second->setValue(result);
 		}
 }
