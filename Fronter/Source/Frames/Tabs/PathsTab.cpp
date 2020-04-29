@@ -39,8 +39,12 @@ void PathsTab::initializePaths()
 			if (possiblePath)
 			{
 				folderPath = *possiblePath;
+				if (!folder.second->getSearchPath().empty())
+					folderPath += "/" + folder.second->getSearchPath();
 			}
 		}
+		else if (folder.second->getSearchPathType() == "direct")
+			folderPath = folder.second->getSearchPath();
 
 		wxDirPickerCtrl* dirPickerCtrl =
 			 new wxDirPickerCtrl(this, pickerCounter, folderPath, wxDirSelectorPromptStr, wxDefaultPosition, wxSize(650, wxDefaultCoord));
