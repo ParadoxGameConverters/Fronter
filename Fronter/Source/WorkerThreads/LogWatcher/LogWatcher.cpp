@@ -1,6 +1,7 @@
 #include "LogWatcher.h"
 #include "Log.h"
 #include <fstream>
+#include "LogMessageEvent.h"
 
 wxDEFINE_EVENT(wxEVT_TAILTHREAD, LogMessageEvent);
 
@@ -17,7 +18,7 @@ void* LogWatcher::Entry()
 		{
 			if (std::getline(logfile, line))
 			{
-				auto logMessage = Configuration::Configuration::sliceMessage(line);
+				auto logMessage = sliceMessage(line);
 				if (transcriberMode)
 				{
 					Log(logMessage.logLevel) << logMessage.message;

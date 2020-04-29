@@ -4,12 +4,10 @@
 #include <wx/wx.h>
 #endif
 
-#include "../Configuration/Configuration.h"
+#include "../../Configuration/Configuration.h"
 #include <wx/thread.h>
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE(wxEVT_CONVERTERDONE, wxID_ANY)
-END_DECLARE_EVENT_TYPES()
+wxDECLARE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
 
 class ConverterLauncher: public wxThread
 {

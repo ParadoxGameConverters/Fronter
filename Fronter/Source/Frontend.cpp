@@ -1,8 +1,7 @@
 #include "Frontend.h"
 #include "Frames/MainFrame.h"
 
-wxBEGIN_EVENT_TABLE(MainFrame, wxFrame) EVT_MENU(wxID_EXIT, MainFrame::OnExit) EVT_MENU(wxID_ABOUT, MainFrame::OnAbout) wxEND_EVENT_TABLE()
-	 wxIMPLEMENT_APP(Frontend);
+wxIMPLEMENT_APP(Frontend);
 
 bool Frontend::OnInit()
 {
@@ -13,6 +12,19 @@ bool Frontend::OnInit()
 	frame->loadConfiguration(configuration);
 	frame->initFrame();
 	frame->SetIcon(wxIcon(wxT("converter.ico"), wxBITMAP_TYPE_ICO, 16, 16));
+
+	wxMenu* menuFile = new wxMenu;
+	menuFile->Append(wxID_EXIT);
+	wxMenu* menuHelp = new wxMenu;
+	menuHelp->Append(wxID_ABOUT);
+	wxMenuBar* menuBar = new wxMenuBar;
+	menuBar->Append(menuFile, "&Converter");
+	menuBar->Append(menuHelp, "&PGCG");
+
+	frame->SetMenuBar(menuBar);
+	frame->CreateStatusBar();
+	frame->SetStatusText("Paradox Game Converters Group");
+
 	frame->Show(true);
 	return true;
 }

@@ -4,7 +4,8 @@
 #include <wx/wx.h>
 #endif
 #include "../../Configuration/Configuration.h"
-#include "../../ConverterLauncher/ConverterLauncher.h"
+#include "../../WorkerThreads/ConverterLauncher/ConverterLauncher.h"
+#include "../../WorkerThreads/ModCopier/ModCopier.h"
 #include <wx/filepicker.h>
 #include <wx/notebook.h>
 
@@ -21,7 +22,6 @@ class ConvertTab: public wxNotebookPage
 	void initializeConvert();
 	void loadSelf(MainFrame* theMainFrame) { mainFrame = theMainFrame; }
 
-	void onConverterDone(wxCommandEvent& event);
 
   private:
 	std::string tabName = "Convert";
@@ -31,7 +31,10 @@ class ConvertTab: public wxNotebookPage
 	wxStaticText* statusCopy = nullptr;
 	MainFrame* mainFrame = nullptr;
 	ConverterLauncher* converterLauncher = nullptr;
-	wxButton* convertButton = nullptr;
-	wxDECLARE_EVENT_TABLE();
+	ModCopier* modCopier = nullptr;
+	wxButton* convertButton = nullptr;	
+
 	void onConvertStarted(wxCommandEvent& event);
+	void onConverterDone(wxCommandEvent& event);
+	void onCopierDone(wxCommandEvent& event);
 };

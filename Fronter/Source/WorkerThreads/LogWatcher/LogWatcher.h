@@ -3,9 +3,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include "../Configuration/Configuration.h"
 #include <wx/thread.h>
-#include "LogMessageEvent.h"
 
 class LogWatcher: public wxThread
 {

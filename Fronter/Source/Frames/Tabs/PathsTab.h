@@ -18,7 +18,6 @@ class PathsTab: public wxNotebookPage
 	void initializePaths();
 
   private:
-	[[nodiscard]] std::optional<std::string> getSteamInstallPath(const std::string& steamID) const;
 
 	void OnPathChanged(wxFileDirPickerEvent& evt);
 

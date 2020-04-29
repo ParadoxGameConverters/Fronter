@@ -4,6 +4,7 @@
 #include "Log.h"
 #include <codecvt>
 #include <wx/textctrl.h>
+#include "../../Utils/OSFunctions.h"
 
 OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Option> theOption):
 	 wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxEXPAND), optionName(theName)
@@ -85,11 +86,7 @@ void OptionBox::initializeOption()
 		textField->SetToolTip(selector->getTooltip());
 
 		textField->Bind(wxEVT_TEXT, [this](wxCommandEvent& event) {
-			std::wstring theString = event.GetString().ToStdWstring();
-			std::u16string u16str(theString.begin(), theString.end());
-			std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conversion;
-			std::string result = conversion.to_bytes(u16str);
-			result = Configuration::normalizeStringPath(result);
+			const auto result = UTF16ToUTF8(event.GetString().ToStdWstring());
 			option->setTextSelectorValue(result);
 			if (event.GetString() != wxString(result))
 			{
