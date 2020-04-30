@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 
 Configuration::Configuration()
 {
-	std::ofstream clearLog("log.txt");
+	std::ofstream clearLog("log.txt", std::ofstream::trunc);
 	clearLog.close();
 	registerKeys();
 	if (fs::exists("Configuration/fronter-configuration.txt"))

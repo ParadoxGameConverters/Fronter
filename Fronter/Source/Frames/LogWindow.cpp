@@ -37,13 +37,21 @@ void LogWindow::terminateSecondTail() const
 
 void LogWindow::OnTailPush(LogMessageEvent& event)
 {
+	// Limiting to 300 cells for performance reasons
+	if (logCounter >= 100)
+		for (auto counter = (logCounter - 100) * 3; counter < (logCounter - 100) * 3 + 3; counter++)
+		{
+			logArray[counter]->Destroy();
+		}
+	GetParent()->Layout();
+	
 	logCounter++;
 	const auto logMessage = event.GetMessage();
 	wxStaticText* timestamp = new wxStaticText(this, wxID_ANY, "  " + logMessage.timestamp + "  ", wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE);
 	timestamp->SetBackgroundColour(0x00FFFFFF);
 	timestamp->SetMinSize(wxSize(-1, 20));
 	GetSizer()->Add(timestamp, 1, wxALIGN_CENTER);
-
+	logArray.emplace_back(timestamp);
 
 	wxColour bgcolor = wxColour(0, 0, 0);
 	std::string severity;
@@ -69,12 +77,14 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	}
 	wxStaticText* sev = new wxStaticText(this, wxID_ANY, severity, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxALIGN_CENTRE_HORIZONTAL);
 	sev->SetBackgroundColour(bgcolor);
-	GetSizer()->Add(sev, 1, wxCENTER | wxEXPAND);
-
+	GetSizer()->Add(sev, 1, wxCENTER | wxEXPAND );
+	logArray.emplace_back(sev);
+	
 	wxStaticText* st = new wxStaticText(this, wxID_ANY, "  " + logMessage.message + "  ", wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE);
 	st->SetBackgroundColour(bgcolor);
 	GetSizer()->Add(st, 1, wxALIGN_LEFT | wxEXPAND);
-
+	logArray.emplace_back(st);
+	
 	GetParent()->Layout();
 	Scroll(0, logCounter - 1);
 }

@@ -20,4 +20,6 @@ class LogWindow: public wxScrolledWindow
 	LogWatcher* logWatcher = nullptr;
 	LogWatcher* logWatcher2 = nullptr;
 	int logCounter = 0;
+
+	std::vector<wxStaticText*> logArray;
 };
