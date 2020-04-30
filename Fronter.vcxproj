@@ -32,7 +32,6 @@
     <ClCompile Include="Fronter\Source\Configuration\Options\TextSelector.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\RequiredFile.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\RequiredFolder.cpp" />
-    <ClCompile Include="Fronter\Source\ConverterLauncher\ConverterLauncher.cpp" />
     <ClCompile Include="Fronter\Source\Frames\LogWindow.cpp" />
     <ClCompile Include="Fronter\Source\Frames\MainFrame.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\ConvertTab.cpp" />
@@ -40,7 +39,11 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frontend.cpp" />
-    <ClCompile Include="Fronter\Source\LogWatcher\LogWatcher.cpp" />
+    <ClCompile Include="Fronter\Source\Utils\CommonFunctions.cpp" />
+    <ClCompile Include="Fronter\Source\Utils\WinFunctions.cpp" />
+    <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp" />
+    <ClCompile Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.cpp" />
+    <ClCompile Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\iconvlite.h" />
@@ -56,7 +59,6 @@
     <ClInclude Include="Fronter\Source\Configuration\Options\TextSelector.h" />
     <ClInclude Include="Fronter\Source\Configuration\RequiredFile.h" />
     <ClInclude Include="Fronter\Source\Configuration\RequiredFolder.h" />
-    <ClInclude Include="Fronter\Source\ConverterLauncher\ConverterLauncher.h" />
     <ClInclude Include="Fronter\Source\Frames\LogWindow.h" />
     <ClInclude Include="Fronter\Source\Frames\MainFrame.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\ConvertTab.h" />
@@ -64,8 +66,12 @@
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionsTab.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h" />
     <ClInclude Include="Fronter\Source\Frontend.h" />
-    <ClInclude Include="Fronter\Source\LogWatcher\LogMessageEvent.h" />
-    <ClInclude Include="Fronter\Source\LogWatcher\LogWatcher.h" />
+    <ClInclude Include="Fronter\Source\Utils\CommonFunctions.h" />
+    <ClInclude Include="Fronter\Source\Utils\OSFunctions.h" />
+    <ClInclude Include="Fronter\Source\WorkerThreads\ConverterLauncher\ConverterLauncher.h" />
+    <ClInclude Include="Fronter\Source\WorkerThreads\LogWatcher\LogMessageEvent.h" />
+    <ClInclude Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.h" />
+    <ClInclude Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Fronter\Resources\converter.ico" />

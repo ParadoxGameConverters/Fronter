@@ -16,17 +16,26 @@
     <Filter Include="Fronter\Frames\Tabs">
       <UniqueIdentifier>{d72203bf-ebbb-4ba1-95e3-c8f39873f304}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fronter\LogWatcher">
-      <UniqueIdentifier>{52dee387-8a19-47c0-896f-5bb709b6b0ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fronter\ConverterLauncher">
-      <UniqueIdentifier>{a6302d15-8623-4ef6-9d72-d104014ad7ac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fronter\Configuration">
       <UniqueIdentifier>{6ed3be2c-93c8-4eb2-a036-510222632e84}</UniqueIdentifier>
     </Filter>
     <Filter Include="Fronter\Configuration\Options">
       <UniqueIdentifier>{8e5637fd-1958-4418-a2bc-d21d2aa6a2f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\Utils">
+      <UniqueIdentifier>{93d1d9a9-c4dd-4614-a484-cd0b8bc5f8af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\WorkerThreads">
+      <UniqueIdentifier>{0d000940-6146-445e-bac9-edae2e64286d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\WorkerThreads\ConverterLauncher">
+      <UniqueIdentifier>{958be5c0-b556-4a9a-ad12-e43f91513b1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\WorkerThreads\LogWatcher">
+      <UniqueIdentifier>{b8377016-c6d4-4059-88dd-6684c6b3844f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fronter\WorkerThreads\ModCopier">
+      <UniqueIdentifier>{be1644f7-1e92-45c6-af04-7cbac81b61fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,9 +63,6 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
-    <ClCompile Include="Fronter\Source\LogWatcher\LogWatcher.cpp">
-      <Filter>Fronter\LogWatcher</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionsTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
@@ -65,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="Fronter\Source\Frames\Tabs\ConvertTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
-    </ClCompile>
-    <ClCompile Include="Fronter\Source\ConverterLauncher\ConverterLauncher.cpp">
-      <Filter>Fronter\ConverterLauncher</Filter>
     </ClCompile>
     <ClCompile Include="Fronter\Source\Configuration\Configuration.cpp">
       <Filter>Fronter\Configuration</Filter>
@@ -96,6 +99,21 @@
     <ClCompile Include="commonItems\StringUtils.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\Utils\CommonFunctions.cpp">
+      <Filter>Fronter\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Utils\WinFunctions.cpp">
+      <Filter>Fronter\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp">
+      <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.cpp">
+      <Filter>Fronter\WorkerThreads\LogWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.cpp">
+      <Filter>Fronter\WorkerThreads\ModCopier</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\ParserHelpers.h">
@@ -122,9 +140,6 @@
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClInclude>
-    <ClInclude Include="Fronter\Source\LogWatcher\LogWatcher.h">
-      <Filter>Fronter\LogWatcher</Filter>
-    </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionsTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClInclude>
@@ -133,12 +148,6 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\ConvertTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\ConverterLauncher\ConverterLauncher.h">
-      <Filter>Fronter\ConverterLauncher</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\LogWatcher\LogMessageEvent.h">
-      <Filter>Fronter\LogWatcher</Filter>
     </ClInclude>
     <ClInclude Include="Fronter\Source\Configuration\Configuration.h">
       <Filter>Fronter\Configuration</Filter>
@@ -166,6 +175,24 @@
     </ClInclude>
     <ClInclude Include="commonItems\StringUtils.h">
       <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Utils\CommonFunctions.h">
+      <Filter>Fronter\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Utils\OSFunctions.h">
+      <Filter>Fronter\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\WorkerThreads\ConverterLauncher\ConverterLauncher.h">
+      <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\WorkerThreads\LogWatcher\LogMessageEvent.h">
+      <Filter>Fronter\WorkerThreads\LogWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.h">
+      <Filter>Fronter\WorkerThreads\LogWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.h">
+      <Filter>Fronter\WorkerThreads\ModCopier</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
