@@ -35,12 +35,29 @@ int RadioSelector::getSelectedID() const
 	return 0;
 }
 
-void RadioSelector::setSelectedValue(int selection)
+void RadioSelector::setSelectedID(int selection)
 {
 	auto isSet = false;
 	for (const auto& option: radioOptions)
 	{
 		if (option->getID() == selection)
+		{
+			option->setValue();
+			isSet = true;
+		}
+		else
+			option->unsetValue();
+	}
+	if (!isSet)
+		Log(LogLevel::Warning) << "Attempted setting a radio selector ID that does not exist!";
+}
+
+void RadioSelector::setSelectedValue(const std::string& selection)
+{
+	auto isSet = false;
+	for (const auto& option: radioOptions)
+	{
+		if (option->getName() == selection)
 		{
 			option->setValue();
 			isSet = true;
