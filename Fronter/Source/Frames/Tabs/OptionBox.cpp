@@ -62,7 +62,7 @@ void OptionBox::initializeOption()
 			}
 
 			theButton->Bind(wxEVT_RADIOBUTTON, [this](wxCommandEvent& event) {
-				option->setRadioSelectorValue(event.GetId());
+				option->setRadioSelectorID(event.GetId());
 			});
 
 			flexGridSizer->Add(theButton, wxSizerFlags(1).Border(wxLEFT | wxRIGHT, 5).Expand());

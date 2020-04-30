@@ -34,7 +34,7 @@ void Option::registerKeys()
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
 }
 
-void Option::setRadioSelectorValue(int selection) const
+void Option::setRadioSelectorValue(const std::string& selection) const
 {
 	if (!radioSelector.first)
 	{
@@ -42,6 +42,16 @@ void Option::setRadioSelectorValue(int selection) const
 		return;
 	}
 	radioSelector.second->setSelectedValue(selection);
+}
+
+void Option::setRadioSelectorID(int selection) const
+{
+	if (!radioSelector.first)
+	{
+		Log(LogLevel::Warning) << "Attempted setting a radio control in unknown radio option!";
+		return;
+	}
+	radioSelector.second->setSelectedID(selection);
 }
 
 void Option::setTextSelectorValue(const std::string& selection) const
@@ -73,5 +83,5 @@ void Option::setValue(const std::string& selection) const
 	if (textSelector.first)
 		textSelector.second->setValue(selection);
 	if (radioSelector.first)
-		radioSelector.second->setSelectedValue(std::stoi(selection));
+		radioSelector.second->setSelectedValue(selection);
 }

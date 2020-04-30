@@ -19,7 +19,8 @@ class Option: commonItems::parser
 
 	[[nodiscard]] std::string getValue() const;
 
-	void setRadioSelectorValue(int selection) const;
+	void setRadioSelectorID(int selection) const;
+	void setRadioSelectorValue(const std::string& selection) const;
 	void setTextSelectorValue(const std::string& selection) const;
 	void setValue(const std::string& selection) const;
 

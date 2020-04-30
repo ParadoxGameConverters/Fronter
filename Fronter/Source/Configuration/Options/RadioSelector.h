@@ -16,7 +16,8 @@ class RadioSelector: commonItems::parser
 	[[nodiscard]] int getSelectedID() const;
 
 	void setID(int theID) { ID = theID; }
-	void setSelectedValue(int selection);
+	void setSelectedID(int selection);
+	void setSelectedValue(const std::string& selection);
 
   private:
 	void registerKeys();
