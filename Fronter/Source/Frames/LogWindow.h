@@ -5,8 +5,9 @@
 #include <wx/wx.h>
 #endif
 #include "../WorkerThreads/LogWatcher/LogMessageEvent.h"
+#include <wx/grid.h>
 
-class LogWindow: public wxScrolledWindow
+class LogWindow: public wxWindow
 {
   public:
 	LogWindow(wxWindow* parent);
@@ -20,6 +21,6 @@ class LogWindow: public wxScrolledWindow
 	LogWatcher* logWatcher = nullptr;
 	LogWatcher* logWatcher2 = nullptr;
 	int logCounter = 0;
-
+	wxGrid* theGrid = nullptr;
 	std::vector<wxStaticText*> logArray;
 };
