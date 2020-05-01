@@ -1,15 +1,26 @@
 #include "LogWindow.h"
 #include "Log.h"
 
-LogWindow::LogWindow(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, -1))
+LogWindow::LogWindow(wxWindow* parent): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
 	Bind(wxEVT_TAILTHREAD, &LogWindow::OnTailPush, this);
 
-	SetScrollRate(0, 20);
-	wxFlexGridSizer* logBox = new wxFlexGridSizer(3);
+	theGrid = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+	theGrid->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
+	theGrid->HideCellEditControl();
+	theGrid->HideRowLabels();
+	theGrid->SetColLabelValue(0, "Timestamp");
+	theGrid->SetColLabelValue(1, "Vehemence");
+	theGrid->SetColLabelValue(2, "Message");
+	theGrid->SetColLabelAlignment(wxLEFT, wxCENTER);
+	theGrid->SetScrollRate(0, 20);
+	theGrid->SetColLabelSize(20);
+	
+	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
+	logBox->Add(theGrid, wxSizerFlags(1).Expand());
 	SetSizer(logBox);
+	logBox->Fit(this);
 	initializeTail();
-	logBox->AddGrowableCol(2);
 }
 
 void LogWindow::initializeTail()
@@ -37,21 +48,8 @@ void LogWindow::terminateSecondTail() const
 
 void LogWindow::OnTailPush(LogMessageEvent& event)
 {
-	// Limiting to 300 cells for performance reasons
-	if (logCounter >= 100)
-		for (auto counter = (logCounter - 100) * 3; counter < (logCounter - 100) * 3 + 3; counter++)
-		{
-			logArray[counter]->Destroy();
-		}
-	GetParent()->Layout();
-	
-	logCounter++;
-	const auto logMessage = event.GetMessage();
-	wxStaticText* timestamp = new wxStaticText(this, wxID_ANY, "  " + logMessage.timestamp + "  ", wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE);
-	timestamp->SetBackgroundColour(0x00FFFFFF);
-	timestamp->SetMinSize(wxSize(-1, 20));
-	GetSizer()->Add(timestamp, 1, wxALIGN_CENTER);
-	logArray.emplace_back(timestamp);
+	const auto logMessage = event.GetMessage();	
+	const auto timestamp = "  " + logMessage.timestamp + "  ";
 
 	wxColour bgcolor = wxColour(0, 0, 0);
 	std::string severity;
@@ -75,16 +73,25 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 		bgcolor = wxColour(255, 200, 200);
 		severity = "  ERROR  ";
 	}
-	wxStaticText* sev = new wxStaticText(this, wxID_ANY, severity, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxALIGN_CENTRE_HORIZONTAL);
-	sev->SetBackgroundColour(bgcolor);
-	GetSizer()->Add(sev, 1, wxCENTER | wxEXPAND );
-	logArray.emplace_back(sev);
-	
-	wxStaticText* st = new wxStaticText(this, wxID_ANY, "  " + logMessage.message + "  ", wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE);
-	st->SetBackgroundColour(bgcolor);
-	GetSizer()->Add(st, 1, wxALIGN_LEFT | wxEXPAND);
-	logArray.emplace_back(st);
-	
+
+	const auto message = "  " + logMessage.message;
+
+	theGrid->AppendRows(1, false);
+	theGrid->SetRowSize(logCounter, 20);
+	theGrid->SetCellValue(logCounter, 0, timestamp);
+	theGrid->SetCellAlignment(logCounter, 0, wxCENTER, wxCENTER);
+	theGrid->SetReadOnly(logCounter, 0);
+	theGrid->SetCellValue(logCounter, 1, severity);
+	theGrid->SetCellBackgroundColour(logCounter, 1, bgcolor);
+	theGrid->SetCellAlignment(logCounter, 1, wxCENTER, wxCENTER);
+	theGrid->SetReadOnly(logCounter, 1);
+	theGrid->SetCellValue(logCounter, 2, message);
+	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
+	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
+	theGrid->SetReadOnly(logCounter, 2);
+	logCounter++;
+	theGrid->AutoSize();
 	GetParent()->Layout();
-	Scroll(0, logCounter - 1);
+	theGrid->Scroll(0, logCounter - 1);
+	theGrid->MakeCellVisible(logCounter - 1, 0);
 }
