@@ -4,13 +4,14 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+#include "../Utils/Localization/Localization.h"
 #include "../WorkerThreads/LogWatcher/LogMessageEvent.h"
 #include <wx/grid.h>
 
 class LogWindow: public wxWindow
 {
   public:
-	LogWindow(wxWindow* parent);
+	LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization);
 
 	void initializeTail();
 	void initializeSecondTail(const std::string& tailSource);
@@ -23,4 +24,5 @@ class LogWindow: public wxWindow
 	int logCounter = 0;
 	wxGrid* theGrid = nullptr;
 	std::vector<wxStaticText*> logArray;
+	std::shared_ptr<Localization> localization;
 };

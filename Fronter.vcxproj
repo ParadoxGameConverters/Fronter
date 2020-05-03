@@ -40,6 +40,7 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frontend.cpp" />
     <ClCompile Include="Fronter\Source\Utils\CommonFunctions.cpp" />
+    <ClCompile Include="Fronter\Source\Utils\Localization\Localization.cpp" />
     <ClCompile Include="Fronter\Source\Utils\WinFunctions.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.cpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h" />
     <ClInclude Include="Fronter\Source\Frontend.h" />
     <ClInclude Include="Fronter\Source\Utils\CommonFunctions.h" />
+    <ClInclude Include="Fronter\Source\Utils\Localization\Localization.h" />
     <ClInclude Include="Fronter\Source\Utils\OSFunctions.h" />
     <ClInclude Include="Fronter\Source\WorkerThreads\ConverterLauncher\ConverterLauncher.h" />
     <ClInclude Include="Fronter\Source\WorkerThreads\LogWatcher\LogMessageEvent.h" />

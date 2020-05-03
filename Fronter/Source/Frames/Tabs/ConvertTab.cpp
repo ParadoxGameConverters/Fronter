@@ -3,6 +3,7 @@
 #include "OSCompatibilityLayer.h"
 #include <fstream>
 #include <wx/wrapsizer.h>
+#define tr localization->translate
 
 ConvertTab::ConvertTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
@@ -23,12 +24,12 @@ void ConvertTab::initializeConvert()
 	wxGridSizer* statusSizer = new wxGridSizer(3, 2, 5, 5);
 	statusPanel->SetSizer(statusSizer);
 
-	wxStaticText* cell11 = new wxStaticText(statusPanel, wxID_ANY, "Saving Configuration:");
-	statusSave = new wxStaticText(statusPanel, wxID_ANY, "Not Started.");
-	wxStaticText* cell21 = new wxStaticText(statusPanel, wxID_ANY, "Converting Save:");
-	statusConvert = new wxStaticText(statusPanel, wxID_ANY, "Not Started.");
-	wxStaticText* cell31 = new wxStaticText(statusPanel, wxID_ANY, "Copying Mod:");
-	statusCopy = new wxStaticText(statusPanel, wxID_ANY, "Not Started.");
+	wxStaticText* cell11 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSAVING"));
+	statusSave = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
+	wxStaticText* cell21 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCONVERTING"));
+	statusConvert = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
+	wxStaticText* cell31 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCOPYING"));
+	statusCopy = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
 
 	statusSizer->Add(cell11);
 	statusSizer->Add(statusSave, wxSizerFlags(1).Align(1).CenterHorizontal());
@@ -57,20 +58,20 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 {
 	convertButton->Disable();
 	// Reset statuses
-	statusSave->SetLabel("Not Started.");
-	statusConvert->SetLabel("Not Started.");
-	statusCopy->SetLabel("Not Started.");
+	statusSave->SetLabel(tr("CONVERTSTATUSPRE"));
+	statusConvert->SetLabel(tr("CONVERTSTATUSPRE"));
+	statusCopy->SetLabel(tr("CONVERTSTATUSPRE"));
 
-	statusSave->SetLabel("In Progress.");
+	statusSave->SetLabel(tr("CONVERTSTATUSIN"));
 	if (configuration->exportConfiguration())
-		statusSave->SetLabel("Finished.");
+		statusSave->SetLabel(tr("CONVERTSTATUSPOSTSUCCESS"));
 	else
 	{
-		statusSave->SetLabel("Failed!");
+		statusSave->SetLabel(tr("CONVERTSTATUSPOSTFAIL"));
 		return;
 	}
 
-	statusConvert->SetLabel("In Progress.");
+	statusConvert->SetLabel(tr("CONVERTSTATUSIN"));
 	converterLauncher = new ConverterLauncher(this);
 	converterLauncher->loadConfiguration(configuration);
 	converterLauncher->Create();
@@ -83,18 +84,18 @@ void ConvertTab::onConverterDone(wxCommandEvent& event)
 	const auto message = event.GetInt();
 	if (message)
 	{
-		statusConvert->SetLabel("Finished.");
+		statusConvert->SetLabel(tr("CONVERTSTATUSPOSTSUCCESS"));
 		wxMilliSleep(400); // waiting on second tail to finish transcribing.
 		mainFrame->terminateSecondTail();
 	}
 	else
 	{
-		statusConvert->SetLabel("Failed!");
+		statusConvert->SetLabel(tr("CONVERTSTATUSPOSTFAIL"));
 		mainFrame->terminateSecondTail();
 		convertButton->Enable();
 		return;
 	}
-	statusCopy->SetLabel("Copying Mod.");
+	statusCopy->SetLabel(tr("CONVERTSTATUSIN"));
 	modCopier = new ModCopier(this);
 	modCopier->loadConfiguration(configuration);
 	modCopier->Create();
@@ -105,10 +106,10 @@ void ConvertTab::onCopierDone(wxCommandEvent& event)
 {
 	const auto message = event.GetInt();
 	if (message)
-		statusCopy->SetLabel("Finished.");
+		statusCopy->SetLabel(tr("CONVERTSTATUSPOSTSUCCESS"));
 	else
 	{
-		statusCopy->SetLabel("Failed!");
+		statusCopy->SetLabel(tr("CONVERTSTATUSPOSTFAIL"));
 	}
 	convertButton->Enable();
 }

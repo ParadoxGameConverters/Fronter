@@ -1,21 +1,22 @@
 #include "LogWindow.h"
 #include "Log.h"
+#define tr localization->translate
 
-LogWindow::LogWindow(wxWindow* parent): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
+LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
 	Bind(wxEVT_TAILTHREAD, &LogWindow::OnTailPush, this);
-
+	localization = std::move(theLocalization);
 	theGrid = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	theGrid->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
 	theGrid->HideCellEditControl();
 	theGrid->HideRowLabels();
-	theGrid->SetColLabelValue(0, "Timestamp");
-	theGrid->SetColLabelValue(1, "Vehemence");
-	theGrid->SetColLabelValue(2, "Message");
+	theGrid->SetColLabelValue(0, tr("LOGTIME"));
+	theGrid->SetColLabelValue(1, tr("LOGSEVERITY"));
+	theGrid->SetColLabelValue(2, tr("LOGMESSAGE"));
 	theGrid->SetColLabelAlignment(wxLEFT, wxCENTER);
 	theGrid->SetScrollRate(0, 20);
 	theGrid->SetColLabelSize(20);
-	
+
 	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
 	logBox->Add(theGrid, wxSizerFlags(1).Expand());
 	SetSizer(logBox);
@@ -48,7 +49,7 @@ void LogWindow::terminateSecondTail() const
 
 void LogWindow::OnTailPush(LogMessageEvent& event)
 {
-	const auto logMessage = event.GetMessage();	
+	const auto logMessage = event.GetMessage();
 	const auto timestamp = "  " + logMessage.timestamp + "  ";
 
 	wxColour bgcolor = wxColour(0, 0, 0);
