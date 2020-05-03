@@ -36,7 +36,6 @@ Localization::Localization()
 			setLanguage = line.substr(9, line.length());
 		}
 		userFile.close();
-		return;
 	}
 }
 
