@@ -11,7 +11,10 @@ rem Create Configuration
 rem del "Release\Configuration" /Q
 rem rmdir "Release\Configuration" /S /Q
 rem xcopy "Fronter\Configuration" "Release\Configuration" /Y /E /I
-
+mkdir "..\Release\Configuration"
+copy "Fronter\Resources\converter_languages.yml" "..\Release\Configuration\"
+copy "Fronter\Resources\converter_l_french.yml" "..\Release\Configuration\"
+copy "Fronter\Resources\converter_l_english.yml" "..\Release\Configuration\"
 
 rem del "Release\CK2ToEU4" /Q
 rem rmdir "Release\CK2ToEU4" /S /Q

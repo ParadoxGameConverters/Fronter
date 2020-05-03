@@ -37,6 +37,9 @@
     <Filter Include="Fronter\WorkerThreads\ModCopier">
       <UniqueIdentifier>{be1644f7-1e92-45c6-af04-7cbac81b61fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fronter\Utils\Localization">
+      <UniqueIdentifier>{c9339acd-d377-407b-b71c-bbf84f889a73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\ParserHelpers.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.cpp">
       <Filter>Fronter\WorkerThreads\ModCopier</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Utils\Localization\Localization.cpp">
+      <Filter>Fronter\Utils\Localization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.h">
       <Filter>Fronter\WorkerThreads\ModCopier</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Utils\Localization\Localization.h">
+      <Filter>Fronter\Utils\Localization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

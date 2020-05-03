@@ -4,6 +4,7 @@
 #include "Tabs/OptionsTab.h"
 #include "Tabs/PathsTab.h"
 #include "wx/splitter.h"
+#define tr localization->translate
 
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(NULL, wxID_ANY, title, pos, size)
@@ -31,6 +32,7 @@ void MainFrame::initFrame()
 
 	ConvertTab* convertTab = new ConvertTab(notebook);
 	convertTab->loadConfiguration(configuration);
+	convertTab->loadLocalization(localization);
 	convertTab->loadSelf(this);
 	convertTab->initializeConvert();
 	convertTab->SetBackgroundColour(wxColour(245, 245, 255));
@@ -40,7 +42,7 @@ void MainFrame::initFrame()
 	notebook->AddPage(convertTab, convertTab->getTabName());
 	notebook->Layout();
 
-	logWindow = new LogWindow(this);
+	logWindow = new LogWindow(this, localization);
 	logWindow->SetMinSize(wxSize(-1, 200));
 
 	vbox->Add(notebook, wxSizerFlags(1).Expand().Border(wxALL, 1));
@@ -76,11 +78,11 @@ void MainFrame::OnExit(wxCommandEvent& event)
 
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
-	std::string message = "Copyright (c) 2020 The Paradox Game Converters Group\n";
-	message += "\n";
-	message += "This converter, as all others, is free and available at our Github repository.\n ";
-	message += "\n";
-	message += "Github. Forums. Wiki pages. Steam. If you need to find us, report bugs, offer suggestions or wish to participate, we're there.";
+	wxMessageBox(tr("ABOUTBODY"), tr("ABOUTTITLE"), wxOK | wxICON_INFORMATION);
+}
 
-	wxMessageBox(message, "Paradox Game Converters Group - Universal Frontend", wxOK | wxICON_INFORMATION);
+void MainFrame::OnLanguageChange(wxCommandEvent& event)
+{
+	localization->saveLanguage(event.GetId());
+	wxMessageBox(tr("LANGUAGESAVEDBODY"), tr("LANGUAGESAVED"), wxOK | wxICON_INFORMATION);
 }
