@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-RadioSelector::RadioSelector(std::istream& theStream)
+RadioSelector::RadioSelector(std::istream& theStream, std::string language): setLanguage(std::move(language))
 {
 	registerKeys();
 	parseStream(theStream);
@@ -13,7 +13,7 @@ void RadioSelector::registerKeys()
 {
 	registerKeyword("radioOption", [this](const std::string& unused, std::istream& theStream) {
 		optionCounter++;
-		auto newOption = std::make_shared<RadioOption>(theStream, optionCounter);
+		auto newOption = std::make_shared<RadioOption>(theStream, optionCounter, setLanguage);
 		radioOptions.emplace_back(newOption);
 	});
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);

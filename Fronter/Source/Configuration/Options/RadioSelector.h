@@ -7,7 +7,7 @@ class RadioSelector: commonItems::parser
 {
   public:
 	RadioSelector() = default;
-	explicit RadioSelector(std::istream& theStream);
+	explicit RadioSelector(std::istream& theStream, std::string language);
 
 	[[nodiscard]] const auto& getOptions() const { return radioOptions; }
 	[[nodiscard]] auto getID() const { return ID; }
@@ -24,6 +24,7 @@ class RadioSelector: commonItems::parser
 	int ID = 0;
 	int optionCounter = 0;
 	std::vector<std::shared_ptr<RadioOption>> radioOptions;
+	std::string setLanguage;
 };
 
 #endif // CONFIGURATION_RADIO_SELECTOR

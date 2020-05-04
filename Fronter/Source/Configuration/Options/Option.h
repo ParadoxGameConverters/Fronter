@@ -8,7 +8,7 @@ class Option: commonItems::parser
 {
   public:
 	Option() = default;
-	explicit Option(std::istream& theStream, int theID);
+	explicit Option(std::istream& theStream, int theID, std::string language);
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
@@ -33,6 +33,8 @@ class Option: commonItems::parser
 	std::string displayName;
 	std::pair<bool, std::shared_ptr<RadioSelector>> radioSelector; // enabled, selector.
 	std::pair<bool, std::shared_ptr<TextSelector>> textSelector;	// enabled, selector.
+
+	std::string setLanguage;
 };
 
 #endif // CONFIGURATION_OPTION

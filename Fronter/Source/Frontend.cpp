@@ -6,8 +6,9 @@ wxIMPLEMENT_APP(Frontend);
 
 bool Frontend::OnInit()
 {
-	configuration = std::make_shared<Configuration>();
 	localization = std::make_shared<Localization>();
+	configuration = std::make_shared<Configuration>(localization->getSetLanguage());
+	
 	MainFrame* frame =
 		 new MainFrame(tr("TITLETITLE") + configuration->getSourceGame() + tr("TITLETO") + configuration->getTargetGame(), wxPoint(50, 50), wxSize(1200, 600));
 	frame->loadConfiguration(configuration);

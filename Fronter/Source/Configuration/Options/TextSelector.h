@@ -6,7 +6,7 @@ class TextSelector: commonItems::parser
 {
   public:
 	TextSelector() = default;
-	explicit TextSelector(std::istream& theStream);
+	explicit TextSelector(std::istream& theStream, std::string language);
 
 	[[nodiscard]] const auto& getValue() const { return value; }
 	[[nodiscard]] const auto& getTooltip() const { return tooltip; }
@@ -23,6 +23,7 @@ class TextSelector: commonItems::parser
 	int ID = 0;
 	std::string value;
 	std::string tooltip;
+	std::string setLanguage;
 };
 
 #endif // CONFIGURATION_TEXT_SELECTOR

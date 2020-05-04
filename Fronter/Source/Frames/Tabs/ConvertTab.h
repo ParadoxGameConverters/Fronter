@@ -17,8 +17,6 @@ class ConvertTab: public wxNotebookPage
   public:
 	ConvertTab(wxWindow* parent);
 
-	[[nodiscard]] const auto& getTabName() const { return tabName; }
-
 	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 	void initializeConvert();
@@ -26,7 +24,6 @@ class ConvertTab: public wxNotebookPage
 
 
   private:
-	std::string tabName = "Convert";
 	std::shared_ptr<Configuration> configuration;
 	std::shared_ptr<Localization> localization;
 

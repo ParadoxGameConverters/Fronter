@@ -12,6 +12,7 @@ class Localization
 	[[nodiscard]] std::wstring translate(const std::string& key);
 	[[nodiscard]] std::wstring translateLanguage(const std::string& language);
 	[[nodiscard]] const auto& getLoadedLanguages() const { return loadedLangauges; }
+	[[nodiscard]] const auto& getSetLanguage() const { return setLanguage; }
 
 	void saveLanguage(int ID);
 
