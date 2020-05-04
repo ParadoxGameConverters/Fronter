@@ -6,7 +6,7 @@ class RequiredFolder: commonItems::parser
 {
   public:
 	RequiredFolder() = default;
-	explicit RequiredFolder(std::istream& theStream);
+	explicit RequiredFolder(std::istream& theStream, std::string language);
 
 	void setID(int theID) { ID = theID; }
 	void setValue(const std::string& theValue) { value = theValue; }
@@ -36,6 +36,8 @@ class RequiredFolder: commonItems::parser
 	std::string searchPath;
 	std::string searchPathID;
 	std::string value;
+
+	std::string setLanguage;
 };
 
 #endif // CONFIGURATION_REQUIRED_FOLDER

@@ -22,4 +22,8 @@ l_english:
  LANGUAGE: "Language"
  LANGUAGESAVED: "Language saved"
  LANGUAGESAVEDBODY: "Language has been saved, please restart frontend."
+ PATHSTAB: "Paths"
+ OPTIONSTAB: "Options"
+ CONVERTTAB: "Convert"
+ BROWSE: "Browse"
  

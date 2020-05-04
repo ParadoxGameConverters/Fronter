@@ -22,4 +22,8 @@ l_french:
  LANGUAGE: "Langue"
  LANGUAGESAVED: "Langue enregistrée"
  LANGUAGESAVEDBODY: "La langue a été enregistrée, veuillez redémarrer le programme."
+ PATHSTAB: "Chemins"
+ OPTIONSTAB: "Les options"
+ CONVERTTAB: "Convertir"
+ BROWSE: "Feuilleter"
  

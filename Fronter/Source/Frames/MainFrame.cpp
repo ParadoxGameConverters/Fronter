@@ -22,6 +22,7 @@ void MainFrame::initFrame()
 
 	PathsTab* pathsTab = new PathsTab(notebook);
 	pathsTab->loadConfiguration(configuration);
+	pathsTab->loadLocalization(localization);
 	pathsTab->initializePaths();
 	pathsTab->SetBackgroundColour(wxColour(255, 245, 245));
 
@@ -37,9 +38,9 @@ void MainFrame::initFrame()
 	convertTab->initializeConvert();
 	convertTab->SetBackgroundColour(wxColour(245, 245, 255));
 
-	notebook->AddPage(pathsTab, pathsTab->getTabName());
-	notebook->AddPage(optionsTab, optionsTab->getTabName());
-	notebook->AddPage(convertTab, convertTab->getTabName());
+	notebook->AddPage(pathsTab, tr("PATHSTAB"));
+	notebook->AddPage(optionsTab, tr("OPTIONSTAB"));
+	notebook->AddPage(convertTab, tr("CONVERTTAB"));
 	notebook->Layout();
 
 	logWindow = new LogWindow(this, localization);

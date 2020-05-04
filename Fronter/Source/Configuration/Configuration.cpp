@@ -4,10 +4,10 @@
 #include <filesystem>
 #include <fstream>
 namespace fs = std::filesystem;
-#include "../Utils/CommonFunctions.h"
 
-Configuration::Configuration()
+Configuration::Configuration(const std::string& language)
 {
+	useLanguage(language);
 	std::ofstream clearLog("log.txt", std::ofstream::trunc);
 	clearLog.close();
 	registerKeys();
@@ -67,8 +67,9 @@ void Configuration::registerPreloadKeys()
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
 
-Configuration::Configuration(std::istream& theStream)
+Configuration::Configuration(std::istream& theStream, const std::string& language)
 {
+	useLanguage(language);
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
@@ -76,6 +77,13 @@ Configuration::Configuration(std::istream& theStream)
 
 void Configuration::registerKeys()
 {
+	registerKeyword("supportedLocLanguages", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::stringList locList(theStream);
+		const auto& theList = locList.getStrings();
+		const auto& langItr = std::find(theList.begin(), theList.end(), setLanguage);
+		if (langItr == theList.end())
+			setLanguage = "english";
+	});
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
@@ -84,27 +92,27 @@ void Configuration::registerKeys()
 		const commonItems::singleString nameStr(theStream);
 		converterFolder = nameStr.getString();
 	});
-	registerKeyword("displayName", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("displayName_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		displayName = nameStr.getString();
 	});
-	registerKeyword("sourceGame", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("sourceGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString gameStr(theStream);
 		sourceGame = gameStr.getString();
 	});
-	registerKeyword("targetGame", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("targetGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString gameStr(theStream);
 		targetGame = gameStr.getString();
 	});
 	registerKeyword("requiredFolder", [this](const std::string& unused, std::istream& theStream) {
-		auto newFolder = std::make_shared<RequiredFolder>(theStream);
+		auto newFolder = std::make_shared<RequiredFolder>(theStream, setLanguage);
 		if (!newFolder->getName().empty())
 			requiredFolders.insert(std::pair(newFolder->getName(), newFolder));
 		else
 			Log(LogLevel::Error) << "Required Folder has no mandatory field: name!";
 	});
 	registerKeyword("requiredFile", [this](const std::string& unused, std::istream& theStream) {
-		auto newFile = std::make_shared<RequiredFile>(theStream);
+		auto newFile = std::make_shared<RequiredFile>(theStream, setLanguage);
 		if (!newFile->getName().empty())
 			requiredFiles.insert(std::pair(newFile->getName(), newFile));
 		else
@@ -112,7 +120,7 @@ void Configuration::registerKeys()
 	});
 	registerKeyword("option", [this](const std::string& unused, std::istream& theStream) {
 		optionCounter++;
-		auto newOption = std::make_shared<Option>(theStream, optionCounter);
+		auto newOption = std::make_shared<Option>(theStream, optionCounter, setLanguage);
 		options.emplace_back(newOption);
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
@@ -155,12 +163,15 @@ bool Configuration::exportConfiguration() const
 	return true;
 }
 
-bool Configuration::copyMod() const
-{
-}
-
 std::string Configuration::getSecondTailSource() const
 {
 	return converterFolder + "/log.txt";
 }
 
+void Configuration::useLanguage(const std::string& language)
+{
+	if (!language.empty())
+		setLanguage = language;
+	else
+		setLanguage = "english";
+}

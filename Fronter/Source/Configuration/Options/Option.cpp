@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-Option::Option(std::istream& theStream, int theID): ID(theID)
+Option::Option(std::istream& theStream, int theID, std::string language): ID(theID), setLanguage(std::move(language))
 {
 	registerKeys();
 	parseStream(theStream);
@@ -15,20 +15,20 @@ void Option::registerKeys()
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
 	});
-	registerKeyword("tooltip", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("tooltip_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString tooltipStr(theStream);
 		tooltip = tooltipStr.getString();
 	});
-	registerKeyword("displayName", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("displayName_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		displayName = nameStr.getString();
 	});
 	registerKeyword("radioSelector", [this](const std::string& unused, std::istream& theStream) {
-		auto newSelector = std::make_shared<RadioSelector>(theStream);
+		auto newSelector = std::make_shared<RadioSelector>(theStream, setLanguage);
 		radioSelector = std::pair(true, newSelector);
 	});
 	registerKeyword("textSelector", [this](const std::string& unused, std::istream& theStream) {
-		auto newSelector = std::make_shared<TextSelector>(theStream);
+		auto newSelector = std::make_shared<TextSelector>(theStream, setLanguage);
 		textSelector = std::pair(true, newSelector);
 	});
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
