@@ -73,15 +73,18 @@ void Localization::loadLanguages()
 
 std::wstring Localization::translate(const std::string& key)
 {
+	std::string toReturn;
 	if (!translations.count(key))
 	{
 		return std::wstring();
 	}
-	if (!translations[key].count(setLanguage))
-	{
+	if (translations[key].count(setLanguage))
+		toReturn = translations[key][setLanguage];
+	else if (translations[key].count("english"))
+		toReturn = translations[key]["english"];
+	else
 		return std::wstring();
-	}
-	std::string toReturn = translations[key][setLanguage];
+
 	toReturn = std::regex_replace(toReturn, std::regex(R"(\\n)"), "\n");
 	return Utils::convertUTF8ToUTF16(toReturn);
 }

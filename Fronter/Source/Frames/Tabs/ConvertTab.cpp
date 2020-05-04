@@ -44,7 +44,7 @@ void ConvertTab::initializeConvert()
 
 	// in second row goes a button
 
-	convertButton = new wxButton(this, wxID_ANY, "Convert Save", wxDefaultPosition, wxDefaultSize);
+	convertButton = new wxButton(this, wxID_ANY, tr("CONVERTBUTTON"), wxDefaultPosition, wxDefaultSize);
 	convertButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, (wxEventFunction)&ConvertTab::onConvertStarted, nullptr, this);
 
 	convertSizer->AddStretchSpacer(0);
