@@ -26,6 +26,7 @@ class Configuration: commonItems::parser
 	
   private:
 	void registerKeys();
+	void registerLanguageKeys();
 	void registerPreloadKeys();
 	void useLanguage(const std::string& language);
 
