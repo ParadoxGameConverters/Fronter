@@ -15,6 +15,10 @@ mkdir "..\Release\Configuration"
 copy "Fronter\Resources\converter_languages.yml" "..\Release\Configuration\"
 copy "Fronter\Resources\converter_l_french.yml" "..\Release\Configuration\"
 copy "Fronter\Resources\converter_l_english.yml" "..\Release\Configuration\"
+copy "Fronter\Resources\converter_l_italian.yml" "..\Release\Configuration\"
+copy "Fronter\Resources\converter_l_latin.yml" "..\Release\Configuration\"
+copy "Fronter\Resources\converter_l_russian.yml" "..\Release\Configuration\"
+copy "Fronter\Resources\converter_l_german.yml" "..\Release\Configuration\"
 
 rem del "Release\CK2ToEU4" /Q
 rem rmdir "Release\CK2ToEU4" /S /Q

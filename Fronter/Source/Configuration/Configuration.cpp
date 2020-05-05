@@ -83,6 +83,7 @@ void Configuration::registerKeys()
 		const auto& langItr = std::find(theList.begin(), theList.end(), setLanguage);
 		if (langItr == theList.end())
 			setLanguage = "english";
+		registerLanguageKeys();
 	});
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
@@ -91,18 +92,6 @@ void Configuration::registerKeys()
 	registerKeyword("converterFolder", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		converterFolder = nameStr.getString();
-	});
-	registerKeyword("displayName_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString nameStr(theStream);
-		displayName = nameStr.getString();
-	});
-	registerKeyword("sourceGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString gameStr(theStream);
-		sourceGame = gameStr.getString();
-	});
-	registerKeyword("targetGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString gameStr(theStream);
-		targetGame = gameStr.getString();
 	});
 	registerKeyword("requiredFolder", [this](const std::string& unused, std::istream& theStream) {
 		auto newFolder = std::make_shared<RequiredFolder>(theStream, setLanguage);
@@ -124,6 +113,23 @@ void Configuration::registerKeys()
 		options.emplace_back(newOption);
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+}
+
+void Configuration::registerLanguageKeys()
+{
+		registerKeyword("displayName_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString nameStr(theStream);
+		displayName = nameStr.getString();
+	});
+	registerKeyword("sourceGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString gameStr(theStream);
+		sourceGame = gameStr.getString();
+		Log(LogLevel::Debug) << "gs: " << sourceGame;
+	});
+	registerKeyword("targetGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString gameStr(theStream);
+		targetGame = gameStr.getString();
+	});
 }
 
 bool Configuration::exportConfiguration() const
