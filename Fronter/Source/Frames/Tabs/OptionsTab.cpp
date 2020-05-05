@@ -17,6 +17,7 @@ void OptionsTab::initializeOptions()
 	for (const auto option: configuration->getOptions())
 	{
 		OptionBox* newOption = new OptionBox(this, option->getName(), option);
+		newOption->loadLocalization(localization);
 		newOption->initializeOption();
 		optionsTabSizer->Add(newOption);
 	}

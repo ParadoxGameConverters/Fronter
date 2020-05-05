@@ -6,7 +6,7 @@ class RequiredFile: commonItems::parser
 {
   public:
 	RequiredFile() = default;
-	explicit RequiredFile(std::istream& theStream, std::string language);
+	explicit RequiredFile(std::istream& theStream);
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
@@ -37,8 +37,6 @@ class RequiredFile: commonItems::parser
 	std::string fileName;
 	std::string allowedExtension;
 	std::string value;
-
-	std::string setLanguage;
 };
 
 #endif // CONFIGURATION_REQUIRED_FILE

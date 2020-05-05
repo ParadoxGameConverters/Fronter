@@ -5,7 +5,7 @@
 #include <codecvt>
 #include <wx/textctrl.h>
 #include "../../Utils/OSFunctions.h"
-#include "OSCompatibilityLayer.h"
+#define tr localization->translate
 
 OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Option> theOption):
 	 wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxEXPAND), optionName(theName)
@@ -29,8 +29,8 @@ void OptionBox::initializeOption()
 	boxHolder->SetSizer(flexGridSizer);
 	boxHolder->SetBackgroundColour(wxColour(230, 230, 230));
 
-	wxStaticText* st = new wxStaticText(boxHolder, wxID_ANY, Utils::convertUTF8ToUTF16(option->getDisplayName()), wxDefaultPosition, wxDefaultSize);
-	st->SetToolTip(Utils::convertUTF8ToUTF16(option->getTooltip()));
+	wxStaticText* st = new wxStaticText(boxHolder, wxID_ANY, tr(option->getDisplayName()), wxDefaultPosition, wxDefaultSize);
+	st->SetToolTip(tr(option->getTooltip()));
 	flexGridSizer->Add(st, wxSizerFlags(1).Border(wxALL, 5));
 	st->SetMinSize(wxSize(260, -1));
 	st->Wrap(260);
@@ -44,14 +44,14 @@ void OptionBox::initializeOption()
 			if (first)
 			{
 				theButton =
-					 new wxRadioButton(boxHolder, radioOption->getID(), Utils::convertUTF8ToUTF16(radioOption->getDisplayName()), wxDefaultPosition, wxDefaultSize, wxRB_GROUP | wxEXPAND);
+					 new wxRadioButton(boxHolder, radioOption->getID(), tr(radioOption->getDisplayName()), wxDefaultPosition, wxDefaultSize, wxRB_GROUP | wxEXPAND);
 				first = false;
 			}
 			else
 			{
-				theButton = new wxRadioButton(boxHolder, radioOption->getID(), Utils::convertUTF8ToUTF16(radioOption->getDisplayName()), wxDefaultPosition, wxDefaultSize, wxEXPAND);
+				theButton = new wxRadioButton(boxHolder, radioOption->getID(), tr(radioOption->getDisplayName()), wxDefaultPosition, wxDefaultSize, wxEXPAND);
 			}
-			theButton->SetToolTip(Utils::convertUTF8ToUTF16(radioOption->getTooltip()));
+			theButton->SetToolTip(tr(radioOption->getTooltip()));
 			if (!option->getRadioSelector().second->getSelectedValue().empty() &&
 				 option->getRadioSelector().second->getSelectedID() == radioOption->getID())
 			{
@@ -84,7 +84,7 @@ void OptionBox::initializeOption()
 			flag = wxBORDER_DEFAULT | wxTE_READONLY;
 		}
 		textField = new wxTextCtrl(boxHolder, wxID_ANY, selector->getValue(), wxDefaultPosition, wxDefaultSize, flag);
-		textField->SetToolTip(Utils::convertUTF8ToUTF16(selector->getTooltip()));
+		textField->SetToolTip(tr(selector->getTooltip()));
 
 		textField->Bind(wxEVT_TEXT, [this](wxCommandEvent& event) {
 			const auto result = UTF16ToUTF8(event.GetString().ToStdWstring());

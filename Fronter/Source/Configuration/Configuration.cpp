@@ -5,9 +5,8 @@
 #include <fstream>
 namespace fs = std::filesystem;
 
-Configuration::Configuration(const std::string& language)
+Configuration::Configuration()
 {
-	useLanguage(language);
 	std::ofstream clearLog("log.txt", std::ofstream::trunc);
 	clearLog.close();
 	registerKeys();
@@ -67,9 +66,8 @@ void Configuration::registerPreloadKeys()
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
 
-Configuration::Configuration(std::istream& theStream, const std::string& language)
+Configuration::Configuration(std::istream& theStream)
 {
-	useLanguage(language);
 	registerKeys();
 	parseStream(theStream);
 	clearRegisteredKeywords();
@@ -77,14 +75,6 @@ Configuration::Configuration(std::istream& theStream, const std::string& languag
 
 void Configuration::registerKeys()
 {
-	registerKeyword("supportedLocLanguages", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::stringList locList(theStream);
-		const auto& theList = locList.getStrings();
-		const auto& langItr = std::find(theList.begin(), theList.end(), setLanguage);
-		if (langItr == theList.end())
-			setLanguage = "english";
-		registerLanguageKeys();
-	});
 	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
@@ -94,14 +84,14 @@ void Configuration::registerKeys()
 		converterFolder = nameStr.getString();
 	});
 	registerKeyword("requiredFolder", [this](const std::string& unused, std::istream& theStream) {
-		auto newFolder = std::make_shared<RequiredFolder>(theStream, setLanguage);
+		auto newFolder = std::make_shared<RequiredFolder>(theStream);
 		if (!newFolder->getName().empty())
 			requiredFolders.insert(std::pair(newFolder->getName(), newFolder));
 		else
 			Log(LogLevel::Error) << "Required Folder has no mandatory field: name!";
 	});
 	registerKeyword("requiredFile", [this](const std::string& unused, std::istream& theStream) {
-		auto newFile = std::make_shared<RequiredFile>(theStream, setLanguage);
+		auto newFile = std::make_shared<RequiredFile>(theStream);
 		if (!newFile->getName().empty())
 			requiredFiles.insert(std::pair(newFile->getName(), newFile));
 		else
@@ -109,27 +99,22 @@ void Configuration::registerKeys()
 	});
 	registerKeyword("option", [this](const std::string& unused, std::istream& theStream) {
 		optionCounter++;
-		auto newOption = std::make_shared<Option>(theStream, optionCounter, setLanguage);
+		auto newOption = std::make_shared<Option>(theStream, optionCounter);
 		options.emplace_back(newOption);
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
-}
-
-void Configuration::registerLanguageKeys()
-{
-		registerKeyword("displayName_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("displayName", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		displayName = nameStr.getString();
 	});
-	registerKeyword("sourceGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("sourceGame", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString gameStr(theStream);
 		sourceGame = gameStr.getString();
-		Log(LogLevel::Debug) << "gs: " << sourceGame;
 	});
-	registerKeyword("targetGame_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("targetGame", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString gameStr(theStream);
 		targetGame = gameStr.getString();
 	});
+	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
 
 bool Configuration::exportConfiguration() const
@@ -172,12 +157,4 @@ bool Configuration::exportConfiguration() const
 std::string Configuration::getSecondTailSource() const
 {
 	return converterFolder + "/log.txt";
-}
-
-void Configuration::useLanguage(const std::string& language)
-{
-	if (!language.empty())
-		setLanguage = language;
-	else
-		setLanguage = "english";
 }

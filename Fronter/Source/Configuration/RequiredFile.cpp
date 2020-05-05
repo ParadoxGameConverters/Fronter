@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-RequiredFile::RequiredFile(std::istream& theStream, std::string language): setLanguage(std::move(language))
+RequiredFile::RequiredFile(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -15,11 +15,11 @@ void RequiredFile::registerKeys()
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
 	});
-	registerKeyword("tooltip_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("tooltip", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString tooltipStr(theStream);
 		tooltip = tooltipStr.getString();
 	});
-	registerKeyword("displayName_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("displayName", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		displayName = nameStr.getString();
 	});

@@ -23,6 +23,7 @@ Localization::Localization()
 		const auto secpos = line.find_last_of('\"');
 		auto langtext = line.substr(pos + 1, secpos - pos - 1);
 		languages.insert(std::pair(language, langtext));
+		loadedLangauges.emplace_back(language);
 	}
 	langfile.close();
 	loadLanguages();
@@ -41,33 +42,34 @@ Localization::Localization()
 
 void Localization::loadLanguages()
 {
-	for (const auto& language: languages)
+	std::set<std::string> fileNames;
+	Utils::GetAllFilesInFolder("Configuration/", fileNames);
+
+	for (const auto& fileName: fileNames)
 	{
-		if (!fs::exists("Configuration/converter_l_" + language.first + ".yml"))
-		{
-			Log(LogLevel::Error) << "Configuration/converter_l_" + language.first + ".yml not found !";
+		if (fileName.find(".yml") == std::string::npos)
 			continue;
-		}
-		std::ifstream langfile("Configuration/converter_l_" + language.first + ".yml");
+		std::ifstream langfile("Configuration/" + fileName);
 		std::string line;
 		std::getline(langfile, line);
-		if (line.find("l_" + language.first + ":") != 0)
+		if (line.find("l_") != 0)
 		{
-			Log(LogLevel::Error) << "Configuration/converter_l_" + language.first + ".yml holds wrong language!";
+			Log(LogLevel::Error) << "Configuration/" << fileName << " is not a localization file!";
 			langfile.close();
 			continue;
 		}
+		auto pos = line.find(':');
+		const auto language = line.substr(2, pos - 2);
 		while (std::getline(langfile, line))
 		{
-			auto pos = line.find_first_of(':');
+			pos = line.find_first_of(':');
 			auto key = line.substr(1, pos - 1);
 			pos = line.find_first_of('\"');
 			const auto secpos = line.find_last_of('\"');
 			auto text = line.substr(pos + 1, secpos - pos - 1);
-			translations[key].insert(std::pair(language.first, text));
+			translations[key].insert(std::pair(language, text));
 		}
 		langfile.close();
-		loadedLangauges.emplace_back(language.first);
 	}
 }
 

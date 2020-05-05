@@ -6,7 +6,7 @@ class RadioOption: commonItems::parser
 {
   public:
 	RadioOption() = default;
-	explicit RadioOption(std::istream& theStream, int theID, std::string language);
+	explicit RadioOption(std::istream& theStream, int theID);
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
@@ -27,8 +27,6 @@ class RadioOption: commonItems::parser
 	std::string name;
 	std::string tooltip;
 	std::string displayName;
-
-	std::string setLanguage;
 };
 
 #endif // CONFIGURATION_RADIO_OPTION
