@@ -1,6 +1,6 @@
 l_french:
- TITLETITLE: "Convertisseurs des Jeux Paradox: "
- TITLETO: " À "
+ TITLETITLE: "Convertisseurs de Jeux Paradox: "
+ TITLETO: " à "
  EXIT: "Sortir"
  ABOUT: "Au sujet de"
  MENUCONVERTER: "Convertisseur"
@@ -9,7 +9,7 @@ l_french:
  ABOUTBODY: "Copyright (c) 2020 The Paradox Game Converters Group\n\nCe convertisseur, comme tous les autres, est gratuit et disponible dans notre référentiel Github.\n\nGithub. Forums. Pages wiki. Steam. Si vous avez besoin de nous trouver, de signaler des bugs, de proposer des suggestions ou si vous souhaitez participer, nous sommes là."
  ABOUTTITLE: "Group Paradox Game Converters - Frontend Universelle"
  LOGTIME: "Horodatage"
- LOGSEVERITY: "Véhémence"
+ LOGSEVERITY: "Type"
  LOGMESSAGE: "Message"
  CONVERTSAVING: "Enregistrement de la Configuration:"
  CONVERTCONVERTING: "Conversion de la Sauvegarde:"
@@ -23,7 +23,7 @@ l_french:
  LANGUAGESAVED: "Langue enregistrée"
  LANGUAGESAVEDBODY: "La langue a été enregistrée, veuillez redémarrer le programme."
  PATHSTAB: "Chemins"
- OPTIONSTAB: "Les options"
- CONVERTTAB: "Convertir"
- BROWSE: "Feuilleter"
+ OPTIONSTAB: "Options"
+ CONVERTTAB: "Conversion"
+ BROWSE: "Parcourir"
  
