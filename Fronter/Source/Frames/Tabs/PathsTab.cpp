@@ -24,7 +24,7 @@ void PathsTab::initializePaths()
 		if (!folder.second->isMandatory())
 			continue;
 		pickerCounter++;
-		wxStaticText* st = new wxStaticText(this, wxID_ANY, Utils::convertUTF8ToUTF16(folder.second->getDisplayName()), wxDefaultPosition);
+		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(folder.second->getDisplayName()), wxDefaultPosition);
 
 		std::string folderPath;
 		if (!folder.second->getValue().empty())
@@ -52,7 +52,7 @@ void PathsTab::initializePaths()
 		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
 		folder.second->setID(pickerCounter);
 		folder.second->setValue(folderPath);
-		st->SetToolTip(Utils::convertUTF8ToUTF16(folder.second->getTooltip()));
+		st->SetToolTip(tr(folder.second->getTooltip()));
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 		GetSizer()->Add(dirPickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 	}
@@ -62,7 +62,7 @@ void PathsTab::initializePaths()
 		if (!file.second->isMandatory())
 			continue;
 		pickerCounter++;
-		wxStaticText* st = new wxStaticText(this, wxID_ANY, Utils::convertUTF8ToUTF16(file.second->getDisplayName()), wxDefaultPosition);
+		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(file.second->getDisplayName()), wxDefaultPosition);
 
 		std::string filePath;
 		std::string initialPath;
@@ -97,7 +97,7 @@ void PathsTab::initializePaths()
 			 wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		filePickerCtrl->Bind(wxEVT_FILEPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		filePickerCtrl->SetInitialDirectory(wxString(initialPath));
-		st->SetToolTip(Utils::convertUTF8ToUTF16(file.second->getTooltip()));
+		st->SetToolTip(tr(file.second->getTooltip()));
 		file.second->setID(pickerCounter);
 		file.second->setValue(filePath);
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);

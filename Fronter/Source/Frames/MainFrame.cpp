@@ -28,6 +28,7 @@ void MainFrame::initFrame()
 
 	optionsTab = new OptionsTab(notebook);
 	optionsTab->loadConfiguration(configuration);
+	optionsTab->loadLocalization(localization);
 	optionsTab->initializeOptions();
 	optionsTab->SetBackgroundColour(wxColour(245, 255, 245));
 

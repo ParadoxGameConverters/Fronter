@@ -18,23 +18,16 @@ but Fronter will whine if it can't find either. It's better to have them separat
 #### fronter-configuration.txt
 
 ```
-supportedLocLanguages = { english french } # Keep this line at the top.
-
 name = CK2ToEU4
 converterFolder = CK2ToEU4
-displayName_english = "Crusader Kings II To Europa Universalis IV"
-displayName_french = "Crusader Kings II à Europa Universalis IV"
-sourceGame_english = "Crusader Kings II"
-sourceGame_french = "Crusader Kings II"
-targetGame_english = "Europa Universalis IV"
-targetGame_french = "Europa Universalis IV"
+displayName = DISPLAYNAME
+sourceGame = SOURCEGAME
+targetGame = TARGETGAME
 
 requiredFile = {
 	name = SaveGame
-	displayName_english = "Path to the CK2 Savegame"
-	displayName_french = "Chemin vers le jeu de sauvegarde CK2"
-	tooltip_english = "Path to your savegame from CK2"
-	tooltip_french = "Chemin vers votre sauvegarde depuis CK2"
+	displayName = FILE2
+	tooltip = FILE2TIP
 	mandatory = true
 	outputtable = true
 	searchPathType = windowsUsersFolder
@@ -42,12 +35,22 @@ requiredFile = {
 	allowedExtension = "*.ck2"
 }
 
+requiredFile = {
+	name = converterExe
+	displayName = FILE1
+	tooltip = FILE1TIP
+	mandatory = true
+	outputtable = false
+	searchPathType = converterFolder
+	searchPath = "CK2ToEU4"
+	allowedExtension = "*.exe"
+	fileName = "CK2ToEU4Converter.exe"
+}
+
 requiredFolder = {
 	name = CK2directory
-	displayName_english = "Crusader Kings II Install directory"
-	displayName_french = "Répertoire d'installation de Crusader Kings II"
-	tooltip_english = "A path on your computer where Crusader Kings 2 is installed"
-	tooltip_french = "Un chemin sur votre ordinateur où Crusader Kings 2 est installé"
+	displayName = FOLDER1
+	tooltip = FOLDER1TIP
 	mandatory = true
 	searchPathType = steamFolder
 	searchPathID = 203770
@@ -55,15 +58,12 @@ requiredFolder = {
 
 requiredFolder = {
 	name = targetGameModPath
-	displayName_english = "Europa Universalis IV Mods directory"
-	displayName_french = "Répertoire des Mods Europa Universalis IV"
-	tooltip_english = "A path on your computer where Europa Universalis IV keeps mods"
-	tooltip_french = "Un chemin sur votre ordinateur où Europa Universalis IV conserve les mods"
+	displayName = FOLDER4
+	tooltip = FOLDER4TIP
 	mandatory = true
 	searchPathType = windowsUsersFolder
 	searchPath = "Paradox Interactive\Europa Universalis IV\mod"
 }
-
 ```
 
 searchPathType:
@@ -85,25 +85,19 @@ Rest is self-explanatory! Shoestring Budget!
 ```
 option = {
 	name = shatter_hre_level
-	displayName_english = "If we're shattering HRE, how far down do we go?"
-	displayName_french = "Si nous brisons l'EDH, jusqu'où allons-nous?"
-	tooltip_english = "HRE should be shattered to duchies as it increases prince number and thus stability."
-	tooltip_french = "L'EDH devrait être brisée en duchés car elle augmente le nombre de prince et donc la stabilité."
+	displayName = OPTION2
+	tooltip = OPTION2TIP
 	radioSelector = {
 		radioOption = {
 			name = 1
-			displayName_english = "Down to duchies [default]"
-			displayName_french = "Jusqu'aux duchés [par défaut]"
-			tooltip_english = "Need Duchies for stability."
-			tooltip_french = "Besoin de duchés pour la stabilité."
+			displayName = OP2R1
+			tooltip = OP2R1TIP
 			default = true
 		}
 		radioOption = {
 			name = 2
-			displayName_english = "Keep kingdoms if any [not recommended]"
-			displayName_french = "Gardez les royaumes le cas échéant [non recommandé]"
-			tooltip_english = "Kingdoms remain."
-			tooltip_french = "Les royaumes restent."
+			displayName = OP2R2
+			tooltip = OP2R2TIP
 			default = false
 		}
 	}
@@ -111,29 +105,46 @@ option = {
 
 option = {
 	name = output_name
-	displayName_english = "Mod Output Name (optional):"
-	displayName_french = "Nom de sortie du module (facultatif):"
-	tooltip_english = "Please don't use cyrillic or chinese..."
-	tooltip_french = "Veuillez ne pas utiliser cyrillique ou chinois ..."
+	displayName = OPTION8
+	tooltip = OPTION8TIP
 	textSelector = {	
 		value = ""
 		editable = true
-		tooltip_english = "Optional name for the converted mod."
-		tooltip_french = "Nom facultatif pour le mod converti."
+		tooltip = OPTION8TEXTTIP
 	}
 }
-
 ```
 
 Entirely self-explanatory. Why waste words on such simplicity.
 
 #### Localization
 
-If the Fronter is running in some language not supported by configuration, it will load english lines. That's what that first line of first file is for.
+Fronter expects to find appropriate yml files in Configuration/ directory. yml files look like this:
 
-Also, unless the frontend itself is taught how to speak Russian through converter_l_russian.yml and expanded converter_languages.yml, inserting Russian localizations here won't make a bit of difference.
+```l_french:
+ DISPLAYNAME: "Crusader Kings II à Europa Universalis IV"
+ SOURCEGAME: "Crusader Kings II"
+ TARGETGAME: "Europa Universalis IV"
+ FOLDER1: "Répertoire d'installation de Crusader Kings II"
+ FOLDER1TIP: "Un chemin sur votre ordinateur où Crusader Kings 2 est installé"
+```
+or
+```
+l_english:
+ OPTION1: "Which empire inherits EU4 HRE mechanics and shatters?"
+ OPTION1TIP: "Only one empire can use HRE mechanics."
+ OP1R1: "The HRE [obviously]"
+ OP1R1TIP: "e_hre"
+ OP1R2: "Byzantium! [Holy and Roman and Empire]"
+```
 
-Also also, the french displayed is totally not a product of googletranslate but carefully broken to demonstrate the need for professional help.
+Yml files need to be encoded in UTF-8, not UTF-8-BOM.
+
+Fronter will load the files (regardless of their actual name) and use `l_language:` to file the key-value pairs under appropriate language.
+Whenever configuration or options use these keys, it will attempt to load appropriate localization string to be displayed.
+
+If it fails to find a key-pair under a specific language, it will default to english. If there's no english either, it will display a blank string. 
+Look for these blank strings to see where you made a typo.
 
 #### cofiguration.txt
 

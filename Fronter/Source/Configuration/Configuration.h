@@ -9,8 +9,8 @@
 class Configuration: commonItems::parser
 {
   public:
-	Configuration(const std::string& language);
-	explicit Configuration(std::istream& theStream, const std::string& language);
+	Configuration();
+	explicit Configuration(std::istream& theStream);
 
 	[[nodiscard]] const auto& getSourceGame() const { return sourceGame; }
 	[[nodiscard]] const auto& getTargetGame() const { return targetGame; }
@@ -26,9 +26,7 @@ class Configuration: commonItems::parser
 	
   private:
 	void registerKeys();
-	void registerLanguageKeys();
 	void registerPreloadKeys();
-	void useLanguage(const std::string& language);
 
 	std::string name;
 	std::string converterFolder;
@@ -39,8 +37,6 @@ class Configuration: commonItems::parser
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;
 	int optionCounter = 0;
-
-	std::string setLanguage = "english";
 };
 
 #endif // CONFIGURATION

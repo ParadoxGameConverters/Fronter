@@ -2,7 +2,7 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
-TextSelector::TextSelector(std::istream& theStream, std::string language): setLanguage(std::move(language))
+TextSelector::TextSelector(std::istream& theStream)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -19,7 +19,7 @@ void TextSelector::registerKeys()
 		const commonItems::singleString valueStr(theStream);
 		value = valueStr.getString();
 	});
-	registerKeyword("tooltip_" + setLanguage, [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("tooltip", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString tooltipStr(theStream);
 		tooltip = tooltipStr.getString();
 	});
