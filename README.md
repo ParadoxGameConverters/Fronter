@@ -184,6 +184,7 @@ CK2directory = "c:\Path\To\Game Installation\"
 targetGameModPath = "d:\somePath\to\mods"
 shatter_hre_level = "1"
 output_name = "some user input"
+some_checkbox_control = { "yes", "1", "sausage" }
 ```
 
 Slashes and backslashes depend on OS, so Converter is responsible for parsing them.
