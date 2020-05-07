@@ -1,8 +1,9 @@
 #ifndef CONFIGURATION_OPTION
 #define CONFIGURATION_OPTION
+#include "CheckBoxSelector.h"
+#include "Parser.h"
 #include "RadioSelector.h"
 #include "TextSelector.h"
-#include "Parser.h"
 
 class Option: commonItems::parser
 {
@@ -15,14 +16,19 @@ class Option: commonItems::parser
 	[[nodiscard]] const auto& getTooltip() const { return tooltip; }
 	[[nodiscard]] const auto& getRadioSelector() const { return radioSelector; }
 	[[nodiscard]] const auto& getTextSelector() const { return textSelector; }
+	[[nodiscard]] const auto& getCheckBoxSelector() const { return checkBoxSelector; }
 	[[nodiscard]] auto getID() const { return ID; }
 
 	[[nodiscard]] std::string getValue() const;
+	[[nodiscard]] std::set<std::string> getValues() const;
 
 	void setRadioSelectorID(int selection) const;
 	void setRadioSelectorValue(const std::string& selection) const;
+	void setCheckBoxSelectorIDs(const std::set<int>& selection) const;
+	void setCheckBoxSelectorValues(const std::set<std::string>& selection) const;
 	void setTextSelectorValue(const std::string& selection) const;
 	void setValue(const std::string& selection) const;
+	void setValue(const std::set<std::string>& selection) const;
 
   private:
 	void registerKeys();
@@ -31,8 +37,9 @@ class Option: commonItems::parser
 	std::string name;
 	std::string tooltip;
 	std::string displayName;
-	std::pair<bool, std::shared_ptr<RadioSelector>> radioSelector; // enabled, selector.
-	std::pair<bool, std::shared_ptr<TextSelector>> textSelector;	// enabled, selector.
+	std::pair<bool, std::shared_ptr<RadioSelector>> radioSelector;			// enabled, selector.
+	std::pair<bool, std::shared_ptr<TextSelector>> textSelector;			// enabled, selector.
+	std::pair<bool, std::shared_ptr<CheckBoxSelector>> checkBoxSelector; // enabled, selector.
 };
 
 #endif // CONFIGURATION_OPTION

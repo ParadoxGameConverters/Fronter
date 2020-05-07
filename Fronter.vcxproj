@@ -26,6 +26,8 @@
     <ClCompile Include="commonItems\StringUtils.cpp" />
     <ClCompile Include="commonItems\WinUtils.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Configuration.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxOption.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxSelector.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\Option.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\RadioOption.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\RadioSelector.cpp" />
@@ -54,6 +56,8 @@
     <ClInclude Include="commonItems\ParserHelpers.h" />
     <ClInclude Include="commonItems\StringUtils.h" />
     <ClInclude Include="Fronter\Source\Configuration\Configuration.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxOption.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxSelector.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\Option.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\RadioOption.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\RadioSelector.h" />

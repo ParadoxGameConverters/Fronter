@@ -1,6 +1,6 @@
 #pragma once
-#include <wx/wxprec.h>
 #include "../../Utils/Localization/Localization.h"
+#include <wx/wxprec.h>
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
@@ -22,4 +22,5 @@ class OptionBox: public wxWindow
 	std::shared_ptr<Option> option;
 	wxTextCtrl* textField = nullptr;
 	std::shared_ptr<Localization> localization;
+	std::vector<wxCheckBox*> checkBoxes;
 };

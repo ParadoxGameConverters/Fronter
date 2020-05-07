@@ -12,13 +12,7 @@ del "Release\Configuration" /Q
 rmdir "Release\Configuration" /S /Q
 xcopy "Fronter\Configuration" "Release\Configuration" /Y /E /I
 mkdir "Release\Configuration"
-copy "Fronter\Resources\converter_languages.yml" "Release\Configuration\"
-copy "Fronter\Resources\converter_l_french.yml" "Release\Configuration\"
-copy "Fronter\Resources\converter_l_english.yml" "Release\Configuration\"
-copy "Fronter\Resources\converter_l_italian.yml" "Release\Configuration\"
-copy "Fronter\Resources\converter_l_latin.yml" "Release\Configuration\"
-copy "Fronter\Resources\converter_l_russian.yml" "Release\Configuration\"
-copy "Fronter\Resources\converter_l_german.yml" "Release\Configuration\"
+copy "Fronter\Resources\*.yml" "Release\Configuration\"
 
 del "Release\CK2ToEU4" /Q
 rmdir "Release\CK2ToEU4" /S /Q

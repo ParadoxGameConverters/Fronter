@@ -1,10 +1,9 @@
 #include "OptionBox.h"
 #include "../../Configuration/Configuration.h"
 #include "../../Configuration/Options/Option.h"
-#include "Log.h"
+#include "../../Utils/OSFunctions.h"
 #include <codecvt>
 #include <wx/textctrl.h>
-#include "../../Utils/OSFunctions.h"
 #define tr localization->translate
 
 OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Option> theOption):
@@ -52,8 +51,7 @@ void OptionBox::initializeOption()
 				theButton = new wxRadioButton(boxHolder, radioOption->getID(), tr(radioOption->getDisplayName()), wxDefaultPosition, wxDefaultSize, wxEXPAND);
 			}
 			theButton->SetToolTip(tr(radioOption->getTooltip()));
-			if (!option->getRadioSelector().second->getSelectedValue().empty() &&
-				 option->getRadioSelector().second->getSelectedID() == radioOption->getID())
+			if (!option->getRadioSelector().second->getSelectedValue().empty() && option->getRadioSelector().second->getSelectedID() == radioOption->getID())
 			{
 				theButton->SetValue(true);
 			}
@@ -96,6 +94,43 @@ void OptionBox::initializeOption()
 		});
 		flexGridSizer->Add(textField, wxSizerFlags(1).Border(wxALL, 5).Expand().CenterHorizontal());
 		SetMinSize(wxSize(std::max(textField->GetSize().GetWidth(), GetMinWidth()), 150));
+	}
+
+	if (option->getCheckBoxSelector().first)
+	{
+		for (const auto& checkBoxOption: option->getCheckBoxSelector().second->getOptions())
+		{
+			wxCheckBox* theCheckBox = new wxCheckBox(boxHolder,
+				 checkBoxOption->getID(),
+				 tr(checkBoxOption->getDisplayName()),
+				 wxDefaultPosition,
+				 wxDefaultSize,
+				 wxEXPAND,
+				 wxDefaultValidator,
+				 checkBoxOption->getName());
+			theCheckBox->SetToolTip(tr(checkBoxOption->getTooltip()));
+			if (option->getCheckBoxSelector().second->getSelectedIDs().count(checkBoxOption->getID()))
+			{
+				theCheckBox->SetValue(true);
+			}
+			else
+			{
+				theCheckBox->SetValue(checkBoxOption->isDefault());
+			}
+
+			theCheckBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event) {
+				std::set<int> toSelect;
+				for (const auto& checkPtr: checkBoxes)
+				{
+					if (checkPtr->GetValue())
+						toSelect.insert(checkPtr->GetId());
+				}
+				option->setCheckBoxSelectorIDs(toSelect);
+			});
+			checkBoxes.emplace_back(theCheckBox);
+			flexGridSizer->Add(theCheckBox, wxSizerFlags(1).Border(wxLEFT | wxRIGHT, 5).Expand());
+			SetMinSize(wxSize(std::max(theCheckBox->GetSize().GetWidth(), GetMinWidth()), 150));
+		}
 	}
 
 	boxHolder->Layout();
