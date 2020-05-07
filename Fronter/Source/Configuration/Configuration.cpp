@@ -41,7 +41,11 @@ Configuration::Configuration()
 void Configuration::registerPreloadKeys()
 {
 	registerRegex("[a-zA-Z0-9_-]+", [this](const std::string& incomingKey, std::istream& theStream) {
-		const commonItems::singleString valueStr(theStream);
+		const commonItems::stringOfItem valueStr(theStream);
+		std::stringstream ss;
+		ss.str(valueStr.getString());
+		const commonItems::singleString theString(ss);
+
 		if (incomingKey == "configuration")
 		{
 			Log(LogLevel::Warning) << "You have an old configuration file. Preload will not be possible.";
@@ -50,17 +54,26 @@ void Configuration::registerPreloadKeys()
 		for (const auto& folder: requiredFolders)
 		{
 			if (folder.first == incomingKey)
-				folder.second->setValue(valueStr.getString());
+				folder.second->setValue(theString.getString());
 		}
 		for (const auto& file: requiredFiles)
 		{
 			if (file.first == incomingKey)
-				file.second->setValue(valueStr.getString());
+				file.second->setValue(theString.getString());
 		}
 		for (const auto& option: options)
 		{
-			if (option->getName() == incomingKey)
-				option->setValue(valueStr.getString());
+			if (option->getName() == incomingKey && !option->getCheckBoxSelector().first)
+			{
+				option->setValue(theString.getString());
+			}
+			else if (option->getName() == incomingKey && option->getCheckBoxSelector().first)
+			{
+				commonItems::stringList theList(ss);
+				const auto selections = theList.getStrings();
+				std::set<std::string> values = std::set(selections.begin(), selections.end());
+				option->setValue(values);
+			}
 		}
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
@@ -148,7 +161,19 @@ bool Configuration::exportConfiguration() const
 	}
 	for (const auto& option: options)
 	{
-		confFile << option->getName() << " = \"" << option->getValue() << "\"\n";
+		if (option->getCheckBoxSelector().first)
+		{
+			confFile << option->getName() << " = { ";
+			for (const auto& value: option->getValues())
+			{
+				confFile << "\"" << value << "\" ";
+			}
+			confFile << "}\n";
+		}
+		else
+		{
+			confFile << option->getName() << " = \"" << option->getValue() << "\"\n";
+		}
 	}
 	confFile.close();
 	return true;

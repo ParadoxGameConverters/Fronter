@@ -120,6 +120,12 @@
     <ClCompile Include="Fronter\Source\Utils\Localization\Localization.cpp">
       <Filter>Fronter\Utils\Localization</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxOption.cpp">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxSelector.cpp">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\ParserHelpers.h">
@@ -202,6 +208,12 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Utils\Localization\Localization.h">
       <Filter>Fronter\Utils\Localization</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxOption.h">
+      <Filter>Fronter\Configuration\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxSelector.h">
+      <Filter>Fronter\Configuration\Options</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

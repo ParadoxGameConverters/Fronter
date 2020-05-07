@@ -31,6 +31,10 @@ void Option::registerKeys()
 		auto newSelector = std::make_shared<TextSelector>(theStream);
 		textSelector = std::pair(true, newSelector);
 	});
+	registerKeyword("checkBoxSelector", [this](const std::string& unused, std::istream& theStream) {
+		auto newSelector = std::make_shared<CheckBoxSelector>(theStream);
+		checkBoxSelector = std::pair(true, newSelector);
+	});
 	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
 }
 
@@ -44,6 +48,16 @@ void Option::setRadioSelectorValue(const std::string& selection) const
 	radioSelector.second->setSelectedValue(selection);
 }
 
+void Option::setCheckBoxSelectorValues(const std::set<std::string>& selection) const
+{
+	if (!checkBoxSelector.first)
+	{
+		Log(LogLevel::Warning) << "Attempted setting a checkbox control in unknown checkbox option!";
+		return;
+	}
+	checkBoxSelector.second->setSelectedValues(selection);
+}
+
 void Option::setRadioSelectorID(int selection) const
 {
 	if (!radioSelector.first)
@@ -52,6 +66,16 @@ void Option::setRadioSelectorID(int selection) const
 		return;
 	}
 	radioSelector.second->setSelectedID(selection);
+}
+
+void Option::setCheckBoxSelectorIDs(const std::set<int>& selection) const
+{
+	if (!checkBoxSelector.first)
+	{
+		Log(LogLevel::Warning) << "Attempted setting a checkbox control in unknown checkbox option!";
+		return;
+	}
+	checkBoxSelector.second->setSelectedIDs(selection);
 }
 
 void Option::setTextSelectorValue(const std::string& selection) const
@@ -78,10 +102,25 @@ std::string Option::getValue() const
 	return std::string();
 }
 
+std::set<std::string> Option::getValues() const
+{
+	if (checkBoxSelector.first)
+	{
+		return checkBoxSelector.second->getSelectedValues();
+	}
+	return std::set<std::string>();
+}
+
 void Option::setValue(const std::string& selection) const
 {
 	if (textSelector.first)
 		textSelector.second->setValue(selection);
 	if (radioSelector.first)
 		radioSelector.second->setSelectedValue(selection);
+}
+
+void Option::setValue(const std::set<std::string>& selection) const
+{
+	if (checkBoxSelector.first)
+		checkBoxSelector.second->setSelectedValues(selection);
 }

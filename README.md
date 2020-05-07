@@ -113,9 +113,37 @@ option = {
 		tooltip = OPTION8TEXTTIP
 	}
 }
+
+option = {
+	name = some_checkbox_control
+	displayName = THENAME
+	tooltip = THETOOLTIP
+	checkBoxSelector = {
+		checkBoxOption = {
+			name = yes
+			displayName = CBNAME
+			tooltip = CBTIP
+			default = true
+		}
+		checkBoxOption = {
+			name = 2
+			displayName = NAME2
+			tooltip = TIP2
+			default = false
+		}
+		checkBoxOption = {
+			name = sausage
+			displayName = SAUSAGE
+			tooltip = SAUSAGETIP
+			default = true
+		}
+	}
+}
 ```
 
 Entirely self-explanatory. Why waste words on such simplicity.
+
+Multiple default values set to true on checkBoxOptions are perfectly fine.
 
 #### Localization
 
