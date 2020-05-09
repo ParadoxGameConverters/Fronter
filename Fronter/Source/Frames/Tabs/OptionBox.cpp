@@ -109,9 +109,16 @@ void OptionBox::initializeOption()
 				 wxDefaultValidator,
 				 checkBoxOption->getName());
 			theCheckBox->SetToolTip(tr(checkBoxOption->getTooltip()));
-			if (option->getCheckBoxSelector().second->getSelectedIDs().count(checkBoxOption->getID()))
+			if (option->isCheckBoxSelectorPreloaded())
 			{
-				theCheckBox->SetValue(true);
+				if (option->getCheckBoxSelector().second->getSelectedIDs().count(checkBoxOption->getID()))
+				{
+					theCheckBox->SetValue(true);
+				}
+				else
+				{
+					theCheckBox->SetValue(false);
+				}
 			}
 			else
 			{

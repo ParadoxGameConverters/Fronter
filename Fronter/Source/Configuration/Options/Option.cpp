@@ -124,3 +124,17 @@ void Option::setValue(const std::set<std::string>& selection) const
 	if (checkBoxSelector.first)
 		checkBoxSelector.second->setSelectedValues(selection);
 }
+
+bool Option::isCheckBoxSelectorPreloaded() const
+{
+	if (!checkBoxSelector.first || !checkBoxSelector.second)
+		return false;
+	return checkBoxSelector.second->isPreloaded();
+}
+
+void Option::setCheckBoxSelectorPreloaded() const
+{
+	if (!checkBoxSelector.first || !checkBoxSelector.second)
+		return;
+	checkBoxSelector.second->setPreloaded();
+}

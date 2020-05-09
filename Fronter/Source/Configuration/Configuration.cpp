@@ -73,6 +73,7 @@ void Configuration::registerPreloadKeys()
 				const auto selections = theList.getStrings();
 				std::set<std::string> values = std::set(selections.begin(), selections.end());
 				option->setValue(values);
+				option->setCheckBoxSelectorPreloaded();
 			}
 		}
 	});
