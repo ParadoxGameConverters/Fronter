@@ -18,6 +18,7 @@ class Option: commonItems::parser
 	[[nodiscard]] const auto& getTextSelector() const { return textSelector; }
 	[[nodiscard]] const auto& getCheckBoxSelector() const { return checkBoxSelector; }
 	[[nodiscard]] auto getID() const { return ID; }
+	[[nodiscard]] bool isCheckBoxSelectorPreloaded() const;
 
 	[[nodiscard]] std::string getValue() const;
 	[[nodiscard]] std::set<std::string> getValues() const;
@@ -29,6 +30,7 @@ class Option: commonItems::parser
 	void setTextSelectorValue(const std::string& selection) const;
 	void setValue(const std::string& selection) const;
 	void setValue(const std::set<std::string>& selection) const;
+	void setCheckBoxSelectorPreloaded() const;
 
   private:
 	void registerKeys();
