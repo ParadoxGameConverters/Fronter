@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="commonItems\iconvlite.cpp" />
     <ClCompile Include="commonItems\Log.cpp" />
+    <ClCompile Include="commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="commonItems\Parser.cpp" />
     <ClCompile Include="commonItems\ParserHelpers.cpp" />
     <ClCompile Include="commonItems\StringUtils.cpp" />

@@ -42,8 +42,7 @@ Localization::Localization()
 
 void Localization::loadLanguages()
 {
-	std::set<std::string> fileNames;
-	Utils::GetAllFilesInFolder("Configuration/", fileNames);
+	auto fileNames = Utils::GetAllFilesInFolder("Configuration/");
 
 	for (const auto& fileName: fileNames)
 	{
