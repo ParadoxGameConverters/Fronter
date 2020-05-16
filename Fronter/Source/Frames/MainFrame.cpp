@@ -11,6 +11,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 {
 	Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
 	Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
+	Bind(wxEVT_MENU, &MainFrame::OnSupportUs, this, wxID_NETWORK);
 }
 
 void MainFrame::initFrame()
@@ -81,6 +82,11 @@ void MainFrame::OnExit(wxCommandEvent& event)
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
 	wxMessageBox(tr("ABOUTBODY"), tr("ABOUTTITLE"), wxOK | wxICON_INFORMATION);
+}
+
+void MainFrame::OnSupportUs(wxCommandEvent& event)
+{
+	wxLaunchDefaultBrowser("https://www.patreon.com/ParadoxGameConverters");
 }
 
 void MainFrame::OnLanguageChange(wxCommandEvent& event)

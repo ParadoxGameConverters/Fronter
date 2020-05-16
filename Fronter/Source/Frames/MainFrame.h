@@ -26,6 +26,7 @@ class MainFrame: public wxFrame
   private:
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
+	void OnSupportUs(wxCommandEvent& event);
 	LogWindow* logWindow = nullptr;
 	wxNotebook* notebook = nullptr;
 	OptionsTab* optionsTab = nullptr;
