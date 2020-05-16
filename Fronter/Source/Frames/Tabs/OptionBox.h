@@ -4,6 +4,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+#include <memory>
 
 class Option;
 class OptionBox: public wxWindow

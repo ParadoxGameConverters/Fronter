@@ -5,3 +5,4 @@ DebugIntermediate/
 Analysis
 AnalysisIntermediate
 .vs/
+build/

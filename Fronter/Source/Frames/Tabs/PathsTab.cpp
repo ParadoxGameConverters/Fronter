@@ -80,9 +80,12 @@ void PathsTab::initializePaths()
 		}
 		else if (file.second->getSearchPathType() == "converterFolder")
 		{
-			wchar_t buf[256];
-			GetCurrentDirectory(256, buf);
+			auto buf = Utils::GetCurrentDirectory();
+#if defined __WIN32__
 			auto currentDirectory = Utils::convertUTF16ToUTF8(std::wstring(buf)) + '\\';
+#elif defined __linux
+			auto currentDirectory = buf + '/';
+#endif
 			filePath = currentDirectory + file.second->getSearchPath() + '\\' + file.second->getFilename();
 			initialPath = currentDirectory + file.second->getSearchPath() + '\\';
 		}

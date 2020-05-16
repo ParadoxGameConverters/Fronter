@@ -6,9 +6,12 @@ wxIMPLEMENT_APP(Frontend);
 
 bool Frontend::OnInit()
 {
+    Log(LogLevel::Debug) << "init";
 	localization = std::make_shared<Localization>();
+    Log(LogLevel::Debug) << "loc";
 	configuration = std::make_shared<Configuration>();
-	
+    Log(LogLevel::Debug) << "conf to frame";
+
 	MainFrame* frame =
 		 new MainFrame(tr("TITLETITLE") + tr(configuration->getSourceGame()) + tr("TITLETO") + tr(configuration->getTargetGame()), wxPoint(50, 50), wxSize(1200, 600));
 	frame->loadConfiguration(configuration);
