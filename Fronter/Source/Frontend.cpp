@@ -20,6 +20,7 @@ bool Frontend::OnInit()
 	menuFile->Append(wxID_EXIT, tr("EXIT"));
 	wxMenu* menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, tr("ABOUT"));
+	menuHelp->Append(wxID_NETWORK, tr("SUPPORT_US"));
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(menuFile, "&" + tr("MENUCONVERTER"));
 	wxMenu* menuLanguages = new wxMenu;
