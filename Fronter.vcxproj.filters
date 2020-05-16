@@ -126,6 +126,9 @@
     <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxSelector.cpp">
       <Filter>Fronter\Configuration\Options</Filter>
     </ClCompile>
+    <ClCompile Include="commonItems\OSCommonLayer.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\ParserHelpers.h">
