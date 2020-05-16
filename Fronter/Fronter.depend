@@ -162,7 +162,7 @@
 	"Log.h"
 	"ParserHelpers.h"
 
-1589637309 source:/home/ivo/projects/Fronter/Fronter/Source/Frames/MainFrame.cpp
+1589661208 source:/home/ivo/projects/Fronter/Fronter/Source/Frames/MainFrame.cpp
 	"MainFrame.h"
 	"LogWindow.h"
 	"Tabs/ConvertTab.h"
@@ -3708,7 +3708,7 @@
 	<optional>
 	<string>
 
-1589660138 source:/home/ivo/projects/Fronter/Fronter/Source/Frontend.cpp
+1589661025 source:/home/ivo/projects/Fronter/Fronter/Source/Frontend.cpp
 	"Frontend.h"
 	"Frames/MainFrame.h"
 
@@ -3726,7 +3726,7 @@
 	<codecvt>
 	<filesystem>
 
-1589637309 source:/home/ivo/projects/Fronter/Fronter/Source/Utils/Localization/Localization.cpp
+1589660524 source:/home/ivo/projects/Fronter/Fronter/Source/Utils/Localization/Localization.cpp
 	"Localization.h"
 	"OSCompatibilityLayer.h"
 	<filesystem>

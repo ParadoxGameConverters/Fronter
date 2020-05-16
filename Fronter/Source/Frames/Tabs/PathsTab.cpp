@@ -5,6 +5,7 @@
 namespace fs = std::filesystem;
 #include "../../Utils/OSFunctions.h"
 #define tr localization->translate
+#include <cstdlib>
 
 PathsTab::PathsTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
@@ -12,12 +13,29 @@ PathsTab::PathsTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefault
 
 void PathsTab::initializePaths()
 {
+    Log(LogLevel::Debug) << "paths 1";
 	// Initialize a 2-row table
 	wxFlexGridSizer* gridSizer = new wxFlexGridSizer(2, 2, 5);
 	SetSizer(gridSizer);
+    Log(LogLevel::Debug) << "paths 2";
 
-	const auto userDir = getenv("USERPROFILE");
-	const auto documentsDir = std::string(userDir) + R"(\Documents)";
+	auto userDir = std::getenv("USERPROFILE");
+	std::string documentsDir;
+	if (userDir)
+	{
+        Log(LogLevel::Debug) << userDir;
+        documentsDir = std::string(userDir) + R"(\Documents)";
+	}
+
+	if (!userDir)
+	{
+        userDir = std::getenv("HOME");
+        if (userDir)
+        {
+            documentsDir = std::string(userDir) + R"(/Documents)";
+        }
+	}
+    Log(LogLevel::Debug) << "paths 3";
 
 	for (const auto& folder: configuration->getRequiredFolders())
 	{
@@ -26,6 +44,7 @@ void PathsTab::initializePaths()
 		pickerCounter++;
 		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(folder.second->getDisplayName()), wxDefaultPosition);
 
+    Log(LogLevel::Debug) << "paths 4";
 		std::string folderPath;
 		if (!folder.second->getValue().empty())
 		{
@@ -45,6 +64,7 @@ void PathsTab::initializePaths()
 		}
 		else if (folder.second->getSearchPathType() == "direct")
 			folderPath = folder.second->getSearchPath();
+    Log(LogLevel::Debug) << "paths 5";
 
 		wxDirPickerCtrl* dirPickerCtrl =
 			 new wxDirPickerCtrl(this, pickerCounter, folderPath, tr("BROWSE"), wxDefaultPosition, wxSize(650, wxDefaultCoord), wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
@@ -56,6 +76,7 @@ void PathsTab::initializePaths()
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 		GetSizer()->Add(dirPickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 	}
+    Log(LogLevel::Debug) << "paths 6";
 
 	for (const auto& file: configuration->getRequiredFiles())
 	{
@@ -63,6 +84,7 @@ void PathsTab::initializePaths()
 			continue;
 		pickerCounter++;
 		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(file.second->getDisplayName()), wxDefaultPosition);
+    Log(LogLevel::Debug) << "paths 7";
 
 		std::string filePath;
 		std::string initialPath;
@@ -89,6 +111,7 @@ void PathsTab::initializePaths()
 			filePath = currentDirectory + file.second->getSearchPath() + '\\' + file.second->getFilename();
 			initialPath = currentDirectory + file.second->getSearchPath() + '\\';
 		}
+    Log(LogLevel::Debug) << "paths 8";
 
 		wxFilePickerCtrl* filePickerCtrl = new wxFilePickerCtrl(this,
 			 pickerCounter,
@@ -106,6 +129,7 @@ void PathsTab::initializePaths()
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 		GetSizer()->Add(filePickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 	}
+    Log(LogLevel::Debug) << "paths out";
 }
 
 
