@@ -46,6 +46,8 @@
 		<Unit filename="../commonItems/OSCompatibilityLayer.h" />
 		<Unit filename="../commonItems/Parser.cpp" />
 		<Unit filename="../commonItems/Parser.h" />
+		<Unit filename="../commonItems/ParserHelpers.cpp" />
+		<Unit filename="../commonItems/ParserHelpers.h" />
 		<Unit filename="../commonItems/StringUtils.cpp" />
 		<Unit filename="../commonItems/StringUtils.h" />
 		<Unit filename="../commonItems/iconvlite.cpp" />
@@ -84,12 +86,12 @@
 		<Unit filename="Source/Frontend.h" />
 		<Unit filename="Source/Utils/CommonFunctions.cpp" />
 		<Unit filename="Source/Utils/CommonFunctions.h" />
+		<Unit filename="Source/Utils/LinuxFunctions.cpp" />
 		<Unit filename="Source/Utils/Localization/Localization.cpp" />
 		<Unit filename="Source/Utils/Localization/Localization.h" />
 		<Unit filename="Source/Utils/OSFunctions.h" />
-		<Unit filename="Source/Utils/WinFunctions.cpp" />
 		<Unit filename="Source/WorkerThreads/ConverterLauncher/ConverterLauncher.h" />
-		<Unit filename="Source/WorkerThreads/ConverterLauncher/WinConverterLauncher.cpp" />
+		<Unit filename="Source/WorkerThreads/ConverterLauncher/LinuxConverterLauncher.cpp" />
 		<Unit filename="Source/WorkerThreads/LogWatcher/LogMessageEvent.h" />
 		<Unit filename="Source/WorkerThreads/LogWatcher/LogWatcher.cpp" />
 		<Unit filename="Source/WorkerThreads/LogWatcher/LogWatcher.h" />
