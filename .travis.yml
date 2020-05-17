@@ -4,6 +4,11 @@ language:
   - cpp
 compiler:
   - gcc
+env:
+  global:
+    - LANG="en_US.UTF-8"
+    - CMAKE_PREFIX=$HOME/prebuilt/cmake ;
+    - CMAKE_LINUX_URL=https://github.com/Kitware/CMake/releases/download/v3.16.1/cmake-3.16.1-Linux-x86_64.sh ;
 addons:
   apt:
     sources:
@@ -11,8 +16,8 @@ addons:
     packages:
       - gcc-9
       - g++-9
-      - cmake
-      - cmake-data
+#      - cmake
+#      - cmake-data
 #before_install:
 #  - mkdir $HOME/usr
 #  - export PATH="$HOME/usr/bin:$PATH"
