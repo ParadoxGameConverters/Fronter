@@ -72,7 +72,6 @@ void Localization::loadLanguages()
 	}
 }
 
-#if defined __WIN32__
 std::wstring Localization::translate(const std::string& key)
 {
 	std::string toReturn;
@@ -99,35 +98,6 @@ std::wstring Localization::translateLanguage(const std::string& language)
 	}
 	return Utils::convertUTF8ToUTF16(languages[language]);
 }
-#elif defined __linux
-
-std::string Localization::translate(const std::string& key)
-{
-	std::string toReturn;
-	if (!translations.count(key))
-	{
-		return std::string();
-	}
-	if (translations[key].count(setLanguage))
-		toReturn = translations[key][setLanguage];
-	else if (translations[key].count("english"))
-		toReturn = translations[key]["english"];
-	else
-		return std::string();
-
-	toReturn = std::regex_replace(toReturn, std::regex(R"(\\n)"), "\n");
-	return toReturn;
-}
-
-std::string Localization::translateLanguage(const std::string& language)
-{
-	if (!languages.count(language))
-	{
-		return std::string();
-	}
-	return languages[language];
-}
-#endif // defined
 
 void Localization::saveLanguage(int ID)
 {
