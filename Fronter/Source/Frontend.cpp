@@ -8,7 +8,7 @@ bool Frontend::OnInit()
 {
 	localization = std::make_shared<Localization>();
 	configuration = std::make_shared<Configuration>();
-	
+
 	MainFrame* frame =
 		 new MainFrame(tr("TITLETITLE") + tr(configuration->getSourceGame()) + tr("TITLETO") + tr(configuration->getTargetGame()), wxPoint(50, 50), wxSize(1200, 600));
 	frame->loadConfiguration(configuration);

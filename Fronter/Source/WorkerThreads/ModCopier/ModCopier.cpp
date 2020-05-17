@@ -3,6 +3,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 #include "../../Utils/CommonFunctions.h"
+#include "CommonFunctions.h"
 
 wxDEFINE_EVENT(wxEVT_COPIERDONE, wxCommandEvent);
 

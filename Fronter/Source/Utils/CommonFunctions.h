@@ -20,7 +20,5 @@ typedef struct
 
 LogMessage sliceMessage(const std::string& message);
 std::string normalizeStringPath(const std::string& stringPath);
-std::string replaceCharacter(std::string fileName, char character);
-std::string trimPath(const std::string& fileName);
 
 #endif // COMMON_FUNCTIONS

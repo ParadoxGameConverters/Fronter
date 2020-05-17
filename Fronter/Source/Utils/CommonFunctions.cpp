@@ -1,4 +1,5 @@
 #include "CommonFunctions.h"
+#include "../../../commonItems/CommonFunctions.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <codecvt>
@@ -43,25 +44,4 @@ std::string normalizeStringPath(const std::string& stringPath)
 	toReturn = replaceCharacter(toReturn, ' ');
 
 	return toReturn;
-}
-
-std::string replaceCharacter(std::string fileName, char character)
-{
-	auto position = fileName.find_first_of(character);
-	while (position != std::string::npos)
-	{
-		fileName.replace(position, 1, "_");
-		position = fileName.find_first_of(character);
-	}
-
-	return fileName;
-}
-
-std::string trimPath(const std::string& fileName)
-{
-	auto lastSlash = fileName.find_last_of('\\');
-	auto trimmedFileName = fileName.substr(++lastSlash, fileName.length());
-	lastSlash = trimmedFileName.find_last_of('/');
-	trimmedFileName = trimmedFileName.substr(++lastSlash, trimmedFileName.length());
-	return trimmedFileName;
 }

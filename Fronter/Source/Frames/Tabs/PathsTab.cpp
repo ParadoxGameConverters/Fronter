@@ -5,6 +5,7 @@
 namespace fs = std::filesystem;
 #include "../../Utils/OSFunctions.h"
 #define tr localization->translate
+#include <cstdlib>
 
 PathsTab::PathsTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
@@ -16,8 +17,22 @@ void PathsTab::initializePaths()
 	wxFlexGridSizer* gridSizer = new wxFlexGridSizer(2, 2, 5);
 	SetSizer(gridSizer);
 
-	const auto userDir = getenv("USERPROFILE");
-	const auto documentsDir = std::string(userDir) + R"(\Documents)";
+	auto userDir = std::getenv("USERPROFILE");
+	std::string documentsDir;
+	if (userDir)
+	{
+        Log(LogLevel::Debug) << userDir;
+        documentsDir = std::string(userDir) + R"(\Documents)";
+	}
+
+	if (!userDir)
+	{
+        userDir = std::getenv("HOME");
+        if (userDir)
+        {
+            documentsDir = std::string(userDir) + R"(/Documents)";
+        }
+	}
 
 	for (const auto& folder: configuration->getRequiredFolders())
 	{
@@ -80,9 +95,12 @@ void PathsTab::initializePaths()
 		}
 		else if (file.second->getSearchPathType() == "converterFolder")
 		{
-			wchar_t buf[256];
-			GetCurrentDirectory(256, buf);
+			auto buf = Utils::GetCurrentDirectory();
+#if defined __WIN32__
 			auto currentDirectory = Utils::convertUTF16ToUTF8(std::wstring(buf)) + '\\';
+#elif defined __linux
+			auto currentDirectory = buf + '/';
+#endif
 			filePath = currentDirectory + file.second->getSearchPath() + '\\' + file.second->getFilename();
 			initialPath = currentDirectory + file.second->getSearchPath() + '\\';
 		}

@@ -7,6 +7,7 @@
 #include "../Utils/Localization/Localization.h"
 #include "../WorkerThreads/LogWatcher/LogMessageEvent.h"
 #include <wx/grid.h>
+#include <memory>
 
 class LogWindow: public wxWindow
 {

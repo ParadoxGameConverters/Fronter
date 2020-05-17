@@ -17,7 +17,6 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 void MainFrame::initFrame()
 {
 	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
-
 	notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	notebook->SetMaxSize(wxSize(-1, 400));
 
