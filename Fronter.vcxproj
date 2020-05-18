@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="commonItems\CommonFunctions.cpp" />
     <ClCompile Include="commonItems\iconvlite.cpp" />
     <ClCompile Include="commonItems\Log.cpp" />
     <ClCompile Include="commonItems\OSCommonLayer.cpp" />
@@ -42,14 +43,14 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frontend.cpp" />
-    <ClCompile Include="Fronter\Source\Utils\CommonFunctions.cpp" />
+    <ClCompile Include="Fronter\Source\Utils\SliceMessage.cpp" />
     <ClCompile Include="Fronter\Source\Utils\Localization\Localization.cpp" />
-    <ClCompile Include="Fronter\Source\Utils\WinFunctions.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="commonItems\CommonFunctions.h" />
     <ClInclude Include="commonItems\iconvlite.h" />
     <ClInclude Include="commonItems\Log.h" />
     <ClInclude Include="commonItems\OSCompatibilityLayer.h" />
@@ -72,9 +73,8 @@
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionsTab.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h" />
     <ClInclude Include="Fronter\Source\Frontend.h" />
-    <ClInclude Include="Fronter\Source\Utils\CommonFunctions.h" />
+    <ClInclude Include="Fronter\Source\Utils\SliceMessage.h" />
     <ClInclude Include="Fronter\Source\Utils\Localization\Localization.h" />
-    <ClInclude Include="Fronter\Source\Utils\OSFunctions.h" />
     <ClInclude Include="Fronter\Source\WorkerThreads\ConverterLauncher\ConverterLauncher.h" />
     <ClInclude Include="Fronter\Source\WorkerThreads\LogWatcher\LogMessageEvent.h" />
     <ClInclude Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.h" />

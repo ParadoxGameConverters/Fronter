@@ -1,8 +1,7 @@
 #include "OptionBox.h"
 #include "../../Configuration/Configuration.h"
 #include "../../Configuration/Options/Option.h"
-#include "../../Utils/OSFunctions.h"
-#include <codecvt>
+#include "OSCompatibilityLayer.h"
 #include <wx/textctrl.h>
 #define tr localization->translate
 
@@ -85,7 +84,7 @@ void OptionBox::initializeOption()
 		textField->SetToolTip(tr(selector->getTooltip()));
 
 		textField->Bind(wxEVT_TEXT, [this](wxCommandEvent& event) {
-			const auto result = UTF16ToUTF8(event.GetString().ToStdWstring());
+			const auto result = Utils::UTF16ToUTF8(event.GetString().ToStdWstring());
 			option->setTextSelectorValue(result);
 			if (event.GetString() != wxString(result))
 			{

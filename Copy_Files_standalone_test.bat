@@ -10,10 +10,10 @@ copy "Fronter\Resources\VC_redist.x64.exe" "Release\"
 rem Create Configuration
 del "Release\Configuration" /Q
 rmdir "Release\Configuration" /S /Q
-xcopy "Fronter\Configuration" "Release\Configuration" /Y /E /I
 mkdir "Release\Configuration"
 copy "Fronter\Resources\*.yml" "Release\Configuration\"
 
 del "Release\CK2ToEU4" /Q
 rmdir "Release\CK2ToEU4" /S /Q
 xcopy "..\CK2ToEU4\Release\CK2ToEU4" "Release\CK2ToEU4" /Y /E /I
+xcopy "..\CK2ToEU4\Release\Configuration" "Release\Configuration" /Y /E /I

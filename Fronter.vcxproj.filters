@@ -102,12 +102,6 @@
     <ClCompile Include="commonItems\StringUtils.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
-    <ClCompile Include="Fronter\Source\Utils\CommonFunctions.cpp">
-      <Filter>Fronter\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Fronter\Source\Utils\WinFunctions.cpp">
-      <Filter>Fronter\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp">
       <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
     </ClCompile>
@@ -127,6 +121,12 @@
       <Filter>Fronter\Configuration\Options</Filter>
     </ClCompile>
     <ClCompile Include="commonItems\OSCommonLayer.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\Utils\SliceMessage.cpp">
+      <Filter>Fronter\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\CommonFunctions.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,12 +191,6 @@
     <ClInclude Include="commonItems\StringUtils.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="Fronter\Source\Utils\CommonFunctions.h">
-      <Filter>Fronter\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\Utils\OSFunctions.h">
-      <Filter>Fronter\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Fronter\Source\WorkerThreads\ConverterLauncher\ConverterLauncher.h">
       <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
     </ClInclude>
@@ -217,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxSelector.h">
       <Filter>Fronter\Configuration\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Utils\SliceMessage.h">
+      <Filter>Fronter\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\CommonFunctions.h">
+      <Filter>commonItems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

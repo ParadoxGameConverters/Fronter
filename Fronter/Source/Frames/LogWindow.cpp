@@ -1,5 +1,6 @@
 #include "LogWindow.h"
 #include "Log.h"
+#include "OSCompatibilityLayer.h"
 #define tr localization->translate
 
 LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
@@ -86,7 +87,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->SetCellBackgroundColour(logCounter, 1, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxCENTER, wxCENTER);
 	theGrid->SetReadOnly(logCounter, 1);
-	theGrid->SetCellValue(logCounter, 2, message);
+	theGrid->SetCellValue(logCounter, 2, Utils::convertUTF8ToUTF16(message));
 	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
 	theGrid->SetReadOnly(logCounter, 2);
