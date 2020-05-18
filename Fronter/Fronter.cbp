@@ -27,9 +27,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-static-libstdc++" />
-					<Add option="-static-libgcc" />
-					<Add option="-static" />
 				</Linker>
 			</Target>
 		</Build>
@@ -87,12 +84,10 @@
 		<Unit filename="Source/Frames/Tabs/PathsTab.h" />
 		<Unit filename="Source/Frontend.cpp" />
 		<Unit filename="Source/Frontend.h" />
-		<Unit filename="Source/Utils/CommonFunctions.cpp" />
-		<Unit filename="Source/Utils/CommonFunctions.h" />
-		<Unit filename="Source/Utils/LinuxFunctions.cpp" />
 		<Unit filename="Source/Utils/Localization/Localization.cpp" />
 		<Unit filename="Source/Utils/Localization/Localization.h" />
-		<Unit filename="Source/Utils/OSFunctions.h" />
+		<Unit filename="Source/Utils/SliceMessage.cpp" />
+		<Unit filename="Source/Utils/SliceMessage.h" />
 		<Unit filename="Source/WorkerThreads/ConverterLauncher/ConverterLauncher.h" />
 		<Unit filename="Source/WorkerThreads/ConverterLauncher/LinuxConverterLauncher.cpp" />
 		<Unit filename="Source/WorkerThreads/LogWatcher/LogMessageEvent.h" />
