@@ -101,12 +101,16 @@ void PathsTab::initializePaths()
 			filePath = currentDirectory + file.second->getSearchPath() + '\\' + file.second->getFilename();
 			initialPath = currentDirectory + file.second->getSearchPath() + '\\';
 		}
+		std::string allowedExtension;
+#if defined __WIN32__
+        allowedExtension = file.second->getAllowedExtension();
+#endif
 
 		wxFilePickerCtrl* filePickerCtrl = new wxFilePickerCtrl(this,
 			 pickerCounter,
 			 filePath,
 			 tr("BROWSE"),
-			 file.second->getAllowedExtension(),
+			 allowedExtension,
 			 wxDefaultPosition,
 			 wxSize(650, wxDefaultCoord),
 			 wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
