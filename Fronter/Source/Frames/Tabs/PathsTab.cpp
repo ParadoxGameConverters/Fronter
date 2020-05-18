@@ -95,11 +95,13 @@ void PathsTab::initializePaths()
 			auto buf = Utils::GetCurrentDirectoryWString();
 #if defined __WIN32__
 			auto currentDirectory = buf + '\\';
+			filePath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath() + '\\' + file.second->getFilename());
+			initialPath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath()) + '\\');
 #elif defined __linux
 			auto currentDirectory = buf + '/';
+			filePath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath() + '/' + file.second->getFilename());
+			initialPath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath() + '/');
 #endif
-			filePath = currentDirectory + file.second->getSearchPath() + '\\' + file.second->getFilename();
-			initialPath = currentDirectory + file.second->getSearchPath() + '\\';
 		}
 		std::string allowedExtension;
 #if defined __WIN32__
