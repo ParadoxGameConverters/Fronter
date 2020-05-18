@@ -2,8 +2,8 @@
 #include "Log.h"
 #include <filesystem>
 namespace fs = std::filesystem;
-#include "../../Utils/CommonFunctions.h"
 #include "CommonFunctions.h"
+#include "OSCompatibilityLayer.h"
 
 wxDEFINE_EVENT(wxEVT_COPIERDONE, wxCommandEvent);
 
@@ -12,14 +12,14 @@ void* ModCopier::Entry()
 	wxCommandEvent evt(wxEVT_COPIERDONE);
 	Log(LogLevel::Info) << "Mod Copying Started.";
 	const auto& converterFolder = configuration->getConverterFolder();
-	if (!fs::exists(converterFolder))
+	if (!Utils::DoesFolderExist(converterFolder))
 	{
 		Log(LogLevel::Error) << "Copy failed - where is the converter?";
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!fs::exists(converterFolder + "/output"))
+	if (!Utils::DoesFolderExist(converterFolder + "/output"))
 	{
 		Log(LogLevel::Error) << "Copy failed - where is the converter's output folder?";
 		evt.SetInt(0);
@@ -37,7 +37,7 @@ void* ModCopier::Entry()
 		return nullptr;
 	}
 	const auto& destinationFolder = folderItr->second->getValue();
-	if (!fs::exists(fs::u8path(destinationFolder)))
+	if (!Utils::DoesFolderExist(destinationFolder))
 	{
 		Log(LogLevel::Error) << "Copy failed - Target Folder does not exist!";
 		evt.SetInt(0);
@@ -72,7 +72,7 @@ void* ModCopier::Entry()
 			m_pParent->AddPendingEvent(evt);
 			return nullptr;
 		}
-		if (!fs::exists(fs::u8path(saveGamePath)))
+		if (!Utils::DoesFileExist(saveGamePath))
 		{
 			Log(LogLevel::Error) << "Copy Failed - save game does not exist, did we even convert anything?";
 			evt.SetInt(0);
@@ -93,14 +93,14 @@ void* ModCopier::Entry()
 			saveGamePath = saveGamePath.substr(0, pos);
 		targetName = saveGamePath;
 	}
-	if (!fs::exists(fs::u8path(converterFolder + "/output/" + targetName + ".mod")))
+	if (!Utils::DoesFileExist(converterFolder + "/output/" + targetName + ".mod"))
 	{
 		Log(LogLevel::Error) << "Copy Failed - Cound not find mod: " << converterFolder + "/output/" + targetName + ".mod";
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!fs::exists(fs::u8path(converterFolder + "/output/" + targetName)))
+	if (!Utils::DoesFolderExist(converterFolder + "/output/" + targetName))
 	{
 		Log(LogLevel::Error) << "Copy Failed - Cound not find mod folder: " << converterFolder + "/output/" + targetName;
 		evt.SetInt(0);
@@ -114,23 +114,21 @@ void* ModCopier::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (fs::exists(fs::u8path(destinationFolder + "/" + targetName + ".mod")))
+	if (Utils::DoesFileExist(destinationFolder + "/" + targetName + ".mod"))
 	{
 		Log(LogLevel::Info) << "Previous mod file found, deleting.";
 		fs::remove(fs::u8path(destinationFolder + "/" + targetName + ".mod"));
 	}
-	if (fs::exists(fs::u8path(destinationFolder + "/" + targetName)))
+	if (Utils::DoesFolderExist(destinationFolder + "/" + targetName))
 	{
 		Log(LogLevel::Info) << "Previous mod directory found, deleting.";
-		fs::remove_all(fs::u8path(destinationFolder + "/" + targetName));
+		Utils::DeleteFolder(destinationFolder + "/" + targetName);
 	}
 	try
 	{
 		Log(LogLevel::Info) << "Copying mod to target location...";
-		fs::copy(fs::u8path(converterFolder + "/output/" + targetName + ".mod"), fs::u8path(destinationFolder + "/" + targetName + ".mod"));
-		fs::copy(fs::u8path(converterFolder + "/output/" + targetName),
-			 fs::u8path(destinationFolder + "/" + targetName),
-			 std::filesystem::copy_options::recursive);
+		Utils::TryCopyFile(converterFolder + "/output/" + targetName + ".mod", destinationFolder + "/" + targetName + ".mod");
+		Utils::CopyFolder(converterFolder + "/output/" + targetName, destinationFolder + "/" + targetName);
 	}
 	catch (std::filesystem::filesystem_error& theError)
 	{

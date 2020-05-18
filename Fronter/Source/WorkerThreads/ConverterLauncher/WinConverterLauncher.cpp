@@ -23,15 +23,15 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	const auto converterExe = exeItr->second->getValue();
-	if (converterExe.empty())
+	const auto converterExeString = exeItr->second->getValue();
+	if (converterExeString.empty())
 	{
 		Log(LogLevel::Error) << "Converter location has not been set!";
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!fs::exists(fs::u8path(converterExe)))
+	if (!Utils::DoesFileExist(converterExeString))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -39,15 +39,17 @@ void* ConverterLauncher::Entry()
 		return nullptr;
 	}
 
-	STARTUPINFOA si = {0};
+	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi = {0};
 
-	const auto pos = converterExe.find_last_of('\\');
-	const auto workDir = converterExe.substr(0, pos + 1);
-	const char* workDirPtr = workDir.c_str();
+	const auto pos = converterExeString.find_last_of('\\');
+	const auto workDirString = converterExeString.substr(0, pos + 1);
+	const auto converterExe = Utils::convertUTF8ToUTF16(converterExeString);
+	const auto workDir = Utils::convertUTF8ToUTF16(workDirString);
+	const wchar_t* workDirPtr = workDir.c_str();
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	if (CreateProcessA(converterExe.c_str(), // No module name (use command line)
+	if (CreateProcess(converterExe.c_str(), // No module name (use command line)
 			  nullptr,								  // Command line
 			  nullptr,								  // Process handle not inheritable
 			  nullptr,								  // Thread handle not inheritable

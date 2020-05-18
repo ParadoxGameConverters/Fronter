@@ -3,7 +3,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include "../../Utils/CommonFunctions.h"
+#include "../../Utils/SliceMessage.h"
 
 class LogMessageEvent;
 wxDECLARE_EVENT(wxEVT_TAILTHREAD, LogMessageEvent);

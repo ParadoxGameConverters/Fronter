@@ -1,5 +1,5 @@
-#ifndef COMMON_FUNCTIONS
-#define COMMON_FUNCTIONS
+#ifndef SLICE_MESSAGE
+#define SLICE_MESSAGE
 #include <string>
 #include "Log.h"
 
@@ -19,6 +19,5 @@ typedef struct
 } LogMessage;
 
 LogMessage sliceMessage(const std::string& message);
-std::string normalizeStringPath(const std::string& stringPath);
 
-#endif // COMMON_FUNCTIONS
+#endif // SLICE_MESSAGE

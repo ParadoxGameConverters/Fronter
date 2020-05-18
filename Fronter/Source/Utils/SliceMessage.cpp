@@ -1,8 +1,5 @@
-#include "CommonFunctions.h"
-#include "../../../commonItems/CommonFunctions.h"
+#include "SliceMessage.h"
 #include "Log.h"
-#include "OSCompatibilityLayer.h"
-#include <codecvt>
 #include <filesystem>
 namespace fs = std::filesystem;
 
@@ -35,13 +32,4 @@ LogMessage sliceMessage(const std::string& message)
 	logMessage.timestamp = message.substr(0, 19);
 	logMessage.message = message.substr(posClose + 2, message.length());
 	return logMessage;
-}
-
-std::string normalizeStringPath(const std::string& stringPath)
-{
-	std::string toReturn = Utils::normalizeUTF8Path(stringPath);
-	toReturn = replaceCharacter(toReturn, '-');
-	toReturn = replaceCharacter(toReturn, ' ');
-
-	return toReturn;
 }
