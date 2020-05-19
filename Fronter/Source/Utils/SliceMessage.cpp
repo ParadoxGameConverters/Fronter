@@ -7,7 +7,7 @@ LogMessage sliceMessage(const std::string& message)
 {
 	LogMessage logMessage;
 	const auto posOpen = message.find_first_of('[');
-	if (!(posOpen >= 20 && posOpen <= 23))
+	if (!(posOpen >= 20 && posOpen <= 24))
 	{
 		// This is not a standard message. File as info ad verbatim.
 		logMessage.message = message;
@@ -29,6 +29,11 @@ LogMessage sliceMessage(const std::string& message)
 		logMessage.logLevel = LogLevel::Warning;
 	else if (logLevel == "ERROR")
 		logMessage.logLevel = LogLevel::Error;
+	else if (logLevel == "PROGRESS")
+		logMessage.logLevel = LogLevel::Progress;
+	else
+		logMessage.logLevel = LogLevel::Debug; // Unknown log level.
+	
 	logMessage.timestamp = message.substr(0, 19);
 	logMessage.message = message.substr(posClose + 2, message.length());
 	return logMessage;

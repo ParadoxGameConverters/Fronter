@@ -27,4 +27,8 @@ l_italian:
  OPTIONSTAB: "Opzioni"
  CONVERTTAB: "Conversione"
  BROWSE: "Sfoglia"
- 
+ LOGLEVEL: "Filtra i messaggi del registro sotto la gravità"
+ LOGLEVEL0: "Errore"
+ LOGLEVEL1: "Avvertimento"
+ LOGLEVEL2: "Informazioni"
+ LOGLEVEL3: "Mettere a punto"

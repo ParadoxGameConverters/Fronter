@@ -58,13 +58,33 @@ void Localization::loadLanguages()
 			continue;
 		}
 		auto pos = line.find(':');
+		if (pos == std::string::npos)
+		{
+			Log(LogLevel::Error) << "Invalid localization language: " << line;
+			continue;
+		}
 		const auto language = line.substr(2, pos - 2);
 		while (std::getline(langfile, line))
 		{
 			pos = line.find_first_of(':');
+			if (pos == std::string::npos)
+			{
+				Log(LogLevel::Error) << "Invalid localization line: " << line;
+				continue;
+			}
 			auto key = line.substr(1, pos - 1);
 			pos = line.find_first_of('\"');
+			if (pos == std::string::npos)
+			{
+				Log(LogLevel::Error) << "Invalid localization line: " << line;
+				continue;
+			}
 			const auto secpos = line.find_last_of('\"');
+			if (secpos == std::string::npos)
+			{
+				Log(LogLevel::Error) << "Invalid localization line: " << line;
+				continue;
+			}
 			auto text = line.substr(pos + 1, secpos - pos - 1);
 			translations[key].insert(std::pair(language, text));
 		}

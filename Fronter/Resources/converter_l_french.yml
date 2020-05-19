@@ -27,4 +27,8 @@ l_french:
  OPTIONSTAB: "Options"
  CONVERTTAB: "Conversion"
  BROWSE: "Parcourir"
- 
+ LOGLEVEL: "Filtrer les messages du journal sous la gravité"
+ LOGLEVEL0: "Erreur"
+ LOGLEVEL1: "Attention"
+ LOGLEVEL2: "Info"
+ LOGLEVEL3: "Déboguer"

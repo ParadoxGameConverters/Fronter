@@ -18,6 +18,7 @@ class LogWindow: public wxWindow
 	void initializeSecondTail(const std::string& tailSource);
 	void terminateSecondTail() const;
 	void OnTailPush(LogMessageEvent& event);
+	void setLogLevel(int level);
 
   private:
 	LogWatcher* logWatcher = nullptr;
@@ -26,4 +27,8 @@ class LogWindow: public wxWindow
 	wxGrid* theGrid = nullptr;
 	std::vector<wxStaticText*> logArray;
 	std::shared_ptr<Localization> localization;
+	int loglevel = 1; // Defaults to warning.
+
+  protected:
+	wxEvtHandler* m_pParent;
 };

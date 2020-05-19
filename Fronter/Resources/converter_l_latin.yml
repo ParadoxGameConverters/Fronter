@@ -27,4 +27,8 @@ l_latin:
  OPTIONSTAB: "Optiones"
  CONVERTTAB: "Versio"
  BROWSE: "Invenire"
- 
+ LOGLEVEL: "Acta emendationum circumitarum Messages Infra severitate fidentius"
+ LOGLEVEL0: "Error"
+ LOGLEVEL1: "Monitum"
+ LOGLEVEL2: "Info"
+ LOGLEVEL3: "Notice"

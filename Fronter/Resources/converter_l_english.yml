@@ -27,4 +27,8 @@ l_english:
  OPTIONSTAB: "Options"
  CONVERTTAB: "Convert"
  BROWSE: "Browse"
- 
+ LOGLEVEL: "Filter Log Messages Below Severity"
+ LOGLEVEL0: "Error"
+ LOGLEVEL1: "Warning"
+ LOGLEVEL2: "Info"
+ LOGLEVEL3: "Debug"
