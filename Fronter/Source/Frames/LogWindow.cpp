@@ -3,8 +3,11 @@
 #include "OSCompatibilityLayer.h"
 #define tr localization->translate
 
+wxDEFINE_EVENT(wxEVT_PROGRESSMESSAGE, LogMessageEvent);
+
 LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
+	m_pParent = parent;
 	Bind(wxEVT_TAILTHREAD, &LogWindow::OnTailPush, this);
 	localization = std::move(theLocalization);
 	theGrid = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
@@ -75,9 +78,26 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 		bgcolor = wxColour(255, 200, 200);
 		severity = "  ERROR  ";
 	}
+	else if (logMessage.logLevel == LogLevel::Progress)
+	{
+		// Forward the progress message, stripped version, to parent.
+		try
+		{
+			auto progress = std::stoi(logMessage.message);
+			LogMessageEvent evt(wxEVT_PROGRESSMESSAGE);
+			evt.SetInt(progress);
+			m_pParent->AddPendingEvent(evt);
+			return;
+		}
+		catch (std::exception&)
+		{
+			return;
+		}
+	}
 
 	const auto message = "  " + logMessage.message;
 
+	theGrid->BeginBatch();
 	theGrid->AppendRows(1, false);
 	theGrid->SetRowSize(logCounter, 20);
 	theGrid->SetCellValue(logCounter, 0, timestamp);
@@ -91,7 +111,41 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
 	theGrid->SetReadOnly(logCounter, 2);
+	theGrid->HideRow(logCounter);
+
+	auto needUpdate = false;
+	if ((logMessage.logLevel == LogLevel::Debug && loglevel >= 3) || (logMessage.logLevel == LogLevel::Info && loglevel >= 2) ||
+		 (logMessage.logLevel == LogLevel::Warning && loglevel >= 1) || (logMessage.logLevel == LogLevel::Error))
+	{
+		theGrid->ShowRow(logCounter);
+		needUpdate = true;
+	}
+	theGrid->EndBatch();
+
 	logCounter++;
+	if (needUpdate)
+	{
+		theGrid->AutoSize();
+		GetParent()->Layout();
+		theGrid->Scroll(0, logCounter - 1);
+		theGrid->MakeCellVisible(logCounter - 1, 0);
+	}
+}
+
+void LogWindow::setLogLevel(int level)
+{
+	loglevel = level;
+	theGrid->BeginBatch();
+	for (int row = 0; row < theGrid->GetNumberRows(); row++)
+	{
+		auto value = theGrid->GetCellValue(row, 1);
+		if ((value.find("DEBUG") != std::string::npos && loglevel < 3) || (value.find("INFO") != std::string::npos && loglevel < 2) ||
+			 (value.find("WARNING") != std::string::npos && loglevel < 1))
+			theGrid->HideRow(row);
+		else
+			theGrid->ShowRow(row);
+	}
+	theGrid->EndBatch();
 	theGrid->AutoSize();
 	GetParent()->Layout();
 	theGrid->Scroll(0, logCounter - 1);

@@ -4,11 +4,12 @@
 #include <wx/wx.h>
 #endif
 
+#include "LogWindow.h"
 #include "../Configuration/Configuration.h"
 #include "../Utils/Localization/Localization.h"
-#include "LogWindow.h"
 #include "Tabs/OptionsTab.h"
 #include <wx/notebook.h>
+#include "Tabs/ConvertTab.h"
 
 class MainFrame: public wxFrame
 {
@@ -27,10 +28,13 @@ class MainFrame: public wxFrame
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	void OnSupportUs(wxCommandEvent& event);
+	void OnProgressMessage(wxCommandEvent& event);
+	void OnLogLevelChange(wxCommandEvent& event);
 	LogWindow* logWindow = nullptr;
 	wxNotebook* notebook = nullptr;
 	OptionsTab* optionsTab = nullptr;
-
+	ConvertTab* convertTab = nullptr;
+	
 	void onResize(wxSizeEvent& evt);
 	std::shared_ptr<Configuration> configuration;
 	std::shared_ptr<Localization> localization;

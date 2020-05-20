@@ -27,3 +27,9 @@ l_german:
  OPTIONSTAB: "Optionen"
  CONVERTTAB: "Konvesion"
  BROWSE: "Durchsuchen"
+ LOGLEVEL: "Filtriere die Meldungen nach ihrer Art"
+ LOGLEVEL0: "Fehler"
+ LOGLEVEL1: "Warnung"
+ LOGLEVEL2: "Info"
+ LOGLEVEL3: "Debug"
+

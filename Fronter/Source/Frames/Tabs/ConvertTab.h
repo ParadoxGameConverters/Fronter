@@ -9,8 +9,10 @@
 #include "../../WorkerThreads/ModCopier/ModCopier.h"
 #include <wx/filepicker.h>
 #include <wx/notebook.h>
+#include <wx/gauge.h>
 
 class MainFrame;
+wxDECLARE_EVENT(wxEVT_LOGLEVELCHANGED, wxCommandEvent);
 
 class ConvertTab: public wxNotebookPage
 {
@@ -21,6 +23,7 @@ class ConvertTab: public wxNotebookPage
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 	void initializeConvert();
 	void loadSelf(MainFrame* theMainFrame) { mainFrame = theMainFrame; }
+	void setProgress(int progress);
 
 
   private:
@@ -34,8 +37,13 @@ class ConvertTab: public wxNotebookPage
 	ConverterLauncher* converterLauncher = nullptr;
 	ModCopier* modCopier = nullptr;
 	wxButton* convertButton = nullptr;
-
+	wxGauge* gauge = nullptr;
+	wxStaticText* gaugeCounter = nullptr;
+	
 	void onConvertStarted(wxCommandEvent& event);
 	void onConverterDone(wxCommandEvent& event);
 	void onCopierDone(wxCommandEvent& event);
+
+  protected:
+	wxEvtHandler* m_pParent;
 };

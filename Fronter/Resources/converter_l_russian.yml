@@ -27,4 +27,8 @@ l_russian:
  OPTIONSTAB: "Опции"
  CONVERTTAB: "Конверсия"
  BROWSE: "Обзор"
- 
+ LOGLEVEL: "Фильтровать сообщения журнала ниже серьезности"
+ LOGLEVEL0: "ошибка"
+ LOGLEVEL1: "Предупреждение"
+ LOGLEVEL2: "Информация"
+ LOGLEVEL3: "отлаживать"

@@ -5,18 +5,44 @@
 #include <wx/wrapsizer.h>
 #define tr localization->translate
 
+wxDEFINE_EVENT(wxEVT_LOGLEVELCHANGED, wxCommandEvent);
+
 ConvertTab::ConvertTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
+	m_pParent = parent;
 	Bind(wxEVT_CONVERTERDONE, &ConvertTab::onConverterDone, this, wxID_ANY);
 	Bind(wxEVT_COPIERDONE, &ConvertTab::onCopierDone, this, wxID_ANY);
 }
 
 void ConvertTab::initializeConvert()
 {
-	// Initialize a flex which will have 3 col, 2 rows
-	wxGridSizer* convertSizer = new wxGridSizer(3, 3, 0, 0);
+	// Initialize a flex which will have 3 col, 4 rows
+	wxGridSizer* convertSizer = new wxGridSizer(4, 3, 0, 0);
 	SetSizer(convertSizer);
 	// convertSizer->SetVGap(50);
+
+	wxPanel* logPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
+	logPanel->SetBackgroundColour(wxColour(230, 230, 245));
+	wxGridSizer* logSizer = new wxGridSizer(1, 1, 5, 5);
+	logPanel->SetSizer(logSizer);
+
+	wxArrayString boxChoices;
+	boxChoices.Add(tr("LOGLEVEL0"));
+	boxChoices.Add(tr("LOGLEVEL1"));
+	boxChoices.Add(tr("LOGLEVEL2"));
+	boxChoices.Add(tr("LOGLEVEL3"));
+	
+	wxRadioBox* theButtonBox = new wxRadioBox(logPanel, wxID_ANY, tr("LOGLEVEL"), wxDefaultPosition, wxDefaultSize, boxChoices, 4);
+	theButtonBox->SetSelection(1);
+	theButtonBox->Bind(wxEVT_RADIOBOX, [this](wxCommandEvent& event) {
+		wxCommandEvent evt(wxEVT_LOGLEVELCHANGED);
+		evt.SetInt(event.GetInt());
+		m_pParent->AddPendingEvent(evt);
+	});
+
+	logSizer->Add(theButtonBox, wxSizerFlags(0).Center());
+
+	convertSizer->Add(logPanel, wxSizerFlags(0).Center());
 
 	// In the first cell goes a 2cx3r status table
 	wxPanel* statusPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
@@ -38,11 +64,29 @@ void ConvertTab::initializeConvert()
 	statusSizer->Add(cell31);
 	statusSizer->Add(statusCopy, wxSizerFlags(1).Align(1).CenterHorizontal());
 
-	convertSizer->AddStretchSpacer(0);
 	convertSizer->Add(statusPanel, wxSizerFlags(0).Center());
 	convertSizer->AddStretchSpacer(0);
 
-	// in second row goes a button
+	// second row the gauge
+
+	// In goes a 1cx2r holder table
+	wxPanel* gaugePanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
+	gaugePanel->SetBackgroundColour(wxColour(230, 245, 230));
+	wxGridSizer* gaugeSizer = new wxGridSizer(2, 1, 5, 5);
+	gaugePanel->SetSizer(gaugeSizer);
+
+	// Scale goes to 109.
+	gauge = new wxGauge(gaugePanel, wxID_ANY, 109, wxDefaultPosition, wxDefaultSize, wxHORIZONTAL);
+	gaugeCounter = new wxStaticText(gaugePanel, wxID_ANY, "0%");
+
+	gaugeSizer->Add(gauge, wxSizerFlags(1).Top().CenterHorizontal());
+	gaugeSizer->Add(gaugeCounter, wxSizerFlags(1).Top().CenterHorizontal());
+
+	convertSizer->AddStretchSpacer(0);
+	convertSizer->Add(gaugePanel, wxSizerFlags(1).Top().CenterHorizontal());
+	convertSizer->AddStretchSpacer(0);
+
+	// in third row goes a button
 
 	convertButton = new wxButton(this, wxID_ANY, tr("CONVERTBUTTON"), wxDefaultPosition, wxDefaultSize);
 	convertButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, (wxEventFunction)&ConvertTab::onConvertStarted, nullptr, this);
@@ -51,6 +95,8 @@ void ConvertTab::initializeConvert()
 	convertSizer->Add(convertButton, wxSizerFlags(1).Top().CenterHorizontal());
 	convertSizer->AddStretchSpacer(0);
 
+	// Fourth row is blank for cosmetics.
+	
 	Layout();
 }
 
@@ -106,10 +152,19 @@ void ConvertTab::onCopierDone(wxCommandEvent& event)
 {
 	const auto message = event.GetInt();
 	if (message)
+	{
 		statusCopy->SetLabel(tr("CONVERTSTATUSPOSTSUCCESS"));
+		setProgress(109);
+	}	
 	else
 	{
 		statusCopy->SetLabel(tr("CONVERTSTATUSPOSTFAIL"));
 	}
 	convertButton->Enable();
+}
+
+void ConvertTab::setProgress(int progress)
+{
+	gauge->SetValue(progress);
+	gaugeCounter->SetLabel(std::to_string(progress) + "%");
 }

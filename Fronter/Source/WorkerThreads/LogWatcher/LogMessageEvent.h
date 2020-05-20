@@ -7,6 +7,7 @@
 
 class LogMessageEvent;
 wxDECLARE_EVENT(wxEVT_TAILTHREAD, LogMessageEvent);
+wxDECLARE_EVENT(wxEVT_PROGRESSMESSAGE, LogMessageEvent);
 
 typedef void (wxEvtHandler::*LogMessageEventFunction)(LogMessageEvent&);
 #define LogMessageEventHandler(func) wxEVENT_HANDLER_CAST(LogMessageEventFunction, func)

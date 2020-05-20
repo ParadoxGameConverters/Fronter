@@ -27,4 +27,8 @@ l_latin:
  OPTIONSTAB: "Optiones"
  CONVERTTAB: "Versio"
  BROWSE: "Invenire"
- 
+ LOGLEVEL: "Saccate nuntia pro genus"
+ LOGLEVEL0: "Error"
+ LOGLEVEL1: "Monitus"
+ LOGLEVEL2: "Info"
+ LOGLEVEL3: "Debug"

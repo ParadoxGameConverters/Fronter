@@ -12,6 +12,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
 	Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
 	Bind(wxEVT_MENU, &MainFrame::OnSupportUs, this, wxID_NETWORK);
+	Bind(wxEVT_PROGRESSMESSAGE, &MainFrame::OnProgressMessage, this);
+	Bind(wxEVT_LOGLEVELCHANGED, &MainFrame::OnLogLevelChange, this);
 }
 
 void MainFrame::initFrame()
@@ -32,7 +34,7 @@ void MainFrame::initFrame()
 	optionsTab->initializeOptions();
 	optionsTab->SetBackgroundColour(wxColour(245, 255, 245));
 
-	ConvertTab* convertTab = new ConvertTab(notebook);
+	convertTab = new ConvertTab(notebook);
 	convertTab->loadConfiguration(configuration);
 	convertTab->loadLocalization(localization);
 	convertTab->loadSelf(this);
@@ -92,4 +94,14 @@ void MainFrame::OnLanguageChange(wxCommandEvent& event)
 {
 	localization->saveLanguage(event.GetId());
 	wxMessageBox(tr("LANGUAGESAVEDBODY"), tr("LANGUAGESAVED"), wxOK | wxICON_INFORMATION);
+}
+
+void MainFrame::OnProgressMessage(wxCommandEvent& event)
+{
+	convertTab->setProgress(event.GetInt());
+}
+
+void MainFrame::OnLogLevelChange(wxCommandEvent& event)
+{
+	logWindow->setLogLevel(event.GetInt());
 }
