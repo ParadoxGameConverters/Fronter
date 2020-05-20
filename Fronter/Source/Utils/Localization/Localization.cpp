@@ -18,6 +18,7 @@ Localization::Localization()
 	while (std::getline(langfile, line))
 	{
 		auto pos = line.find_first_of(':');
+		if (pos == std::string::npos) continue;
 		auto language = line.substr(2, pos - 2);
 		pos = line.find_first_of('\"');
 		const auto secpos = line.find_last_of('\"');
@@ -68,10 +69,7 @@ void Localization::loadLanguages()
 		{
 			pos = line.find_first_of(':');
 			if (pos == std::string::npos)
-			{
-				Log(LogLevel::Error) << "Invalid localization line: " << line;
 				continue;
-			}
 			auto key = line.substr(1, pos - 1);
 			pos = line.find_first_of('\"');
 			if (pos == std::string::npos)
