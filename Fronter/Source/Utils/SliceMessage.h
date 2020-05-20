@@ -10,7 +10,7 @@ enum class MessageSource
 	CONVERTER = 2
 };
 
-typedef struct
+typedef struct LogMessage
 {
 	std::string timestamp;
 	LogLevel logLevel = LogLevel::Info;

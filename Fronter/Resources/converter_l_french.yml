@@ -31,4 +31,4 @@ l_french:
  LOGLEVEL0: "Erreur"
  LOGLEVEL1: "Attention"
  LOGLEVEL2: "Info"
- LOGLEVEL3: "Déboguer"
+ LOGLEVEL3: "Déboug"
