@@ -6,12 +6,13 @@
 #define tr localization->translate
 
 wxDEFINE_EVENT(wxEVT_LOGLEVELCHANGED, wxCommandEvent);
+wxDEFINE_EVENT(wxEVT_BLANKLOG, wxCommandEvent);
 
 ConvertTab::ConvertTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
 	m_pParent = parent;
-	Bind(wxEVT_CONVERTERDONE, &ConvertTab::onConverterDone, this, wxID_ANY);
-	Bind(wxEVT_COPIERDONE, &ConvertTab::onCopierDone, this, wxID_ANY);
+	Bind(wxEVT_CONVERTERDONE, &ConvertTab::onConverterDone, this);
+	Bind(wxEVT_COPIERDONE, &ConvertTab::onCopierDone, this);
 }
 
 void ConvertTab::initializeConvert()
@@ -102,6 +103,27 @@ void ConvertTab::initializeConvert()
 
 void ConvertTab::onConvertStarted(wxCommandEvent& event)
 {
+	configuration->clearSecondLog();
+	wxCommandEvent evt(wxEVT_BLANKLOG);
+	m_pParent->AddPendingEvent(evt);
+
+	for (const auto& folder: configuration->getRequiredFolders())
+	{
+		if (folder.second->isMandatory() && !Utils::DoesFolderExist(folder.second->getValue()))
+		{
+			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder.second->getName() << " at " << folder.second->getValue() << " not found.";
+			return;
+		}
+	}
+	for (const auto& file: configuration->getRequiredFiles())
+	{
+		if (file.second->isMandatory() && !Utils::DoesFileExist(file.second->getValue()))
+		{
+			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file.second->getName() << " at " << file.second->getValue() << " not found.";
+			return;
+		}
+	}
+	
 	convertButton->Disable();
 	// Reset statuses
 	statusSave->SetLabel(tr("CONVERTSTATUSPRE"));
@@ -127,17 +149,16 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 
 void ConvertTab::onConverterDone(wxCommandEvent& event)
 {
+	wxMilliSleep(400); // waiting on second tail to finish transcribing.
 	const auto message = event.GetInt();
+	mainFrame->terminateSecondTail();
 	if (message)
 	{
 		statusConvert->SetLabel(tr("CONVERTSTATUSPOSTSUCCESS"));
-		wxMilliSleep(400); // waiting on second tail to finish transcribing.
-		mainFrame->terminateSecondTail();
 	}
 	else
 	{
 		statusConvert->SetLabel(tr("CONVERTSTATUSPOSTFAIL"));
-		mainFrame->terminateSecondTail();
 		convertButton->Enable();
 		return;
 	}

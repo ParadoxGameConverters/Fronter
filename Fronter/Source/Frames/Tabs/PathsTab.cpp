@@ -132,13 +132,23 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& folder: configuration->getRequiredFolders())
 		if (folder.second->getID() == evt.GetId())
 		{
+			if (!Utils::DoesFolderExist(Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())))
+			{
+				Log(LogLevel::Error) << "Cannot access folder: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring()) << " - Onedrive and similar symlink folders are not supported!";
+			}
 			std::string result = Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			folder.second->setValue(result);
+			Log(LogLevel::Info) << folder.second->getName() << " set to: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 		}
 	for (const auto& file: configuration->getRequiredFiles())
 		if (file.second->getID() == evt.GetId())
 		{
+			if (!Utils::DoesFileExist(Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())))
+			{
+				Log(LogLevel::Error) << "Cannot access file: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring()) << " - Onedrive and similar symlink folders are not supported!";
+			}
 			std::string result = Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			file.second->setValue(result);
+			Log(LogLevel::Info) << file.second->getName() << " set to: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 		}
 }

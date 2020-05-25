@@ -14,6 +14,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	Bind(wxEVT_MENU, &MainFrame::OnSupportUs, this, wxID_NETWORK);
 	Bind(wxEVT_PROGRESSMESSAGE, &MainFrame::OnProgressMessage, this);
 	Bind(wxEVT_LOGLEVELCHANGED, &MainFrame::OnLogLevelChange, this);
+	Bind(wxEVT_BLANKLOG, &MainFrame::OnBlankLog, this);
 }
 
 void MainFrame::initFrame()
@@ -104,4 +105,9 @@ void MainFrame::OnProgressMessage(wxCommandEvent& event)
 void MainFrame::OnLogLevelChange(wxCommandEvent& event)
 {
 	logWindow->setLogLevel(event.GetInt());
+}
+
+void MainFrame::OnBlankLog(wxCommandEvent& event)
+{
+	logWindow->blankLog();
 }

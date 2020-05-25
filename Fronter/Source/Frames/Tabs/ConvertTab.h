@@ -13,6 +13,7 @@
 
 class MainFrame;
 wxDECLARE_EVENT(wxEVT_LOGLEVELCHANGED, wxCommandEvent);
+wxDECLARE_EVENT(wxEVT_BLANKLOG, wxCommandEvent);
 
 class ConvertTab: public wxNotebookPage
 {

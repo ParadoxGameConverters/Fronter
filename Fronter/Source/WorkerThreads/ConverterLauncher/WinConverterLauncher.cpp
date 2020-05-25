@@ -50,22 +50,32 @@ void* ConverterLauncher::Entry()
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
 	if (CreateProcess(converterExe.c_str(), // No module name (use command line)
-			  nullptr,								  // Command line
-			  nullptr,								  // Process handle not inheritable
-			  nullptr,								  // Thread handle not inheritable
-			  FALSE,									  // Set handle inheritance to FALSE
-			  CREATE_NO_WINDOW,					  // No creation flags
-			  nullptr,								  // Use parent's environment block
-			  workDirPtr,							  // Use parent's starting directory
-			  &si,									  // Pointer to STARTUPINFO structure
+			  nullptr,								 // Command line
+			  nullptr,								 // Process handle not inheritable
+			  nullptr,								 // Thread handle not inheritable
+			  FALSE,									 // Set handle inheritance to FALSE
+			  CREATE_NO_WINDOW,					 // No creation flags
+			  nullptr,								 // Use parent's environment block
+			  workDirPtr,							 // Use parent's starting directory
+			  &si,									 // Pointer to STARTUPINFO structure
 			  &pi))
 	{
+		DWORD exit_code;
 		WaitForSingleObject(pi.hProcess, INFINITE);
+		GetExitCodeProcess(pi.hProcess, &exit_code);
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 		const auto stopWatchEnd = std::chrono::steady_clock::now();
-		Log(LogLevel::Info) << "Converter finished at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count()
-								  << " seconds.";
+		Log(LogLevel::Info) << "Converter exited at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count() << " seconds.";
+		if (exit_code > 0)
+		{
+			wxMilliSleep(100); // waiting on second tail to finish transcribing.
+			Log(LogLevel::Error) << "Converter Error! See log.txt for details.";
+			Log(LogLevel::Error) << "If you require assistance please upload log.txt to forums for a detailed post-mortem.";
+			evt.SetInt(0);
+			m_pParent->AddPendingEvent(evt);
+			return nullptr;
+		}
 	}
 	else
 	{

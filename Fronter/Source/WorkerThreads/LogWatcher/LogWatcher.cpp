@@ -1,18 +1,18 @@
 #include "LogWatcher.h"
 #include "Log.h"
-#include <fstream>
 #include "LogMessageEvent.h"
+#include <fstream>
 
 wxDEFINE_EVENT(wxEVT_TAILTHREAD, LogMessageEvent);
 
 void* LogWatcher::Entry()
 {
 	LogMessageEvent evt(wxEVT_TAILTHREAD);
-
 	std::ifstream logfile(tailSource, std::ifstream::in);
 
 	std::string line;
-	while (!terminate)
+	auto oneLastRun = false;
+	while (!terminate || oneLastRun)
 	{
 		while (logfile)
 		{
@@ -26,12 +26,14 @@ void* LogWatcher::Entry()
 				if (emitterMode)
 				{
 					evt.SetMessage(logMessage);
-					m_pParent->AddPendingEvent(evt);
+					m_pParent->QueueEvent(evt.Clone());
 				}
-			}
+			}			
 		}
-		wxMilliSleep(300);
+		wxMilliSleep(50);
 		logfile.clear();
+		if (terminate && oneLastRun) break;
+		if (terminate) oneLastRun = true;
 	}
 	logfile.close();
 

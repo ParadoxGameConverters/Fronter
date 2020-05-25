@@ -30,6 +30,7 @@ class MainFrame: public wxFrame
 	void OnSupportUs(wxCommandEvent& event);
 	void OnProgressMessage(wxCommandEvent& event);
 	void OnLogLevelChange(wxCommandEvent& event);
+	void OnBlankLog(wxCommandEvent& event);
 	LogWindow* logWindow = nullptr;
 	wxNotebook* notebook = nullptr;
 	OptionsTab* optionsTab = nullptr;

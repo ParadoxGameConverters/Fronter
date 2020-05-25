@@ -19,6 +19,7 @@ class LogWindow: public wxWindow
 	void terminateSecondTail() const;
 	void OnTailPush(LogMessageEvent& event);
 	void setLogLevel(int level);
+	void blankLog();
 
   private:
 	LogWatcher* logWatcher = nullptr;
