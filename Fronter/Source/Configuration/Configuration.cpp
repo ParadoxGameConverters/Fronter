@@ -7,7 +7,7 @@ namespace fs = std::filesystem;
 
 Configuration::Configuration()
 {
-	std::ofstream clearLog("log.txt", std::ofstream::trunc);
+	std::ofstream clearLog("log.txt");
 	clearLog.close();
 	registerKeys();
 	if (fs::exists("Configuration/fronter-configuration.txt"))
@@ -183,4 +183,10 @@ bool Configuration::exportConfiguration() const
 std::string Configuration::getSecondTailSource() const
 {
 	return converterFolder + "/log.txt";
+}
+
+void Configuration::clearSecondLog() const
+{
+	std::ofstream clearSecondLog(converterFolder + "/log.txt");
+	clearSecondLog.close();
 }

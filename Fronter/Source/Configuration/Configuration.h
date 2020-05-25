@@ -23,6 +23,7 @@ class Configuration: commonItems::parser
 
 	[[nodiscard]] std::string getSecondTailSource() const;
 	[[nodiscard]] bool exportConfiguration() const;
+	void clearSecondLog() const;
 	
   private:
 	void registerKeys();

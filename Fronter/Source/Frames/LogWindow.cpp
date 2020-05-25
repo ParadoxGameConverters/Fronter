@@ -96,7 +96,6 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	}
 
 	const auto message = "  " + logMessage.message;
-
 	theGrid->BeginBatch();
 	theGrid->AppendRows(1, false);
 	theGrid->SetRowSize(logCounter, 20);
@@ -150,4 +149,11 @@ void LogWindow::setLogLevel(int level)
 	GetParent()->Layout();
 	theGrid->Scroll(0, logCounter - 1);
 	theGrid->MakeCellVisible(logCounter - 1, 0);
+}
+
+void LogWindow::blankLog()
+{
+	const auto rows = theGrid->GetNumberRows();
+	theGrid->DeleteRows(0, rows, true);
+	logCounter = 0;	
 }
