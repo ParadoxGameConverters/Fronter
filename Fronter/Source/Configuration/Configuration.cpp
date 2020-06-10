@@ -1,6 +1,7 @@
 #include "Configuration.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
+#include "Mod.h"
 #include <filesystem>
 #include <fstream>
 namespace fs = std::filesystem;
@@ -28,7 +29,7 @@ Configuration::Configuration()
 	{
 		Log(LogLevel::Warning) << "Configuration/fronter-options.txt not found!";
 	}
-	clearRegisteredKeywords();
+	clearRegisteredKeywords();	
 	registerPreloadKeys();
 	if (!converterFolder.empty() && fs::exists(fs::u8path(converterFolder + "/configuration.txt")))
 	{
@@ -128,6 +129,10 @@ void Configuration::registerKeys()
 		const commonItems::singleString gameStr(theStream);
 		targetGame = gameStr.getString();
 	});
+	registerKeyword("autoGenerateModsFrom", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString modsStr(theStream);
+		autoGenerateModsFrom = modsStr.getString();
+	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
 
@@ -190,3 +195,57 @@ void Configuration::clearSecondLog() const
 	std::ofstream clearSecondLog(converterFolder + "/log.txt");
 	clearSecondLog.close();
 }
+
+void Configuration::autoLocateMods()
+{
+	// Do we have a mod path?
+	std::string modPath;
+	for (const auto& requiredfolder: requiredFolders)
+	{
+		if (requiredfolder.second->getName() == autoGenerateModsFrom)
+		{
+			modPath = requiredfolder.second->getValue();
+		}
+	}
+	if (modPath.empty())
+		return;
+
+	// Does it exist?
+	if (!Utils::DoesFolderExist(modPath))
+	{
+		Log(LogLevel::Warning) << "Mod path: " << modPath << " does not exist or can not be accessed!";
+		return;
+	}
+
+	// Are there mods inside?
+	std::vector<std::string> validModFiles;
+	for (const auto& file: Utils::GetAllFilesInFolder(modPath))
+	{
+		const auto lastDot = file.find_last_of('.');
+		if (lastDot == std::string::npos)
+			continue;
+		const auto extension = file.substr(lastDot + 1, file.length() - lastDot - 1);
+		if (extension != "mod")
+			continue;
+		validModFiles.emplace_back(file);
+	}
+
+	if (validModFiles.empty())
+	{
+		Log(LogLevel::Warning) << "No mod files could be found in " << modPath;
+		return;
+	}
+
+	for (const auto& modFile: validModFiles)
+	{
+		Mod theMod(modPath + "/" + modFile);
+		if (theMod.getName().empty())
+		{
+			Log(LogLevel::Warning) << "Mod at " << modPath + "/" + modFile << " has no defined name, skipping.";
+			continue;
+		}
+		autolocatedMods.emplace_back(theMod.getName());
+		Log(LogLevel::Debug) << "Located " << theMod.getName();
+	}
+}
+

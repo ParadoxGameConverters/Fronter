@@ -16,6 +16,8 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getTargetGame() const { return targetGame; }
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
+	[[nodiscard]] const auto& getAutoGenerateModsFrom() const { return autoGenerateModsFrom; }
+	[[nodiscard]] const auto& getAutoLocatedMods() const { return autolocatedMods; }
 	[[nodiscard]] const auto& getRequiredFiles() const { return requiredFiles; }
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getConverterFolder() const { return converterFolder; }
@@ -24,6 +26,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] std::string getSecondTailSource() const;
 	[[nodiscard]] bool exportConfiguration() const;
 	void clearSecondLog() const;
+	void autoLocateMods();
 	
   private:
 	void registerKeys();
@@ -34,9 +37,11 @@ class Configuration: commonItems::parser
 	std::string displayName;
 	std::string sourceGame;
 	std::string targetGame;
+	std::string autoGenerateModsFrom;
 	std::map<std::string, std::shared_ptr<RequiredFile>> requiredFiles;
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;
+	std::vector<std::string> autolocatedMods;
 	int optionCounter = 0;
 };
 

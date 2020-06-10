@@ -20,16 +20,16 @@ void PathsTab::initializePaths()
 	std::string documentsDir;
 	if (userDir)
 	{
-        documentsDir = std::string(userDir) + R"(\Documents)";
+		documentsDir = std::string(userDir) + R"(\Documents)";
 	}
 
 	if (!userDir)
 	{
-        userDir = std::getenv("HOME");
-        if (userDir)
-        {
-            documentsDir = std::string(userDir) + R"(/Documents)";
-        }
+		userDir = std::getenv("HOME");
+		if (userDir)
+		{
+			documentsDir = std::string(userDir) + R"(/Documents)";
+		}
 	}
 	for (const auto& folder: configuration->getRequiredFolders())
 	{
@@ -64,6 +64,10 @@ void PathsTab::initializePaths()
 		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
 		folder.second->setID(pickerCounter);
 		folder.second->setValue(Utils::UTF16ToUTF8(folderPath));
+		// Intermezzo for mod detection
+		if (!configuration->getAutoGenerateModsFrom().empty() && folder.second->getName() == configuration->getAutoGenerateModsFrom())
+			configuration->autoLocateMods();
+		// Carry on
 		st->SetToolTip(tr(folder.second->getTooltip()));
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 		GetSizer()->Add(dirPickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
@@ -105,7 +109,7 @@ void PathsTab::initializePaths()
 		}
 		std::string allowedExtension;
 #if defined __WIN32__
-        allowedExtension = file.second->getAllowedExtension();
+		allowedExtension = file.second->getAllowedExtension();
 #endif
 
 		wxFilePickerCtrl* filePickerCtrl = new wxFilePickerCtrl(this,
@@ -132,20 +136,28 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& folder: configuration->getRequiredFolders())
 		if (folder.second->getID() == evt.GetId())
 		{
-			if (!Utils::DoesFolderExist(Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())))
+			const auto validPath = Utils::DoesFolderExist(Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring()));
+			if (!validPath)
 			{
-				Log(LogLevel::Error) << "Cannot access folder: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring()) << " - Onedrive and similar symlink folders are not supported!";
+				Log(LogLevel::Error) << "Cannot access folder: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())
+											<< " - Onedrive and similar symlink folders are not supported!";
+				// Not bailing. We may not be able to access it but who knows, maybe converter can.
 			}
-			std::string result = Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			const auto result = Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			folder.second->setValue(result);
 			Log(LogLevel::Info) << folder.second->getName() << " set to: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			// Intermezzo for mod detection
+			if (!configuration->getAutoGenerateModsFrom().empty() && folder.second->getName() == configuration->getAutoGenerateModsFrom())
+				configuration->autoLocateMods();
+			// Carry on
 		}
 	for (const auto& file: configuration->getRequiredFiles())
 		if (file.second->getID() == evt.GetId())
 		{
 			if (!Utils::DoesFileExist(Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())))
 			{
-				Log(LogLevel::Error) << "Cannot access file: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring()) << " - Onedrive and similar symlink folders are not supported!";
+				Log(LogLevel::Error) << "Cannot access file: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())
+											<< " - Onedrive and similar symlink folders are not supported!";
 			}
 			std::string result = Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			file.second->setValue(result);

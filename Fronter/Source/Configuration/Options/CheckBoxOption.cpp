@@ -2,6 +2,9 @@
 #include "Log.h"
 #include "ParserHelpers.h"
 
+CheckBoxOption::CheckBoxOption(const std::string& theName, int theID): ID(theID), name(theName), tooltip(theName), displayName(theName)
+{}
+
 CheckBoxOption::CheckBoxOption(std::istream& theStream, int theID): ID(theID)
 {
 	registerKeys();

@@ -28,6 +28,7 @@
     <ClCompile Include="commonItems\StringUtils.cpp" />
     <ClCompile Include="commonItems\WinUtils.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Configuration.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\Mod.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxOption.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxSelector.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\Option.cpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="commonItems\ParserHelpers.h" />
     <ClInclude Include="commonItems\StringUtils.h" />
     <ClInclude Include="Fronter\Source\Configuration\Configuration.h" />
+    <ClInclude Include="Fronter\Source\Configuration\Mod.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxOption.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxSelector.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\Option.h" />

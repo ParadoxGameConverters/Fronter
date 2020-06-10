@@ -129,6 +129,9 @@
     <ClCompile Include="commonItems\CommonFunctions.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\Configuration\Mod.cpp">
+      <Filter>Fronter\Configuration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\ParserHelpers.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="commonItems\CommonFunctions.h">
       <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Configuration\Mod.h">
+      <Filter>Fronter\Configuration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

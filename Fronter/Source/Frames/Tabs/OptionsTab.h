@@ -5,6 +5,8 @@
 #endif
 #include "../../Configuration/Configuration.h"
 #include "../../Utils/Localization/Localization.h"
+#include "OptionBox.h"
+#include <wx/wrapsizer.h>
 
 class OptionsTab: public wxScrolledWindow
 {
@@ -14,8 +16,14 @@ class OptionsTab: public wxScrolledWindow
 	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
 	void initializeOptions();
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
+	void createModOptionBox();
 
   private:
+	void fillModOption();
+
 	std::shared_ptr<Configuration> configuration;
 	std::shared_ptr<Localization> localization;
+	std::shared_ptr<Option> modOption;
+	OptionBox* modOptionBox = nullptr;
+	wxWrapSizer* optionsTabSizer;
 };

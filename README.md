@@ -23,6 +23,7 @@ converterFolder = CK2ToEU4
 displayName = DISPLAYNAME
 sourceGame = SOURCEGAME
 targetGame = TARGETGAME
+autoGenerateModsFrom = CK2ModsDirectory
 
 requiredFile = {
 	name = SaveGame
@@ -185,6 +186,7 @@ targetGameModPath = "d:\somePath\to\mods"
 shatter_hre_level = "1"
 output_name = "some user input"
 some_checkbox_control = { "yes", "1", "sausage" }
+selectedMods  = { "name of first mod" "second user selected mod" "and so on" } # this one is done if autoGenerateModsFrom was used and valid, and user selected something
 ```
 
 Slashes and backslashes depend on OS, so Converter is responsible for parsing them.

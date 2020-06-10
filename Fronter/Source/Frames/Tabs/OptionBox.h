@@ -18,10 +18,14 @@ class OptionBox: public wxWindow
 	void initializeOption();
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 
+	void overrideLocalization() { localizationOverride = true; }
+	
   private:
 	std::string optionName;
 	std::shared_ptr<Option> option;
 	wxTextCtrl* textField = nullptr;
 	std::shared_ptr<Localization> localization;
 	std::vector<wxCheckBox*> checkBoxes;
+
+	bool localizationOverride = false;
 };
