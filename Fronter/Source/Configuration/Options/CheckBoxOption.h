@@ -7,7 +7,6 @@ class CheckBoxOption: commonItems::parser
   public:
 	CheckBoxOption() = default;
 	explicit CheckBoxOption(std::istream& theStream, int theID);
-	explicit CheckBoxOption(const std::string& theName, int theID);
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }

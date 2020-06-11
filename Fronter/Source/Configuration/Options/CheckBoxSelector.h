@@ -22,8 +22,6 @@ class CheckBoxSelector: commonItems::parser
 	void setSelectedValues(const std::set<std::string>& selection);
 	void setPreloaded() { preloaded = true; }
 
-	void insertOption(std::shared_ptr<CheckBoxOption> theOption) { checkBoxOptions.emplace_back(std::move(theOption)); }
-
   private:
 	void registerKeys();
 	int ID = 0;
