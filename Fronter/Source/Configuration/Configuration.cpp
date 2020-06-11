@@ -198,6 +198,7 @@ void Configuration::clearSecondLog() const
 
 void Configuration::autoLocateMods()
 {
+	autolocatedMods.clear();
 	// Do we have a mod path?
 	std::string modPath;
 	for (const auto& requiredfolder: requiredFolders)

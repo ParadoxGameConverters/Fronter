@@ -40,6 +40,7 @@
     <ClCompile Include="Fronter\Source\Frames\LogWindow.cpp" />
     <ClCompile Include="Fronter\Source\Frames\MainFrame.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\ConvertTab.cpp" />
+    <ClCompile Include="Fronter\Source\Frames\Tabs\ModsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionBox.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\OptionsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="Fronter\Source\Frames\LogWindow.h" />
     <ClInclude Include="Fronter\Source\Frames\MainFrame.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\ConvertTab.h" />
+    <ClInclude Include="Fronter\Source\Frames\Tabs\ModsTab.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionBox.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\OptionsTab.h" />
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h" />

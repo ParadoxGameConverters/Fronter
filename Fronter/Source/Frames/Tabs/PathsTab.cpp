@@ -6,8 +6,11 @@ namespace fs = std::filesystem;
 #define tr localization->translate
 #include <cstdlib>
 
+wxDEFINE_EVENT(wxEVT_UPDATEMODS, wxCommandEvent);
+
 PathsTab::PathsTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
+	m_pParent = parent;
 }
 
 void PathsTab::initializePaths()
@@ -148,8 +151,11 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 			Log(LogLevel::Info) << folder.second->getName() << " set to: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			// Intermezzo for mod detection
 			if (!configuration->getAutoGenerateModsFrom().empty() && folder.second->getName() == configuration->getAutoGenerateModsFrom())
+			{
 				configuration->autoLocateMods();
-			// Carry on
+				wxCommandEvent evt(wxEVT_UPDATEMODS);
+				m_pParent->AddPendingEvent(evt);
+			}
 		}
 	for (const auto& file: configuration->getRequiredFiles())
 		if (file.second->getID() == evt.GetId())

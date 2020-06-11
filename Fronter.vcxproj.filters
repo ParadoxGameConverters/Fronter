@@ -132,6 +132,9 @@
     <ClCompile Include="Fronter\Source\Configuration\Mod.cpp">
       <Filter>Fronter\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\Frames\Tabs\ModsTab.cpp">
+      <Filter>Fronter\Frames\Tabs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\ParserHelpers.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Configuration\Mod.h">
       <Filter>Fronter\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\Frames\Tabs\ModsTab.h">
+      <Filter>Fronter\Frames\Tabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

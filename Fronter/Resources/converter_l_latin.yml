@@ -26,6 +26,7 @@ l_latin:
  PATHSTAB: "Iter scidularum"
  OPTIONSTAB: "Optiones"
  CONVERTTAB: "Versio"
+ MODSTAB: "Correctionum"
  BROWSE: "Invenire"
  LOGLEVEL: "Saccate nuntia pro genus"
  LOGLEVEL0: "Error"

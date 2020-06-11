@@ -26,6 +26,7 @@ l_english:
  PATHSTAB: "Paths"
  OPTIONSTAB: "Options"
  CONVERTTAB: "Convert"
+ MODSTAB: "Mods"
  BROWSE: "Browse"
  LOGLEVEL: "Filter Log Messages Below Severity"
  LOGLEVEL0: "Error"

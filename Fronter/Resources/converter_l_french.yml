@@ -26,6 +26,7 @@ l_french:
  PATHSTAB: "Chemins"
  OPTIONSTAB: "Options"
  CONVERTTAB: "Conversion"
+ MODSTAB: "Mods"
  BROWSE: "Parcourir"
  LOGLEVEL: "Filtrer les messages du journal sous la gravité"
  LOGLEVEL0: "Erreur"

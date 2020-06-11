@@ -26,6 +26,7 @@ l_german:
  PATHSTAB: "Dateipfade"
  OPTIONSTAB: "Optionen"
  CONVERTTAB: "Konvesion"
+ MODSTAB: "Mods"
  BROWSE: "Durchsuchen"
  LOGLEVEL: "Filtriere die Meldungen nach ihrer Art"
  LOGLEVEL0: "Fehler"
