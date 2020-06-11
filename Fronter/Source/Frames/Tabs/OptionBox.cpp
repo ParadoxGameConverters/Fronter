@@ -99,17 +99,15 @@ void OptionBox::initializeOption()
 	{
 		for (const auto& checkBoxOption: option->getCheckBoxSelector().second->getOptions())
 		{
-			Log(LogLevel::Debug) << "In checkboxoption " << checkBoxOption->getName() << " with ID " << checkBoxOption->getID();
 			wxCheckBox* theCheckBox = new wxCheckBox(boxHolder,
-					 checkBoxOption->getID(),
-					 tr(checkBoxOption->getDisplayName()),
-					 wxDefaultPosition,
-					 wxDefaultSize,
-					 wxEXPAND,
-					 wxDefaultValidator,
-					 checkBoxOption->getName());
+				 checkBoxOption->getID(),
+				 tr(checkBoxOption->getDisplayName()),
+				 wxDefaultPosition,
+				 wxDefaultSize,
+				 wxEXPAND,
+				 wxDefaultValidator,
+				 checkBoxOption->getName());
 			theCheckBox->SetToolTip(tr(checkBoxOption->getTooltip()));
-
 			if (option->isCheckBoxSelectorPreloaded())
 			{
 				if (option->getCheckBoxSelector().second->getSelectedIDs().count(checkBoxOption->getID()))
@@ -122,7 +120,7 @@ void OptionBox::initializeOption()
 				}
 			}
 			else
-			{				
+			{
 				theCheckBox->SetValue(checkBoxOption->isDefault());
 			}
 

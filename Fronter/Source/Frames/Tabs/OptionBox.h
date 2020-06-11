@@ -24,6 +24,4 @@ class OptionBox: public wxWindow
 	wxTextCtrl* textField = nullptr;
 	std::shared_ptr<Localization> localization;
 	std::vector<wxCheckBox*> checkBoxes;
-
-	bool localizationOverride = false;
 };

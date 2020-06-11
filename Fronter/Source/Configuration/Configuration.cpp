@@ -1,7 +1,7 @@
 #include "Configuration.h"
+#include "Mod.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
-#include "Mod.h"
 #include <filesystem>
 #include <fstream>
 namespace fs = std::filesystem;
@@ -29,7 +29,7 @@ Configuration::Configuration()
 	{
 		Log(LogLevel::Warning) << "Configuration/fronter-options.txt not found!";
 	}
-	clearRegisteredKeywords();	
+	clearRegisteredKeywords();
 	registerPreloadKeys();
 	if (!converterFolder.empty() && fs::exists(fs::u8path(converterFolder + "/configuration.txt")))
 	{
@@ -248,4 +248,3 @@ void Configuration::autoLocateMods()
 		Log(LogLevel::Debug) << "Located " << theMod.getName();
 	}
 }
-

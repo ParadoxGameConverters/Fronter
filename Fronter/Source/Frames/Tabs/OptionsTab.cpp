@@ -1,7 +1,7 @@
 #include "OptionsTab.h"
 #include "OSCompatibilityLayer.h"
-#include <wx/wrapsizer.h>
 #include "OptionBox.h"
+#include <wx/wrapsizer.h>
 
 OptionsTab::OptionsTab(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
@@ -21,6 +21,5 @@ void OptionsTab::initializeOptions()
 		newOption->initializeOption();
 		optionsTabSizer->Add(newOption);
 	}
-	
 	GetParent()->Layout();
 }
