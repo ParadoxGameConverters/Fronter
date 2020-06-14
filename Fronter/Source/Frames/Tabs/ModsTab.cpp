@@ -23,7 +23,7 @@ void ModsTab::initializeMods()
 
 	if (configuration->getAutoLocatedMods().empty())
 	{
-		title->SetLabel("MODSNOTFOUND");
+		title->SetLabel(tr("MODSNOTFOUND"));
 		return;
 	}
 
