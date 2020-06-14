@@ -17,17 +17,17 @@ void ModsTab::initializeMods()
 {
 	if (configuration->getAutoGenerateModsFrom().empty())
 	{
-		title->SetLabel("not enabled");
+		title->SetLabel(tr("MODSDISABLED"));
 		return;
 	}
 
 	if (configuration->getAutoLocatedMods().empty())
 	{
-		title->SetLabel("no mods found");
+		title->SetLabel("MODSNOTFOUND");
 		return;
 	}
 
-	title->SetLabel(tr("MODSTAB"));
+	title->SetLabel(tr("MODSFOUND"));
 
 	// This is the mod box.
 	wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
