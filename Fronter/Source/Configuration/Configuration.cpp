@@ -1,4 +1,5 @@
 #include "Configuration.h"
+#include "Mod.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
 #include <filesystem>
@@ -76,6 +77,12 @@ void Configuration::registerPreloadKeys()
 				option->setCheckBoxSelectorPreloaded();
 			}
 		}
+		if (incomingKey == "selectedMods")
+		{
+			commonItems::stringList theList(ss);
+			const auto selections = theList.getStrings();
+			preloadedModFileNames.insert(selections.begin(), selections.end());
+		}
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
@@ -128,6 +135,10 @@ void Configuration::registerKeys()
 		const commonItems::singleString gameStr(theStream);
 		targetGame = gameStr.getString();
 	});
+	registerKeyword("autoGenerateModsFrom", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString modsStr(theStream);
+		autoGenerateModsFrom = modsStr.getString();
+	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
 
@@ -160,6 +171,18 @@ bool Configuration::exportConfiguration() const
 			continue;
 		confFile << file.first << " = \"" << file.second->getValue() << "\"\n";
 	}
+
+	if (!autoGenerateModsFrom.empty())
+	{
+		confFile << "selectedMods = {\n";
+		for (const auto& mod: autolocatedMods)
+			if (preloadedModFileNames.count(mod.getFileName()))
+			{
+				confFile << "\t\"" << mod.getFileName() << "\"\n";
+			}
+		confFile << "}\n";
+	}
+
 	for (const auto& option: options)
 	{
 		if (option->getCheckBoxSelector().first)
@@ -189,4 +212,86 @@ void Configuration::clearSecondLog() const
 {
 	std::ofstream clearSecondLog(converterFolder + "/log.txt");
 	clearSecondLog.close();
+}
+
+void Configuration::autoLocateMods()
+{
+	autolocatedMods.clear();
+	// Do we have a mod path?
+	std::string modPath;
+	for (const auto& requiredfolder: requiredFolders)
+	{
+		if (requiredfolder.second->getName() == autoGenerateModsFrom)
+		{
+			modPath = requiredfolder.second->getValue();
+		}
+	}
+	if (modPath.empty())
+		return;
+
+	// Does it exist?
+	if (!Utils::DoesFolderExist(modPath))
+	{
+		Log(LogLevel::Warning) << "Mod path: " << modPath << " does not exist or can not be accessed!";
+		return;
+	}
+
+	// Are there mods inside?
+	std::vector<std::string> validModFiles;
+	for (const auto& file: Utils::GetAllFilesInFolder(modPath))
+	{
+		const auto lastDot = file.find_last_of('.');
+		if (lastDot == std::string::npos)
+			continue;
+		const auto extension = file.substr(lastDot + 1, file.length() - lastDot - 1);
+		if (extension != "mod")
+			continue;
+		validModFiles.emplace_back(file);
+	}
+
+	if (validModFiles.empty())
+	{
+		Log(LogLevel::Warning) << "No mod files could be found in " << modPath;
+		return;
+	}
+
+	for (const auto& modFile: validModFiles)
+	{
+		Mod theMod(modPath + "/" + modFile);
+		if (theMod.getName().empty())
+		{
+			Log(LogLevel::Warning) << "Mod at " << modPath + "/" + modFile << " has no defined name, skipping.";
+			continue;
+		}
+		autolocatedMods.emplace_back(theMod);
+	}
+
+	// filter broken filenames from preloaded list.
+	std::set<std::string> modNames;
+	for (const auto& mod: autolocatedMods)
+		modNames.insert(mod.getFileName());
+
+	for (auto it = preloadedModFileNames.begin(); it != preloadedModFileNames.end();)
+	{
+		if (!modNames.count(*it))
+		{
+			it = preloadedModFileNames.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+void Configuration::setEnabledMods(const std::set<int>& selection)
+{
+	preloadedModFileNames.clear();
+	for (auto counter = 0; counter < static_cast<int>(autolocatedMods.size()); counter++)
+	{
+		if (selection.count(counter))
+		{
+			preloadedModFileNames.insert(autolocatedMods[counter].getFileName());
+		}
+	}
 }

@@ -10,6 +10,7 @@
 #include "Tabs/OptionsTab.h"
 #include <wx/notebook.h>
 #include "Tabs/ConvertTab.h"
+#include "Tabs/ModsTab.h"
 
 class MainFrame: public wxFrame
 {
@@ -31,8 +32,10 @@ class MainFrame: public wxFrame
 	void OnProgressMessage(wxCommandEvent& event);
 	void OnLogLevelChange(wxCommandEvent& event);
 	void OnBlankLog(wxCommandEvent& event);
+	void OnUpdateMods(wxCommandEvent& event);
 	LogWindow* logWindow = nullptr;
 	wxNotebook* notebook = nullptr;
+	ModsTab* modsTab = nullptr;
 	OptionsTab* optionsTab = nullptr;
 	ConvertTab* convertTab = nullptr;
 	

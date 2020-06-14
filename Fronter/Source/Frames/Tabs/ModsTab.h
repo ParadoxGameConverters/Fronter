@@ -5,26 +5,24 @@
 #endif
 #include "../../Configuration/Configuration.h"
 #include "../../Utils/Localization/Localization.h"
-#include <wx/filepicker.h>
-#include <wx/notebook.h>
 
-wxDECLARE_EVENT(wxEVT_UPDATEMODS, wxCommandEvent);
-
-class PathsTab: public wxNotebookPage
+class ModsTab: public wxScrolledWindow
 {
   public:
-	PathsTab(wxWindow* parent);
+	ModsTab(wxWindow* parent);
 
 	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
-	void initializePaths();
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 
-  private:
-	void OnPathChanged(wxFileDirPickerEvent& evt);
+	void initializeMods();
 
-	int pickerCounter = 0;
+  private:
 	std::shared_ptr<Configuration> configuration;
 	std::shared_ptr<Localization> localization;
+
+	wxStaticText* title = nullptr;
+	std::vector<wxCheckBox*> checkBoxes;
+	wxBoxSizer* modsTabSizer;
 
   protected:
 	wxEvtHandler* m_pParent;

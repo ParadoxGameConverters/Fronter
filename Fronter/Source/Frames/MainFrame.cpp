@@ -15,6 +15,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	Bind(wxEVT_PROGRESSMESSAGE, &MainFrame::OnProgressMessage, this);
 	Bind(wxEVT_LOGLEVELCHANGED, &MainFrame::OnLogLevelChange, this);
 	Bind(wxEVT_BLANKLOG, &MainFrame::OnBlankLog, this);
+	Bind(wxEVT_UPDATEMODS, &MainFrame::OnUpdateMods, this);
 }
 
 void MainFrame::initFrame()
@@ -28,6 +29,12 @@ void MainFrame::initFrame()
 	pathsTab->loadLocalization(localization);
 	pathsTab->initializePaths();
 	pathsTab->SetBackgroundColour(wxColour(255, 245, 245));
+
+	modsTab = new ModsTab(notebook);
+	modsTab->loadConfiguration(configuration);
+	modsTab->loadLocalization(localization);
+	modsTab->initializeMods();
+	modsTab->SetBackgroundColour(wxColour(245, 255, 255));
 
 	optionsTab = new OptionsTab(notebook);
 	optionsTab->loadConfiguration(configuration);
@@ -43,6 +50,7 @@ void MainFrame::initFrame()
 	convertTab->SetBackgroundColour(wxColour(245, 245, 255));
 
 	notebook->AddPage(pathsTab, tr("PATHSTAB"));
+	notebook->AddPage(modsTab, tr("MODSTAB"));
 	notebook->AddPage(optionsTab, tr("OPTIONSTAB"));
 	notebook->AddPage(convertTab, tr("CONVERTTAB"));
 	notebook->Layout();
@@ -110,4 +118,20 @@ void MainFrame::OnLogLevelChange(wxCommandEvent& event)
 void MainFrame::OnBlankLog(wxCommandEvent& event)
 {
 	logWindow->blankLog();
+}
+
+void MainFrame::OnUpdateMods(wxCommandEvent& event)
+{
+	notebook->RemovePage(1); // Why bother updating when we can delete.
+	modsTab->Destroy();
+
+	modsTab = new ModsTab(notebook); // New tab altogether.
+	modsTab->loadConfiguration(configuration);
+	modsTab->loadLocalization(localization);
+	modsTab->initializeMods();
+	modsTab->SetBackgroundColour(wxColour(245, 255, 255));
+	
+	notebook->InsertPage(1, modsTab, tr("MODSTAB"), true, -1); // Back where it was.
+	notebook->Layout();
+	notebook->SetSelection(0); // Tab back to paths.
 }

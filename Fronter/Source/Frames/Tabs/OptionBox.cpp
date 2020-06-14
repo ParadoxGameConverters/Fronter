@@ -133,6 +133,7 @@ void OptionBox::initializeOption()
 				}
 				option->setCheckBoxSelectorIDs(toSelect);
 			});
+
 			checkBoxes.emplace_back(theCheckBox);
 			flexGridSizer->Add(theCheckBox, wxSizerFlags(1).Border(wxLEFT | wxRIGHT, 5).Expand());
 			SetMinSize(wxSize(std::max(theCheckBox->GetSize().GetWidth(), GetMinWidth()), 150));
