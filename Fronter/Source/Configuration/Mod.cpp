@@ -1,4 +1,5 @@
 #include "Mod.h"
+#include "CommonFunctions.h"
 #include "Log.h"
 #include "ParserHelpers.h"
 
@@ -12,4 +13,5 @@ Mod::Mod(const std::string& modPath)
 
 	parseFile(modPath);
 	clearRegisteredKeywords();
+	fileName = trimPath(modPath);
 }

@@ -1,10 +1,11 @@
 #ifndef CONFIGURATION
 #define CONFIGURATION
 #include "Log.h"
+#include "Mod.h"
 #include "Options/Option.h"
+#include "Parser.h"
 #include "RequiredFile.h"
 #include "RequiredFolder.h"
-#include "Parser.h"
 
 class Configuration: commonItems::parser
 {
@@ -18,6 +19,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
 	[[nodiscard]] const auto& getAutoGenerateModsFrom() const { return autoGenerateModsFrom; }
 	[[nodiscard]] const auto& getAutoLocatedMods() const { return autolocatedMods; }
+	[[nodiscard]] const auto& getPreloadedModFileNames() const { return preloadedModFileNames; }
 	[[nodiscard]] const auto& getRequiredFiles() const { return requiredFiles; }
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getConverterFolder() const { return converterFolder; }
@@ -27,7 +29,9 @@ class Configuration: commonItems::parser
 	[[nodiscard]] bool exportConfiguration() const;
 	void clearSecondLog() const;
 	void autoLocateMods();
-	
+
+	void setEnabledMods(const std::set<int>& selection);
+
   private:
 	void registerKeys();
 	void registerPreloadKeys();
@@ -41,7 +45,8 @@ class Configuration: commonItems::parser
 	std::map<std::string, std::shared_ptr<RequiredFile>> requiredFiles;
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;
-	std::vector<std::string> autolocatedMods;
+	std::vector<Mod> autolocatedMods;
+	std::set<std::string> preloadedModFileNames;
 	int optionCounter = 0;
 };
 

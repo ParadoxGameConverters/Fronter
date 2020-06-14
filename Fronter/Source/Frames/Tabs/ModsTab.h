@@ -15,17 +15,15 @@ class ModsTab: public wxScrolledWindow
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 
 	void initializeMods();
-	
+
   private:
 	std::shared_ptr<Configuration> configuration;
 	std::shared_ptr<Localization> localization;
 
 	wxStaticText* title = nullptr;
-	wxWindow* boxHolder = nullptr;
 	std::vector<wxCheckBox*> checkBoxes;
 	wxBoxSizer* modsTabSizer;
-	wxBoxSizer* boxSizer;
-	
+
   protected:
 	wxEvtHandler* m_pParent;
 };

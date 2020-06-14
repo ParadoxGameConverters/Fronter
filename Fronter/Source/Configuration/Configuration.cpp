@@ -77,6 +77,12 @@ void Configuration::registerPreloadKeys()
 				option->setCheckBoxSelectorPreloaded();
 			}
 		}
+		if (incomingKey == "selectedMods")
+		{
+			commonItems::stringList theList(ss);
+			const auto selections = theList.getStrings();
+			preloadedModFileNames.insert(selections.begin(), selections.end());
+		}
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
@@ -165,6 +171,18 @@ bool Configuration::exportConfiguration() const
 			continue;
 		confFile << file.first << " = \"" << file.second->getValue() << "\"\n";
 	}
+
+	if (!autoGenerateModsFrom.empty())
+	{
+		confFile << "selectedMods = {\n";
+		for (const auto& mod: autolocatedMods)
+			if (preloadedModFileNames.count(mod.getFileName()))
+			{
+				confFile << "\t\"" << mod.getFileName() << "\"\n";
+			}
+		confFile << "}\n";
+	}
+
 	for (const auto& option: options)
 	{
 		if (option->getCheckBoxSelector().first)
@@ -245,7 +263,35 @@ void Configuration::autoLocateMods()
 			Log(LogLevel::Warning) << "Mod at " << modPath + "/" + modFile << " has no defined name, skipping.";
 			continue;
 		}
-		autolocatedMods.emplace_back(theMod.getName());
-		Log(LogLevel::Debug) << "Located " << theMod.getName();
+		autolocatedMods.emplace_back(theMod);
+	}
+
+	// filter broken filenames from preloaded list.
+	std::set<std::string> modNames;
+	for (const auto& mod: autolocatedMods)
+		modNames.insert(mod.getFileName());
+
+	for (auto it = preloadedModFileNames.begin(); it != preloadedModFileNames.end();)
+	{
+		if (!modNames.count(*it))
+		{
+			it = preloadedModFileNames.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+void Configuration::setEnabledMods(const std::set<int>& selection)
+{
+	preloadedModFileNames.clear();
+	for (auto counter = 0; counter < static_cast<int>(autolocatedMods.size()); counter++)
+	{
+		if (selection.count(counter))
+		{
+			preloadedModFileNames.insert(autolocatedMods[counter].getFileName());
+		}
 	}
 }

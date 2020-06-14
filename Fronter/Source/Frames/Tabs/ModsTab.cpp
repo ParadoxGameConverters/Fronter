@@ -30,25 +30,38 @@ void ModsTab::initializeMods()
 	title->SetLabel(tr("MODSTAB"));
 
 	// This is the mod box.
-	boxSizer = new wxBoxSizer(wxVERTICAL);
-	boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
+	wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
+	wxWindow* boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
 
 	modsTabSizer->Add(boxHolder, wxSizerFlags(1).Border(wxALL, 5));
 	boxHolder->SetSizer(boxSizer);
 	boxHolder->SetBackgroundColour(wxColour(230, 230, 230));
 
 	auto modCounter = 0;
-	for (const auto& modName: configuration->getAutoLocatedMods())
+	for (const auto& mod: configuration->getAutoLocatedMods())
 	{
-		wxCheckBox* theCheckBox = new wxCheckBox(boxHolder,
-			 modCounter,
-			 modName,
-			 wxDefaultPosition,
-			 wxDefaultSize,
-			 wxEXPAND,
-			 wxDefaultValidator,
-			 modName);
-		theCheckBox->SetToolTip(modName);
+		wxCheckBox* theCheckBox =
+			 new wxCheckBox(boxHolder, modCounter, mod.getName(), wxDefaultPosition, wxDefaultSize, wxEXPAND, wxDefaultValidator, mod.getFileName());
+		theCheckBox->SetToolTip(mod.getFileName());
+
+		if (configuration->getPreloadedModFileNames().count(mod.getFileName()))
+		{
+			theCheckBox->SetValue(true);
+		}
+		else
+		{
+			theCheckBox->SetValue(false);
+		}
+
+		theCheckBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event) {
+			std::set<int> toSelect;
+			for (const auto& checkPtr: checkBoxes)
+			{
+				if (checkPtr->GetValue())
+					toSelect.insert(checkPtr->GetId());
+			}
+			configuration->setEnabledMods(toSelect);
+		});
 
 		checkBoxes.emplace_back(theCheckBox);
 		boxSizer->Add(theCheckBox, wxSizerFlags(1).Border(wxLEFT | wxRIGHT, 5).Expand());
