@@ -10,7 +10,7 @@ ModsTab::ModsTab(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefault
 	SetScrollRate(0, 16);
 	SetSizer(modsTabSizer);
 	title = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize);
-	modsTabSizer->Add(title);
+	modsTabSizer->Add(title, wxSizerFlags(0).Border(wxLEFT | wxRIGHT | wxTOP, 5));
 }
 
 void ModsTab::initializeMods()
