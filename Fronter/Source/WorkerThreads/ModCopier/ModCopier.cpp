@@ -93,6 +93,9 @@ void* ModCopier::Entry()
 			saveGamePath = saveGamePath.substr(0, pos);
 		targetName = saveGamePath;
 	}
+	targetName = replaceCharacter(targetName, '-');
+	targetName = replaceCharacter(targetName, ' ');
+	targetName = Utils::normalizeUTF8Path(targetName);
 	if (!Utils::DoesFileExist(converterFolder + "/output/" + targetName + ".mod"))
 	{
 		Log(LogLevel::Error) << "Copy Failed - Cound not find mod: " << converterFolder + "/output/" + targetName + ".mod";
