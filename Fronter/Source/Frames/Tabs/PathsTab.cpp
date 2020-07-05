@@ -61,6 +61,9 @@ void PathsTab::initializePaths()
 		else if (folder.second->getSearchPathType() == "direct")
 			folderPath = Utils::convertUTF8ToUTF16(folder.second->getSearchPath());
 
+		if (!Utils::DoesFolderExist(Utils::UTF16ToUTF8(folderPath)))
+			folderPath.clear();
+
 		wxDirPickerCtrl* dirPickerCtrl =
 			 new wxDirPickerCtrl(this, pickerCounter, folderPath, tr("BROWSE"), wxDefaultPosition, wxSize(650, wxDefaultCoord), wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		dirPickerCtrl->Bind(wxEVT_DIRPICKER_CHANGED, &PathsTab::OnPathChanged, this);
@@ -114,6 +117,12 @@ void PathsTab::initializePaths()
 #if defined __WIN32__
 		allowedExtension = file.second->getAllowedExtension();
 #endif
+
+		if (!Utils::DoesFileExist(Utils::UTF16ToUTF8(filePath)) || !Utils::DoesFolderExist(Utils::UTF16ToUTF8(initialPath)))
+		{
+			filePath.clear();
+			initialPath.clear();
+		}
 
 		wxFilePickerCtrl* filePickerCtrl = new wxFilePickerCtrl(this,
 			 pickerCounter,
