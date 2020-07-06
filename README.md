@@ -74,7 +74,7 @@ searchPathType:
 - direct - copies over an absolute path from searchPath
 
 mandatory:
-- true - will appear in the Paths Tab of the Fronter
+- true - path will be checked and converter won't run without it.
 
 outputtable (relevant for files only):
 - true - will be sent to configuration.txt

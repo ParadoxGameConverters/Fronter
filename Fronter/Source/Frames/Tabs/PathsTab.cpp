@@ -36,8 +36,6 @@ void PathsTab::initializePaths()
 	}
 	for (const auto& folder: configuration->getRequiredFolders())
 	{
-		if (!folder.second->isMandatory())
-			continue;
 		pickerCounter++;
 		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(folder.second->getDisplayName()), wxDefaultPosition);
 
@@ -81,8 +79,6 @@ void PathsTab::initializePaths()
 
 	for (const auto& file: configuration->getRequiredFiles())
 	{
-		if (!file.second->isMandatory())
-			continue;
 		pickerCounter++;
 		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(file.second->getDisplayName()), wxDefaultPosition);
 
