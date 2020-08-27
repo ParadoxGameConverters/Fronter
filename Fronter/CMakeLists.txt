@@ -29,10 +29,10 @@ list(REMOVE_ITEM CONVERTERLAUNCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/
 file(GLOB LOGWATCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/LogWatcher/*.cpp")
 file(GLOB MODCOPIER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
-#set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/LinuxUtils.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/LinuxUtils.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Log.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/OSCommonLayer.cpp")
-#set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Parser.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Parser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ParserHelpers.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
 
