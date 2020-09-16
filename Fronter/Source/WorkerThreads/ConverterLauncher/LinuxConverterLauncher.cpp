@@ -42,11 +42,19 @@ void* ConverterLauncher::Entry()
 	auto exeCommand = "cd " + workDir + "; " + converterExe;
 	const char* exeCommandChar = exeCommand.c_str();
 
-	system(exeCommandChar);
+	auto result = system(exeCommandChar);
     const auto stopWatchEnd = std::chrono::steady_clock::now();
-    Log(LogLevel::Info) << "Converter finished at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count()
-                              << " seconds.";
-	evt.SetInt(1);
+	if (result > 0)
+	{
+		evt.SetInt(1);
+		Log(LogLevel::Info) << "Converter finished at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count() << " seconds.";
+	}
+	else
+	{
+		evt.SetInt(0);
+		Log(LogLevel::Error) << "Could not execute converter!";
+	}
+	
 	m_pParent->AddPendingEvent(evt);
 	return nullptr;
 }
