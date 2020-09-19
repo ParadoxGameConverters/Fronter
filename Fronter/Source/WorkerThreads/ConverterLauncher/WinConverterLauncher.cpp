@@ -31,7 +31,7 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!Utils::DoesFileExist(converterExeString))
+	if (!commonItems::DoesFileExist(converterExeString))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -44,8 +44,8 @@ void* ConverterLauncher::Entry()
 
 	const auto pos = converterExeString.find_last_of('\\');
 	const auto workDirString = converterExeString.substr(0, pos + 1);
-	const auto converterExe = Utils::convertUTF8ToUTF16(converterExeString);
-	const auto workDir = Utils::convertUTF8ToUTF16(workDirString);
+	const auto converterExe = commonItems::convertUTF8ToUTF16(converterExeString);
+	const auto workDir = commonItems::convertUTF8ToUTF16(workDirString);
 	const wchar_t* workDirPtr = workDir.c_str();
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
@@ -79,7 +79,7 @@ void* ConverterLauncher::Entry()
 	}
 	else
 	{
-		Log(LogLevel::Error) << "Could not execute converter: " << std::to_string(GetLastError()) << " " << Utils::GetLastErrorString();
+		Log(LogLevel::Error) << "Could not execute converter: " << std::to_string(GetLastError()) << " " << commonItems::GetLastErrorString();
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;

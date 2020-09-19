@@ -106,7 +106,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->SetCellBackgroundColour(logCounter, 1, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxCENTER, wxCENTER);
 	theGrid->SetReadOnly(logCounter, 1);
-	theGrid->SetCellValue(logCounter, 2, Utils::convertUTF8ToUTF16(message));
+	theGrid->SetCellValue(logCounter, 2, commonItems::convertUTF8ToUTF16(message));
 	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
 	theGrid->SetReadOnly(logCounter, 2);
