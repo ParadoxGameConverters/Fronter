@@ -43,7 +43,7 @@ Localization::Localization()
 
 void Localization::loadLanguages()
 {
-	auto fileNames = Utils::GetAllFilesInFolder("Configuration/");
+	auto fileNames = commonItems::GetAllFilesInFolder("Configuration/");
 
 	for (const auto& fileName: fileNames)
 	{
@@ -105,7 +105,7 @@ std::wstring Localization::translate(const std::string& key)
 		return std::wstring();
 
 	toReturn = std::regex_replace(toReturn, std::regex(R"(\\n)"), "\n");
-	return Utils::convertUTF8ToUTF16(toReturn);
+	return commonItems::convertUTF8ToUTF16(toReturn);
 }
 
 std::wstring Localization::translateLanguage(const std::string& language)
@@ -114,7 +114,7 @@ std::wstring Localization::translateLanguage(const std::string& language)
 	{
 		return std::wstring();
 	}
-	return Utils::convertUTF8ToUTF16(languages[language]);
+	return commonItems::convertUTF8ToUTF16(languages[language]);
 }
 
 void Localization::saveLanguage(int ID)

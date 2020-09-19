@@ -109,7 +109,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 
 	for (const auto& folder: configuration->getRequiredFolders())
 	{
-		if (folder.second->isMandatory() && !Utils::DoesFolderExist(folder.second->getValue()))
+		if (folder.second->isMandatory() && !commonItems::DoesFolderExist(folder.second->getValue()))
 		{
 			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder.second->getName() << " at " << folder.second->getValue() << " not found.";
 			return;
@@ -117,7 +117,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 	}
 	for (const auto& file: configuration->getRequiredFiles())
 	{
-		if (file.second->isMandatory() && !Utils::DoesFileExist(file.second->getValue()))
+		if (file.second->isMandatory() && !commonItems::DoesFileExist(file.second->getValue()))
 		{
 			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file.second->getName() << " at " << file.second->getValue() << " not found.";
 			return;

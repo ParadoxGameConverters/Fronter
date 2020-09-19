@@ -230,7 +230,7 @@ void Configuration::autoLocateMods()
 		return;
 
 	// Does it exist?
-	if (!Utils::DoesFolderExist(modPath))
+	if (!commonItems::DoesFolderExist(modPath))
 	{
 		Log(LogLevel::Warning) << "Mod path: " << modPath << " does not exist or can not be accessed!";
 		return;
@@ -238,7 +238,7 @@ void Configuration::autoLocateMods()
 
 	// Are there mods inside?
 	std::vector<std::string> validModFiles;
-	for (const auto& file: Utils::GetAllFilesInFolder(modPath))
+	for (const auto& file: commonItems::GetAllFilesInFolder(modPath))
 	{
 		const auto lastDot = file.find_last_of('.');
 		if (lastDot == std::string::npos)
