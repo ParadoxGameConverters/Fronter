@@ -150,16 +150,10 @@ void Configuration::registerKeys()
 	registerKeyword("converterReleaseForumThread", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString urlStr(theStream);
 		converterReleaseForumThread = urlStr.getString();
-		std::ofstream thread("THREAD.TXT");
-		thread << converterReleaseForumThread;
-		thread.close();
 	});
 	registerKeyword("converterTagsGithubUrl", [this](const std::string& unused, std::istream& theStream) {
 		const commonItems::singleString tagsUrlStr(theStream);
 		converterTagsGithubUrl = tagsUrlStr.getString();
-		std::ofstream thread("TAGURL.TXT");
-		thread << converterTagsGithubUrl;
-		thread.close();
 	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
