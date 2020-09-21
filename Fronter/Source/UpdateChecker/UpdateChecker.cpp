@@ -79,8 +79,8 @@ bool newerVersion(const std::string& currentVersion, const std::set<std::string>
 std::set<std::string> getAllNumberedVersions(std::string& json)
 {
 	std::set<std::string> versions;
-	size_t pos = 0;
-	size_t nameStart = 0;
+	size_t pos;
+	size_t nameStart;
 	size_t nameEnd = 0;
 	do
 	{
