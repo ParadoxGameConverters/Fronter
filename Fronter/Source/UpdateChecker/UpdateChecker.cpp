@@ -148,7 +148,17 @@ static bool init(CURL*& conn, char* url)
 
 	//additional options
 	code = curl_easy_setopt(conn, CURLOPT_SSL_VERIFYPEER, FALSE);
+	if (code != CURLE_OK)
+	{
+		fprintf(stderr, "Failed to disable verifying the peer in ssl connection [%d]\n", code);
+		return false;
+	}
 	code = curl_easy_setopt(conn, CURLOPT_USERAGENT, "ParadoxGameConverters");
+	if (code != CURLE_OK)
+	{
+		fprintf(stderr, "Failed to set useragent [%d]\n", code);
+		return false;
+	}
 
 	code = curl_easy_setopt(conn, CURLOPT_URL, url);
 	if (code != CURLE_OK)
