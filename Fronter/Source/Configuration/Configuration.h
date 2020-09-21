@@ -19,6 +19,10 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
 	[[nodiscard]] const auto& getAutoGenerateModsFrom() const { return autoGenerateModsFrom; }
 	[[nodiscard]] const auto& getAutoLocatedMods() const { return autolocatedMods; }
+	[[nodiscard]] auto getEnableUpdateChecker() const { return enableUpdateChecker; }
+	[[nodiscard]] auto getCheckForUpdatesOnStartup() const { return checkForUpdatesOnStartup; }
+	[[nodiscard]] const auto& getConverterReleaseForumThread() const { return converterReleaseForumThread; }
+	[[nodiscard]] const auto& getConverterTagsGithubUrl() const { return converterTagsGithubUrl; }
 	[[nodiscard]] const auto& getPreloadedModFileNames() const { return preloadedModFileNames; }
 	[[nodiscard]] const auto& getRequiredFiles() const { return requiredFiles; }
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
@@ -42,6 +46,10 @@ class Configuration: commonItems::parser
 	std::string sourceGame;
 	std::string targetGame;
 	std::string autoGenerateModsFrom;
+	bool enableUpdateChecker = false;
+	bool checkForUpdatesOnStartup = false;
+	std::string converterReleaseForumThread;
+	std::string converterTagsGithubUrl;
 	std::map<std::string, std::shared_ptr<RequiredFile>> requiredFiles;
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;

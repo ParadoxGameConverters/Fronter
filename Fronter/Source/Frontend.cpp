@@ -1,5 +1,6 @@
 #include "Frontend.h"
 #include "Frames/MainFrame.h"
+#include "UpdateChecker/UpdateChecker.h"
 
 wxIMPLEMENT_APP(Frontend);
 #define tr localization->translate
@@ -15,6 +16,7 @@ bool Frontend::OnInit()
 	frame->SetIcon(wxIcon(wxT("converter.ico"), wxBITMAP_TYPE_ICO, 16, 16));
 
 	wxMenu* menuFile = new wxMenu;
+	if (configuration->getEnableUpdateChecker()) menuFile->Append(wxID_REFRESH, tr("CHECKFORUPDATES"));
 	menuFile->Append(wxID_EXIT, tr("EXIT"));
 	wxMenu* menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, tr("ABOUT"));
@@ -40,5 +42,14 @@ bool Frontend::OnInit()
 	frame->SetStatusText(tr("FOOTER"));
 
 	frame->Show(true);
+
+
+	// check for updates on startup
+	if (configuration->getEnableUpdateChecker() && configuration->getCheckForUpdatesOnStartup() && isUpdateAvailable(configuration->getConverterFolder() + "/configurables/version.txt", configuration->getConverterTagsGithubUrl()))
+	{
+		if (wxMessageBox(tr("NEWVERSIONBODY"), tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+	}
+	
 	return true;
 }

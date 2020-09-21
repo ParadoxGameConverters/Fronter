@@ -40,6 +40,9 @@
     <Filter Include="Fronter\Utils\Localization">
       <UniqueIdentifier>{c9339acd-d377-407b-b71c-bbf84f889a73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fronter\UpdateChecker">
+      <UniqueIdentifier>{a03eb39e-b442-4b68-93cd-36edd0e3da80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\ParserHelpers.cpp">
@@ -135,6 +138,12 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\ModsTab.cpp">
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Fronter\Source\UpdateChecker\UpdateChecker.cpp">
+      <Filter>Fronter\UpdateChecker</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\UpdateChecker\VersionParser.cpp">
+      <Filter>Fronter\UpdateChecker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\ParserHelpers.h">
@@ -229,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\ModsTab.h">
       <Filter>Fronter\Frames\Tabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\UpdateChecker\UpdateChecker.h">
+      <Filter>Fronter\UpdateChecker</Filter>
+    </ClInclude>
+    <ClInclude Include="Fronter\Source\UpdateChecker\VersionParser.h">
+      <Filter>Fronter\UpdateChecker</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

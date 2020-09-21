@@ -139,6 +139,28 @@ void Configuration::registerKeys()
 		const commonItems::singleString modsStr(theStream);
 		autoGenerateModsFrom = modsStr.getString();
 	});
+	registerKeyword("enableUpdateChecker", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString valStr(theStream);
+		enableUpdateChecker = valStr.getString() == "true";
+	});
+	registerKeyword("checkForUpdatesOnStartup", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString valStr(theStream);
+		checkForUpdatesOnStartup = valStr.getString() == "true";
+	});
+	registerKeyword("converterReleaseForumThread", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString urlStr(theStream);
+		converterReleaseForumThread = urlStr.getString();
+		std::ofstream thread("THREAD.TXT");
+		thread << converterReleaseForumThread;
+		thread.close();
+	});
+	registerKeyword("converterTagsGithubUrl", [this](const std::string& unused, std::istream& theStream) {
+		const commonItems::singleString tagsUrlStr(theStream);
+		converterTagsGithubUrl = tagsUrlStr.getString();
+		std::ofstream thread("TAGURL.TXT");
+		thread << converterTagsGithubUrl;
+		thread.close();
+	});
 	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
 }
 

@@ -113,8 +113,8 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->HideRow(logCounter);
 
 	auto needUpdate = false;
-	if ((logMessage.logLevel == LogLevel::Debug && loglevel >= 3) || (logMessage.logLevel == LogLevel::Info && loglevel >= 2) ||
-		 (logMessage.logLevel == LogLevel::Warning && loglevel >= 1) || (logMessage.logLevel == LogLevel::Error))
+	if ((logMessage.logLevel == LogLevel::Debug && logLevel >= 3) || (logMessage.logLevel == LogLevel::Info && logLevel >= 2) ||
+		 (logMessage.logLevel == LogLevel::Warning && logLevel >= 1) || (logMessage.logLevel == LogLevel::Error))
 	{
 		theGrid->ShowRow(logCounter);
 		needUpdate = true;
@@ -133,13 +133,13 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 
 void LogWindow::setLogLevel(int level)
 {
-	loglevel = level;
+	logLevel = level;
 	theGrid->BeginBatch();
 	for (int row = 0; row < theGrid->GetNumberRows(); row++)
 	{
 		auto value = theGrid->GetCellValue(row, 1);
-		if ((value.find("DEBUG") != std::string::npos && loglevel < 3) || (value.find("INFO") != std::string::npos && loglevel < 2) ||
-			 (value.find("WARNING") != std::string::npos && loglevel < 1))
+		if ((value.find("DEBUG") != std::string::npos && logLevel < 3) || (value.find("INFO") != std::string::npos && logLevel < 2) ||
+			 (value.find("WARNING") != std::string::npos && logLevel < 1))
 			theGrid->HideRow(row);
 		else
 			theGrid->ShowRow(row);
