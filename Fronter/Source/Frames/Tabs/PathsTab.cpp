@@ -42,24 +42,24 @@ void PathsTab::initializePaths()
 		std::wstring folderPath;
 		if (!folder.second->getValue().empty())
 		{
-			folderPath = Utils::convertUTF8ToUTF16(folder.second->getValue());
+			folderPath = commonItems::convertUTF8ToUTF16(folder.second->getValue());
 		}
 		else if (folder.second->getSearchPathType() == "windowsUsersFolder")
-			folderPath = Utils::convertUTF8ToUTF16(documentsDir + '\\' + folder.second->getSearchPath());
+			folderPath = commonItems::convertUTF8ToUTF16(documentsDir + '\\' + folder.second->getSearchPath());
 		else if (folder.second->getSearchPathType() == "steamFolder")
 		{
-			const auto& possiblePath = Utils::getSteamInstallPath(folder.second->getSearchPathID());
+			const auto& possiblePath = commonItems::getSteamInstallPath(folder.second->getSearchPathID());
 			if (possiblePath)
 			{
 				folderPath = *possiblePath;
 				if (!folder.second->getSearchPath().empty())
-					folderPath += L"/" + Utils::convertUTF8ToUTF16(folder.second->getSearchPath());
+					folderPath += L"/" + commonItems::convertUTF8ToUTF16(folder.second->getSearchPath());
 			}
 		}
 		else if (folder.second->getSearchPathType() == "direct")
-			folderPath = Utils::convertUTF8ToUTF16(folder.second->getSearchPath());
+			folderPath = commonItems::convertUTF8ToUTF16(folder.second->getSearchPath());
 
-		if (!Utils::DoesFolderExist(Utils::UTF16ToUTF8(folderPath)))
+		if (!commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(folderPath)))
 			folderPath.clear();
 
 		wxDirPickerCtrl* dirPickerCtrl =
@@ -67,7 +67,7 @@ void PathsTab::initializePaths()
 		dirPickerCtrl->Bind(wxEVT_DIRPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
 		folder.second->setID(pickerCounter);
-		folder.second->setValue(Utils::UTF16ToUTF8(folderPath));
+		folder.second->setValue(commonItems::UTF16ToUTF8(folderPath));
 		// Intermezzo for mod detection
 		if (!configuration->getAutoGenerateModsFrom().empty() && folder.second->getName() == configuration->getAutoGenerateModsFrom())
 			configuration->autoLocateMods();
@@ -87,26 +87,26 @@ void PathsTab::initializePaths()
 
 		if (!file.second->getValue().empty())
 		{
-			filePath = Utils::convertUTF8ToUTF16(file.second->getValue());
+			filePath = commonItems::convertUTF8ToUTF16(file.second->getValue());
 			auto pos(filePath.find_last_of('\\'));
 			initialPath = filePath.substr(0, pos + 1);
 		}
 		else if (file.second->getSearchPathType() == "windowsUsersFolder")
 		{
-			filePath = Utils::convertUTF8ToUTF16(documentsDir + '\\' + file.second->getSearchPath() + '\\' + file.second->getFilename());
-			initialPath = Utils::convertUTF8ToUTF16(documentsDir + '\\' + file.second->getSearchPath() + '\\');
+			filePath = commonItems::convertUTF8ToUTF16(documentsDir + '\\' + file.second->getSearchPath() + '\\' + file.second->getFilename());
+			initialPath = commonItems::convertUTF8ToUTF16(documentsDir + '\\' + file.second->getSearchPath() + '\\');
 		}
 		else if (file.second->getSearchPathType() == "converterFolder")
 		{
-			auto buf = Utils::GetCurrentDirectoryWString();
+			auto buf = commonItems::GetCurrentDirectoryWString();
 #if defined __WIN32__
 			auto currentDirectory = buf + '\\';
-			filePath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath() + '\\' + file.second->getFilename());
-			initialPath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath() + '\\');
+			filePath = currentDirectory + commonItems::convertUTF8ToUTF16(file.second->getSearchPath() + '\\' + file.second->getFilename());
+			initialPath = currentDirectory + commonItems::convertUTF8ToUTF16(file.second->getSearchPath() + '\\');
 #elif defined __linux
 			auto currentDirectory = buf + '/';
-			filePath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath() + '/' + file.second->getFilename());
-			initialPath = currentDirectory + Utils::convertUTF8ToUTF16(file.second->getSearchPath() + '/');
+			filePath = currentDirectory + commonItems::convertUTF8ToUTF16(file.second->getSearchPath() + '/' + file.second->getFilename());
+			initialPath = currentDirectory + commonItems::convertUTF8ToUTF16(file.second->getSearchPath() + '/');
 #endif
 		}
 		std::string allowedExtension;
@@ -114,7 +114,7 @@ void PathsTab::initializePaths()
 		allowedExtension = file.second->getAllowedExtension();
 #endif
 
-		if (!Utils::DoesFileExist(Utils::UTF16ToUTF8(filePath)) || !Utils::DoesFolderExist(Utils::UTF16ToUTF8(initialPath)))
+		if (!commonItems::DoesFileExist(commonItems::UTF16ToUTF8(filePath)) || !commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(initialPath)))
 		{
 			filePath.clear();
 			initialPath.clear();
@@ -132,7 +132,7 @@ void PathsTab::initializePaths()
 		filePickerCtrl->SetInitialDirectory(wxString(initialPath));
 		st->SetToolTip(tr(file.second->getTooltip()));
 		file.second->setID(pickerCounter);
-		file.second->setValue(Utils::UTF16ToUTF8(filePath));
+		file.second->setValue(commonItems::UTF16ToUTF8(filePath));
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 		GetSizer()->Add(filePickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 	}
@@ -144,16 +144,16 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& folder: configuration->getRequiredFolders())
 		if (folder.second->getID() == evt.GetId())
 		{
-			const auto validPath = Utils::DoesFolderExist(Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring()));
+			const auto validPath = commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring()));
 			if (!validPath)
 			{
-				Log(LogLevel::Error) << "Cannot access folder: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())
+				Log(LogLevel::Error) << "Cannot access folder: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
 											<< " - Onedrive and similar symlink folders are not supported!";
 				// Not bailing. We may not be able to access it but who knows, maybe converter can.
 			}
-			const auto result = Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			const auto result = commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			folder.second->setValue(result);
-			Log(LogLevel::Info) << folder.second->getName() << " set to: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			Log(LogLevel::Info) << folder.second->getName() << " set to: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			// Intermezzo for mod detection
 			if (!configuration->getAutoGenerateModsFrom().empty() && folder.second->getName() == configuration->getAutoGenerateModsFrom())
 			{
@@ -165,13 +165,13 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& file: configuration->getRequiredFiles())
 		if (file.second->getID() == evt.GetId())
 		{
-			if (!Utils::DoesFileExist(Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())))
+			if (!commonItems::DoesFileExist(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())))
 			{
-				Log(LogLevel::Error) << "Cannot access file: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring())
+				Log(LogLevel::Error) << "Cannot access file: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
 											<< " - Onedrive and similar symlink folders are not supported!";
 			}
-			std::string result = Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			std::string result = commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 			file.second->setValue(result);
-			Log(LogLevel::Info) << file.second->getName() << " set to: " << Utils::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			Log(LogLevel::Info) << file.second->getName() << " set to: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
 		}
 }
