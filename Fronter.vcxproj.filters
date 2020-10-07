@@ -232,8 +232,50 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Fronter\Resources\converter.ico">
+    <CopyFileToFolders Include="Fronter\Resources\converter.ico">
       <Filter>Resources</Filter>
-    </Image>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_english.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_french.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_german.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_italian.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_latin.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_russian.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_languages.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\msvcp140_codecvt_ids.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\VC_redist.x64.exe">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\vcruntime140_1.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxbase313u_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxbase313ud_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxmsw313u_core_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxmsw313ud_core_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
