@@ -84,7 +84,7 @@ void Configuration::registerPreloadKeys()
 			preloadedModFileNames.insert(selections.begin(), selections.end());
 		}
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 Configuration::Configuration(std::istream& theStream)
@@ -139,7 +139,7 @@ void Configuration::registerKeys()
 		const commonItems::singleString modsStr(theStream);
 		autoGenerateModsFrom = modsStr.getString();
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 bool Configuration::exportConfiguration() const

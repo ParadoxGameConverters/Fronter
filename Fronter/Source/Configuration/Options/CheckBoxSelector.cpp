@@ -16,7 +16,7 @@ void CheckBoxSelector::registerKeys()
 		auto newOption = std::make_shared<CheckBoxOption>(theStream, optionCounter);
 		checkBoxOptions.emplace_back(newOption);
 	});
-	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 std::set<std::string> CheckBoxSelector::getSelectedValues() const

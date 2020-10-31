@@ -35,7 +35,7 @@ void Option::registerKeys()
 		auto newSelector = std::make_shared<CheckBoxSelector>(theStream);
 		checkBoxSelector = std::pair(true, newSelector);
 	});
-	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 
 void Option::setRadioSelectorValue(const std::string& selection) const
