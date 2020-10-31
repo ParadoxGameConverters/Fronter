@@ -29,5 +29,5 @@ void CheckBoxOption::registerKeys()
 		if (defaulted)
 			value = true;
 	});
-	registerRegex("[A-Za-z0-9:_\\.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
