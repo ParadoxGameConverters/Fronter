@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 3.5)
 #set(CMAKE_VERBOSE_MAKEFILE on)
 
 project(Fronter)
-SET(CMAKE_CXX_COMPILER g++-9)
+SET(CMAKE_CXX_COMPILER g++-10)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/../Release)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a")
 
 add_compile_options(-lstdc++fs)
 add_compile_options(-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -Wall -O2 -std=c++17)
