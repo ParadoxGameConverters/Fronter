@@ -115,7 +115,7 @@ static std::string buffer;
 
 static int writer(char* data, size_t size, size_t nmemb, std::string* writerData)
 {
-	if (writerData == NULL)
+	if (!writerData)
 		return 0;
 
 	writerData->append(data, size * nmemb);
@@ -193,7 +193,7 @@ static bool init(CURL*& conn, char* url)
 
 bool isUpdateAvailable(const std::string& versionFilePath, const std::string& tagsUrl)
 {
-	CURL* conn = NULL;
+	CURL* conn = nullptr;
 	CURLcode code;
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
