@@ -47,5 +47,5 @@ void RequiredFile::registerKeys()
 		const commonItems::singleString extStr(theStream);
 		allowedExtension = extStr.getString();
 	});
-	registerRegex("[A-Za-z0-9\\:_.-]+", commonItems::ignoreItem);
+	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

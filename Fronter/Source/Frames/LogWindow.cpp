@@ -12,6 +12,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	localization = std::move(theLocalization);
 	theGrid = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	theGrid->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
+	theGrid->EnableEditing(false);
 	theGrid->HideCellEditControl();
 	theGrid->HideRowLabels();
 	theGrid->SetColLabelValue(0, tr("LOGTIME"));
@@ -101,15 +102,12 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->SetRowSize(logCounter, 20);
 	theGrid->SetCellValue(logCounter, 0, timestamp);
 	theGrid->SetCellAlignment(logCounter, 0, wxCENTER, wxCENTER);
-	theGrid->SetReadOnly(logCounter, 0);
 	theGrid->SetCellValue(logCounter, 1, severity);
 	theGrid->SetCellBackgroundColour(logCounter, 1, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxCENTER, wxCENTER);
-	theGrid->SetReadOnly(logCounter, 1);
 	theGrid->SetCellValue(logCounter, 2, commonItems::convertUTF8ToUTF16(message));
 	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
-	theGrid->SetReadOnly(logCounter, 2);
 	theGrid->HideRow(logCounter);
 
 	auto needUpdate = false;
@@ -124,10 +122,12 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	logCounter++;
 	if (needUpdate)
 	{
-		theGrid->AutoSize();
-		GetParent()->Layout();
-		theGrid->Scroll(0, logCounter - 1);
-		theGrid->MakeCellVisible(logCounter - 1, 0);
+		if (static_cast<int>(message.size()) > maxMessageLength)
+		{
+			maxMessageLength = static_cast<int>(message.size());
+			theGrid->AutoSizeColumn(2, true); // this is expensive.
+		}
+		theGrid->Scroll(0, logCounter);
 	}
 }
 

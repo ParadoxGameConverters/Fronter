@@ -28,7 +28,8 @@ class LogWindow: public wxWindow
 	wxGrid* theGrid = nullptr;
 	std::vector<wxStaticText*> logArray;
 	std::shared_ptr<Localization> localization;
-	int logLevel = 1; // Defaults to warning.
+	int loglevel = 1; // Defaults to warning.
+	int maxMessageLength = 0;
 
   protected:
 	wxEvtHandler* m_pParent;
