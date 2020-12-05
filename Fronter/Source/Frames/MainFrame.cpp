@@ -103,7 +103,12 @@ void MainFrame::OnSupportUs(wxCommandEvent& event)
 
 void MainFrame::OnCheckForUpdates(wxCommandEvent& event)
 {
-	if (isUpdateAvailable(configuration->getConverterFolder() + "/configurables/version.txt", configuration->getConverterTagsGithubUrl()))
+	auto converterFolder = configuration->getConverterFolder();
+
+	if (converterFolder.empty())
+		return;
+
+	if (isUpdateAvailable(converterFolder + "/configurables/version.txt", configuration->getConverterTagsGithubUrl()))
 	{
 		if (wxMessageBox(tr("NEWVERSIONBODY"), tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
 			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());

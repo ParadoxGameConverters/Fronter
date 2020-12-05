@@ -3,7 +3,7 @@
 #include <set>
 
 
-bool newerVersion(const std::string& currentVersion, const std::set<std::string>& versions)
+bool isVersionNewer(const std::string& currentVersion, const std::set<std::string>& versions)
 {
 	auto newestVersion = currentVersion;
 	auto changed = false;
@@ -18,34 +18,34 @@ bool newerVersion(const std::string& currentVersion, const std::set<std::string>
 			changed = true;
 			continue;
 		}
-		if (std::stoi(version) < std::stoi(newestVersion))
+		else if (std::stoi(version) < std::stoi(newestVersion))
 			continue;
 
-		// if parts before dot are equal, compare the rest
-		auto newestRSide = newestDotPos == std::string::npos ? "" : newestVersion.substr(newestDotPos + 1);
-		auto versionRSide = versionDotPos == std::string::npos ? "" : version.substr(versionDotPos + 1);
+		// if parts before the dot are equal, compare the rest
+		auto newestRightSide = newestDotPos == std::string::npos ? "" : newestVersion.substr(newestDotPos + 1);
+		auto versionRightSide = versionDotPos == std::string::npos ? "" : version.substr(versionDotPos + 1);
 		if (version.size() > newestVersion.size())
 		{
 			bool setAfterLoop = true;
 			if (newestDotPos != std::string::npos)
 			{
-				for (unsigned int i = 0; i < newestRSide.size(); ++i)
+				for (unsigned int i = 0; i < newestRightSide.size(); ++i)
 				{
-					if (toupper(versionRSide[i]) > toupper(newestRSide[i]))
+					if (toupper(versionRightSide[i]) > toupper(newestRightSide[i]))
 					{
 						newestVersion = version;
 						changed = true;
 						setAfterLoop = false;
 						break;
 					}
-					if (toupper(versionRSide[i]) < toupper(newestRSide[i]))
+					if (toupper(versionRightSide[i]) < toupper(newestRightSide[i]))
 					{
 						setAfterLoop = false;
 						break;
 					}
 				}
 			}
-			if (setAfterLoop && versionRSide.substr(newestRSide.size(), versionRSide.size() - newestRSide.size()).find_first_not_of('0') != std::string::npos)
+			if (setAfterLoop && versionRightSide.substr(newestRightSide.size(), versionRightSide.size() - newestRightSide.size()).find_first_not_of('0') != std::string::npos)
 			{
 				newestVersion = version;
 				changed = true;
@@ -55,15 +55,15 @@ bool newerVersion(const std::string& currentVersion, const std::set<std::string>
 		{
 			if (versionDotPos != std::string::npos)
 			{
-				for (unsigned int i = 0; i < versionRSide.size(); ++i)
+				for (unsigned int i = 0; i < versionRightSide.size(); ++i)
 				{
-					if (toupper(versionRSide[i]) > toupper(newestRSide[i]))
+					if (toupper(versionRightSide[i]) > toupper(newestRightSide[i]))
 					{
 						newestVersion = version;
 						changed = true;
 						break;
 					}
-					if (toupper(versionRSide[i]) < toupper(newestRSide[i]))
+					else if (toupper(versionRightSide[i]) < toupper(newestRightSide[i]))
 						break;
 				}
 			}
@@ -209,7 +209,7 @@ bool isUpdateAvailable(const std::string& versionFilePath, const std::string& ta
 	if (code == CURLE_OK)
 	{
 		const VersionParser versionParser(versionFilePath);
-		if (newerVersion(versionParser.getVersion(), getAllNumberedVersions(buffer)))
+		if (isVersionNewer(versionParser.getVersion(), getAllNumberedVersions(buffer)))
 			return true;
 	}
 	return false;
