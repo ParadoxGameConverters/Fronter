@@ -1,0 +1,2 @@
+2020-12-11 19:15:44  [WARNING] Configuration/fronter-configuration.txt not found!
+2020-12-11 19:15:44  [WARNING] Configuration/fronter-options.txt not found!

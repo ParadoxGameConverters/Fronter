@@ -41,7 +41,7 @@
       <UniqueIdentifier>{c9339acd-d377-407b-b71c-bbf84f889a73}</UniqueIdentifier>
     </Filter>
     <Filter Include="Fronter\UpdateChecker">
-      <UniqueIdentifier>{a03eb39e-b442-4b68-93cd-36edd0e3da80}</UniqueIdentifier>
+      <UniqueIdentifier>{42d0697b-4e02-46a2-8d0a-a57eba5aee15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -292,5 +292,10 @@
     <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxmsw313ud_core_vc14x_x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\libssl-1_1-x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="curl\bin\libcurl-x64.dll" />
+    <CopyFileToFolders Include="Fronter\Resources\libcrypto-1_1-x64.dll" />
   </ItemGroup>
 </Project>
