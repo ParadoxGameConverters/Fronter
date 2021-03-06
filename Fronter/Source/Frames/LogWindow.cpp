@@ -10,12 +10,21 @@ void FronterGridCellRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc,
 	wxGridCellStringRenderer::Draw(grid, attr, dc, rect, row, col, false);
 }
 
+void LogWindow::OnSize(wxSizeEvent& event)
+{
+	int width = (GetClientSize().x - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X));
+	theGrid->SetColSize(2, width - theGrid->GetColSize(0) - theGrid->GetColSize(1));
+	event.Skip();
+}
+
 LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
 	m_pParent = parent;
 	Bind(wxEVT_TAILTHREAD, &LogWindow::OnTailPush, this);
 	localization = std::move(theLocalization);
-	theGrid = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+
+	theGrid = new wxGrid(this, wxID_ANY);
+
 	theGrid->SetDefaultRenderer(new FronterGridCellRenderer); // We are using our own grid renderer which disables selections.
 	
 	theGrid->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
@@ -38,6 +47,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid->Bind(wxEVT_GRID_LABEL_RIGHT_DCLICK, &LogWindow::eatClick, this);
 	theGrid->Bind(wxEVT_GRID_SELECT_CELL, &LogWindow::eatClick, this);
 	theGrid->Bind(wxEVT_GRID_COL_MOVE, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_SIZE, &LogWindow::OnSize, this);
 	theGrid->DisableDragColSize();
 	theGrid->DisableDragRowSize();
 	theGrid->DisableDragCell();
@@ -46,15 +56,17 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid->DisableCellEditControl();
 	theGrid->DisableColResize(0);
 	theGrid->DisableColResize(1);
-	theGrid->DisableColResize(2);
+	theGrid->SetColMinimalWidth(0, 150);
+	theGrid->SetColMinimalWidth(1, 100);
 	theGrid->SetColSize(0, 150);
 	theGrid->SetColSize(1, 100);
-	theGrid->SetColSize(2, 900);
-
+	
 	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
-	logBox->Add(theGrid, wxSizerFlags(1).Expand());
-	SetSizer(logBox);
+	this->SetSizer(logBox);
+	Layout();
 	logBox->Fit(this);
+	logBox->Add(theGrid, 1, wxEXPAND | wxALL);
+
 	initializeTail();
 }
 
@@ -180,7 +192,6 @@ void LogWindow::setLogLevel(int level)
 			theGrid->ShowRow(row);
 	}
 	theGrid->EndBatch();
-	//theGrid->AutoSize();
 	//theGrid->SetColSize(2, 1000);
 	// GetParent()->Layout();
 	theGrid->Scroll(0, logCounter - 1);
