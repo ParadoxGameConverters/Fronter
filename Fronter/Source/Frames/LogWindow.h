@@ -29,6 +29,7 @@ class LogWindow: public wxWindow
 
   private:
 	void eatClick(wxGridEvent& event);
+	void OnSize(wxSizeEvent& event);
 	
 	LogWatcher* logWatcher = nullptr;
 	LogWatcher* logWatcher2 = nullptr;
