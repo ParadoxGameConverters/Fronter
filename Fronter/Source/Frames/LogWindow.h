@@ -9,6 +9,12 @@
 #include <wx/grid.h>
 #include <memory>
 
+class FronterGridCellRenderer: public wxGridCellStringRenderer
+{
+  public:
+	virtual void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);
+};
+
 class LogWindow: public wxWindow
 {
   public:
@@ -22,6 +28,8 @@ class LogWindow: public wxWindow
 	void blankLog();
 
   private:
+	void eatClick(wxGridEvent& event);
+	
 	LogWatcher* logWatcher = nullptr;
 	LogWatcher* logWatcher2 = nullptr;
 	int logCounter = 0;

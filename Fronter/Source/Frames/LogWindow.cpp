@@ -5,12 +5,19 @@
 
 wxDEFINE_EVENT(wxEVT_PROGRESSMESSAGE, LogMessageEvent);
 
+void FronterGridCellRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected)
+{
+	wxGridCellStringRenderer::Draw(grid, attr, dc, rect, row, col, false);
+}
+
 LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
 	m_pParent = parent;
 	Bind(wxEVT_TAILTHREAD, &LogWindow::OnTailPush, this);
 	localization = std::move(theLocalization);
 	theGrid = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+	theGrid->SetDefaultRenderer(new FronterGridCellRenderer); // We are using our own grid renderer which disables selections.
+	
 	theGrid->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
 	theGrid->EnableEditing(false);
 	theGrid->HideCellEditControl();
@@ -21,12 +28,39 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid->SetColLabelAlignment(wxLEFT, wxCENTER);
 	theGrid->SetScrollRate(0, 20);
 	theGrid->SetColLabelSize(20);
+	theGrid->Bind(wxEVT_GRID_CELL_LEFT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_CELL_LEFT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_CELL_RIGHT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_CELL_RIGHT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_LEFT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_LEFT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_RIGHT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_RIGHT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_SELECT_CELL, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_COL_MOVE, &LogWindow::eatClick, this);
+	theGrid->DisableDragColSize();
+	theGrid->DisableDragRowSize();
+	theGrid->DisableDragCell();
+	theGrid->DisableDragColMove();
+	theGrid->DisableDragGridSize();
+	theGrid->DisableCellEditControl();
+	theGrid->DisableColResize(0);
+	theGrid->DisableColResize(1);
+	theGrid->DisableColResize(2);
+	theGrid->SetColSize(0, 150);
+	theGrid->SetColSize(1, 100);
+	theGrid->SetColSize(2, 900);
 
 	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
 	logBox->Add(theGrid, wxSizerFlags(1).Expand());
 	SetSizer(logBox);
 	logBox->Fit(this);
 	initializeTail();
+}
+
+void LogWindow::eatClick(wxGridEvent& event)
+{
+	//yum.
 }
 
 void LogWindow::initializeTail()
@@ -108,6 +142,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->SetCellValue(logCounter, 2, commonItems::convertUTF8ToUTF16(message));
 	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
+	theGrid->DisableRowResize(logCounter);
 	theGrid->HideRow(logCounter);
 
 	auto needUpdate = false;
@@ -125,7 +160,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 		if (static_cast<int>(message.size()) > maxMessageLength)
 		{
 			maxMessageLength = static_cast<int>(message.size());
-			theGrid->AutoSizeColumn(2, true); // this is expensive.
+			//theGrid->AutoSizeColumn(2, true); // this is expensive.
 		}
 		theGrid->Scroll(0, logCounter);
 	}
@@ -145,8 +180,9 @@ void LogWindow::setLogLevel(int level)
 			theGrid->ShowRow(row);
 	}
 	theGrid->EndBatch();
-	theGrid->AutoSize();
-	GetParent()->Layout();
+	//theGrid->AutoSize();
+	//theGrid->SetColSize(2, 1000);
+	// GetParent()->Layout();
 	theGrid->Scroll(0, logCounter - 1);
 	theGrid->MakeCellVisible(logCounter - 1, 0);
 }
