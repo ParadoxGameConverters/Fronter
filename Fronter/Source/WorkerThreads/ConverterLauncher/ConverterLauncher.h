@@ -9,14 +9,14 @@
 
 wxDECLARE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
 
-class ConverterLauncher: public wxThread
+class ConverterLauncher final : public wxThread
 {
   public:
 	ConverterLauncher(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
-	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(const std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
 
   private:
-	void* Entry();
+	void* Entry() override;
 	std::shared_ptr<Configuration> configuration;
 
   protected:

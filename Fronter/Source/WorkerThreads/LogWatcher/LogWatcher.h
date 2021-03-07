@@ -5,7 +5,7 @@
 #endif
 #include <wx/thread.h>
 
-class LogWatcher: public wxThread
+class LogWatcher final : public wxThread
 {
   public:
 	LogWatcher(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
@@ -15,7 +15,7 @@ class LogWatcher: public wxThread
 	void setEmitterMode(bool mode) { emitterMode = mode;}
 	
   private:
-	void* Entry();
+	void* Entry() override;
 	bool terminate = false;
 	std::string tailSource;
 	bool transcriberMode = false;

@@ -37,5 +37,5 @@ void* LogWatcher::Entry()
 	}
 	logfile.close();
 
-	return 0;
+	return nullptr;
 }
