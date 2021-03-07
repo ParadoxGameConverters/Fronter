@@ -17,7 +17,7 @@ PathsTab::PathsTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDefault
 void PathsTab::initializePaths()
 {
 	// Initialize a 2-row table
-	auto gridSizer = new wxFlexGridSizer(2, 2, 5);
+	auto* gridSizer = new wxFlexGridSizer(2, 2, 5);
 	SetSizer(gridSizer);
 
 	auto* userDir = std::getenv("USERPROFILE");
@@ -38,7 +38,7 @@ void PathsTab::initializePaths()
 	for (const auto& folder : configuration->getRequiredFolders() | std::views::values)
 	{
 		pickerCounter++;
-		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(folder->getDisplayName()), wxDefaultPosition);
+		auto* st = new wxStaticText(this, wxID_ANY, tr(folder->getDisplayName()), wxDefaultPosition);
 
 		std::wstring folderPath;
 		if (!folder->getValue().empty())
@@ -63,7 +63,7 @@ void PathsTab::initializePaths()
 		if (!commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(folderPath)))
 			folderPath.clear();
 
-		auto dirPickerCtrl = new wxDirPickerCtrl(this, pickerCounter, folderPath, tr("BROWSE"), wxDefaultPosition, wxSize(650, wxDefaultCoord), wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
+		auto* dirPickerCtrl = new wxDirPickerCtrl(this, pickerCounter, folderPath, tr("BROWSE"), wxDefaultPosition, wxSize(650, wxDefaultCoord), wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		dirPickerCtrl->Bind(wxEVT_DIRPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
 		folder->setID(pickerCounter);
@@ -80,7 +80,7 @@ void PathsTab::initializePaths()
 	for (const auto& file : configuration->getRequiredFiles() | std::views::values)
 	{
 		pickerCounter++;
-		wxStaticText* st = new wxStaticText(this, wxID_ANY, tr(file->getDisplayName()), wxDefaultPosition);
+		auto* st = new wxStaticText(this, wxID_ANY, tr(file->getDisplayName()), wxDefaultPosition);
 
 		std::wstring filePath;
 		std::wstring initialPath;
@@ -120,14 +120,14 @@ void PathsTab::initializePaths()
 			initialPath.clear();
 		}
 
-		auto filePickerCtrl = new wxFilePickerCtrl(this,
-		                                           pickerCounter,
-		                                           filePath,
-		                                           tr("BROWSE"),
-		                                           allowedExtension,
-		                                           wxDefaultPosition,
-		                                           wxSize(650, wxDefaultCoord),
-		                                           wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
+		auto* filePickerCtrl = new wxFilePickerCtrl(this,
+		                                            pickerCounter,
+		                                            filePath,
+		                                            tr("BROWSE"),
+		                                            allowedExtension,
+		                                            wxDefaultPosition,
+		                                            wxSize(650, wxDefaultCoord),
+		                                            wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		filePickerCtrl->Bind(wxEVT_FILEPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		filePickerCtrl->SetInitialDirectory(wxString(initialPath));
 		st->SetToolTip(tr(file->getTooltip()));
