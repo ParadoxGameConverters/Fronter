@@ -105,8 +105,8 @@ void PathsTab::initializePaths()
 			initialPath = currentDirectory + commonItems::convertUTF8ToUTF16(file->getSearchPath() + '\\');
 #elif defined __linux
 			auto currentDirectory = buf + '/';
-			filePath = currentDirectory + commonItems::convertUTF8ToUTF16(file.second->getSearchPath() + '/' + file.second->getFilename());
-			initialPath = currentDirectory + commonItems::convertUTF8ToUTF16(file.second->getSearchPath() + '/');
+			filePath = currentDirectory + commonItems::convertUTF8ToUTF16(file->getSearchPath() + '/' + file->getFilename());
+			initialPath = currentDirectory + commonItems::convertUTF8ToUTF16(file->getSearchPath() + '/');
 #endif
 		}
 		std::string allowedExtension;
