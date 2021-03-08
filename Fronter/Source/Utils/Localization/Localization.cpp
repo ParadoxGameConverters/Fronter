@@ -117,7 +117,7 @@ std::wstring Localization::translateLanguage(const std::string& language)
 	return commonItems::convertUTF8ToUTF16(languages[language]);
 }
 
-void Localization::saveLanguage(int ID)
+void Localization::saveLanguage(const int ID)
 {
 	if (ID > static_cast<int>(loadedLangauges.size()) + 1)
 		return;
