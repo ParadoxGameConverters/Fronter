@@ -8,25 +8,25 @@ bool Frontend::OnInit()
 {
 	localization = std::make_shared<Localization>();
 	configuration = std::make_shared<Configuration>();
-	MainFrame* frame = new MainFrame(tr("TITLETITLE") + tr(configuration->getSourceGame()) + tr("TITLETO") + tr(configuration->getTargetGame()), wxPoint(50, 50), wxSize(1200, 600));
+	auto* frame = new MainFrame(tr("TITLETITLE") + tr(configuration->getSourceGame()) + tr("TITLETO") + tr(configuration->getTargetGame()), wxPoint(50, 50), wxSize(1200, 600));
 	frame->loadConfiguration(configuration);
 	frame->loadLocalization(localization);
 	frame->initFrame();
 	frame->SetIcon(wxIcon(wxT("converter.ico"), wxBITMAP_TYPE_ICO, 16, 16));
 
-	wxMenu* menuFile = new wxMenu;
+	auto* menuFile = new wxMenu;
 	menuFile->Append(wxID_EXIT, tr("EXIT"));
-	wxMenu* menuHelp = new wxMenu;
+	auto* menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, tr("ABOUT"));
 	menuHelp->Append(wxID_NETWORK, tr("SUPPORT_US"));
-	wxMenuBar* menuBar = new wxMenuBar;
+	auto* menuBar = new wxMenuBar;
 	menuBar->Append(menuFile, "&" + tr("MENUCONVERTER"));
-	wxMenu* menuLanguages = new wxMenu;
+	auto* menuLanguages = new wxMenu;
 
 	auto i = 0;
 	for (const auto& language: localization->getLoadedLanguages())
 	{
-		wxMenuItem* menuLanguage = new wxMenuItem(menuLanguages, i, localization->translateLanguage(language), localization->translateLanguage(language));
+		auto* menuLanguage = new wxMenuItem(menuLanguages, i, localization->translateLanguage(language), localization->translateLanguage(language));
 		frame->Bind(wxEVT_MENU, &MainFrame::OnLanguageChange, frame, i);
 		menuLanguages->Append(menuLanguage);
 		++i;
