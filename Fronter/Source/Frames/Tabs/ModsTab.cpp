@@ -30,8 +30,8 @@ void ModsTab::initializeMods()
 	title->SetLabel(tr("MODSFOUND"));
 
 	// This is the mod box.
-	wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
-	wxWindow* boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
+	auto* boxSizer = new wxBoxSizer(wxVERTICAL);
+	auto* boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
 
 	modsTabSizer->Add(boxHolder, wxSizerFlags(1).Border(wxALL, 5));
 	boxHolder->SetSizer(boxSizer);
@@ -40,8 +40,7 @@ void ModsTab::initializeMods()
 	auto modCounter = 0;
 	for (const auto& mod: configuration->getAutoLocatedMods())
 	{
-		wxCheckBox* theCheckBox =
-			 new wxCheckBox(boxHolder, modCounter, mod.getName(), wxDefaultPosition, wxDefaultSize, wxEXPAND, wxDefaultValidator, mod.getFileName());
+		auto* theCheckBox = new wxCheckBox(boxHolder, modCounter, mod.getName(), wxDefaultPosition, wxDefaultSize, wxEXPAND, wxDefaultValidator, mod.getFileName());
 		theCheckBox->SetToolTip(mod.getFileName());
 
 		if (configuration->getPreloadedModFileNames().count(mod.getFileName()))

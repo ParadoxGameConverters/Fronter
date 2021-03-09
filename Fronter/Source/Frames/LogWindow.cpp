@@ -61,7 +61,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid->SetColSize(0, 150);
 	theGrid->SetColSize(1, 100);
 	
-	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
+	auto* logBox = new wxBoxSizer(wxVERTICAL);
 	this->SetSizer(logBox);
 	Layout();
 	logBox->Fit(this);

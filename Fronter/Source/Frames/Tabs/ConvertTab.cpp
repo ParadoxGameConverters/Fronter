@@ -18,13 +18,13 @@ ConvertTab::ConvertTab(wxWindow* parent): wxNotebookPage(parent, wxID_ANY, wxDef
 void ConvertTab::initializeConvert()
 {
 	// Initialize a flex which will have 3 col, 4 rows
-	wxGridSizer* convertSizer = new wxGridSizer(4, 3, 0, 0);
+	auto* convertSizer = new wxGridSizer(4, 3, 0, 0);
 	SetSizer(convertSizer);
 	// convertSizer->SetVGap(50);
 
-	wxPanel* logPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
+	auto* logPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
 	logPanel->SetBackgroundColour(wxColour(230, 230, 245));
-	wxGridSizer* logSizer = new wxGridSizer(1, 1, 5, 5);
+	auto* logSizer = new wxGridSizer(1, 1, 5, 5);
 	logPanel->SetSizer(logSizer);
 
 	wxArrayString boxChoices;
@@ -33,7 +33,7 @@ void ConvertTab::initializeConvert()
 	boxChoices.Add(tr("LOGLEVEL2"));
 	boxChoices.Add(tr("LOGLEVEL3"));
 	
-	wxRadioBox* theButtonBox = new wxRadioBox(logPanel, wxID_ANY, tr("LOGLEVEL"), wxDefaultPosition, wxDefaultSize, boxChoices, 4);
+	auto* theButtonBox = new wxRadioBox(logPanel, wxID_ANY, tr("LOGLEVEL"), wxDefaultPosition, wxDefaultSize, boxChoices, 4);
 	theButtonBox->SetSelection(1);
 	theButtonBox->Bind(wxEVT_RADIOBOX, [this](wxCommandEvent& event) {
 		wxCommandEvent evt(wxEVT_LOGLEVELCHANGED);
@@ -46,16 +46,16 @@ void ConvertTab::initializeConvert()
 	convertSizer->Add(logPanel, wxSizerFlags(0).Center());
 
 	// In the first cell goes a 2cx3r status table
-	wxPanel* statusPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
+	auto* statusPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
 	statusPanel->SetBackgroundColour(wxColour(240, 240, 240));
-	wxGridSizer* statusSizer = new wxGridSizer(3, 2, 5, 5);
+	auto* statusSizer = new wxGridSizer(3, 2, 5, 5);
 	statusPanel->SetSizer(statusSizer);
 
-	wxStaticText* cell11 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSAVING"));
+	auto* cell11 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSAVING"));
 	statusSave = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
-	wxStaticText* cell21 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCONVERTING"));
+	auto* cell21 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCONVERTING"));
 	statusConvert = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
-	wxStaticText* cell31 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCOPYING"));
+	auto* cell31 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCOPYING"));
 	statusCopy = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
 
 	statusSizer->Add(cell11);
@@ -71,9 +71,9 @@ void ConvertTab::initializeConvert()
 	// second row the gauge
 
 	// In goes a 1cx2r holder table
-	wxPanel* gaugePanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
+	auto* gaugePanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
 	gaugePanel->SetBackgroundColour(wxColour(230, 245, 230));
-	wxGridSizer* gaugeSizer = new wxGridSizer(2, 1, 5, 5);
+	auto* gaugeSizer = new wxGridSizer(2, 1, 5, 5);
 	gaugePanel->SetSizer(gaugeSizer);
 
 	// Scale goes to 109.
@@ -184,7 +184,7 @@ void ConvertTab::onCopierDone(wxCommandEvent& event)
 	convertButton->Enable();
 }
 
-void ConvertTab::setProgress(int progress)
+void ConvertTab::setProgress(const int progress)
 {
 	gauge->SetValue(progress);
 	gaugeCounter->SetLabel(std::to_string(progress) + "%");

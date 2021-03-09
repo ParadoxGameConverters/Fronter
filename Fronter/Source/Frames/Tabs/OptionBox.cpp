@@ -15,19 +15,19 @@ void OptionBox::initializeOption()
 {
 	SetMinSize(wxSize(280, 250));
 
-	wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
+	auto* boxSizer = new wxBoxSizer(wxHORIZONTAL);
 	SetSizer(boxSizer);
 	SetBackgroundColour(wxColour(240, 240, 240));
 
-	wxWindow* boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
+	auto* boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
 	boxHolder->SetMinSize(wxSize(270, 240));
 
 	boxSizer->Add(boxHolder, wxSizerFlags(1).Border(wxALL, 5));
-	wxFlexGridSizer* flexGridSizer = new wxFlexGridSizer(1, 3, 3);
+	auto* flexGridSizer = new wxFlexGridSizer(1, 3, 3);
 	boxHolder->SetSizer(flexGridSizer);
 	boxHolder->SetBackgroundColour(wxColour(230, 230, 230));
 
-	wxStaticText* st = new wxStaticText(boxHolder, wxID_ANY, tr(option->getDisplayName()), wxDefaultPosition, wxDefaultSize);
+	auto* st = new wxStaticText(boxHolder, wxID_ANY, tr(option->getDisplayName()), wxDefaultPosition, wxDefaultSize);
 	st->SetToolTip(tr(option->getTooltip()));
 	flexGridSizer->Add(st, wxSizerFlags(1).Border(wxALL, 5));
 	st->SetMinSize(wxSize(260, -1));
@@ -99,7 +99,7 @@ void OptionBox::initializeOption()
 	{
 		for (const auto& checkBoxOption: option->getCheckBoxSelector().second->getOptions())
 		{
-			wxCheckBox* theCheckBox = new wxCheckBox(boxHolder,
+			auto* theCheckBox = new wxCheckBox(boxHolder,
 				 checkBoxOption->getID(),
 				 tr(checkBoxOption->getDisplayName()),
 				 wxDefaultPosition,
