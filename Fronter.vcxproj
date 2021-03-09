@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\CommonFunctions.h" />
+    <ClInclude Include="commonItems\CommonRegexes.h" />
     <ClInclude Include="commonItems\iconvlite.h" />
     <ClInclude Include="commonItems\Log.h" />
     <ClInclude Include="commonItems\OSCompatibilityLayer.h" />
