@@ -3,6 +3,8 @@
 #include "OSCompatibilityLayer.h"
 #include <fstream>
 #include <wx/wrapsizer.h>
+#include <ranges>
+
 #define tr localization->translate
 
 wxDEFINE_EVENT(wxEVT_LOGLEVELCHANGED, wxCommandEvent);
@@ -107,19 +109,19 @@ void ConvertTab::onConvertStarted(wxCommandEvent& event)
 	wxCommandEvent evt(wxEVT_BLANKLOG);
 	m_pParent->AddPendingEvent(evt);
 
-	for (const auto& folder: configuration->getRequiredFolders())
+	for (const auto& folder: configuration->getRequiredFolders() | std::views::values)
 	{
-		if (folder.second->isMandatory() && !commonItems::DoesFolderExist(folder.second->getValue()))
+		if (folder->isMandatory() && !commonItems::DoesFolderExist(folder->getValue()))
 		{
-			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder.second->getName() << " at " << folder.second->getValue() << " not found.";
+			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder->getName() << " at " << folder->getValue() << " not found.";
 			return;
 		}
 	}
-	for (const auto& file: configuration->getRequiredFiles())
+	for (const auto& file: configuration->getRequiredFiles() | std::views::values)
 	{
-		if (file.second->isMandatory() && !commonItems::DoesFileExist(file.second->getValue()))
+		if (file->isMandatory() && !commonItems::DoesFileExist(file->getValue()))
 		{
-			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file.second->getName() << " at " << file.second->getValue() << " not found.";
+			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file->getName() << " at " << file->getValue() << " not found.";
 			return;
 		}
 	}

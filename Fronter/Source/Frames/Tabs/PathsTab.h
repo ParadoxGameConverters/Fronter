@@ -15,7 +15,7 @@ class PathsTab final : public wxNotebookPage
   public:
 	PathsTab(wxWindow* parent);
 
-	void loadConfiguration(const std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 	void initializePaths();
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 
