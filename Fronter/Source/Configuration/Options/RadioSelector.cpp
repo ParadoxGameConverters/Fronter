@@ -1,6 +1,7 @@
 #include "RadioSelector.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 RadioSelector::RadioSelector(std::istream& theStream)
 {
@@ -11,7 +12,7 @@ RadioSelector::RadioSelector(std::istream& theStream)
 
 void RadioSelector::registerKeys()
 {
-	registerKeyword("radioOption", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("radioOption", [this](std::istream& theStream) {
 		optionCounter++;
 		auto newOption = std::make_shared<RadioOption>(theStream, optionCounter);
 		radioOptions.emplace_back(newOption);

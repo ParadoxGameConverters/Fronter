@@ -20,7 +20,7 @@ class RequiredFile: commonItems::parser
 	[[nodiscard]] auto isOutputtable() const { return outputtable; }
 	[[nodiscard]] auto getID() const { return ID; }
 
-	void setID(int theID) { ID = theID; }
+	void setID(const int theID) { ID = theID; }
 	void setValue(const std::string& theValue) { value = theValue; }
 
   private:
