@@ -14,7 +14,7 @@ void OptionsTab::initializeOptions()
 	SetSizer(optionsTabSizer);
 
 	// Load options from configuration and initialize option boxes to be inserted into sizer.
-	for (const auto option: configuration->getOptions())
+	for (const auto& option: configuration->getOptions())
 	{
 		auto* newOption = new OptionBox(this, option->getName(), option);
 		newOption->loadLocalization(localization);

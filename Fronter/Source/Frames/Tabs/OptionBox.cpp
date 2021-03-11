@@ -5,7 +5,7 @@
 #include <wx/textctrl.h>
 #define tr localization->translate
 
-OptionBox::OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Option> theOption):
+OptionBox::OptionBox(wxWindow* parent, const std::string& theName, const std::shared_ptr<Option>& theOption):
 	 wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxEXPAND), optionName(theName)
 {
 	option = theOption;

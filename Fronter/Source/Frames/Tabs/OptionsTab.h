@@ -6,12 +6,12 @@
 #include "../../Configuration/Configuration.h"
 #include "../../Utils/Localization/Localization.h"
 
-class OptionsTab: public wxScrolledWindow
+class OptionsTab final: public wxScrolledWindow
 {
   public:
 	OptionsTab(wxWindow* parent);
 
-	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 	void initializeOptions();
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 
