@@ -13,7 +13,7 @@ wxDECLARE_EVENT(wxEVT_UPDATEMODS, wxCommandEvent);
 class PathsTab final : public wxNotebookPage
 {
   public:
-	PathsTab(wxWindow* parent);
+	explicit PathsTab(wxWindow* parent);
 
 	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 	void initializePaths();

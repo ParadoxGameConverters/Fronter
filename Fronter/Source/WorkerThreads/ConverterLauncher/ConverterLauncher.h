@@ -12,8 +12,8 @@ wxDECLARE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
 class ConverterLauncher final : public wxThread
 {
   public:
-	ConverterLauncher(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
-	void loadConfiguration(const std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
+	explicit ConverterLauncher(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
+	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 
   private:
 	void* Entry() override;

@@ -9,13 +9,13 @@
 #include <wx/grid.h>
 #include <memory>
 
-class FronterGridCellRenderer: public wxGridCellStringRenderer
+class FronterGridCellRenderer final : public wxGridCellStringRenderer
 {
   public:
-	virtual void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);
+	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) override;
 };
 
-class LogWindow: public wxWindow
+class LogWindow final : public wxWindow
 {
   public:
 	LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization);

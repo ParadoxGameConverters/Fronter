@@ -12,7 +12,7 @@
 #include "Tabs/ConvertTab.h"
 #include "Tabs/ModsTab.h"
 
-class MainFrame: public wxFrame
+class MainFrame final : public wxFrame
 {
   public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);

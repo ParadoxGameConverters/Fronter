@@ -40,7 +40,7 @@ void* ConverterLauncher::Entry()
 	}
 
 	STARTUPINFO si = {0};
-	PROCESS_INFORMATION pi = {0};
+	PROCESS_INFORMATION pi = {nullptr};
 
 	const auto pos = converterExeString.find_last_of('\\');
 	const auto workDirString = converterExeString.substr(0, pos + 1);
