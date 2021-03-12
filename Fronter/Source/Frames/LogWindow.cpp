@@ -5,14 +5,14 @@
 
 wxDEFINE_EVENT(wxEVT_PROGRESSMESSAGE, LogMessageEvent);
 
-void FronterGridCellRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected)
+void FronterGridCellRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, const int row, const int col, bool isSelected)
 {
 	wxGridCellStringRenderer::Draw(grid, attr, dc, rect, row, col, false);
 }
 
 void LogWindow::OnSize(wxSizeEvent& event)
 {
-	int width = (GetClientSize().x - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X));
+	const auto width = GetClientSize().x - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X);
 	theGrid->SetColSize(2, width - theGrid->GetColSize(0) - theGrid->GetColSize(1));
 	event.Skip();
 }
@@ -63,7 +63,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	
 	auto* logBox = new wxBoxSizer(wxVERTICAL);
 	this->SetSizer(logBox);
-	Layout();
+	wxWindowBase::Layout();
 	logBox->Fit(this);
 	logBox->Add(theGrid, 1, wxEXPAND | wxALL);
 
@@ -103,7 +103,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	const auto logMessage = event.GetMessage();
 	const auto timestamp = "  " + logMessage.timestamp + "  ";
 
-	wxColour bgcolor = wxColour(0, 0, 0);
+	auto bgcolor = wxColour(0, 0, 0);
 	std::string severity;
 	if (logMessage.logLevel == LogLevel::Info)
 	{
@@ -166,7 +166,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	}
 	theGrid->EndBatch();
 
-	logCounter++;
+	++logCounter;
 	if (needUpdate)
 	{
 		if (static_cast<int>(message.size()) > maxMessageLength)
@@ -178,11 +178,11 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	}
 }
 
-void LogWindow::setLogLevel(int level)
+void LogWindow::setLogLevel(const int level)
 {
 	loglevel = level;
 	theGrid->BeginBatch();
-	for (int row = 0; row < theGrid->GetNumberRows(); row++)
+	for (auto row = 0; row < theGrid->GetNumberRows(); ++row)
 	{
 		auto value = theGrid->GetCellValue(row, 1);
 		if ((value.find("DEBUG") != std::string::npos && loglevel < 3) || (value.find("INFO") != std::string::npos && loglevel < 2) ||

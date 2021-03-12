@@ -9,7 +9,7 @@
 class OptionsTab final: public wxScrolledWindow
 {
   public:
-	OptionsTab(wxWindow* parent);
+	explicit OptionsTab(wxWindow* parent);
 
 	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 	void initializeOptions();

@@ -18,7 +18,7 @@ wxDECLARE_EVENT(wxEVT_BLANKLOG, wxCommandEvent);
 class ConvertTab final: public wxNotebookPage
 {
   public:
-	ConvertTab(wxWindow* parent);
+	explicit ConvertTab(wxWindow* parent);
 
 	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
