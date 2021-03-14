@@ -1,12 +1,13 @@
+#include "CommonFunctions.h"
 #include "ConverterLauncher.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
+#include <WinBase.h>
+#include <Windows.h>
 #include <filesystem>
 #include <handleapi.h>
 #include <processthreadsapi.h>
-#include <winbase.h>
-#include <windows.h>
-namespace fs = std::filesystem;
+
 
 wxDEFINE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
 
@@ -23,7 +24,7 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	const auto converterExeString = exeItr->second->getValue();
+	auto converterExeString = exeItr->second->getValue();
 	if (converterExeString.empty())
 	{
 		Log(LogLevel::Error) << "Converter location has not been set!";
@@ -40,24 +41,31 @@ void* ConverterLauncher::Entry()
 	}
 
 	STARTUPINFO si = {0};
-	PROCESS_INFORMATION pi = {nullptr};
+	PROCESS_INFORMATION pi = {.hProcess = nullptr, .hThread = nullptr, .dwProcessId = 0, .dwThreadId = 0};
 
 	const auto pos = converterExeString.find_last_of('\\');
 	const auto workDirString = converterExeString.substr(0, pos + 1);
-	const auto converterExe = commonItems::convertUTF8ToUTF16(converterExeString);
+	if (getExtension(converterExeString) == "jar")
+	{
+		converterExeString = "java.exe -jar " + converterExeString;
+	}
+	auto converterExe = commonItems::convertUTF8ToUTF16(converterExeString);
 	const auto workDir = commonItems::convertUTF8ToUTF16(workDirString);
-	const wchar_t* workDirPtr = workDir.c_str();
+	const auto* workDirPtr = workDir.c_str();
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	if (CreateProcess(converterExe.c_str(), // No module name (use command line)
-			  nullptr,								 // Command line
-			  nullptr,								 // Process handle not inheritable
-			  nullptr,								 // Thread handle not inheritable
-			  FALSE,									 // Set handle inheritance to FALSE
-			  CREATE_NO_WINDOW,					 // No creation flags
-			  nullptr,								 // Use parent's environment block
-			  workDirPtr,							 // Use parent's starting directory
-			  &si,									 // Pointer to STARTUPINFO structure
+	WCHAR commandLine[MAX_PATH];
+	wcscpy(static_cast<LPWSTR>(commandLine), converterExe.c_str());
+
+	if (CreateProcess(nullptr,						// No module name (use command line)
+			  static_cast<LPWSTR>(commandLine), // Command line
+			  nullptr,									// Process handle not inheritable
+			  nullptr,									// Thread handle not inheritable
+			  FALSE,										// Set handle inheritance to FALSE
+			  CREATE_NO_WINDOW,						// No creation flags
+			  nullptr,									// Use parent's environment block
+			  workDirPtr,								// Use parent's starting directory
+			  &si,										// Pointer to STARTUPINFO structure
 			  &pi))
 	{
 		DWORD exit_code;
