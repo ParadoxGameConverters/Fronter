@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 #set(CMAKE_VERBOSE_MAKEFILE on)
 
 project(Fronter)
@@ -19,7 +19,7 @@ set( CURL_INCLUDE_DIR ../curl/include )
 include_directories("../commonItems")
 include_directories("/usr/include/wx-3.1-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
-include_directories(${CURL_INCLUDE_DIR})
+include_directories( ${CURL_INCLUDE_DIRS} )
 include_directories("${PROJECT_SOURCE_DIR}")
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
@@ -57,6 +57,8 @@ add_executable(Fronter
 	${UPDATECHECKER_SOURCES}
 	${COMMON_SOURCES}
 )
+
+link_directories( ${CURL_LIBRARIES} )
 
 find_package(CURL REQUIRED) 
 
