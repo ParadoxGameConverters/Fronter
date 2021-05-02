@@ -15,7 +15,7 @@ add_link_options(-no-pie)
 include_directories("../commonItems")
 include_directories("/usr/include/wx-3.1-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
-include_directories("../curl/include/curl")
+include_directories("../curl/include")
 include_directories("${PROJECT_SOURCE_DIR}")
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")

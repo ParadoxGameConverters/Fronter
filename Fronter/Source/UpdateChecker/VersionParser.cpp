@@ -2,6 +2,7 @@
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
 
+
 VersionParser::VersionParser(const std::string& thePath)
 {
 	registerKeys();
