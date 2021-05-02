@@ -13,13 +13,13 @@ add_compile_options(-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -Wa
 add_link_options(-no-pie)
 
 add_definitions( -DCURL_STATICLIB )
-set( CURL_LIBRARY ../curl/lib )
+set( CURL_LIBRARIES ../curl/lib )
 set( CURL_INCLUDE_DIR ../curl/include )
 
 include_directories("../commonItems")
 include_directories("/usr/include/wx-3.1-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
-include_directories( ${CURL_INCLUDE_DIRS} )
+include_directories( ${CURL_INCLUDE_DIR} )
 include_directories("${PROJECT_SOURCE_DIR}")
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
