@@ -7,10 +7,10 @@
 #include "Configuration/Configuration.h"
 #include "Utils/Localization/Localization.h"
 
-class Frontend: public wxApp
+class Frontend final: public wxApp
 {
   public:
-	virtual bool OnInit();
+	bool OnInit() override;
 	std::shared_ptr<Configuration> configuration;
 	std::shared_ptr<Localization> localization;
 };

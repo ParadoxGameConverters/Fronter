@@ -8,7 +8,7 @@
 #define tr localization->translate
 
 
-MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(NULL, wxID_ANY, title, pos, size)
+MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(nullptr, wxID_ANY, title, pos, size)
 {
 	Bind(wxEVT_MENU, &MainFrame::OnCheckForUpdates, this, wxID_REFRESH);
 	Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
@@ -22,11 +22,11 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
 void MainFrame::initFrame()
 {
-	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
+	auto* vbox = new wxBoxSizer(wxVERTICAL);
 	notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	notebook->SetMaxSize(wxSize(-1, 400));
 
-	PathsTab* pathsTab = new PathsTab(notebook);
+	auto* pathsTab = new PathsTab(notebook);
 	pathsTab->loadConfiguration(configuration);
 	pathsTab->loadLocalization(localization);
 	pathsTab->initializePaths();

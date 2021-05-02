@@ -5,12 +5,28 @@
 
 wxDEFINE_EVENT(wxEVT_PROGRESSMESSAGE, LogMessageEvent);
 
+void FronterGridCellRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, const int row, const int col, bool isSelected)
+{
+	wxGridCellStringRenderer::Draw(grid, attr, dc, rect, row, col, false);
+}
+
+void LogWindow::OnSize(wxSizeEvent& event)
+{
+	const auto width = GetClientSize().x - wxSystemSettings::GetMetric(wxSYS_VSCROLL_X);
+	theGrid->SetColSize(2, width - theGrid->GetColSize(0) - theGrid->GetColSize(1));
+	event.Skip();
+}
+
 LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization): wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
 	m_pParent = parent;
 	Bind(wxEVT_TAILTHREAD, &LogWindow::OnTailPush, this);
 	localization = std::move(theLocalization);
-	theGrid = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+
+	theGrid = new wxGrid(this, wxID_ANY);
+
+	theGrid->SetDefaultRenderer(new FronterGridCellRenderer); // We are using our own grid renderer which disables selections.
+	
 	theGrid->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
 	theGrid->EnableEditing(false);
 	theGrid->HideCellEditControl();
@@ -21,12 +37,42 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid->SetColLabelAlignment(wxLEFT, wxCENTER);
 	theGrid->SetScrollRate(0, 20);
 	theGrid->SetColLabelSize(20);
-
-	wxBoxSizer* logBox = new wxBoxSizer(wxVERTICAL);
-	logBox->Add(theGrid, wxSizerFlags(1).Expand());
-	SetSizer(logBox);
+	theGrid->Bind(wxEVT_GRID_CELL_LEFT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_CELL_LEFT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_CELL_RIGHT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_CELL_RIGHT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_LEFT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_LEFT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_RIGHT_CLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_LABEL_RIGHT_DCLICK, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_SELECT_CELL, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_GRID_COL_MOVE, &LogWindow::eatClick, this);
+	theGrid->Bind(wxEVT_SIZE, &LogWindow::OnSize, this);
+	theGrid->DisableDragColSize();
+	theGrid->DisableDragRowSize();
+	theGrid->DisableDragCell();
+	theGrid->DisableDragColMove();
+	theGrid->DisableDragGridSize();
+	theGrid->DisableCellEditControl();
+	theGrid->DisableColResize(0);
+	theGrid->DisableColResize(1);
+	theGrid->SetColMinimalWidth(0, 150);
+	theGrid->SetColMinimalWidth(1, 100);
+	theGrid->SetColSize(0, 150);
+	theGrid->SetColSize(1, 100);
+	
+	auto* logBox = new wxBoxSizer(wxVERTICAL);
+	this->SetSizer(logBox);
+	wxWindowBase::Layout();
 	logBox->Fit(this);
+	logBox->Add(theGrid, 1, wxEXPAND | wxALL);
+
 	initializeTail();
+}
+
+void LogWindow::eatClick(wxGridEvent& event)
+{
+	//yum.
 }
 
 void LogWindow::initializeTail()
@@ -57,7 +103,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	const auto logMessage = event.GetMessage();
 	const auto timestamp = "  " + logMessage.timestamp + "  ";
 
-	wxColour bgcolor = wxColour(0, 0, 0);
+	auto bgcolor = wxColour(0, 0, 0);
 	std::string severity;
 	if (logMessage.logLevel == LogLevel::Info)
 	{
@@ -108,6 +154,7 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->SetCellValue(logCounter, 2, commonItems::convertUTF8ToUTF16(message));
 	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
+	theGrid->DisableRowResize(logCounter);
 	theGrid->HideRow(logCounter);
 
 	auto needUpdate = false;
@@ -119,23 +166,23 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	}
 	theGrid->EndBatch();
 
-	logCounter++;
+	++logCounter;
 	if (needUpdate)
 	{
 		if (static_cast<int>(message.size()) > maxMessageLength)
 		{
 			maxMessageLength = static_cast<int>(message.size());
-			theGrid->AutoSizeColumn(2, true); // this is expensive.
+			//theGrid->AutoSizeColumn(2, true); // this is expensive.
 		}
 		theGrid->Scroll(0, logCounter);
 	}
 }
 
-void LogWindow::setLogLevel(int level)
+void LogWindow::setLogLevel(const int level)
 {
 	logLevel = level;
 	theGrid->BeginBatch();
-	for (int row = 0; row < theGrid->GetNumberRows(); row++)
+	for (auto row = 0; row < theGrid->GetNumberRows(); ++row)
 	{
 		auto value = theGrid->GetCellValue(row, 1);
 		if ((value.find("DEBUG") != std::string::npos && logLevel < 3) || (value.find("INFO") != std::string::npos && logLevel < 2) ||
@@ -145,8 +192,8 @@ void LogWindow::setLogLevel(int level)
 			theGrid->ShowRow(row);
 	}
 	theGrid->EndBatch();
-	theGrid->AutoSize();
-	GetParent()->Layout();
+	//theGrid->SetColSize(2, 1000);
+	// GetParent()->Layout();
 	theGrid->Scroll(0, logCounter - 1);
 	theGrid->MakeCellVisible(logCounter - 1, 0);
 }

@@ -1,6 +1,7 @@
 #include "CheckBoxSelector.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
 CheckBoxSelector::CheckBoxSelector(std::istream& theStream)
 {
@@ -11,7 +12,7 @@ CheckBoxSelector::CheckBoxSelector(std::istream& theStream)
 
 void CheckBoxSelector::registerKeys()
 {
-	registerKeyword("checkBoxOption", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("checkBoxOption", [this](std::istream& theStream) {
 		optionCounter++;
 		auto newOption = std::make_shared<CheckBoxOption>(theStream, optionCounter);
 		checkBoxOptions.emplace_back(newOption);

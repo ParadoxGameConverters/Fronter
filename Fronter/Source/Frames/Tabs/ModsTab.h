@@ -6,12 +6,12 @@
 #include "../../Configuration/Configuration.h"
 #include "../../Utils/Localization/Localization.h"
 
-class ModsTab: public wxScrolledWindow
+class ModsTab final: public wxScrolledWindow
 {
   public:
-	ModsTab(wxWindow* parent);
+	explicit ModsTab(wxWindow* parent);
 
-	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 
 	void initializeMods();

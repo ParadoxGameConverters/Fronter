@@ -7,14 +7,14 @@
 #include <memory>
 
 class Option;
-class OptionBox: public wxWindow
+class OptionBox final: public wxWindow
 {
   public:
-	OptionBox(wxWindow* parent, const std::string& theName, std::shared_ptr<Option> theOption);
+	OptionBox(wxWindow* parent, const std::string& theName, const std::shared_ptr<Option>& theOption);
 
 	[[nodiscard]] const auto& getOptionName() const { return optionName; }
 
-	void loadOption(std::shared_ptr<Option> theOption) { option = theOption; }
+	void loadOption(const std::shared_ptr<Option>& theOption) { option = theOption; }
 	void initializeOption();
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 

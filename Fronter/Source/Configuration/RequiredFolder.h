@@ -8,7 +8,7 @@ class RequiredFolder: commonItems::parser
 	RequiredFolder() = default;
 	explicit RequiredFolder(std::istream& theStream);
 
-	void setID(int theID) { ID = theID; }
+	void setID(const int theID) { ID = theID; }
 	void setValue(const std::string& theValue) { value = theValue; }
 
 	[[nodiscard]] const auto& getName() const { return name; }

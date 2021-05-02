@@ -1,8 +1,9 @@
 #include "RadioOption.h"
 #include "Log.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 
-RadioOption::RadioOption(std::istream& theStream, int theID): ID(theID)
+RadioOption::RadioOption(std::istream& theStream, const int theID): ID(theID)
 {
 	registerKeys();
 	parseStream(theStream);
@@ -11,19 +12,19 @@ RadioOption::RadioOption(std::istream& theStream, int theID): ID(theID)
 
 void RadioOption::registerKeys()
 {
-	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("name", [this](std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
 	});
-	registerKeyword("tooltip", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("tooltip", [this](std::istream& theStream) {
 		const commonItems::singleString tooltipStr(theStream);
 		tooltip = tooltipStr.getString();
 	});
-	registerKeyword("displayName", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("displayName", [this](std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		displayName = nameStr.getString();
 	});
-	registerKeyword("default", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("default", [this](std::istream& theStream) {
 		const commonItems::singleString defaultStr(theStream);
 		defaulted = defaultStr.getString() == "true";
 		if (defaulted)

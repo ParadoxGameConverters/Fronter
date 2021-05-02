@@ -245,6 +245,9 @@
     <ClInclude Include="Fronter\Source\UpdateChecker\VersionParser.h">
       <Filter>Fronter\UpdateChecker</Filter>
     </ClInclude>
+    <ClInclude Include="commonItems\CommonRegexes.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Fronter\Resources\converter.ico">
@@ -280,16 +283,19 @@
     <CopyFileToFolders Include="Fronter\Resources\vcruntime140_1.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxbase313u_vc14x_x64.dll">
+    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxmsw315ud_core_vc14x_x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxbase313ud_vc14x_x64.dll">
+    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxmsw315u_core_vc14x_x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxmsw313u_core_vc14x_x64.dll">
+    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxbase315ud_vc14x_x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.3\lib\vc14x_x64_dll\wxmsw313ud_core_vc14x_x64.dll">
+    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxbase315u_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_simp_chinese.yml">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fronter\Resources\libssl-1_1-x64.dll">

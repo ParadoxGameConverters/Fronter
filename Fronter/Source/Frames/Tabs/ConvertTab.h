@@ -15,12 +15,12 @@ class MainFrame;
 wxDECLARE_EVENT(wxEVT_LOGLEVELCHANGED, wxCommandEvent);
 wxDECLARE_EVENT(wxEVT_BLANKLOG, wxCommandEvent);
 
-class ConvertTab: public wxNotebookPage
+class ConvertTab final: public wxNotebookPage
 {
   public:
-	ConvertTab(wxWindow* parent);
+	explicit ConvertTab(wxWindow* parent);
 
-	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
+	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 	void loadLocalization(std::shared_ptr<Localization> theLocalization) { localization = std::move(theLocalization); }
 	void initializeConvert();
 	void loadSelf(MainFrame* theMainFrame) { mainFrame = theMainFrame; }

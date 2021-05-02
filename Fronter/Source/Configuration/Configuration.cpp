@@ -2,8 +2,11 @@
 #include "Mod.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
+#include "CommonRegexes.h"
 #include <filesystem>
 #include <fstream>
+#include <ranges>
+
 namespace fs = std::filesystem;
 
 Configuration::Configuration()
@@ -52,15 +55,15 @@ void Configuration::registerPreloadKeys()
 			Log(LogLevel::Warning) << "You have an old configuration file. Preload will not be possible.";
 			return;
 		}
-		for (const auto& folder: requiredFolders)
+		for (const auto& [requiredFolderName, folderPtr]: requiredFolders)
 		{
-			if (folder.first == incomingKey)
-				folder.second->setValue(theString.getString());
+			if (requiredFolderName == incomingKey)
+				folderPtr->setValue(theString.getString());
 		}
-		for (const auto& file: requiredFiles)
+		for (const auto& [requiredFileName, filePtr]: requiredFiles)
 		{
-			if (file.first == incomingKey)
-				file.second->setValue(theString.getString());
+			if (requiredFileName == incomingKey)
+				filePtr->setValue(theString.getString());
 		}
 		for (const auto& option: options)
 		{
@@ -72,7 +75,7 @@ void Configuration::registerPreloadKeys()
 			{
 				commonItems::stringList theList(ss);
 				const auto selections = theList.getStrings();
-				std::set<std::string> values = std::set(selections.begin(), selections.end());
+				auto values = std::set(selections.begin(), selections.end());
 				option->setValue(values);
 				option->setCheckBoxSelectorPreloaded();
 			}
@@ -96,46 +99,46 @@ Configuration::Configuration(std::istream& theStream)
 
 void Configuration::registerKeys()
 {
-	registerKeyword("name", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("name", [this](std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		name = nameStr.getString();
 	});
-	registerKeyword("converterFolder", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("converterFolder", [this](std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		converterFolder = nameStr.getString();
 	});
-	registerKeyword("requiredFolder", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("requiredFolder", [this](std::istream& theStream) {
 		auto newFolder = std::make_shared<RequiredFolder>(theStream);
 		if (!newFolder->getName().empty())
 			requiredFolders.insert(std::pair(newFolder->getName(), newFolder));
 		else
 			Log(LogLevel::Error) << "Required Folder has no mandatory field: name!";
 	});
-	registerKeyword("requiredFile", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("requiredFile", [this](std::istream& theStream) {
 		auto newFile = std::make_shared<RequiredFile>(theStream);
 		if (!newFile->getName().empty())
 			requiredFiles.insert(std::pair(newFile->getName(), newFile));
 		else
 			Log(LogLevel::Error) << "Required File has no mandatory field: name!";
 	});
-	registerKeyword("option", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("option", [this](std::istream& theStream) {
 		optionCounter++;
 		auto newOption = std::make_shared<Option>(theStream, optionCounter);
 		options.emplace_back(newOption);
 	});
-	registerKeyword("displayName", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("displayName", [this](std::istream& theStream) {
 		const commonItems::singleString nameStr(theStream);
 		displayName = nameStr.getString();
 	});
-	registerKeyword("sourceGame", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("sourceGame", [this](std::istream& theStream) {
 		const commonItems::singleString gameStr(theStream);
 		sourceGame = gameStr.getString();
 	});
-	registerKeyword("targetGame", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("targetGame", [this](std::istream& theStream) {
 		const commonItems::singleString gameStr(theStream);
 		targetGame = gameStr.getString();
 	});
-	registerKeyword("autoGenerateModsFrom", [this](const std::string& unused, std::istream& theStream) {
+	registerKeyword("autoGenerateModsFrom", [this](std::istream& theStream) {
 		const commonItems::singleString modsStr(theStream);
 		autoGenerateModsFrom = modsStr.getString();
 	});
@@ -177,15 +180,15 @@ bool Configuration::exportConfiguration() const
 		return false;
 	}
 
-	for (const auto& folder: requiredFolders)
+	for (const auto& [requiredFolderName, folderPtr]: requiredFolders)
 	{
-		confFile << folder.first << " = \"" << folder.second->getValue() << "\"\n";
+		confFile << requiredFolderName << " = \"" << folderPtr->getValue() << "\"\n";
 	}
-	for (const auto& file: requiredFiles)
+	for (const auto& [requiredFileName, filePtr]: requiredFiles)
 	{
-		if (!file.second->isOutputtable())
+		if (!filePtr->isOutputtable())
 			continue;
-		confFile << file.first << " = \"" << file.second->getValue() << "\"\n";
+		confFile << requiredFileName << " = \"" << filePtr->getValue() << "\"\n";
 	}
 
 	if (!autoGenerateModsFrom.empty())
@@ -235,11 +238,11 @@ void Configuration::autoLocateMods()
 	autolocatedMods.clear();
 	// Do we have a mod path?
 	std::string modPath;
-	for (const auto& requiredfolder: requiredFolders)
+	for (const auto& filePtr : requiredFolders | std::views::values)
 	{
-		if (requiredfolder.second->getName() == autoGenerateModsFrom)
+		if (filePtr->getName() == autoGenerateModsFrom)
 		{
-			modPath = requiredfolder.second->getValue();
+			modPath = filePtr->getValue();
 		}
 	}
 	if (modPath.empty())

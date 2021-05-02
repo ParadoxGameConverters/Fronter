@@ -9,14 +9,14 @@
 
 wxDECLARE_EVENT(wxEVT_COPIERDONE, wxCommandEvent);
 
-class ModCopier: public wxThread
+class ModCopier final : public wxThread
 {
   public:
-	ModCopier(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
-	void loadConfiguration(std::shared_ptr<Configuration> theConfiguration) { configuration = theConfiguration; }
+	explicit ModCopier(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
+	void loadConfiguration(const std::shared_ptr<Configuration>& theConfiguration) { configuration = theConfiguration; }
 
   private:
-	void* Entry();
+	void* Entry() override;
 	std::shared_ptr<Configuration> configuration;
 
   protected:
