@@ -8,4 +8,5 @@
 
 bool isUpdateAvailable(const std::string& versionFilePath, const std::string& tagsUrl);
 
-#endif
+
+#endif // UPDATE_CHECKER_H
