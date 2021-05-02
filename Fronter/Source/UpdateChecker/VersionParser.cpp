@@ -13,8 +13,7 @@ VersionParser::VersionParser(const std::string& thePath)
 void VersionParser::registerKeys()
 {
 	registerKeyword("version", [this](const std::string& unused, std::istream& theStream) {
-		const commonItems::singleString versionStr(theStream);
-		version = versionStr.getString();
+		version = commonItems::getString(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

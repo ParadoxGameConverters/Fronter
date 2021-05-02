@@ -1,8 +1,10 @@
-#ifndef UPDATE_CHECKER
-#define UPDATE_CHECKER
+#ifndef UPDATE_CHECKER_H
+#define UPDATE_CHECKER_H
 
-#include <string>
+
 #include <curl/curl.h>
+#include <string>
+
 
 static int writer(char* data, size_t size, size_t nmemb, std::string* writerData);
 static bool init(CURL*& conn, char* url);
