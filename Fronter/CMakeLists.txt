@@ -13,13 +13,13 @@ add_compile_options(-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -Wa
 add_link_options(-no-pie)
 
 add_definitions( -DCURL_STATICLIB )
-set( CURL_LIBRARY ../curl/lib )
-set( CURL_INCLUDE_DIR ../curl/include )
+set(LIBCURL_DIR ../curl)
+find_path(LIBCURL_INCLUDE_DIR curl/curl.h HINTS ${LIBCURL_DIR}/include)
+include_directories(${LIBCURL_INCLUDE_DIR})
 
 include_directories("../commonItems")
 include_directories("/usr/include/wx-3.1-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
-include_directories( ${CURL_INCLUDE_DIR} )
 include_directories("${PROJECT_SOURCE_DIR}")
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
@@ -58,13 +58,9 @@ add_executable(Fronter
 	${COMMON_SOURCES}
 )
 
-link_directories( ${CURL_LIBRARY} )
-
-find_library(CURL_LIBRARY NAMES curl curllib libcurl_imp curllib_static)
-
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(Fronter ${wxWidgets_LIBRARIES} curl)
+target_link_libraries(Fronter ${wxWidgets_LIBRARIES} libcurl)
 
 add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
 add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
