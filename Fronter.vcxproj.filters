@@ -295,13 +295,13 @@
     <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxbase315u_vc14x_x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="Fronter\Resources\converter_l_simp_chinese.yml">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="Fronter\Resources\libssl-1_1-x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="curl\bin\libcurl-x64.dll" />
     <CopyFileToFolders Include="Fronter\Resources\libcrypto-1_1-x64.dll" />
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_simp_chinese.yml">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

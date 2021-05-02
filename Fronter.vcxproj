@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\CommonFunctions.h" />
+    <ClInclude Include="commonItems\CommonRegexes.h" />
     <ClInclude Include="commonItems\iconvlite.h" />
     <ClInclude Include="commonItems\Log.h" />
     <ClInclude Include="commonItems\OSCompatibilityLayer.h" />
@@ -160,6 +161,13 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fronter\Resources\libssl-1_1-x64.dll">
       <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Fronter\Resources\converter_l_simp_chinese.yml">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)Configuration/</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)Configuration/</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -273,7 +281,7 @@
       </PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -293,7 +301,7 @@
       </PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
