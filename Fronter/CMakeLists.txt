@@ -60,7 +60,7 @@ add_executable(Fronter
 
 link_directories( ${CURL_LIBRARY} )
 
-find_package(CURL REQUIRED) 
+find_library(CURL REQUIRED) 
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
