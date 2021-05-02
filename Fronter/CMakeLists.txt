@@ -12,6 +12,8 @@ add_compile_options(-lstdc++fs)
 add_compile_options(-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -Wall -O2 -std=c++20 -Wno-unused-variable)
 add_link_options(-no-pie)
 
+add_definitions( -DCURL_STATICLIB )
+
 include_directories("../commonItems")
 include_directories("/usr/include/wx-3.1-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
@@ -54,9 +56,13 @@ add_executable(Fronter
 	${COMMON_SOURCES}
 )
 
+set(CURL_LIBRARY "-lcurl")
+find_package(CURL REQUIRED) 
+include_directories(${CURL_INCLUDE_DIR})
+
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(Fronter ${wxWidgets_LIBRARIES})
+target_link_libraries(Fronter ${wxWidgets_LIBRARIES} curl)
 
 add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
 add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
