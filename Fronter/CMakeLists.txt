@@ -13,7 +13,7 @@ add_compile_options(-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -Wa
 add_link_options(-no-pie)
 
 add_definitions( -DCURL_STATICLIB )
-set( CURL_LIBRARIES ../curl/lib )
+set( CURL_LIBRARY ../curl/lib )
 set( CURL_INCLUDE_DIR ../curl/include )
 
 include_directories("../commonItems")
@@ -58,7 +58,7 @@ add_executable(Fronter
 	${COMMON_SOURCES}
 )
 
-link_directories( ${CURL_LIBRARIES} )
+link_directories( ${CURL_LIBRARY} )
 
 find_package(CURL REQUIRED) 
 
