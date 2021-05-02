@@ -56,7 +56,9 @@ add_executable(Fronter
 	${COMMON_SOURCES}
 )
 
-set(CURL_LIBRARY "-lcurl")
+set( CURL_LIBRARY ../curl/lib )
+set( CURL_INCLUDE_DIR ../curl/include )
+set( CURL_LIBRARY "-lcurl" )
 find_package(CURL REQUIRED) 
 include_directories(${CURL_INCLUDE_DIR})
 
