@@ -38,6 +38,6 @@ l_english:
  LOGLEVEL3: "Debug"
  CHECKFORUPDATES: "Check for updates"
  NEWVERSIONTITLE: "New release available"
- NEWVERSIONBODY: "A new stable release is available. Do you want to download it from the forum?"
+ NEWVERSIONBODY: "A new stable release is available. Do you want to visit the download page and the forum release thread?"
  NONEWVERSIONTITLE: "Update not found"
- NONEWVERSIONBODY: "No newer release has been found. Do you want to visit the forum to check for yourself?"
+ NONEWVERSIONBODY: "No newer release has been found. Do you want to visit the forum and the latest release page to check for yourself?"
