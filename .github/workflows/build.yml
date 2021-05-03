@@ -40,6 +40,7 @@ jobs:
                  wx3.1-headers \
                  wx-common
     - name: "Install libcurl"
+      run: |
        sudo apt-get libcurl4-openssl-dev
     - name: "Install GCC 10"
       run: |
