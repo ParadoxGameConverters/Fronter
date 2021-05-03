@@ -111,8 +111,10 @@ void MainFrame::OnCheckForUpdates(wxCommandEvent& event)
 	if (isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
 	{
 		if (wxMessageBox(tr("NEWVERSIONBODY"), tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+		{
 			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
 			wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+		}
 	}
 	else if (wxMessageBox(tr("NONEWVERSIONBODY"), tr("NONEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
 	{

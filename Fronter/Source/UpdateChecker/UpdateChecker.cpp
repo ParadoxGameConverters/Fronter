@@ -115,21 +115,20 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 	{
 		return false;
 	}
+	std::string latestReleaseCommitId = buffer;
+	buffer.clear();
+	// remove whitespace from the latest release commit string
+	latestReleaseCommitId.erase(std::remove_if(latestReleaseCommitId.begin(),
+											   latestReleaseCommitId.end(),
+											   [](unsigned char x) {
+												   return std::isspace(x);
+											   }),
+								latestReleaseCommitId.end());
 
 	std::ifstream commitIdFile(commitIdFilePath);
 	std::string localCommitId;
 	commitIdFile >> localCommitId;
 	commitIdFile.close();
-
-	std::string latestReleaseCommitId = buffer;
-	// remove whitespace from the latest release commit string
-	latestReleaseCommitId.erase(std::remove_if(latestReleaseCommitId.begin(),
-											   latestReleaseCommitId.end(),
-											   [](unsigned char x) {
-											       return std::isspace(x);
-											   }),
-								latestReleaseCommitId.end());
-
 
 	Log(LogLevel::Info) << localCommitId << " " << localCommitId.size();
 	Log(LogLevel::Info) << latestReleaseCommitId << " " << latestReleaseCommitId.size();
