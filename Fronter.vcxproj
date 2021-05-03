@@ -46,7 +46,6 @@
     <ClCompile Include="Fronter\Source\Frames\Tabs\PathsTab.cpp" />
     <ClCompile Include="Fronter\Source\Frontend.cpp" />
     <ClCompile Include="Fronter\Source\UpdateChecker\UpdateChecker.cpp" />
-    <ClCompile Include="Fronter\Source\UpdateChecker\VersionParser.cpp" />
     <ClCompile Include="Fronter\Source\Utils\SliceMessage.cpp" />
     <ClCompile Include="Fronter\Source\Utils\Localization\Localization.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp" />
@@ -81,7 +80,6 @@
     <ClInclude Include="Fronter\Source\Frames\Tabs\PathsTab.h" />
     <ClInclude Include="Fronter\Source\Frontend.h" />
     <ClInclude Include="Fronter\Source\UpdateChecker\UpdateChecker.h" />
-    <ClInclude Include="Fronter\Source\UpdateChecker\VersionParser.h" />
     <ClInclude Include="Fronter\Source\Utils\SliceMessage.h" />
     <ClInclude Include="Fronter\Source\Utils\Localization\Localization.h" />
     <ClInclude Include="Fronter\Source\WorkerThreads\ConverterLauncher\ConverterLauncher.h" />

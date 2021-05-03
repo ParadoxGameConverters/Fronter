@@ -151,8 +151,11 @@ void Configuration::registerKeys()
 	registerKeyword("converterReleaseForumThread", [this](std::istream& theStream) {
 		converterReleaseForumThread = commonItems::getString(theStream);
 	});
-	registerKeyword("converterTagsGithubUrl", [this](std::istream& theStream) {
-		converterTagsGithubUrl = commonItems::getString(theStream);
+	registerKeyword("latestGitHubConverterReleaseUrl", [this](std::istream& theStream) {
+		latestGitHubConverterReleaseUrl = commonItems::getString(theStream);
+	});
+	registerKeyword("pagesCommitIdUrl", [this](std::istream& theStream) {
+		pagesCommitIdUrl = commonItems::getString(theStream);
 	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }

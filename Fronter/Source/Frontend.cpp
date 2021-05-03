@@ -46,10 +46,15 @@ bool Frontend::OnInit()
 
 
 	// check for updates on startup
-	if (configuration->getEnableUpdateChecker() && configuration->getCheckForUpdatesOnStartup() && isUpdateAvailable(configuration->getConverterFolder() + "/configurables/version.txt", configuration->getConverterTagsGithubUrl()))
+	if (configuration->getEnableUpdateChecker() &&
+		configuration->getCheckForUpdatesOnStartup() &&
+		isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
 	{
 		if (wxMessageBox(tr("NEWVERSIONBODY"), tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+		{
 			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+			wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+		}
 	}
 	
 	return true;

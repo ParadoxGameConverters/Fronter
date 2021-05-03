@@ -22,7 +22,8 @@ class Configuration: commonItems::parser
 	[[nodiscard]] auto getEnableUpdateChecker() const { return enableUpdateChecker; }
 	[[nodiscard]] auto getCheckForUpdatesOnStartup() const { return checkForUpdatesOnStartup; }
 	[[nodiscard]] const auto& getConverterReleaseForumThread() const { return converterReleaseForumThread; }
-	[[nodiscard]] const auto& getConverterTagsGithubUrl() const { return converterTagsGithubUrl; }
+	[[nodiscard]] const auto& getLatestGitHubConverterReleaseUrl() const { return latestGitHubConverterReleaseUrl; }
+	[[nodiscard]] const auto& getPagesCommitIdUrl() const { return pagesCommitIdUrl; }
 	[[nodiscard]] const auto& getPreloadedModFileNames() const { return preloadedModFileNames; }
 	[[nodiscard]] const auto& getRequiredFiles() const { return requiredFiles; }
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
@@ -49,7 +50,8 @@ class Configuration: commonItems::parser
 	bool enableUpdateChecker = false;
 	bool checkForUpdatesOnStartup = false;
 	std::string converterReleaseForumThread;
-	std::string converterTagsGithubUrl;
+	std::string latestGitHubConverterReleaseUrl;
+	std::string pagesCommitIdUrl;
 	std::map<std::string, std::shared_ptr<RequiredFile>> requiredFiles;
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;

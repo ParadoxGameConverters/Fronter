@@ -141,9 +141,6 @@
     <ClCompile Include="Fronter\Source\UpdateChecker\UpdateChecker.cpp">
       <Filter>Fronter\UpdateChecker</Filter>
     </ClCompile>
-    <ClCompile Include="Fronter\Source\UpdateChecker\VersionParser.cpp">
-      <Filter>Fronter\UpdateChecker</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonItems\ParserHelpers.h">
@@ -240,9 +237,6 @@
       <Filter>Fronter\Frames\Tabs</Filter>
     </ClInclude>
     <ClInclude Include="Fronter\Source\UpdateChecker\UpdateChecker.h">
-      <Filter>Fronter\UpdateChecker</Filter>
-    </ClInclude>
-    <ClInclude Include="Fronter\Source\UpdateChecker\VersionParser.h">
       <Filter>Fronter\UpdateChecker</Filter>
     </ClInclude>
     <ClInclude Include="commonItems\CommonRegexes.h">

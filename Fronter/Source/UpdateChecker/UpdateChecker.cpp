@@ -1,106 +1,9 @@
 #include "UpdateChecker.h"
-#include "VersionParser.h"
+#include "ParserHelpers.h"
+#include "Log.h"
 #include <set>
+#include <fstream>
 
-
-bool isVersionNewer(const std::string& currentVersion, const std::set<std::string>& versions)
-{
-	auto newestVersion = currentVersion;
-	auto changed = false;
-	for (const auto& version : versions)
-	{
-		const auto newestDotPos = newestVersion.find('.');
-		const auto versionDotPos = version.find('.');
-		
-		if (std::stoi(version) > std::stoi(newestVersion))
-		{
-			newestVersion = version;
-			changed = true;
-			continue;
-		}
-		else if (std::stoi(version) < std::stoi(newestVersion))
-			continue;
-
-		// if parts before the dot are equal, compare the rest
-		auto newestRightSide = newestDotPos == std::string::npos ? "" : newestVersion.substr(newestDotPos + 1);
-		auto versionRightSide = versionDotPos == std::string::npos ? "" : version.substr(versionDotPos + 1);
-		if (version.size() > newestVersion.size())
-		{
-			bool setAfterLoop = true;
-			if (newestDotPos != std::string::npos)
-			{
-				for (unsigned int i = 0; i < newestRightSide.size(); ++i)
-				{
-					if (toupper(versionRightSide[i]) > toupper(newestRightSide[i]))
-					{
-						newestVersion = version;
-						changed = true;
-						setAfterLoop = false;
-						break;
-					}
-					if (toupper(versionRightSide[i]) < toupper(newestRightSide[i]))
-					{
-						setAfterLoop = false;
-						break;
-					}
-				}
-			}
-			if (setAfterLoop && versionRightSide.substr(newestRightSide.size(), versionRightSide.size() - newestRightSide.size()).find_first_not_of('0') != std::string::npos)
-			{
-				newestVersion = version;
-				changed = true;
-			}
-		}
-		else // version shorter or same length as newestVersion
-		{
-			if (versionDotPos != std::string::npos)
-			{
-				for (unsigned int i = 0; i < versionRightSide.size(); ++i)
-				{
-					if (toupper(versionRightSide[i]) > toupper(newestRightSide[i]))
-					{
-						newestVersion = version;
-						changed = true;
-						break;
-					}
-					else if (toupper(versionRightSide[i]) < toupper(newestRightSide[i]))
-						break;
-				}
-			}
-		}
-	}
-
-	if (changed)
-		return true;
-	return false;
-}
-
-
-std::set<std::string> getAllNumberedVersions(std::string& json)
-{
-	std::set<std::string> versions;
-	size_t nameStart;
-	size_t nameEnd = 0;
-	do
-	{
-		size_t pos;
-		pos = json.find("\"name\"", nameEnd);
-		if (pos != std::string::npos)
-			nameStart = pos + 8; // release name starts here
-		else
-			break;
-
-		if (nameStart < json.size())
-			nameEnd = json.find('"', nameStart + 1);
-		else
-			break;
-
-		if (nameEnd < json.size() && isdigit(json[nameStart]))
-			versions.insert(json.substr(nameStart, nameEnd - nameStart));
-	} while (nameEnd != std::string::npos && nameEnd < json.size());
-
-	return versions;
-}
 
 
 //
@@ -191,7 +94,7 @@ static bool init(CURL*& conn, char* url)
 	return true;
 }
 
-bool isUpdateAvailable(const std::string& versionFilePath, const std::string& tagsUrl)
+bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& commitIdURL)
 {
 	CURL* conn = nullptr;
 	CURLcode code;
@@ -199,18 +102,41 @@ bool isUpdateAvailable(const std::string& versionFilePath, const std::string& ta
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 
 	// Initialize CURL connection
-	if (!init(conn, const_cast<char*>(tagsUrl.c_str())))
+	if (!init(conn, const_cast<char*>(commitIdURL.c_str())))
+	{
 		return false;
+	}
 
 	// Retrieve content for the URL
 	code = curl_easy_perform(conn);
 	curl_easy_cleanup(conn);
 
-	if (code == CURLE_OK)
+	if (code != CURLE_OK)
 	{
-		const VersionParser versionParser(versionFilePath);
-		if (isVersionNewer(versionParser.getVersion(), getAllNumberedVersions(buffer)))
-			return true;
+		return false;
+	}
+
+	std::ifstream commitIdFile(commitIdFilePath);
+	std::string localCommitId;
+	commitIdFile >> localCommitId;
+	commitIdFile.close();
+
+	std::string latestReleaseCommitId = buffer;
+	// remove whitespace from the latest release commit string
+	latestReleaseCommitId.erase(std::remove_if(latestReleaseCommitId.begin(),
+											   latestReleaseCommitId.end(),
+											   [](unsigned char x) {
+											       return std::isspace(x);
+											   }),
+								latestReleaseCommitId.end());
+
+
+	Log(LogLevel::Info) << localCommitId << " " << localCommitId.size();
+	Log(LogLevel::Info) << latestReleaseCommitId << " " << latestReleaseCommitId.size();
+
+	if (localCommitId != latestReleaseCommitId)
+	{
+		return true;
 	}
 	return false;
 }

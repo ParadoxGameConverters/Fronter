@@ -108,13 +108,17 @@ void MainFrame::OnCheckForUpdates(wxCommandEvent& event)
 	if (converterFolder.empty())
 		return;
 
-	if (isUpdateAvailable(converterFolder + "/configurables/version.txt", configuration->getConverterTagsGithubUrl()))
+	if (isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
 	{
 		if (wxMessageBox(tr("NEWVERSIONBODY"), tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
 			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+			wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
 	}
 	else if (wxMessageBox(tr("NONEWVERSIONBODY"), tr("NONEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+	{
 		wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+		wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+	}
 }
 
 void MainFrame::OnLanguageChange(wxCommandEvent& event)

@@ -6,7 +6,7 @@
 #include <string>
 
 
-bool isUpdateAvailable(const std::string& versionFilePath, const std::string& tagsUrl);
+bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& commitIdURL);
 
 
 #endif // UPDATE_CHECKER_H
