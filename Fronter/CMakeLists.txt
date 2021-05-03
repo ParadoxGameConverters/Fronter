@@ -12,10 +12,9 @@ add_compile_options(-lstdc++fs)
 add_compile_options(-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -Wall -O2 -std=c++20 -Wno-unused-variable)
 add_link_options(-no-pie)
 
-add_definitions( -DCURL_STATICLIB )
-set(LIBCURL_DIR ../curl)
-find_path(LIBCURL_INCLUDE_DIR curl/curl.h HINTS ${LIBCURL_DIR}/include)
-include_directories(${LIBCURL_INCLUDE_DIR})
+set(CURL_LIBRARY "-lcurl") 
+find_package(CURL REQUIRED) 
+include_directories(${CURL_INCLUDE_DIR})
 
 include_directories("../commonItems")
 include_directories("/usr/include/wx-3.1-unofficial")
@@ -60,7 +59,7 @@ add_executable(Fronter
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(Fronter ${wxWidgets_LIBRARIES} libcurl)
+target_link_libraries(Fronter ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
 
 add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
 add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
