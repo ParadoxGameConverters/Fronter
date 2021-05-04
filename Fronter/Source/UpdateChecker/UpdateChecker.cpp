@@ -1,7 +1,5 @@
 #include "UpdateChecker.h"
 #include "ParserHelpers.h"
-#include "Log.h"
-#include <set>
 #include <fstream>
 
 
@@ -129,9 +127,6 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 	std::string localCommitId;
 	commitIdFile >> localCommitId;
 	commitIdFile.close();
-
-	Log(LogLevel::Info) << localCommitId << " " << localCommitId.size();
-	Log(LogLevel::Info) << latestReleaseCommitId << " " << latestReleaseCommitId.size();
 
 	if (localCommitId != latestReleaseCommitId)
 	{
