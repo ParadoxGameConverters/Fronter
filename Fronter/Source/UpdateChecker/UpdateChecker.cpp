@@ -1,4 +1,5 @@
 #include "UpdateChecker.h"
+#include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
 #include <fstream>
 
@@ -94,6 +95,11 @@ static bool init(CURL*& conn, char* url)
 
 bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& commitIdURL)
 {
+	if (!commonItems::DoesFileExist(commitIdFilePath))
+	{
+		return false;
+	}
+
 	CURL* conn = nullptr;
 	CURLcode code;
 
