@@ -142,6 +142,21 @@ void Configuration::registerKeys()
 		const commonItems::singleString modsStr(theStream);
 		autoGenerateModsFrom = modsStr.getString();
 	});
+	registerKeyword("enableUpdateChecker", [this](std::istream& theStream) {
+		enableUpdateChecker = commonItems::getString(theStream) == "true";
+	});
+	registerKeyword("checkForUpdatesOnStartup", [this](std::istream& theStream) {
+		checkForUpdatesOnStartup = commonItems::getString(theStream) == "true";
+	});
+	registerKeyword("converterReleaseForumThread", [this](std::istream& theStream) {
+		converterReleaseForumThread = commonItems::getString(theStream);
+	});
+	registerKeyword("latestGitHubConverterReleaseUrl", [this](std::istream& theStream) {
+		latestGitHubConverterReleaseUrl = commonItems::getString(theStream);
+	});
+	registerKeyword("pagesCommitIdUrl", [this](std::istream& theStream) {
+		pagesCommitIdUrl = commonItems::getString(theStream);
+	});
 	registerRegex(commonItems::catchallRegex, commonItems::ignoreItem);
 }
 

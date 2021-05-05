@@ -1,5 +1,6 @@
 #include "MainFrame.h"
 #include "LogWindow.h"
+#include "../UpdateChecker/UpdateChecker.h"
 #include "Tabs/ConvertTab.h"
 #include "Tabs/OptionsTab.h"
 #include "Tabs/PathsTab.h"
@@ -9,6 +10,7 @@
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size): wxFrame(nullptr, wxID_ANY, title, pos, size)
 {
+	Bind(wxEVT_MENU, &MainFrame::OnCheckForUpdates, this, wxID_REFRESH);
 	Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
 	Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
 	Bind(wxEVT_MENU, &MainFrame::OnSupportUs, this, wxID_NETWORK);
@@ -97,6 +99,28 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 void MainFrame::OnSupportUs(wxCommandEvent& event)
 {
 	wxLaunchDefaultBrowser("https://www.patreon.com/ParadoxGameConverters");
+}
+
+void MainFrame::OnCheckForUpdates(wxCommandEvent& event)
+{
+	auto converterFolder = configuration->getConverterFolder();
+
+	if (converterFolder.empty())
+		return;
+
+	if (isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
+	{
+		if (wxMessageBox(tr("NEWVERSIONBODY"), tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+		{
+			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+			wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+		}
+	}
+	else if (wxMessageBox(tr("NONEWVERSIONBODY"), tr("NONEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+	{
+		wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+		wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+	}
 }
 
 void MainFrame::OnLanguageChange(wxCommandEvent& event)

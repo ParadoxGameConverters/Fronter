@@ -24,6 +24,7 @@ class MainFrame final : public wxFrame
 	void terminateSecondTail() const;
 
 	void OnLanguageChange(wxCommandEvent& event);
+	void OnCheckForUpdates(wxCommandEvent& event);
 
   private:
 	void OnExit(wxCommandEvent& event);
@@ -33,6 +34,7 @@ class MainFrame final : public wxFrame
 	void OnLogLevelChange(wxCommandEvent& event);
 	void OnBlankLog(wxCommandEvent& event);
 	void OnUpdateMods(wxCommandEvent& event);
+
 	LogWindow* logWindow = nullptr;
 	wxNotebook* notebook = nullptr;
 	ModsTab* modsTab = nullptr;
