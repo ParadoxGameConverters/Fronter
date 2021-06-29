@@ -6,6 +6,13 @@ namespace fs = std::filesystem;
 LogMessage sliceMessage(const std::string& message)
 {
 	LogMessage logMessage;
+	// Is this a version dump?
+	if (message.starts_with('*'))
+	{
+		// This is not a standard message. File as info ad verbatim.
+		logMessage.message = message;
+		return logMessage;		
+	}	
 	const auto posOpen = message.find_first_of('[');
 	if (!(posOpen >= 20 && posOpen <= 24))
 	{
