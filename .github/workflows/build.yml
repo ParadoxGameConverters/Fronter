@@ -42,17 +42,17 @@ jobs:
     - name: "Install libcurl"
       run: |
        sudo apt-get install libcurl4-openssl-dev
-    - name: "Install GCC 10"
+    - name: "Install GCC 11"
       run: |
-       sudo apt-get install gcc-10 g++-10
-    - name: "Link gcc-10 and g++-10 to their standard commands"
+       sudo apt-get install gcc-11 g++-11
+    - name: "Link gcc-11 and g++-11 to their standard commands"
       run: |
-       sudo ln -s /usr/bin/gcc-10 /usr/local/bin/gcc
-       sudo ln -s /usr/bin/g++-10 /usr/local/bin/g++
+       sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
+       sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
     - name: "Export CC and CXX to tell cmake which compiler to use"
       run: |
-       export CC=/usr/bin/gcc-10
-       export CXX=/usr/bin/g++-10
+       export CC=/usr/bin/gcc-11
+       export CXX=/usr/bin/g++-11
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
