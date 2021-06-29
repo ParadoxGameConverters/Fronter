@@ -7,7 +7,7 @@ LogMessage sliceMessage(const std::string& message)
 {
 	LogMessage logMessage;
 	// Is this a version dump?
-	if (message.find('*') == 0)
+	if (message.starts_with('*'))
 	{
 		// This is not a standard message. File as info ad verbatim.
 		logMessage.message = message;
