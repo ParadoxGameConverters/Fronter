@@ -103,7 +103,7 @@ void ConvertTab::initializeConvert()
 	Layout();
 }
 
-void ConvertTab::onConvertStarted(wxCommandEvent& event)
+void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 {
 	configuration->clearSecondLog();
 	wxCommandEvent evt(wxEVT_BLANKLOG);

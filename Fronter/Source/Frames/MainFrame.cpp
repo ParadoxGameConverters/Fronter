@@ -86,22 +86,22 @@ void MainFrame::terminateSecondTail() const
 	logWindow->terminateSecondTail();
 }
 
-void MainFrame::OnExit(wxCommandEvent& event)
+void MainFrame::OnExit(wxCommandEvent& WXUNUSED(event))
 {
 	Close(true);
 }
 
-void MainFrame::OnAbout(wxCommandEvent& event)
+void MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
 	wxMessageBox(tr("ABOUTBODY"), tr("ABOUTTITLE"), wxOK | wxICON_INFORMATION);
 }
 
-void MainFrame::OnSupportUs(wxCommandEvent& event)
+void MainFrame::OnSupportUs(wxCommandEvent& WXUNUSED(event))
 {
 	wxLaunchDefaultBrowser("https://www.patreon.com/ParadoxGameConverters");
 }
 
-void MainFrame::OnCheckForUpdates(wxCommandEvent& event)
+void MainFrame::OnCheckForUpdates(wxCommandEvent& WXUNUSED(event))
 {
 	auto converterFolder = configuration->getConverterFolder();
 
@@ -139,12 +139,12 @@ void MainFrame::OnLogLevelChange(wxCommandEvent& event)
 	logWindow->setLogLevel(event.GetInt());
 }
 
-void MainFrame::OnBlankLog(wxCommandEvent& event)
+void MainFrame::OnBlankLog(wxCommandEvent& WXUNUSED(event))
 {
 	logWindow->blankLog();
 }
 
-void MainFrame::OnUpdateMods(wxCommandEvent& event)
+void MainFrame::OnUpdateMods(wxCommandEvent& WXUNUSED(event))
 {
 	notebook->RemovePage(1); // Why bother updating when we can delete.
 	modsTab->Destroy();

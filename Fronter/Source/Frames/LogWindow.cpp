@@ -70,7 +70,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	initializeTail();
 }
 
-void LogWindow::eatClick(wxGridEvent& event)
+void LogWindow::eatClick(wxGridEvent& WXUNUSED(event))
 {
 	//yum.
 }
