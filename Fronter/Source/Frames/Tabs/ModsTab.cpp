@@ -52,7 +52,7 @@ void ModsTab::initializeMods()
 			theCheckBox->SetValue(false);
 		}
 
-		theCheckBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event) {
+		theCheckBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& WXUNUSED(event)) {
 			std::set<int> toSelect;
 			for (const auto& checkPtr: checkBoxes)
 			{
