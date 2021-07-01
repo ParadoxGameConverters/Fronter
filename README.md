@@ -68,19 +68,19 @@ requiredFolder = {
 ```
 
 autoGenerateModsFrom:
-- Looks in that directory for mods to show in Fronter Mod tab. If "/mod/" subdirectory exists, it swaps to that instead. (Ie. you can use documents directory if you want)
+-   Looks in that directory for mods to show in Fronter Mod tab. If "/mod/" subdirectory exists, it swaps to that instead. (Ie. you can use documents directory if you want)
 
 searchPathType:
-- converterFolder - looks in the provided converterFolder in current directory
-- steamFolder - uses searchPathID to look for an "installation path" from windows/steam registry. If there's a match it will also append searchPath at the end so you can use this for Vic2installdir/mods.
-- windowsUsersFolder - looks in $USERHOMEDIR$\Documents folder
-- direct - copies over an absolute path from searchPath
+-   converterFolder - looks in the provided converterFolder in current directory
+-   steamFolder - uses searchPathID to look for an "installation path" from windows/steam registry. If there's a match it will also append searchPath at the end so you can use this for Vic2installdir/mods.
+-   windowsUsersFolder - looks in $USERHOMEDIR$\Documents folder
+-   direct - copies over an absolute path from searchPath
 
 mandatory:
-- true - path will be checked and converter won't run without it.
+-   true - path will be checked and converter won't run without it.
 
 outputtable (relevant for files only):
-- true - will be sent to configuration.txt
+-   true - will be sent to configuration.txt
 
 Rest is self-explanatory! Shoestring Budget!
 
