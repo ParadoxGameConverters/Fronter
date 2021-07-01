@@ -254,6 +254,10 @@ void Configuration::autoLocateMods()
 		return;
 	}
 
+	// Are we looking at documents directory?
+	if (commonItems::DoesFolderExist(modPath + "/mod"))
+		modPath += "/mod";
+
 	// Are there mods inside?
 	std::vector<std::string> validModFiles;
 	for (const auto& file: commonItems::GetAllFilesInFolder(modPath))
