@@ -282,7 +282,6 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <WarningLevel>Level4</WarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
