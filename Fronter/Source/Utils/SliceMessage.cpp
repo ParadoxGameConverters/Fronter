@@ -32,7 +32,7 @@ LogMessage sliceMessage(const std::string& message)
 		logMessage.logLevel = LogLevel::Info;
 	else if (logLevel == "DEBUG")
 		logMessage.logLevel = LogLevel::Debug;
-	else if (logLevel == "WARNING")
+	else if (logLevel == "WARNING" || logLevel == "WARN")
 		logMessage.logLevel = LogLevel::Warning;
 	else if (logLevel == "ERROR")
 		logMessage.logLevel = LogLevel::Error;
