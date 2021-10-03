@@ -110,7 +110,8 @@ void MainFrame::OnCheckForUpdates(wxCommandEvent& WXUNUSED(event))
 
 	if (isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
 	{
-		if (wxMessageBox(tr("NEWVERSIONBODY"), tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+		const auto msgBody = getUpdateMessageBody(tr("NEWVERSIONBODY"), configuration->getName());
+		if (wxMessageBox(msgBody, tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
 		{
 			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
 			wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
