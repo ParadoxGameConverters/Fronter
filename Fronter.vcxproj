@@ -280,7 +280,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;$(ProjectDir)\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -300,7 +300,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;$(ProjectDir)\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
