@@ -144,8 +144,9 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 	return false;
 }
 
-std::string getLatestReleaseDescription(const std::string& converterName)
+UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 {
+	UpdateInfo info;
 	auto apiUrl = "https://api.github.com/repos/ParadoxGameConverters/" + converterName + "/releases/latest";
 
 	CURL* conn = nullptr;
@@ -156,7 +157,7 @@ std::string getLatestReleaseDescription(const std::string& converterName)
 	// Initialize CURL connection
 	if (!init(conn, const_cast<char*>(apiUrl.c_str())))
 	{
-		return "";
+		return {};
 	}
 
 	// Retrieve content for the URL
@@ -165,17 +166,26 @@ std::string getLatestReleaseDescription(const std::string& converterName)
 
 	if (code != CURLE_OK)
 	{
-		return "";
+		return {};
 	}
 	std::string jsonResponse = buffer;
 	buffer.clear();
 
 	auto j = json::parse(jsonResponse);
-	return j["body"];
+	info.description = j["body"];
+	info.version = j["name"];
+	return info;
 }
 
 std::wstring getUpdateMessageBody(const std::wstring& baseBody, const std::string& converterName)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	return baseBody + converter.from_bytes("\n\n") + converter.from_bytes(getLatestReleaseDescription(converterName));
+	auto info = getLatestReleaseInfo(converterName);
+
+	auto body = baseBody;
+	body.append(converter.from_bytes("\n\n"));
+	body.append(converter.from_bytes("Version: " + info.version));
+	body.append(converter.from_bytes("\n\n"));
+	body.append(converter.from_bytes(info.description));
+	return body;
 }
