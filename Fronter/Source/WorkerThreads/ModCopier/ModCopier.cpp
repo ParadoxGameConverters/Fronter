@@ -10,7 +10,7 @@ wxDEFINE_EVENT(wxEVT_COPIERDONE, wxCommandEvent);
 void* ModCopier::Entry()
 {
 	wxCommandEvent evt(wxEVT_COPIERDONE);
-	Log(LogLevel::Info) << "Mod Copying Started.";
+	Log(LogLevel::Notice) << "Mod Copying Started.";
 	const auto& converterFolder = configuration->getConverterFolder();
 	if (!commonItems::DoesFolderExist(converterFolder))
 	{
@@ -140,7 +140,7 @@ void* ModCopier::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	Log(LogLevel::Info) << "Mod successfully copied to: " << destinationFolder + "/" + targetName;
+	Log(LogLevel::Notice) << "Mod successfully copied to: " << destinationFolder + "/" + targetName;
 	evt.SetInt(1);
 	m_pParent->AddPendingEvent(evt);
 	return nullptr;
