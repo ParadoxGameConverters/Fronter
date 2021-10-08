@@ -26,7 +26,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid = new wxGrid(this, wxID_ANY);
 
 	theGrid->SetDefaultRenderer(new FronterGridCellRenderer); // We are using our own grid renderer which disables selections.
-	
+
 	theGrid->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
 	theGrid->EnableEditing(false);
 	theGrid->HideCellEditControl();
@@ -60,7 +60,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid->SetColMinimalWidth(1, 100);
 	theGrid->SetColSize(0, 150);
 	theGrid->SetColSize(1, 100);
-	
+
 	auto* logBox = new wxBoxSizer(wxVERTICAL);
 	this->SetSizer(logBox);
 	wxWindowBase::Layout();
@@ -72,7 +72,7 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 
 void LogWindow::eatClick(wxGridEvent& WXUNUSED(event))
 {
-	//yum.
+	// yum.
 }
 
 void LogWindow::initializeTail()
@@ -125,6 +125,11 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 		bgcolor = wxColour(255, 200, 200);
 		severity = "  ERROR  ";
 	}
+	else if (logMessage.logLevel == LogLevel::Notice)
+	{
+		bgcolor = wxColour(200, 255, 200);
+		severity = "  NOTICE  ";
+	}
 	else if (logMessage.logLevel == LogLevel::Progress)
 	{
 		// Forward the progress message, stripped version, to parent.
@@ -158,8 +163,8 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->HideRow(logCounter);
 
 	auto needUpdate = false;
-	if ((logMessage.logLevel == LogLevel::Debug && logLevel >= 3) || (logMessage.logLevel == LogLevel::Info && logLevel >= 2) ||
-		 (logMessage.logLevel == LogLevel::Warning && logLevel >= 1) || (logMessage.logLevel == LogLevel::Error))
+	if (logMessage.logLevel == LogLevel::Debug && logLevel >= 3 || logMessage.logLevel == LogLevel::Info && logLevel >= 2 ||
+		 logMessage.logLevel == LogLevel::Warning && logLevel >= 1 || logMessage.logLevel == LogLevel::Error || logMessage.logLevel == LogLevel::Notice)
 	{
 		theGrid->ShowRow(logCounter);
 		needUpdate = true;
@@ -172,7 +177,6 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 		if (static_cast<int>(message.size()) > maxMessageLength)
 		{
 			maxMessageLength = static_cast<int>(message.size());
-			//theGrid->AutoSizeColumn(2, true); // this is expensive.
 		}
 		theGrid->Scroll(0, logCounter);
 	}
@@ -192,7 +196,6 @@ void LogWindow::setLogLevel(const int level)
 			theGrid->ShowRow(row);
 	}
 	theGrid->EndBatch();
-	//theGrid->SetColSize(2, 1000);
 	// GetParent()->Layout();
 	theGrid->Scroll(0, logCounter - 1);
 	theGrid->MakeCellVisible(logCounter - 1, 0);
@@ -202,5 +205,5 @@ void LogWindow::blankLog()
 {
 	const auto rows = theGrid->GetNumberRows();
 	theGrid->DeleteRows(0, rows, true);
-	logCounter = 0;	
+	logCounter = 0;
 }

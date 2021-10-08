@@ -11,8 +11,8 @@ LogMessage sliceMessage(const std::string& message)
 	{
 		// This is not a standard message. File as info ad verbatim.
 		logMessage.message = message;
-		return logMessage;		
-	}	
+		return logMessage;
+	}
 	const auto posOpen = message.find_first_of('[');
 	if (!(posOpen >= 20 && posOpen <= 24))
 	{
@@ -30,17 +30,17 @@ LogMessage sliceMessage(const std::string& message)
 	const auto logLevel = message.substr(posOpen + 1, posClose - posOpen - 1);
 	if (logLevel == "INFO")
 		logMessage.logLevel = LogLevel::Info;
-	else if (logLevel == "DEBUG")
-		logMessage.logLevel = LogLevel::Debug;
 	else if (logLevel == "WARNING" || logLevel == "WARN")
 		logMessage.logLevel = LogLevel::Warning;
 	else if (logLevel == "ERROR")
 		logMessage.logLevel = LogLevel::Error;
 	else if (logLevel == "PROGRESS")
 		logMessage.logLevel = LogLevel::Progress;
+	else if (logLevel == "NOTICE")
+		logMessage.logLevel = LogLevel::Notice;
 	else
-		logMessage.logLevel = LogLevel::Debug; // Unknown log level.
-	
+		logMessage.logLevel = LogLevel::Debug; // Debug or Unknown log level.
+
 	logMessage.timestamp = message.substr(0, 19);
 	logMessage.message = message.substr(posClose + 2, message.length());
 	return logMessage;
