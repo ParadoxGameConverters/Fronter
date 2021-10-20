@@ -4,3 +4,6 @@
 [submodule "wxWidgets"]
 	path = wxWidgets
 	url = https://github.com/ParadoxGameConverters/wxWidgets.git
+[submodule "Updater"]
+	path = Updater
+	url = https://github.com/ParadoxGameConverters/Updater
