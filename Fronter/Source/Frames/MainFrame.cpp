@@ -103,7 +103,7 @@ void MainFrame::OnSupportUs(wxCommandEvent& WXUNUSED(event))
 
 void MainFrame::OnCheckForUpdates(wxCommandEvent& WXUNUSED(event))
 {
-	auto converterFolder = configuration->getConverterFolder();
+	const auto& converterFolder = configuration->getConverterFolder();
 
 	if (converterFolder.empty())
 		return;

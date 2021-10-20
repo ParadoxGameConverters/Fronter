@@ -23,7 +23,8 @@ jobs:
        cd Updater
        pip install -r requirements.txt
        pyinstaller --onefile --icon=updater.ico updater.py
-       mv dist/updater.exe ../Updater/updater.exe
+       mkdir ../Release/Updater
+       mv dist/updater.exe ../Release/Updater/updater.exe
 
 
   build_linux:
@@ -72,4 +73,5 @@ jobs:
        cd Updater
        pip install -r requirements.txt
        pyinstaller --onefile --icon=updater.ico updater.py
-       mv dist/updater.exe ../Updater/updater.exe
+       mkdir ../Release/Updater
+       mv dist/updater.exe ../Release/Updater/updater.exe
