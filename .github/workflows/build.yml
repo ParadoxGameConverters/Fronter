@@ -18,6 +18,13 @@ jobs:
       run: |
        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
        .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\Fronter.sln
+    - name: "Build updater executable"
+      run: |
+       cd Updater
+       pip install -r requirements.txt
+       pyinstaller --onefile --icon=updater.ico updater.py
+       mv dist/updater.exe ../Updater/updater.exe
+
 
   build_linux:
     runs-on: ubuntu-latest
@@ -60,3 +67,9 @@ jobs:
       run: |
        chmod u+x build_linux.sh
        ./build_linux.sh
+    - name: "Build updater executable"
+      run: |
+       cd Updater
+       pip install -r requirements.txt
+       pyinstaller --onefile --icon=updater.ico updater.py
+       mv dist/updater.exe ../Updater/updater.exe
