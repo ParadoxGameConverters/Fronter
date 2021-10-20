@@ -3,6 +3,7 @@
 #include "ParserHelpers.h"
 #include <fstream>
 #include <codecvt>
+#include <curl/curl.h>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -169,13 +170,23 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	auto j = json::parse(jsonResponse);
 	info.description = j["body"];
 	info.version = j["name"];
+	auto assets = j["assets"];
+	if (!assets.empty())
+	{
+		auto firstAsset = assets[0];
+		const std::string assetName = firstAsset["name"];
+		if (assetName.ends_with(".zip"))
+		{
+			info.zipURL = firstAsset["browser_download_url"];
+		}
+	}
 	return info;
 }
 
 std::wstring getUpdateMessageBody(const std::wstring& baseBody, const std::string& converterName)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	const auto [version, description] = getLatestReleaseInfo(converterName);
+	const auto [version, description, zipURL] = getLatestReleaseInfo(converterName);
 
 	auto body = baseBody;
 	body.append(converter.from_bytes("\n\n"));
@@ -183,4 +194,9 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const std::strin
 	body.append(converter.from_bytes("\n\n"));
 	body.append(converter.from_bytes(description));
 	return body;
+}
+
+void startUpdaterAndDie()
+{
+
 }
