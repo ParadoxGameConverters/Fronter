@@ -3,6 +3,7 @@
 #include "ParserHelpers.h"
 #include <fstream>
 #include <codecvt>
+#include <format>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 
@@ -171,22 +172,25 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	info.description = j["body"];
 	info.version = j["name"];
 	auto assets = j["assets"];
-	if (!assets.empty())
+	for (auto asset : assets)
 	{
-		auto firstAsset = assets[0];
-		const std::string assetName = firstAsset["name"];
+		const std::string assetName = asset["name"];
 		if (assetName.ends_with(".zip"))
 		{
-			info.zipURL = firstAsset["browser_download_url"];
+			info.zipURL = asset["browser_download_url"];
 		}
+	}
+	if (!info.zipURL)
+	{
+		Log(LogLevel::Warning) << "Release " << info.version << " has no .zip asset.";
 	}
 	return info;
 }
 
-std::wstring getUpdateMessageBody(const std::wstring& baseBody, const std::string& converterName)
+std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo& updateInfo)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	const auto [version, description, zipURL] = getLatestReleaseInfo(converterName);
+	const auto& [version, description, zipURL] = updateInfo;
 
 	auto body = baseBody;
 	body.append(converter.from_bytes("\n\n"));
@@ -196,7 +200,42 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const std::strin
 	return body;
 }
 
-void startUpdaterAndDie()
+void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
 {
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
 
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+
+	WCHAR commandLinePtr[MAX_PATH];
+	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
+		std::format("./Updater/updater.exe {} {}", zipURL, converterBackendDirName)
+	);
+	wcscpy(commandLinePtr, commandLineString.c_str());
+	
+	// Start the updater process.
+	if (!CreateProcess(nullptr, // No module name (use command line)
+			  commandLinePtr,		 // Command line
+			  nullptr,				 // Process handle not inheritable
+			  nullptr,			 // Thread handle not inheritable
+			  FALSE,				 // Set handle inheritance to FALSE
+			  0,					 // No creation flags
+			  nullptr,			 // Use parent's environment block
+			  nullptr,			 // Use parent's starting directory
+			  &si,				 // Pointer to STARTUPINFO structure
+			  &pi)				 // Pointer to PROCESS_INFORMATION structure
+	)
+	{
+		Log(LogLevel::Error) << std::format("CreateProcess failed: {}", GetLastError());
+		return;
+	}
+
+	// Close process and thread handles.
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+
+	// Die (the updater will start Fronter after a successful update)
+	ExitProcess(0);
 }

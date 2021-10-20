@@ -16,8 +16,8 @@ struct UpdateInfo
 
 bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& commitIdURL);
 UpdateInfo getLatestReleaseInfo(const std::string& converterName);
-std::wstring getUpdateMessageBody(const std::wstring& baseBody, const std::string& converterName);
-void startUpdaterAndDie();
+std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo& updateInfo);
+void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName);
 
 
 #endif // UPDATE_CHECKER_H
