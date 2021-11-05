@@ -3,7 +3,6 @@
 #include "ParserHelpers.h"
 #include <fstream>
 #include <codecvt>
-#include <format>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <wx/utils.h>
@@ -204,7 +203,7 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo
 void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
 {
 	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
-		std::format("./Updater/updater.exe {} {}", zipURL, converterBackendDirName)
+		"./Updater/updater.exe " + zipURL + " " + converterBackendDirName
 	);
 	wxExecute(commandLineString, wxEXEC_SHOW_CONSOLE);
 
