@@ -203,7 +203,11 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo
 void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
 {
 	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
+#ifdef _WIN32
 		"./Updater/updater.exe " + zipURL + " " + converterBackendDirName
+#else
+		"./Updater/updater " + zipURL + " " + converterBackendDirName
+#endif
 	);
 	wxExecute(commandLineString, wxEXEC_SHOW_CONSOLE);
 

@@ -74,4 +74,4 @@ jobs:
        pip install -r requirements.txt
        pyinstaller --onefile --icon=updater.ico updater.py
        mkdir ../Release/Updater
-       mv dist/updater.exe ../Release/Updater/updater.exe
+       mv dist/updater ../Release/Updater/updater
