@@ -6,6 +6,7 @@
 #include <format>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
+#include <wx/utils.h>
 
 using json = nlohmann::json;
 
@@ -202,39 +203,10 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo
 
 void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
 {
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
-
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	ZeroMemory(&pi, sizeof(pi));
-
-	WCHAR commandLinePtr[MAX_PATH];
 	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
 		std::format("./Updater/updater.exe {} {}", zipURL, converterBackendDirName)
 	);
-	wcscpy(commandLinePtr, commandLineString.c_str());
-	
-	// Start the updater process.
-	if (!CreateProcess(nullptr, // No module name (use command line)
-			  commandLinePtr,		 // Command line
-			  nullptr,				 // Process handle not inheritable
-			  nullptr,			 // Thread handle not inheritable
-			  FALSE,				 // Set handle inheritance to FALSE
-			  0,					 // No creation flags
-			  nullptr,			 // Use parent's environment block
-			  nullptr,			 // Use parent's starting directory
-			  &si,				 // Pointer to STARTUPINFO structure
-			  &pi)				 // Pointer to PROCESS_INFORMATION structure
-	)
-	{
-		Log(LogLevel::Error) << std::format("CreateProcess failed: {}", GetLastError());
-		return;
-	}
-
-	// Close process and thread handles.
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
+	wxExecute(commandLineString, wxEXEC_SHOW_CONSOLE);
 
 	// Die (the updater will start Fronter after a successful update)
 	ExitProcess(0);
