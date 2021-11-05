@@ -209,5 +209,5 @@ void startUpdaterAndDie(const std::string& zipURL, const std::string& converterB
 	wxExecute(commandLineString, wxEXEC_SHOW_CONSOLE);
 
 	// Die (the updater will start Fronter after a successful update)
-	ExitProcess(0);
+	exit(0);
 }
