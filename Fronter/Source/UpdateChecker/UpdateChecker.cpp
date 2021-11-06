@@ -3,7 +3,9 @@
 #include "ParserHelpers.h"
 #include <fstream>
 #include <codecvt>
+#include <curl/curl.h>
 #include <nlohmann/json.hpp>
+#include <wx/utils.h>
 
 using json = nlohmann::json;
 
@@ -18,7 +20,7 @@ static std::string buffer;
 //  libcurl write callback function
 //
 
-static int writer(char* data, size_t size, size_t nmemb, std::string* writerData)
+static int writer(const char* data, const size_t size, const size_t nmemb, std::string* writerData)
 {
 	if (!writerData)
 		return 0;
@@ -34,17 +36,15 @@ static int writer(char* data, size_t size, size_t nmemb, std::string* writerData
 
 static bool init(CURL*& conn, char* url)
 {
-	CURLcode code;
-
 	conn = curl_easy_init();
 
-	if (conn == NULL)
+	if (conn == nullptr)
 	{
 		fprintf(stderr, "Failed to create CURL connection\n");
 		exit(EXIT_FAILURE);
 	}
 
-	code = curl_easy_setopt(conn, CURLOPT_ERRORBUFFER, errorBuffer);
+	CURLcode code = curl_easy_setopt(conn, CURLOPT_ERRORBUFFER, errorBuffer);
 	if (code != CURLE_OK)
 	{
 		fprintf(stderr, "Failed to set error buffer [%d]\n", code);
@@ -104,7 +104,6 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 	}
 
 	CURL* conn = nullptr;
-	CURLcode code;
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 
@@ -115,7 +114,7 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 	}
 
 	// Retrieve content for the URL
-	code = curl_easy_perform(conn);
+	const CURLcode code = curl_easy_perform(conn);
 	curl_easy_cleanup(conn);
 
 	if (code != CURLE_OK)
@@ -125,11 +124,10 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 	std::string latestReleaseCommitId = buffer;
 	buffer.clear();
 	// remove whitespace from the latest release commit string
-	latestReleaseCommitId.erase(std::remove_if(latestReleaseCommitId.begin(),
-											   latestReleaseCommitId.end(),
-											   [](unsigned char x) {
-												   return std::isspace(x);
-											   }),
+	latestReleaseCommitId.erase(std::ranges::remove_if(latestReleaseCommitId,
+	                                                   [](const unsigned char x) {
+		                                                   return std::isspace(x);
+	                                                   }).begin(),
 								latestReleaseCommitId.end());
 
 	std::ifstream commitIdFile(commitIdFilePath);
@@ -147,10 +145,9 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 {
 	UpdateInfo info;
-	auto apiUrl = "https://api.github.com/repos/ParadoxGameConverters/" + converterName + "/releases/latest";
+	const auto apiUrl = "https://api.github.com/repos/ParadoxGameConverters/" + converterName + "/releases/latest";
 
 	CURL* conn = nullptr;
-	CURLcode code;
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 
@@ -161,7 +158,7 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	}
 
 	// Retrieve content for the URL
-	code = curl_easy_perform(conn);
+	const CURLcode code = curl_easy_perform(conn);
 	curl_easy_cleanup(conn);
 
 	if (code != CURLE_OK)
@@ -174,18 +171,46 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	auto j = json::parse(jsonResponse);
 	info.description = j["body"];
 	info.version = j["name"];
+	auto assets = j["assets"];
+	for (auto asset : assets)
+	{
+		const std::string assetName = asset["name"];
+		if (assetName.ends_with(".zip"))
+		{
+			info.zipURL = asset["browser_download_url"];
+		}
+	}
+	if (!info.zipURL)
+	{
+		Log(LogLevel::Warning) << "Release " << info.version << " has no .zip asset.";
+	}
 	return info;
 }
 
-std::wstring getUpdateMessageBody(const std::wstring& baseBody, const std::string& converterName)
+std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo& updateInfo)
 {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	auto info = getLatestReleaseInfo(converterName);
+	const auto& [version, description, zipURL] = updateInfo;
 
 	auto body = baseBody;
 	body.append(converter.from_bytes("\n\n"));
-	body.append(converter.from_bytes("Version: " + info.version));
+	body.append(converter.from_bytes("Version: " + version));
 	body.append(converter.from_bytes("\n\n"));
-	body.append(converter.from_bytes(info.description));
+	body.append(converter.from_bytes(description));
 	return body;
+}
+
+void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
+{
+	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
+#ifdef _WIN32
+		"./Updater/updater.exe " + zipURL + " " + converterBackendDirName
+#else
+		"./Updater/updater " + zipURL + " " + converterBackendDirName
+#endif
+	);
+	wxExecute(commandLineString, wxEXEC_SHOW_CONSOLE);
+
+	// Die (the updater will start Fronter after a successful update)
+	exit(0);
 }

@@ -103,18 +103,26 @@ void MainFrame::OnSupportUs(wxCommandEvent& WXUNUSED(event))
 
 void MainFrame::OnCheckForUpdates(wxCommandEvent& WXUNUSED(event))
 {
-	auto converterFolder = configuration->getConverterFolder();
+	const auto& converterFolder = configuration->getConverterFolder();
 
 	if (converterFolder.empty())
 		return;
 
 	if (isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
 	{
-		const auto msgBody = getUpdateMessageBody(tr("NEWVERSIONBODY"), configuration->getName());
+		const auto info = getLatestReleaseInfo(configuration->getName());
+		const auto msgBody = getUpdateMessageBody(tr("NEWVERSIONBODY"), info);
 		if (wxMessageBox(msgBody, tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
 		{
-			wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
-			wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+			if (info.zipURL)
+			{
+				startUpdaterAndDie(*info.zipURL, configuration->getConverterFolder());
+			}
+			else
+			{
+				wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+				wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+			}
 		}
 	}
 	else if (wxMessageBox(tr("NONEWVERSIONBODY"), tr("NONEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
