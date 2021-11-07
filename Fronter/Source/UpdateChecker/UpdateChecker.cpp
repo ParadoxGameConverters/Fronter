@@ -202,13 +202,18 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo
 
 void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
 {
-	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
 #ifdef _WIN32
-		"./Updater/updater.exe " + zipURL + " " + converterBackendDirName
-#else
-		"./Updater/updater " + zipURL + " " + converterBackendDirName
-#endif
+	wxCopyFile(wxT("./Updater/updater.exe"), wxT("./Updater/updater-running.exe"));
+	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
+		"./Updater/updater-running.exe " + zipURL + " " + converterBackendDirName
 	);
+#else
+	wxCopyFile(wxT("./Updater/updater"), wxT("./Updater/updater-running"));
+	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
+		"./Updater/updater-running " + zipURL + " " + converterBackendDirName
+	);
+#endif
+
 	wxExecute(commandLineString, wxEXEC_SHOW_CONSOLE);
 
 	// Die (the updater will start Fronter after a successful update)
