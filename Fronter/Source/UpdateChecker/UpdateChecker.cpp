@@ -203,12 +203,12 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo
 void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
 {
 #ifdef _WIN32
-	wxCopyFile(wxT("./Updater/updater.exe"), wxT("./Updater/updater-running.exe"));
+	wxRenameFile(wxT("./Updater/updater.exe"), wxT("./Updater/updater-running.exe"));
 	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
 		"./Updater/updater-running.exe " + zipURL + " " + converterBackendDirName
 	);
 #else
-	wxCopyFile(wxT("./Updater/updater"), wxT("./Updater/updater-running"));
+	wxRenameFile(wxT("./Updater/updater"), wxT("./Updater/updater-running"));
 	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
 		"./Updater/updater-running " + zipURL + " " + converterBackendDirName
 	);
