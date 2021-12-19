@@ -175,14 +175,22 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	for (auto asset : assets)
 	{
 		const std::string assetName = asset["name"];
-		if (assetName.ends_with(".zip"))
+#ifdef _WIN32
+		const auto osName = "Windows";
+#elif __linux__
+		const auto osName = "Linux";
+#elif __APPLE__
+		const auto osName = "macOS";
+#endif
+		if (assetName == converterName + "-" + osName + ".zip")
 		{
 			info.zipURL = asset["browser_download_url"];
+			break;
 		}
 	}
 	if (!info.zipURL)
 	{
-		Log(LogLevel::Warning) << "Release " << info.version << " has no .zip asset.";
+		Log(LogLevel::Warning) << "Release " << info.version << " doesn't have a .zip asset.";
 	}
 	return info;
 }
