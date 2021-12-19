@@ -174,10 +174,10 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	auto j = json::parse(jsonResponse);
 	info.description = j["body"];
 	info.version = j["name"];
-	auto assets = j["assets"];
-	for (auto asset : assets)
+	auto& assets = j["assets"];
+	for (auto& asset : assets)
 	{
-		const std::string assetName = asset["name"];
+		std::string assetName = asset["name"];
 #ifdef _WIN32
 		const auto osName = "Windows";
 #elif __linux__
@@ -186,22 +186,20 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 		const auto osName = "macOS";
 #endif
 
-		const auto expectedAssetName = converterName + "-" + osName + ".zip";
-		std::transform(expectedAssetName.begin(),
-			 expectedAssetName.end(),
-			 expectedAssetName.begin(),
-			 [](unsigned char c)
-			 {
-				 return std::tolower(c);
-			 });
+		auto expectedAssetName = converterName + "-" + osName + ".zip";
+		std::ranges::transform(expectedAssetName,
+		                       expectedAssetName.begin(),
+		                       [](const unsigned char c)
+		                       {
+			                       return std::tolower(c);
+		                       });
 
-		std::transform(assetName.begin(),
-			 assetName.end(),
-			 assetName.begin(),
-			 [](unsigned char c)
-			 {
-				 return std::tolower(c);
-			 });
+		std::ranges::transform(assetName,
+		                       assetName.begin(),
+		                       [](const unsigned char c)
+		                       {
+			                       return std::tolower(c);
+		                       });
 		if (assetName == expectedAssetName)
 		{
 			info.zipURL = asset["browser_download_url"];
