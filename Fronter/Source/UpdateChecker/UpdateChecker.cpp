@@ -1,8 +1,11 @@
 #include "UpdateChecker.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
-#include <fstream>
+#include <algorithm>
+#include <cctype>
 #include <codecvt>
+#include <fstream>
+#include <string>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <wx/utils.h>
@@ -182,7 +185,24 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 #elif __APPLE__
 		const auto osName = "macOS";
 #endif
-		if (assetName == converterName + "-" + osName + ".zip")
+
+		const auto expectedAssetName = converterName + "-" + osName + ".zip";
+		std::transform(expectedAssetName.begin(),
+			 expectedAssetName.end(),
+			 expectedAssetName.begin(),
+			 [](unsigned char c)
+			 {
+				 return std::tolower(c);
+			 });
+
+		std::transform(assetName.begin(),
+			 assetName.end(),
+			 assetName.begin(),
+			 [](unsigned char c)
+			 {
+				 return std::tolower(c);
+			 });
+		if (assetName == expectedAssetName)
 		{
 			info.zipURL = asset["browser_download_url"];
 			break;
