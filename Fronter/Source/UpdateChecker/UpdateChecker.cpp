@@ -179,14 +179,14 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	{
 		std::string assetName = asset["name"];
 #ifdef _WIN32
-		const auto osName = "Windows";
+		const auto osName = "win";
 #elif __linux__
-		const auto osName = "Linux";
+		const auto osName = "linux";
 #elif __APPLE__
-		const auto osName = "macOS";
+		const auto osName = "osx";
 #endif
 
-		auto expectedAssetName = converterName + "-" + osName + ".zip";
+		auto expectedAssetName = converterName + "-" + osName + "-x64.zip";
 		std::ranges::transform(expectedAssetName,
 		                       expectedAssetName.begin(),
 		                       [](const unsigned char c)
