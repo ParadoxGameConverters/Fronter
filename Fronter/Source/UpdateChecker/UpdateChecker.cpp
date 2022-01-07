@@ -1,8 +1,11 @@
 #include "UpdateChecker.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
-#include <fstream>
+#include <algorithm>
+#include <cctype>
 #include <codecvt>
+#include <fstream>
+#include <string>
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <wx/utils.h>
@@ -171,18 +174,33 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	auto j = json::parse(jsonResponse);
 	info.description = j["body"];
 	info.version = j["name"];
-	auto assets = j["assets"];
-	for (auto asset : assets)
+	auto& assets = j["assets"];
+	for (auto& asset : assets)
 	{
-		const std::string assetName = asset["name"];
-		if (assetName.ends_with(".zip"))
+		std::string assetName = asset["name"];
+#ifdef _WIN32
+		const std::string osName = "win";
+#elif __linux__
+		const std::string osName = "linux";
+#elif __APPLE__
+		const std::string osName = "osx";
+#endif
+		
+		std::ranges::transform(assetName,
+		                       assetName.begin(),
+		                       [](const unsigned char c)
+		                       {
+			                       return std::tolower(c);
+		                       });
+		if (assetName.ends_with("-" + osName + "-x64.zip"))
 		{
 			info.zipURL = asset["browser_download_url"];
+			break;
 		}
 	}
 	if (!info.zipURL)
 	{
-		Log(LogLevel::Warning) << "Release " << info.version << " has no .zip asset.";
+		Log(LogLevel::Warning) << "Release " << info.version << " doesn't have a .zip asset.";
 	}
 	return info;
 }
