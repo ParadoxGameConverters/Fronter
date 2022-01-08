@@ -6,6 +6,7 @@ if [ "$BUILD_CONVERTERFRONTEND" = true ]
 then
   printf "\nBuilding ConverterFrontend...\n"
 
+  cd $GITHUB_WORKSPACE
   if [ "$RUNNER_OS" = "Windows" ]
   then
     "$MSBUILD_PATH" -m -p:Configuration=Release -p:Platform="x64" Fronter/Fronter.vcxproj
@@ -40,6 +41,7 @@ if [ "$BUILD_CONVERTERFRONTEND" = true ]
 then
   printf "\nBuilding updater...\n"
 
+  cd $GITHUB_WORKSPACE
   cd Fronter/Updater
   pip3 install -r requirements.txt
   pyinstaller --onefile --icon=updater.ico updater.py
