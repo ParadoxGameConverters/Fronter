@@ -43,7 +43,7 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Parser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ParserHelpers.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
 
-add_executable(Fronter
+add_executable(ConverterFrontend
 	${MAIN_SOURCES}
 	${CONFIGURATION_SOURCES}
 	${CONFIGURATION_OPTIONS_SOURCES}
@@ -60,7 +60,7 @@ add_executable(Fronter
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(Fronter ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
+target_link_libraries(ConverterFrontend ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
 
-add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
-add_custom_command(TARGET Fronter POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
+add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
+add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
