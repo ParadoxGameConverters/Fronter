@@ -22,7 +22,7 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFileExist(backendExePathRelativeToFrontend.string()))
+	if (!commonItems::DoesFileExist(backendExePathString))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -30,10 +30,11 @@ void* ConverterLauncher::Entry()
 		return nullptr;
 	}
 
+	const auto backendExeName = trimPath(backendExePathString);
 	const auto workDir = getPath(backendExePathString);
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	auto exeCommand = "cd " + workDir + "; " + converterExe;
+	auto exeCommand = "cd " + workDir + "; " + backendExeName;
 	const char* exeCommandChar = exeCommand.c_str();
 
 	auto result = system(exeCommandChar);

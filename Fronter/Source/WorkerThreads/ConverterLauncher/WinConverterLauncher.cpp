@@ -20,6 +20,16 @@ void* ConverterLauncher::Entry()
 	auto backendExePath = fs::path(configuration->getBackendExePath());
 	auto backendExePathRelativeToFrontend = converterFolder / backendExePath;
 	auto backendExePathString = backendExePathRelativeToFrontend.string();
+
+	auto extension = getExtension(backendExePathString);
+	if (extension == "jar")
+	{
+		backendExePathString = "java.exe -jar " + backendExePathString;
+	}
+	else if (extension.empty())
+	{
+		backendExePathString += ".exe";
+	}
 	
 	if (backendExePath.empty())
 	{
@@ -28,7 +38,7 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFileExist(backendExePathRelativeToFrontend.string()))
+	if (!commonItems::DoesFileExist(backendExePathString))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -39,23 +49,13 @@ void* ConverterLauncher::Entry()
 	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi = {.hProcess = nullptr, .hThread = nullptr, .dwProcessId = 0, .dwThreadId = 0};
 	
-	const auto workDirString = getPath(backendExePathString);
-	auto extension = getExtension(backendExePathString);
-	if (extension == "jar")
-	{
-		backendExePathString = "java.exe -jar " + backendExePathString;
-	}
-	else if (extension.empty())
-	{
-		backendExePathString += ".exe";
-	}
-	auto backendExePathWString = commonItems::convertUTF8ToUTF16(backendExePathString);
-	const auto workDir = commonItems::convertUTF8ToUTF16(workDirString);
+	const auto workDir = commonItems::convertUTF8ToUTF16(getPath(backendExePathString));
 	const auto* workDirPtr = workDir.c_str();
+
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	WCHAR commandLine[MAX_PATH];
-	wcscpy(static_cast<LPWSTR>(commandLine), backendExePathWString.c_str());
+	WCHAR commandLine[MAX_PATH]{};
+	wcscpy(static_cast<LPWSTR>(commandLine), commonItems::convertUTF8ToUTF16(backendExePathString).c_str());
 
 	if (CreateProcess(nullptr,						// No module name (use command line)
 			  static_cast<LPWSTR>(commandLine), // Command line
