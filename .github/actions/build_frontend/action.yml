@@ -24,5 +24,5 @@ runs:
         BUILD_CONVERTERFRONTEND: ${{ inputs.build_ConverterFrontend }}
         BUILD_UPDATER: ${{ inputs.build_updater }}
       run: |
-        script_path=`echo "${{ github.action_path }}/entrypoint.sh" | sed 's.\\./.g'`
-        bash script_path
+        read script_path < <(echo "${{ github.action_path }}/entrypoint.sh" | sed 's.\\./.g')
+        bash $script_path
