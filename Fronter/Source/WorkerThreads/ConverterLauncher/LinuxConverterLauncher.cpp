@@ -1,3 +1,4 @@
+#include "CommonFunctions.h"
 #include "ConverterLauncher.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
