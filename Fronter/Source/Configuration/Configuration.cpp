@@ -104,8 +104,10 @@ void Configuration::registerKeys()
 		name = nameStr.getString();
 	});
 	registerKeyword("converterFolder", [this](std::istream& theStream) {
-		const commonItems::singleString nameStr(theStream);
-		converterFolder = nameStr.getString();
+		converterFolder = commonItems::getString(theStream);
+	});
+	registerKeyword("backendExePath", [this](std::istream& theStream) {
+		backendExePath = commonItems::getString(theStream);
 	});
 	registerKeyword("requiredFolder", [this](std::istream& theStream) {
 		auto newFolder = std::make_shared<RequiredFolder>(theStream);

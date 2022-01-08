@@ -10,24 +10,19 @@ void* ConverterLauncher::Entry()
 {
 	wxCommandEvent evt(wxEVT_CONVERTERDONE);
 
-	const auto reqFiles = configuration->getRequiredFiles();
-	const auto& exeItr = reqFiles.find("converterExe");
-	if (exeItr == reqFiles.end())
-	{
-		Log(LogLevel::Error) << "Converter location has not been loaded!";
-		evt.SetInt(0);
-		m_pParent->AddPendingEvent(evt);
-		return nullptr;
-	}
-	const auto converterExe = exeItr->second->getValue();
-	if (converterExe.empty())
+	auto converterFolder = fs::path(configuration->getConverterFolder());
+	auto backendExePath = fs::path(configuration->getBackendExePath());
+	auto backendExePathRelativeToFrontend = converterFolder / backendExePath;
+	auto backendExePathString = backendExePathRelativeToFrontend.string();
+	
+	if (backendExePath.empty())
 	{
 		Log(LogLevel::Error) << "Converter location has not been set!";
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!fs::exists(fs::u8path(converterExe)))
+	if (!commonItems::DoesFileExist(backendExePathRelativeToFrontend.string()))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -35,8 +30,7 @@ void* ConverterLauncher::Entry()
 		return nullptr;
 	}
 
-	const auto pos = converterExe.find_last_of('/');
-	const auto workDir = converterExe.substr(0, pos + 1);
+	const auto workDir = getPath(backendExePathString);
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
 	auto exeCommand = "cd " + workDir + "; " + converterExe;
