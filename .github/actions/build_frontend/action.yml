@@ -23,4 +23,4 @@ runs:
         MSBUILD_PATH: ${{ inputs.msbuild_path }}
         BUILD_CONVERTERFRONTEND: ${{ inputs.build_ConverterFrontend }}
         BUILD_UPDATER: ${{ inputs.build_updater }}
-      run: ${{ github.action_path }}/entrypoint.sh
+      run: '${{ github.action_path }}/entrypoint.sh'
