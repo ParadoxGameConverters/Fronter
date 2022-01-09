@@ -10,6 +10,7 @@ then
   if [ "$RUNNER_OS" = "Windows" ]
   then
     "$MSBUILD_PATH" -m -p:Configuration=Release -p:Platform="x64" Fronter/Fronter.vcxproj
+    cp -r Fronter/Release/* Release/
   else
     sudo apt install libcurl4-openssl-dev
     sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
