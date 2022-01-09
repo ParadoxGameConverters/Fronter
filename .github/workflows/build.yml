@@ -87,15 +87,12 @@ jobs:
        git submodule update --init --recursive
     - name: "Build wxWidgets" # TODO: REPLACE WITH MAC STEPS
       run: |
-       sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
-       sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
-       sudo apt-get update
-       sudo apt-get install libwxbase3.1-0-unofficial \
-                 libwxbase3.1unofficial-dev \
-                 libwxgtk3.1-0-unofficial \
-                 libwxgtk3.1unofficial-dev \
-                 wx3.1-headers \
-                 wx-common
+       curl -OL https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.5/wxWidgets-3.1.5.tar.bz2
+       tar -xf wxWidgets-3.1.5.tar.bz2
+       mkdir build-cocoa-debug
+       cd build-cocoa-debug
+       ../configure --enable-debug
+       make
     - name: "Install libcurl"
       run: |
        brew install libcurl
