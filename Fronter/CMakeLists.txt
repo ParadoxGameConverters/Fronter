@@ -18,8 +18,11 @@ include_directories(${CURL_INCLUDE_DIR})
 
 include_directories("../commonItems")
 include_directories("../single_include")
-include_directories("/usr/include/wx-3.1-unofficial")
-include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
+if(UNIX AND NOT APPLE)
+    # for Linux, BSD, Solaris, Minix
+	include_directories("/usr/include/wx-3.1-unofficial")
+	include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
+endif()
 include_directories("${PROJECT_SOURCE_DIR}")
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")

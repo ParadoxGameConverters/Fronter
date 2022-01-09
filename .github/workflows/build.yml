@@ -75,3 +75,44 @@ jobs:
        pyinstaller --onefile --icon=updater.ico updater.py
        mkdir ../Release/Updater
        mv dist/updater ../Release/Updater/updater
+
+  build_mac:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: "Init submodules"
+      run: |
+       git submodule update --init --recursive
+    - name: "Build wxWidgets" # TODO: REPLACE WITH MAC STEPS
+      run: |
+       sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+       sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
+       sudo apt-get update
+       sudo apt-get install libwxbase3.1-0-unofficial \
+                 libwxbase3.1unofficial-dev \
+                 libwxgtk3.1-0-unofficial \
+                 libwxgtk3.1unofficial-dev \
+                 wx3.1-headers \
+                 wx-common
+    - name: "Install libcurl"
+      run: |
+       brew install libcurl
+    - name: "Check versions of gcc, g++ and cmake"
+      run: |
+       gcc -v && g++ -v && cmake --version
+    - name:
+      run: |
+       cd Fronter
+       rm -rf build
+       rm -rf ../Release
+       cmake -H. -Bbuild
+       cmake --build build -- -j40
+    - name: "Build updater executable"
+      run: |
+       cd Updater
+       pip install -r requirements.txt
+       pyinstaller --onefile --icon=updater.ico updater.py
+       mkdir ../Release/Updater
+       mv dist/updater ../Release/Updater/updater
