@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <handleapi.h>
 #include <processthreadsapi.h>
+namespace fs = std::filesystem;
 
 
 wxDEFINE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
@@ -15,24 +16,29 @@ void* ConverterLauncher::Entry()
 {
 	wxCommandEvent evt(wxEVT_CONVERTERDONE);
 
-	const auto reqFiles = configuration->getRequiredFiles();
-	const auto& exeItr = reqFiles.find("converterExe");
-	if (exeItr == reqFiles.end())
+	auto converterFolder = fs::path(configuration->getConverterFolder());
+	auto backendExePath = fs::path(configuration->getBackendExePath());
+	auto backendExePathRelativeToFrontend = converterFolder / backendExePath;
+	auto backendExePathString = backendExePathRelativeToFrontend.string();
+
+	auto extension = getExtension(backendExePathString);
+	if (extension == "jar")
 	{
-		Log(LogLevel::Error) << "Converter location has not been loaded!";
-		evt.SetInt(0);
-		m_pParent->AddPendingEvent(evt);
-		return nullptr;
+		backendExePathString = "java.exe -jar " + backendExePathString;
 	}
-	auto converterExeString = exeItr->second->getValue();
-	if (converterExeString.empty())
+	else if (extension.empty())
+	{
+		backendExePathString += ".exe";
+	}
+	
+	if (backendExePath.empty())
 	{
 		Log(LogLevel::Error) << "Converter location has not been set!";
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFileExist(converterExeString))
+	if (!commonItems::DoesFileExist(backendExePathString))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -42,20 +48,14 @@ void* ConverterLauncher::Entry()
 
 	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi = {.hProcess = nullptr, .hThread = nullptr, .dwProcessId = 0, .dwThreadId = 0};
-
-	const auto pos = converterExeString.find_last_of('\\');
-	const auto workDirString = converterExeString.substr(0, pos + 1);
-	if (getExtension(converterExeString) == "jar")
-	{
-		converterExeString = "java.exe -jar " + converterExeString;
-	}
-	auto converterExe = commonItems::convertUTF8ToUTF16(converterExeString);
-	const auto workDir = commonItems::convertUTF8ToUTF16(workDirString);
+	
+	const auto workDir = commonItems::convertUTF8ToUTF16(getPath(backendExePathString));
 	const auto* workDirPtr = workDir.c_str();
+
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	WCHAR commandLine[MAX_PATH];
-	wcscpy(static_cast<LPWSTR>(commandLine), converterExe.c_str());
+	WCHAR commandLine[MAX_PATH]{};
+	wcscpy(static_cast<LPWSTR>(commandLine), commonItems::convertUTF8ToUTF16(backendExePathString).c_str());
 
 	if (CreateProcess(nullptr,						// No module name (use command line)
 			  static_cast<LPWSTR>(commandLine), // Command line
