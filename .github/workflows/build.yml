@@ -96,11 +96,11 @@ jobs:
        make
     - name: "Install libcurl"
       run: |
-       brew install libcurl
+       brew install curl
     - name: "Check versions of gcc, g++ and cmake"
       run: |
        gcc -v && g++ -v && cmake --version
-    - name:
+    - name: "Build"
       run: |
        cd Fronter
        rm -rf build
