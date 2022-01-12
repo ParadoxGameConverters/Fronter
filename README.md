@@ -20,6 +20,7 @@ but Fronter will whine if it can't find either. It's better to have them separat
 ```
 name = CK2ToEU4
 converterFolder = CK2ToEU4
+backendExePath = CK2ToEU4Converter # Relative to converterFolder. If file extension is "exe", skip it.
 displayName = DISPLAYNAME
 sourceGame = SOURCEGAME
 targetGame = TARGETGAME
@@ -34,18 +35,6 @@ requiredFile = {
 	searchPathType = windowsUsersFolder
 	searchPath = "Paradox Interactive\Crusader Kings II\save games"
 	allowedExtension = "*.ck2"
-}
-
-requiredFile = {
-	name = converterExe
-	displayName = FILE1
-	tooltip = FILE1TIP
-	mandatory = true
-	outputtable = false
-	searchPathType = converterFolder
-	searchPath = "CK2ToEU4"
-	allowedExtension = "*.exe"
-	fileName = "CK2ToEU4Converter.exe"
 }
 
 requiredFolder = {
@@ -72,7 +61,7 @@ autoGenerateModsFrom:
 
 searchPathType:
 -   converterFolder - looks in the provided converterFolder in current directory
--   steamFolder - uses searchPathID to look for an "installation path" from windows/steam registry. If there's a match it will also append searchPath at the end so you can use this for Vic2installdir/mods.
+-   steamFolder - uses searchPathID to look for an "installation path" from Windows/Steam registry. If there's a match it will also append searchPath at the end so you can use this for Vic2installdir/mods.
 -   windowsUsersFolder - looks in $USERHOMEDIR$\Documents folder
 -   direct - copies over an absolute path from searchPath
 

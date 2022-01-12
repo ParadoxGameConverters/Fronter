@@ -1,6 +1,5 @@
 #ifndef CONFIGURATION
 #define CONFIGURATION
-#include "Log.h"
 #include "Mod.h"
 #include "Options/Option.h"
 #include "Parser.h"
@@ -28,6 +27,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getRequiredFiles() const { return requiredFiles; }
 	[[nodiscard]] const auto& getRequiredFolders() const { return requiredFolders; }
 	[[nodiscard]] const auto& getConverterFolder() const { return converterFolder; }
+	[[nodiscard]] const auto& getBackendExePath() const { return backendExePath; }
 	[[nodiscard]] const auto& getOptions() const { return options; }
 
 	[[nodiscard]] std::string getSecondTailSource() const;
@@ -43,6 +43,7 @@ class Configuration: commonItems::parser
 
 	std::string name;
 	std::string converterFolder;
+	std::string backendExePath; // relative to converterFolder
 	std::string displayName;
 	std::string sourceGame;
 	std::string targetGame;
