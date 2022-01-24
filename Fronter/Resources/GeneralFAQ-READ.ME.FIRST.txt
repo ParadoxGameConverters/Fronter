@@ -6,8 +6,8 @@ NOTE: The converters do NOT support XBox/Gamepass installations, they cannot be 
 
 === 1. Where do I download the latest converters from?
 
-From Github (https://github.com/ParadoxGameConverters/). Always Github.
-The Paradox forums (https://forum.paradoxplaza.com/forum/) and Steam Workshop mods we provide all point to Github.
+From GitHub (https://github.com/ParadoxGameConverters/). Always GitHub.
+The Paradox forums (https://forum.paradoxplaza.com/forum/) and Steam Workshop mods we provide all point to GitHub.
 
 === 2. How do I unpack the converter?
 
