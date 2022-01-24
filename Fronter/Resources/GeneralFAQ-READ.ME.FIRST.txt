@@ -71,7 +71,7 @@ Step 2) In Playsets create a new playset. Using the Add Mods button adds the con
 
 Step 3) On the Home tab of the launcher ENABLE that playset. Press Play.
 
-NOTE: For HOI4 users if your map remains vanilla that is because your username contains non-ascii characters, for example:
+NOTE: For HOI4 users if your map remains vanilla that is because your username contains non-ASCII characters, for example:
 c:\Users\Hrčak Rašljvdžijanić\Documents\Paradox Interactive\Hearts of Iron IV
 HOI4 cannot load local mods from paths that contain such letters. Feel free to file more bug reports on hoi4 bug report subforum about this.
 
