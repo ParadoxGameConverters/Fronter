@@ -168,6 +168,9 @@
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)Configuration/</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Fronter\Resources\GeneralFAQ-READ.ME.FIRST.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{D4E43E3D-E131-466D-9AA7-704C2298EACC}</ProjectGuid>
