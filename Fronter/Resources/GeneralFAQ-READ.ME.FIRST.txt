@@ -2,44 +2,61 @@ This FAQ is always current for all the converters. Please read it before you ask
 
 ========== GENERAL QUESTIONS AND OPERATION ============
 
-1. Where do I download the latest converters from?
+=== 1. Where do I download the latest converters from?
 
 From Github (https://github.com/ParadoxGameConverters/). Always Github.
 Paradox forums (https://forum.paradoxplaza.com/forum/) and Steam Workshop mods we provide all point to Github.
 
-2. How do I unpack it?
+=== 2. How do I unpack the converter?
 
-Using any windows tool to unpack zip files.
+Using any windows tool for unpacking .zip files.
 
-3. Where do I unpack it?
+=== 3. Where do I unpack the converter?
 
 Create a new folder on your Desktop and unpack it there. Anywhere in your Documents Folder is also fine.
 Do *not* unpack it into program files, or into your game installation folders.
 
-4. How do I run/operate it?
+=== 4. What game versions are supported?
+
+Supported game versions are clearly stated next to download links and inside every converter. Converter will autodetect your game versions and will proceed only with compatible installations.
+
+=== 5. How do I run/operate the converter?
 
 Double-click ConverterFronted.exe.
 
 In the Paths tab there are several paths that you might have to fill (or thay may auto-fill on their own).
 
-a) Path to a game installation - these are usually in your steam or epic games folders such as:
+= a) Path to a game installation - these are usually in your steam or epic games folders such as:
+
 c:\Program Files (x86)\Steam\steamapps\common\Europa Universalis IV
 
-NOTE: XBox Gamepass installations cannot be used.
+NOTE: XBox/Gamepass installations cannot be used.
 
-b) Path to a game's documents folder - these are usually in your user folder such as:
+= b) Path to a game's documents folder - these are usually in your user folder such as:
+
 c:\Users\User\Documents\Paradox Interactive\Europa Universalis IV
 
-c) Path to your savegame - it is *always* within the game's user folder, such as:
+= c) Path to your savegame - it is *always* within the game's user folder, such as:
+
 c:\Users\User\Documents\Paradox Interactive\Europa Universalis IV\save games\autosave.eu4
 
-In the Mods tab (ck2toeu4, vic2tohoi4) you must select the mods you used in that particular save.
+= d) Path to a game's mod folder - this is usually within user folder such as:
+
+c:\Users\User\Documents\Paradox Interactive\Europa Universalis IV\mod
+
+with the Victoria 2 being only exception where mod folder is inside installation folder:
+
+c:\Program Files (x86)\Steam\steamapps\common\Victoria 2\mod
+
+==
+
+In the Mods tab (ck2toeu4 and vic2tohoi4 only) you must select the mods you used in that particular save.
 
 In the Options tab select those options you wish. These are converter-specific.
 
-Finally in the Convert Tab press convert button. Wait until it reaches 109% or dies trying.
+Finally in the Convert Tab press the convert button. Wait until it reaches 109% or dies trying.
 
-5. How do I enable the produced conversion mod?
+=== 6. How do I enable the produced conversion mod?
 
 Step 1) In the launcher go to All Mods and see if the conversion mod is present. If it is not, restart the launcher and check again. If it is still not present, you exported to a wrong place.
 
@@ -53,15 +70,15 @@ HOI4 cannot load local mods from paths that contain such letters. Feel free to f
 
 ============ ERRORS AND ISSUES ====================
 
-1. The converter dies immediately producing nothing.
+=== 1. The converter dies immediately producing nothing.
 
 Run VC_redist.x64.exe in converter folder and retry.
 
-2. The converter complains it cannot read configuration.txt, write configuration.txt or exports nothing.
+=== 2. The converter complains it cannot read configuration.txt, write configuration.txt or exports nothing.
 
 Your Antivirus (most likely Avast or AVG) has blocked the converter from writing to the disk. Either disable it or whitelist the converter.
 
-3. Converter dies mid-conversion!
+=== 3. Converter dies mid-conversion!
 
 Step 1) Verify you have the latest converter.
 Step 2) Verify your game installations.
@@ -69,12 +86,12 @@ Step 3) If all is nominal but it still dies, we want to know about this issue so
 
 Go to the appropriate converter's forum thread and upload log.txt from the converter's folder. Without log.txt we cannot help you.
 
-4. The converter produces invalid conversion - provinces are all over the place or stuff makes no sense.
+=== 4. The converter produces invalid conversion - provinces are all over the place or stuff makes no sense.
 
 This can happen if province mapping files are outdated. We guarantee, for example, EU4->HPM->HOI4 will work since there's no HPM development, but GFM - less likely since it's an evolving mod.
 Come to forums and upload screenshots with examples of the errors. Log.txt as well, naturally.
 
-5. I need more help about a game-specific issue.
+=== 5. I need more help about a game-specific issue.
 
 Step 1) See if inside converter's Docs/FAQ.txt and Docs/README.txt there is an answer to your question.
 Step 2) Consult the wiki pages for the converters on the official PDX wiki.
