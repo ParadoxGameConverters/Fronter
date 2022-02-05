@@ -35,7 +35,7 @@ void* ConverterLauncher::Entry()
 	const auto workDir = getPath(backendExePathString);
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	auto exeCommand = "cd " + workDir + "; " + backendExeName;
+	auto exeCommand = "cd " + workDir + "; ./" + backendExeName;
 	const char* exeCommandChar = exeCommand.c_str();
 
 	auto result = system(exeCommandChar);
