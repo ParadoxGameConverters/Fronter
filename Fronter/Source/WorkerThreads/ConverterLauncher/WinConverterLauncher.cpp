@@ -22,11 +22,7 @@ void* ConverterLauncher::Entry()
 	auto backendExePathString = backendExePathRelativeToFrontend.string();
 
 	auto extension = getExtension(backendExePathString);
-	if (extension == "jar")
-	{
-		backendExePathString = "java.exe -jar " + backendExePathString;
-	}
-	else if (extension.empty())
+	if (extension.empty())
 	{
 		backendExePathString += ".exe";
 	}
@@ -54,8 +50,13 @@ void* ConverterLauncher::Entry()
 
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
+	auto command = backendExePathString;
+	if (extension == "jar")
+	{
+		command = "java.exe -jar " + command;
+	}
 	WCHAR commandLine[MAX_PATH]{};
-	wcscpy(static_cast<LPWSTR>(commandLine), commonItems::convertUTF8ToUTF16(backendExePathString).c_str());
+	wcscpy(static_cast<LPWSTR>(commandLine), commonItems::convertUTF8ToUTF16(command).c_str());
 
 	if (CreateProcess(nullptr,						// No module name (use command line)
 			  static_cast<LPWSTR>(commandLine), // Command line
