@@ -16,15 +16,13 @@ void* ConverterLauncher::Entry()
 {
 	wxCommandEvent evt(wxEVT_CONVERTERDONE);
 
-	auto converterFolder = fs::path(configuration->getConverterFolder());
-	auto backendExePath = fs::path(configuration->getBackendExePath());
-	auto backendExePathRelativeToFrontend = converterFolder / backendExePath;
-	auto backendExePathString = backendExePathRelativeToFrontend.string();
+	const auto& backendExePath = configuration->getBackendExePath();
+	auto backendExePathRelativeToFrontend = (fs::path(configuration->getConverterFolder()) / backendExePath).string();
 
-	auto extension = getExtension(backendExePathString);
+	auto extension = getExtension(backendExePath);
 	if (extension.empty())
 	{
-		backendExePathString += ".exe";
+		backendExePathRelativeToFrontend += ".exe";
 	}
 	
 	if (backendExePath.empty())
@@ -34,7 +32,7 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFileExist(backendExePathString))
+	if (!commonItems::DoesFileExist(backendExePathRelativeToFrontend))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -44,16 +42,16 @@ void* ConverterLauncher::Entry()
 
 	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi = {.hProcess = nullptr, .hThread = nullptr, .dwProcessId = 0, .dwThreadId = 0};
-	
-	const auto workDir = commonItems::convertUTF8ToUTF16(getPath(backendExePathString));
+
+	const auto workDir = commonItems::convertUTF8ToUTF16(getPath(backendExePathRelativeToFrontend));
 	const auto* workDirPtr = workDir.c_str();
 
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	auto command = backendExePathString;
+	auto command = backendExePathRelativeToFrontend;
 	if (extension == "jar")
 	{
-		command = "java.exe -jar " + command;
+		command = "java.exe -jar " + trimPath(backendExePath);
 	}
 	WCHAR commandLine[MAX_PATH]{};
 	wcscpy(static_cast<LPWSTR>(commandLine), commonItems::convertUTF8ToUTF16(command).c_str());
