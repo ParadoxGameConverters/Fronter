@@ -38,7 +38,7 @@ then
 fi
 
 
-if [ "$BUILD_CONVERTERFRONTEND" = true ]
+if [ "$BUILD_UPDATER" = true ]
 then
   printf "\nBuilding updater...\n"
 
