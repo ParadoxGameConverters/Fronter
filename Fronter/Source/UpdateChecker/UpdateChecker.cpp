@@ -220,15 +220,21 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo
 
 void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
 {
+	if (!commonItems::DeleteFolder("./Updater-running"))
+	{
+		return;
+	}
+	if (!commonItems::CopyFolder("./Updater", "./Updater-running"))
+	{
+		return;
+	}
 #ifdef _WIN32
-	wxRenameFile(wxT("./Updater/updater.exe"), wxT("./Updater/updater-running.exe"));
 	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
-		"./Updater/updater-running.exe " + zipURL + " " + converterBackendDirName
+		"./Updater-running/updater.exe " + zipURL + " " + converterBackendDirName
 	);
 #else
-	wxRenameFile(wxT("./Updater/updater"), wxT("./Updater/updater-running"));
 	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
-		"./Updater/updater-running " + zipURL + " " + converterBackendDirName
+		"./Updater-running/updater " + zipURL + " " + converterBackendDirName
 	);
 #endif
 
