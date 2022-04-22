@@ -45,14 +45,9 @@ then
   cd $GITHUB_WORKSPACE
   cd Fronter/Updater
   pip3 install -r requirements.txt
-  pyinstaller --onefile --icon=updater.ico updater.py
-  mkdir ../../Release/Updater
-  if [ "$RUNNER_OS" = "Windows" ]
-  then
-    mv dist/updater.exe ../../Release/Updater/updater.exe
-  else
-    mv dist/updater ../../Release/Updater/updater
-  fi
+  pyinstaller --icon=updater.ico updater.py
+  mkdir ../../Release/
+  mv dist/updater/ ../../Release/Updater/
 
   printf "\n✔ Successfully built updater.\n"
 fi
