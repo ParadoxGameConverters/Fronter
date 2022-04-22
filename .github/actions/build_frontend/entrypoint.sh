@@ -46,7 +46,10 @@ then
   cd Fronter/Updater
   pip3 install -r requirements.txt
   pyinstaller --icon=updater.ico updater.py
-  mkdir -p ../../Release/
+  if [ ! "$RUNNER_OS" = "Windows" ]
+  then
+    mkdir -p ../../Release/
+  fi
   mv dist/updater/ ../../Release/Updater/
 
   printf "\n✔ Successfully built updater.\n"
