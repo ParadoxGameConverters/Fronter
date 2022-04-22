@@ -46,7 +46,7 @@ then
   cd Fronter/Updater
   pip3 install -r requirements.txt
   pyinstaller --icon=updater.ico updater.py
-  mkdir ../../Release/
+  mkdir -p ../../Release/
   mv dist/updater/ ../../Release/Updater/
 
   printf "\n✔ Successfully built updater.\n"

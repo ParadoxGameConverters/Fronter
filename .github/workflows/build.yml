@@ -23,7 +23,7 @@ jobs:
        cd Updater
        pip install -r requirements.txt
        pyinstaller --icon=updater.ico updater.py
-       mkdir ../Release/
+       mkdir -p ../Release/
        mv dist/updater/ ../Release/Updater/
 
 
@@ -73,5 +73,5 @@ jobs:
        cd Updater
        pip install -r requirements.txt
        pyinstaller --icon=updater.ico updater.py
-       mkdir ../Release/
+       mkdir -p ../Release/
        mv dist/updater/ ../Release/Updater/
