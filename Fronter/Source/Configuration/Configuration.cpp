@@ -1,5 +1,5 @@
 #include "Configuration.h"
-#include "Mod.h"
+#include "FronterMod.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
 #include "CommonRegexes.h"
@@ -281,7 +281,7 @@ void Configuration::autoLocateMods()
 
 	for (const auto& modFile: validModFiles)
 	{
-		Mod theMod(modPath + "/" + modFile);
+		FronterMod theMod(modPath + "/" + modFile);
 		if (theMod.getName().empty())
 		{
 			Log(LogLevel::Warning) << "Mod at " << modPath + "/" + modFile << " has no defined name, skipping.";
