@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 #set(CMAKE_VERBOSE_MAKEFILE on)
 
 project(Fronter)
-SET(CMAKE_CXX_COMPILER g++-11)
+#SET(CMAKE_CXX_COMPILER g++-11)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/Source)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/../Release)
@@ -17,10 +17,12 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
 include_directories("../commonItems")
+include_directories("../commonItems/ZipLib")
 include_directories("../single_include")
 include_directories("/usr/include/wx-3.1-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.1-unofficial3")
 include_directories("${PROJECT_SOURCE_DIR}")
+add_subdirectory(../commonItems/ZipLib [binary_dir])
 
 file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
 file(GLOB CONFIGURATION_SOURCES "${PROJECT_SOURCE_DIR}/Configuration/*.cpp")
@@ -36,12 +38,17 @@ file(GLOB LOGWATCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/LogWatcher/*.c
 file(GLOB MODCOPIER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp")
 file(GLOB UPDATECHECKER_SOURCES "${PROJECT_SOURCE_DIR}/UpdateChecker/*.cpp")
 set(COMMON_SOURCES "../commonItems/CommonFunctions.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ConvenientParser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/LinuxUtils.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Log.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/GameVersion.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/OSCommonLayer.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/Parser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ParserHelpers.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/StringUtils.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ModLoader/ModFilesystem.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ModLoader/ModLoader.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../commonItems/ModLoader/ModParser.cpp")
 
 add_executable(ConverterFrontend
 	${MAIN_SOURCES}
@@ -60,7 +67,7 @@ add_executable(ConverterFrontend
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(ConverterFrontend ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
+target_link_libraries(ConverterFrontend ZIPLIB ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
 
 add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
 add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
