@@ -43,6 +43,9 @@
     <Filter Include="Fronter\UpdateChecker">
       <UniqueIdentifier>{42d0697b-4e02-46a2-8d0a-a57eba5aee15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="commonItems\ModLoader">
+      <UniqueIdentifier>{1e0e62b0-66e4-4430-bb44-1651848077fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\ParserHelpers.cpp">
@@ -132,7 +135,7 @@
     <ClCompile Include="commonItems\CommonFunctions.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
-    <ClCompile Include="Fronter\Source\Configuration\Mod.cpp">
+    <ClCompile Include="Fronter\Source\Configuration\FronterMod.cpp">
       <Filter>Fronter\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="Fronter\Source\Frames\Tabs\ModsTab.cpp">
@@ -140,6 +143,24 @@
     </ClCompile>
     <ClCompile Include="Fronter\Source\UpdateChecker\UpdateChecker.cpp">
       <Filter>Fronter\UpdateChecker</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\ModLoader\ModFilesystem.cpp">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\ModLoader\ModLoader.cpp">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\ModLoader\ModParser.cpp">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\ConvenientParser.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\ConverterVersion.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\GameVersion.cpp">
+      <Filter>commonItems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,7 +251,7 @@
     <ClInclude Include="commonItems\CommonFunctions.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="Fronter\Source\Configuration\Mod.h">
+    <ClInclude Include="Fronter\Source\Configuration\FronterMod.h">
       <Filter>Fronter\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="Fronter\Source\Frames\Tabs\ModsTab.h">
@@ -240,6 +261,27 @@
       <Filter>Fronter\UpdateChecker</Filter>
     </ClInclude>
     <ClInclude Include="commonItems\CommonRegexes.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\ModLoader\Mod.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\ModLoader\ModFilesystem.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\ModLoader\ModLoader.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\ModLoader\ModParser.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\ConvenientParser.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\ConverterVersion.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\GameVersion.h">
       <Filter>commonItems</Filter>
     </ClInclude>
   </ItemGroup>

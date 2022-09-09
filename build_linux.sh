@@ -1,4 +1,6 @@
 #!/bin/bash
+export CC=/usr/bin/gcc-11 &&
+export CXX=/usr/bin/g++-11 &&
 cd Fronter &&
 rm -rf build &&
 rm -rf ../Release &&

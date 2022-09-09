@@ -20,15 +20,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\CommonFunctions.cpp" />
+    <ClCompile Include="commonItems\ConvenientParser.cpp" />
+    <ClCompile Include="commonItems\ConverterVersion.cpp" />
+    <ClCompile Include="commonItems\GameVersion.cpp" />
     <ClCompile Include="commonItems\iconvlite.cpp" />
     <ClCompile Include="commonItems\Log.cpp" />
+    <ClCompile Include="commonItems\ModLoader\ModFilesystem.cpp" />
+    <ClCompile Include="commonItems\ModLoader\ModLoader.cpp" />
+    <ClCompile Include="commonItems\ModLoader\ModParser.cpp" />
     <ClCompile Include="commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="commonItems\Parser.cpp" />
     <ClCompile Include="commonItems\ParserHelpers.cpp" />
     <ClCompile Include="commonItems\StringUtils.cpp" />
     <ClCompile Include="commonItems\WinUtils.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Configuration.cpp" />
-    <ClCompile Include="Fronter\Source\Configuration\Mod.cpp" />
+    <ClCompile Include="Fronter\Source\Configuration\FronterMod.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxOption.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxSelector.cpp" />
     <ClCompile Include="Fronter\Source\Configuration\Options\Option.cpp" />
@@ -55,14 +61,21 @@
   <ItemGroup>
     <ClInclude Include="commonItems\CommonFunctions.h" />
     <ClInclude Include="commonItems\CommonRegexes.h" />
+    <ClInclude Include="commonItems\ConvenientParser.h" />
+    <ClInclude Include="commonItems\ConverterVersion.h" />
+    <ClInclude Include="commonItems\GameVersion.h" />
     <ClInclude Include="commonItems\iconvlite.h" />
     <ClInclude Include="commonItems\Log.h" />
+    <ClInclude Include="commonItems\ModLoader\Mod.h" />
+    <ClInclude Include="commonItems\ModLoader\ModFilesystem.h" />
+    <ClInclude Include="commonItems\ModLoader\ModLoader.h" />
+    <ClInclude Include="commonItems\ModLoader\ModParser.h" />
     <ClInclude Include="commonItems\OSCompatibilityLayer.h" />
     <ClInclude Include="commonItems\Parser.h" />
     <ClInclude Include="commonItems\ParserHelpers.h" />
     <ClInclude Include="commonItems\StringUtils.h" />
     <ClInclude Include="Fronter\Source\Configuration\Configuration.h" />
-    <ClInclude Include="Fronter\Source\Configuration\Mod.h" />
+    <ClInclude Include="Fronter\Source\Configuration\FronterMod.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxOption.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\CheckBoxSelector.h" />
     <ClInclude Include="Fronter\Source\Configuration\Options\Option.h" />
@@ -289,7 +302,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(ProjectDir)\curl\lib;$(ProjectDir)\wxWidgets\3.1.5\lib\vc14x_x64_dll\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl.a;libcurl.dll.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurl.a;libcurl.dll.a;$(SolutionDir)$(Platform)\$(Configuration)\ZipLib.lib;$(SolutionDir)$(Platform)\$(Configuration)\zlib.lib;$(SolutionDir)$(Platform)\$(Configuration)\lzma.lib;$(SolutionDir)$(Platform)\$(Configuration)\bzip2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

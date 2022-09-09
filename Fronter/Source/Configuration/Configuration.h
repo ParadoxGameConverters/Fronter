@@ -1,6 +1,6 @@
 #ifndef CONFIGURATION
 #define CONFIGURATION
-#include "Mod.h"
+#include "FronterMod.h"
 #include "Options/Option.h"
 #include "Parser.h"
 #include "RequiredFile.h"
@@ -56,7 +56,7 @@ class Configuration: commonItems::parser
 	std::map<std::string, std::shared_ptr<RequiredFile>> requiredFiles;
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;
-	std::vector<Mod> autolocatedMods;
+	std::vector<FronterMod> autolocatedMods;
 	std::set<std::string> preloadedModFileNames;
 	int optionCounter = 0;
 };

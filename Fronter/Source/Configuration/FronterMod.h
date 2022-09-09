@@ -1,12 +1,12 @@
-#ifndef MOD_H
-#define MOD_H
+#ifndef FRONTERMOD_H
+#define FRONTERMOD_H
 
 #include "Parser.h"
 
-class Mod: commonItems::parser
+class FronterMod: commonItems::parser
 {
   public:
-	explicit Mod(const std::string& modPath);
+	explicit FronterMod(const std::string& modPath);
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getFileName() const { return fileName; }
 
@@ -15,4 +15,4 @@ class Mod: commonItems::parser
 	std::string fileName;
 };
 
-#endif // MOD_H
+#endif // FRONTERMOD_H
