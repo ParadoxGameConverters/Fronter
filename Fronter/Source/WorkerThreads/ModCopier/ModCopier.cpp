@@ -108,7 +108,7 @@ void* ModCopier::Entry()
 	// for vic3 and onwards we need to skip .mod requirement
 
 	bool vic3OnwardSkipModFile = false;
-	if (!commonItems::DoesFolderExist(converterFolder + "/output/" + targetName + "/.metadata"))
+	if (commonItems::DoesFolderExist(converterFolder + "/output/" + targetName + "/.metadata"))
 		vic3OnwardSkipModFile = true;
 	if (!vic3OnwardSkipModFile && !commonItems::DoesFileExist(converterFolder + "/output/" + targetName + ".mod"))
 	{
