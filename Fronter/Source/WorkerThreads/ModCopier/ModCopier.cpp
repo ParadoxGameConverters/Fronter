@@ -96,16 +96,23 @@ void* ModCopier::Entry()
 	targetName = replaceCharacter(targetName, '-');
 	targetName = replaceCharacter(targetName, ' ');
 	targetName = commonItems::normalizeUTF8Path(targetName);
-	if (!commonItems::DoesFileExist(converterFolder + "/output/" + targetName + ".mod"))
+
+	if (!commonItems::DoesFolderExist(converterFolder + "/output/" + targetName))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Cound not find mod: " << converterFolder + "/output/" + targetName + ".mod";
+		Log(LogLevel::Error) << "Copy Failed - Could not find mod folder: " << converterFolder + "/output/" + targetName;
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFolderExist(converterFolder + "/output/" + targetName))
+
+	// for vic3 and onwards we need to skip .mod requirement
+
+	bool vic3OnwardSkipModFile = false;
+	if (commonItems::DoesFolderExist(converterFolder + "/output/" + targetName + "/.metadata"))
+		vic3OnwardSkipModFile = true;
+	if (!vic3OnwardSkipModFile && !commonItems::DoesFileExist(converterFolder + "/output/" + targetName + ".mod"))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Cound not find mod folder: " << converterFolder + "/output/" + targetName;
+		Log(LogLevel::Error) << "Copy Failed - Could not find mod: " << converterFolder + "/output/" + targetName + ".mod";
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
@@ -117,7 +124,7 @@ void* ModCopier::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (commonItems::DoesFileExist(destinationFolder + "/" + targetName + ".mod"))
+	if (!vic3OnwardSkipModFile && commonItems::DoesFileExist(destinationFolder + "/" + targetName + ".mod"))
 	{
 		Log(LogLevel::Info) << "Previous mod file found, deleting.";
 		fs::remove(fs::u8path(destinationFolder + "/" + targetName + ".mod"));
@@ -130,7 +137,8 @@ void* ModCopier::Entry()
 	try
 	{
 		Log(LogLevel::Info) << "Copying mod to target location...";
-		commonItems::TryCopyFile(converterFolder + "/output/" + targetName + ".mod", destinationFolder + "/" + targetName + ".mod");
+		if (!vic3OnwardSkipModFile)
+			commonItems::TryCopyFile(converterFolder + "/output/" + targetName + ".mod", destinationFolder + "/" + targetName + ".mod");
 		commonItems::CopyFolder(converterFolder + "/output/" + targetName, destinationFolder + "/" + targetName);
 	}
 	catch (std::filesystem::filesystem_error& theError)
