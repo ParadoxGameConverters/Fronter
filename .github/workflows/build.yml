@@ -100,6 +100,10 @@ jobs:
        pip install -r requirements.txt
        pyinstaller --icon=updater.ico updater.py
        mv dist/updater/ ../Release/Updater/
+    - name: "Cleanup"
+      if: always()
+      run: |
+        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
 
   build_linux_local:
     name: Build Linux local
@@ -111,27 +115,6 @@ jobs:
     - name: "Init submodules"
       run: |
        git submodule update --init --recursive
-    - name: "Install wxWidgets"
-      run: |
-       sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
-       sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
-       sudo apt-get update
-       sudo apt-get install libwxbase3.1-0-unofficial \
-                 libwxbase3.1unofficial-dev \
-                 libwxgtk3.1-0-unofficial \
-                 libwxgtk3.1unofficial-dev \
-                 wx3.1-headers \
-                 wx-common
-    - name: "Install libcurl"
-      run: |
-       sudo apt-get install libcurl4-openssl-dev
-    - name: "Install GCC 11"
-      run: |
-       sudo apt-get install gcc-11 g++-11
-    - name: "Link gcc-11 and g++-11 to their standard commands"
-      run: |
-       sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
-       sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
     - name: "Export CC and CXX to tell cmake which compiler to use"
       run: |
        export CC=/usr/bin/gcc-11
@@ -149,4 +132,7 @@ jobs:
        pip install -r requirements.txt
        pyinstaller --icon=updater.ico updater.py
        mkdir -p ../Release/
-       mv dist/updater/ ../Release/Updater/       
+       mv dist/updater/ ../Release/Updater/
+    - name: Cleanup
+      uses: colpal/actions-clean@v1
+      if: always() # To ensure this step runs even when earlier steps fail
