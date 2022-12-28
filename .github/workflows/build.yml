@@ -130,7 +130,7 @@ jobs:
       run: |
        cd Updater
        pip install -r requirements.txt
-       pyinstaller --icon=updater.ico updater.py
+       ~/.local/bin/pyinstaller --icon=updater.ico updater.py
        mkdir -p ../Release/
        mv dist/updater/ ../Release/Updater/
     - name: Cleanup
