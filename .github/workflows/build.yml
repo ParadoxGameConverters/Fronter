@@ -107,6 +107,7 @@ jobs:
 
   build_linux_local:
     name: Build Linux local
+    if: github.repository_owner == 'ParadoxGameConverters'
     runs-on: [self-hosted, linux]
     steps:
     - uses: actions/checkout@v2
