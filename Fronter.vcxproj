@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\provinceMapper\commonItems\external\zip\src\zip.c" />
     <ClCompile Include="commonItems\CommonFunctions.cpp" />
     <ClCompile Include="commonItems\ConvenientParser.cpp" />
     <ClCompile Include="commonItems\ConverterVersion.cpp" />
+    <ClCompile Include="commonItems\external\zip\src\zip.c" />
     <ClCompile Include="commonItems\GameVersion.cpp" />
     <ClCompile Include="commonItems\iconvlite.cpp" />
     <ClCompile Include="commonItems\Log.cpp" />
@@ -55,17 +55,20 @@
     <ClCompile Include="Fronter\Source\UpdateChecker\UpdateChecker.cpp" />
     <ClCompile Include="Fronter\Source\Utils\SliceMessage.cpp" />
     <ClCompile Include="Fronter\Source\Utils\Localization\Localization.cpp" />
+    <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\LinuxConverterLauncher.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\provinceMapper\commonItems\external\zip\src\miniz.h" />
-    <ClInclude Include="..\provinceMapper\commonItems\external\zip\src\zip.h" />
     <ClInclude Include="commonItems\CommonFunctions.h" />
     <ClInclude Include="commonItems\CommonRegexes.h" />
     <ClInclude Include="commonItems\ConvenientParser.h" />
     <ClInclude Include="commonItems\ConverterVersion.h" />
+    <ClInclude Include="commonItems\external\zip\src\miniz.h" />
+    <ClInclude Include="commonItems\external\zip\src\zip.h" />
     <ClInclude Include="commonItems\GameVersion.h" />
     <ClInclude Include="commonItems\iconvlite.h" />
     <ClInclude Include="commonItems\Log.h" />
