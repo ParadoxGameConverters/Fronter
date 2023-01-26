@@ -28,12 +28,14 @@ void* LogWatcher::Entry()
 					evt.SetMessage(logMessage);
 					m_pParent->QueueEvent(evt.Clone());
 				}
-			}			
+			}
 		}
 		wxMilliSleep(50);
 		logfile.clear();
-		if (terminate && oneLastRun) break;
-		if (terminate) oneLastRun = true;
+		if (terminate && oneLastRun)
+			break;
+		if (terminate)
+			oneLastRun = true;
 	}
 	logfile.close();
 

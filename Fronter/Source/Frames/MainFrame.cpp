@@ -1,6 +1,6 @@
 #include "MainFrame.h"
-#include "LogWindow.h"
 #include "../UpdateChecker/UpdateChecker.h"
+#include "LogWindow.h"
 #include "Tabs/ConvertTab.h"
 #include "Tabs/OptionsTab.h"
 #include "Tabs/PathsTab.h"
@@ -163,7 +163,7 @@ void MainFrame::OnUpdateMods(wxCommandEvent& WXUNUSED(event))
 	modsTab->loadLocalization(localization);
 	modsTab->initializeMods();
 	modsTab->SetBackgroundColour(wxColour(245, 255, 255));
-	
+
 	notebook->InsertPage(1, modsTab, tr("MODSTAB"), true, -1); // Back where it was.
 	notebook->Layout();
 	notebook->SetSelection(0); // Tab back to paths.

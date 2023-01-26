@@ -331,16 +331,16 @@
     <CopyFileToFolders Include="Fronter\Resources\GeneralFAQ-READ.ME.FIRST.txt">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\provinceMapper\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\provinceMapper\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="Fronter\Resources\libcrypto-1_1-x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="curl\bin\libcurl-x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
   </ItemGroup>

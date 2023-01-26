@@ -9,7 +9,7 @@
 
 wxDECLARE_EVENT(wxEVT_COPIERDONE, wxCommandEvent);
 
-class ModCopier final : public wxThread
+class ModCopier final: public wxThread
 {
   public:
 	explicit ModCopier(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}

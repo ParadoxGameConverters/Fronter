@@ -4,10 +4,10 @@
 #include <algorithm>
 #include <cctype>
 #include <codecvt>
-#include <fstream>
-#include <string>
 #include <curl/curl.h>
+#include <fstream>
 #include <nlohmann/json.hpp>
+#include <string>
 #include <wx/utils.h>
 
 using json = nlohmann::json;
@@ -54,7 +54,7 @@ static bool init(CURL*& conn, char* url)
 		return false;
 	}
 
-	//additional options
+	// additional options
 	code = curl_easy_setopt(conn, CURLOPT_SSL_VERIFYPEER, 0);
 	if (code != CURLE_OK)
 	{
@@ -95,7 +95,7 @@ static bool init(CURL*& conn, char* url)
 		fprintf(stderr, "Failed to set write data [%s]\n", errorBuffer);
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -128,10 +128,11 @@ bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& c
 	buffer.clear();
 	// remove whitespace from the latest release commit string
 	latestReleaseCommitId.erase(std::ranges::remove_if(latestReleaseCommitId,
-	                                                   [](const unsigned char x) {
-		                                                   return std::isspace(x);
-	                                                   }).begin(),
-								latestReleaseCommitId.end());
+											  [](const unsigned char x) {
+												  return std::isspace(x);
+											  })
+											  .begin(),
+		 latestReleaseCommitId.end());
 
 	std::ifstream commitIdFile(commitIdFilePath);
 	std::string localCommitId;
@@ -175,7 +176,7 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	info.description = j["body"];
 	info.version = j["name"];
 	auto& assets = j["assets"];
-	for (auto& asset : assets)
+	for (auto& asset: assets)
 	{
 		std::string assetName = asset["name"];
 #ifdef _WIN32
@@ -185,13 +186,10 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 #elif __APPLE__
 		const std::string osName = "osx";
 #endif
-		
-		std::ranges::transform(assetName,
-		                       assetName.begin(),
-		                       [](const unsigned char c)
-		                       {
-			                       return std::tolower(c);
-		                       });
+
+		std::ranges::transform(assetName, assetName.begin(), [](const unsigned char c) {
+			return std::tolower(c);
+		});
 		if (assetName.ends_with("-" + osName + "-x64.zip"))
 		{
 			info.zipURL = asset["browser_download_url"];

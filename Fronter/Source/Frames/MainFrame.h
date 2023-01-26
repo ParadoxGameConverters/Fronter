@@ -4,15 +4,15 @@
 #include <wx/wx.h>
 #endif
 
-#include "LogWindow.h"
 #include "../Configuration/Configuration.h"
 #include "../Utils/Localization/Localization.h"
-#include "Tabs/OptionsTab.h"
-#include <wx/notebook.h>
+#include "LogWindow.h"
 #include "Tabs/ConvertTab.h"
 #include "Tabs/ModsTab.h"
+#include "Tabs/OptionsTab.h"
+#include <wx/notebook.h>
 
-class MainFrame final : public wxFrame
+class MainFrame final: public wxFrame
 {
   public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
@@ -40,7 +40,7 @@ class MainFrame final : public wxFrame
 	ModsTab* modsTab = nullptr;
 	OptionsTab* optionsTab = nullptr;
 	ConvertTab* convertTab = nullptr;
-	
+
 	void onResize(wxSizeEvent& evt);
 	std::shared_ptr<Configuration> configuration;
 	std::shared_ptr<Localization> localization;

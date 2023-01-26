@@ -18,7 +18,8 @@ Localization::Localization()
 	while (std::getline(langfile, line))
 	{
 		auto pos = line.find_first_of(':');
-		if (pos == std::string::npos) continue;
+		if (pos == std::string::npos)
+			continue;
 		auto language = line.substr(2, pos - 2);
 		pos = line.find_first_of('\"');
 		const auto secpos = line.find_last_of('\"');

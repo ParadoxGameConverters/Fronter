@@ -24,7 +24,7 @@ void* ConverterLauncher::Entry()
 	{
 		backendExePathRelativeToFrontend += ".exe";
 	}
-	
+
 	if (backendExePath.empty())
 	{
 		Log(LogLevel::Error) << "Converter location has not been set!";

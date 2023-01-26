@@ -6,16 +6,16 @@
 #endif
 #include "../Utils/Localization/Localization.h"
 #include "../WorkerThreads/LogWatcher/LogMessageEvent.h"
-#include <wx/grid.h>
 #include <memory>
+#include <wx/grid.h>
 
-class FronterGridCellRenderer final : public wxGridCellStringRenderer
+class FronterGridCellRenderer final: public wxGridCellStringRenderer
 {
   public:
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) override;
 };
 
-class LogWindow final : public wxWindow
+class LogWindow final: public wxWindow
 {
   public:
 	LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocalization);
@@ -30,7 +30,7 @@ class LogWindow final : public wxWindow
   private:
 	void eatClick(wxGridEvent& event);
 	void OnSize(wxSizeEvent& event);
-	
+
 	LogWatcher* logWatcher = nullptr;
 	LogWatcher* logWatcher2 = nullptr;
 	int logCounter = 0;

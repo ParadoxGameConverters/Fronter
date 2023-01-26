@@ -165,10 +165,10 @@
     <CopyFileToFolders Include="Fronter\Resources\GeneralFAQ-READ.ME.FIRST.txt" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\provinceMapper\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\provinceMapper\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
