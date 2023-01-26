@@ -1,8 +1,8 @@
 #include "Configuration.h"
+#include "CommonRegexes.h"
 #include "FronterMod.h"
 #include "OSCompatibilityLayer.h"
 #include "ParserHelpers.h"
-#include "CommonRegexes.h"
 #include <filesystem>
 #include <fstream>
 #include <ranges>
@@ -239,7 +239,7 @@ void Configuration::autoLocateMods()
 	autolocatedMods.clear();
 	// Do we have a mod path?
 	std::string modPath;
-	for (const auto& filePtr : requiredFolders | std::views::values)
+	for (const auto& filePtr: requiredFolders | std::views::values)
 	{
 		if (filePtr->getName() == autoGenerateModsFrom)
 		{

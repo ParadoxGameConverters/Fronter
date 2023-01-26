@@ -22,6 +22,7 @@
     <ClCompile Include="commonItems\CommonFunctions.cpp" />
     <ClCompile Include="commonItems\ConvenientParser.cpp" />
     <ClCompile Include="commonItems\ConverterVersion.cpp" />
+    <ClCompile Include="commonItems\external\zip\src\zip.c" />
     <ClCompile Include="commonItems\GameVersion.cpp" />
     <ClCompile Include="commonItems\iconvlite.cpp" />
     <ClCompile Include="commonItems\Log.cpp" />
@@ -54,6 +55,9 @@
     <ClCompile Include="Fronter\Source\UpdateChecker\UpdateChecker.cpp" />
     <ClCompile Include="Fronter\Source\Utils\SliceMessage.cpp" />
     <ClCompile Include="Fronter\Source\Utils\Localization\Localization.cpp" />
+    <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\LinuxConverterLauncher.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\LogWatcher\LogWatcher.cpp" />
     <ClCompile Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.cpp" />
@@ -63,6 +67,8 @@
     <ClInclude Include="commonItems\CommonRegexes.h" />
     <ClInclude Include="commonItems\ConvenientParser.h" />
     <ClInclude Include="commonItems\ConverterVersion.h" />
+    <ClInclude Include="commonItems\external\zip\src\miniz.h" />
+    <ClInclude Include="commonItems\external\zip\src\zip.h" />
     <ClInclude Include="commonItems\GameVersion.h" />
     <ClInclude Include="commonItems\iconvlite.h" />
     <ClInclude Include="commonItems\Log.h" />
@@ -139,29 +145,6 @@
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)Configuration/</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)Configuration/</DestinationFolders>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="Fronter\Resources\msvcp140_codecvt_ids.dll">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="Fronter\Resources\vcruntime140_1.dll">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="Fronter\Resources\VC_redist.x64.exe">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxbase315u_vc14x_x64.dll">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxmsw315u_core_vc14x_x64.dll">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxbase315ud_vc14x_x64.dll">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxmsw315ud_core_vc14x_x64.dll">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="curl\bin\libcurl-x64.dll">
@@ -183,6 +166,14 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Fronter\Resources\GeneralFAQ-READ.ME.FIRST.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -230,11 +221,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="wxWidgets\3.1.5\wxwidgets.props" />
+    <Import Project="wxWidgets\3.2.1\wxwidgets.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="wxWidgets\3.1.5\wxwidgets.props" />
+    <Import Project="wxWidgets\3.2.1\wxwidgets.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -296,13 +287,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;$(ProjectDir)\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.2.1\include\msvc;$(ProjectDir)\wxWidgets\3.2.1\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;$(ProjectDir)\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProjectDir)\curl\lib;$(ProjectDir)\wxWidgets\3.1.5\lib\vc14x_x64_dll\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl.a;libcurl.dll.a;$(SolutionDir)$(Platform)\$(Configuration)\ZipLib.lib;$(SolutionDir)$(Platform)\$(Configuration)\zlib.lib;$(SolutionDir)$(Platform)\$(Configuration)\lzma.lib;$(SolutionDir)$(Platform)\$(Configuration)\bzip2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\curl\lib;$(ProjectDir)\wxWidgets\3.2.1\lib\vc14x_x64_dll\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcurl.a;libcurl.dll.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -316,12 +307,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.1.5\include\msvc;$(ProjectDir)\wxWidgets\3.1.5\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;$(ProjectDir)\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\wxWidgets\3.2.1\include\msvc;$(ProjectDir)\wxWidgets\3.2.1\include;$(ProjectDir)\commonItems;$(ProjectDir)\curl\include;$(ProjectDir)\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProjectDir)\curl\lib;$(ProjectDir)\wxWidgets\3.1.5\lib\vc14x_x64_dll\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\curl\lib;$(ProjectDir)\wxWidgets\3.2.1\lib\vc14x_x64_dll\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libcurl.a;libcurl.dll.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>

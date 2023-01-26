@@ -2,8 +2,8 @@
 #include "../MainFrame.h"
 #include "OSCompatibilityLayer.h"
 #include <fstream>
-#include <wx/wrapsizer.h>
 #include <ranges>
+#include <wx/wrapsizer.h>
 
 #define tr localization->translate
 
@@ -34,7 +34,7 @@ void ConvertTab::initializeConvert()
 	boxChoices.Add(tr("LOGLEVEL1"));
 	boxChoices.Add(tr("LOGLEVEL2"));
 	boxChoices.Add(tr("LOGLEVEL3"));
-	
+
 	auto* theButtonBox = new wxRadioBox(logPanel, wxID_ANY, tr("LOGLEVEL"), wxDefaultPosition, wxDefaultSize, boxChoices, 4);
 	theButtonBox->SetSelection(1);
 	theButtonBox->Bind(wxEVT_RADIOBOX, [this](wxCommandEvent& event) {
@@ -99,7 +99,7 @@ void ConvertTab::initializeConvert()
 	convertSizer->AddStretchSpacer(0);
 
 	// Fourth row is blank for cosmetics.
-	
+
 	Layout();
 }
 
@@ -125,7 +125,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 			return;
 		}
 	}
-	
+
 	convertButton->Disable();
 	// Reset statuses
 	statusSave->SetLabel(tr("CONVERTSTATUSPRE"));
@@ -178,7 +178,7 @@ void ConvertTab::onCopierDone(wxCommandEvent& event)
 	{
 		statusCopy->SetLabel(tr("CONVERTSTATUSPOSTSUCCESS"));
 		setProgress(109);
-	}	
+	}
 	else
 	{
 		statusCopy->SetLabel(tr("CONVERTSTATUSPOSTFAIL"));

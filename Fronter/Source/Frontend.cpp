@@ -9,7 +9,9 @@ bool Frontend::OnInit()
 {
 	localization = std::make_shared<Localization>();
 	configuration = std::make_shared<Configuration>();
-	auto* frame = new MainFrame(tr("TITLETITLE") + tr(configuration->getSourceGame()) + tr("TITLETO") + tr(configuration->getTargetGame()), wxPoint(50, 50), wxSize(1200, 600));
+	auto* frame = new MainFrame(tr("TITLETITLE") + tr(configuration->getSourceGame()) + tr("TITLETO") + tr(configuration->getTargetGame()),
+		 wxPoint(50, 50),
+		 wxSize(1200, 600));
 	frame->loadConfiguration(configuration);
 	frame->loadLocalization(localization);
 	frame->initFrame();
@@ -46,9 +48,8 @@ bool Frontend::OnInit()
 
 
 	// check for updates on startup
-	if (configuration->getEnableUpdateChecker() &&
-		configuration->getCheckForUpdatesOnStartup() &&
-		isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
+	if (configuration->getEnableUpdateChecker() && configuration->getCheckForUpdatesOnStartup() &&
+		 isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
 	{
 		const auto info = getLatestReleaseInfo(configuration->getName());
 		const auto msgBody = getUpdateMessageBody(tr("NEWVERSIONBODY"), info);
@@ -56,7 +57,7 @@ bool Frontend::OnInit()
 		{
 			if (info.zipURL)
 			{
-				startUpdaterAndDie(*info.zipURL, configuration->getConverterFolder());
+				wxLaunchDefaultBrowser(*info.zipURL);
 			}
 			else
 			{
@@ -65,6 +66,6 @@ bool Frontend::OnInit()
 			}
 		}
 	}
-	
+
 	return true;
 }

@@ -1,7 +1,7 @@
 #include "RadioSelector.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "CommonRegexes.h"
 
 RadioSelector::RadioSelector(std::istream& theStream)
 {

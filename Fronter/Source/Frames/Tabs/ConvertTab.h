@@ -8,8 +8,8 @@
 #include "../../WorkerThreads/ConverterLauncher/ConverterLauncher.h"
 #include "../../WorkerThreads/ModCopier/ModCopier.h"
 #include <wx/filepicker.h>
-#include <wx/notebook.h>
 #include <wx/gauge.h>
+#include <wx/notebook.h>
 
 class MainFrame;
 wxDECLARE_EVENT(wxEVT_LOGLEVELCHANGED, wxCommandEvent);
@@ -40,7 +40,7 @@ class ConvertTab final: public wxNotebookPage
 	wxButton* convertButton = nullptr;
 	wxGauge* gauge = nullptr;
 	wxStaticText* gaugeCounter = nullptr;
-	
+
 	void onConvertStarted(wxCommandEvent& event);
 	void onConverterDone(wxCommandEvent& event);
 	void onCopierDone(wxCommandEvent& event);

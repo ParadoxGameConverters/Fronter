@@ -12,7 +12,7 @@ wxDECLARE_EVENT(wxEVT_PROGRESSMESSAGE, LogMessageEvent);
 typedef void (wxEvtHandler::*LogMessageEventFunction)(LogMessageEvent&);
 #define LogMessageEventHandler(func) wxEVENT_HANDLER_CAST(LogMessageEventFunction, func)
 
-class LogMessageEvent final : public wxCommandEvent
+class LogMessageEvent final: public wxCommandEvent
 {
   public:
 	explicit LogMessageEvent(const wxEventType commandType = wxEVT_TAILTHREAD): wxCommandEvent(commandType) {}

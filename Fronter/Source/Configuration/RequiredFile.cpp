@@ -1,7 +1,7 @@
 #include "RequiredFile.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "CommonRegexes.h"
 
 RequiredFile::RequiredFile(std::istream& theStream)
 {

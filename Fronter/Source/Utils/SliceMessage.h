@@ -1,7 +1,7 @@
 #ifndef SLICE_MESSAGE
 #define SLICE_MESSAGE
-#include <string>
 #include "Log.h"
+#include <string>
 
 enum class MessageSource
 {

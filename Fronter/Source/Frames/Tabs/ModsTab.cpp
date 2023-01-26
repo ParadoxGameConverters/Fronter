@@ -40,7 +40,8 @@ void ModsTab::initializeMods()
 	auto modCounter = 0;
 	for (const auto& mod: configuration->getAutoLocatedMods())
 	{
-		auto* theCheckBox = new wxCheckBox(boxHolder, modCounter, mod.getName(), wxDefaultPosition, wxDefaultSize, wxEXPAND, wxDefaultValidator, mod.getFileName());
+		auto* theCheckBox =
+			 new wxCheckBox(boxHolder, modCounter, mod.getName(), wxDefaultPosition, wxDefaultSize, wxEXPAND, wxDefaultValidator, mod.getFileName());
 		theCheckBox->SetToolTip(mod.getFileName());
 
 		if (configuration->getPreloadedModFileNames().count(mod.getFileName()))

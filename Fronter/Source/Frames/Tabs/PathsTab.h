@@ -10,7 +10,7 @@
 
 wxDECLARE_EVENT(wxEVT_UPDATEMODS, wxCommandEvent);
 
-class PathsTab final : public wxNotebookPage
+class PathsTab final: public wxNotebookPage
 {
   public:
 	explicit PathsTab(wxWindow* parent);

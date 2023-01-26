@@ -46,6 +46,9 @@
     <Filter Include="commonItems\ModLoader">
       <UniqueIdentifier>{1e0e62b0-66e4-4430-bb44-1651848077fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="commonItems\zip">
+      <UniqueIdentifier>{4c4b5079-8658-41c2-bf0c-bb2f9b888271}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commonItems\ParserHelpers.cpp">
@@ -161,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="commonItems\GameVersion.cpp">
       <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\LinuxConverterLauncher.cpp">
+      <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
+    </ClCompile>
+    <ClCompile Include="commonItems\external\zip\src\zip.c">
+      <Filter>commonItems\zip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +293,12 @@
     <ClInclude Include="commonItems\GameVersion.h">
       <Filter>commonItems</Filter>
     </ClInclude>
+    <ClInclude Include="commonItems\external\zip\src\miniz.h">
+      <Filter>commonItems\zip</Filter>
+    </ClInclude>
+    <ClInclude Include="commonItems\external\zip\src\zip.h">
+      <Filter>commonItems\zip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Fronter\Resources\converter.ico">
@@ -310,36 +325,25 @@
     <CopyFileToFolders Include="Fronter\Resources\converter_languages.yml">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="Fronter\Resources\msvcp140_codecvt_ids.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="Fronter\Resources\VC_redist.x64.exe">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="Fronter\Resources\vcruntime140_1.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxmsw315ud_core_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxmsw315u_core_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxbase315ud_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.1.5\lib\vc14x_x64_dll\wxbase315u_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="Fronter\Resources\libssl-1_1-x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="curl\bin\libcurl-x64.dll" />
-    <CopyFileToFolders Include="Fronter\Resources\libcrypto-1_1-x64.dll" />
     <CopyFileToFolders Include="Fronter\Resources\converter_l_simp_chinese.yml">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Fronter\Resources\GeneralFAQ-READ.ME.FIRST.txt">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Fronter\Resources\libcrypto-1_1-x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="curl\bin\libcurl-x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
   </ItemGroup>

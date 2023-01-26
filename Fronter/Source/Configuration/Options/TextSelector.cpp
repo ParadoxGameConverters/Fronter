@@ -1,7 +1,7 @@
 #include "TextSelector.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "CommonRegexes.h"
 
 TextSelector::TextSelector(std::istream& theStream)
 {

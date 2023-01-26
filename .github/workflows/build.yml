@@ -1,105 +1,66 @@
 name: Build
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: [push, pull_request]
 jobs:
   build_windows_foreign:
     name: Build Windows foreign
     if: github.repository_owner != 'ParadoxGameConverters'
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+        submodules: recursive
     - name: "Build solution"
       run: |
        cd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\"
        .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\Fronter.sln
-    - name: "Build updater executable"
-      run: |
-       cd Updater
-       pip install -r requirements.txt
-       pyinstaller --icon=updater.ico updater.py
-       mv dist/updater/ ../Release/Updater/
-
 
   build_linux_foreign:
     name: Build Linux foreign
     if: github.repository_owner != 'ParadoxGameConverters'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+        submodules: recursive
+
     - name: "Install wxWidgets"
       run: |
        sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
-       sudo apt-add-repository 'deb https://repos.codelite.org/wx3.1.5/ubuntu/ focal universe'
+       sudo apt-add-repository 'deb https://repos.codelite.org/wx3.2/ubuntu/ jammy universe'
        sudo apt-get update
-       sudo apt-get install libwxbase3.1-0-unofficial \
-                 libwxbase3.1unofficial-dev \
-                 libwxgtk3.1-0-unofficial \
-                 libwxgtk3.1unofficial-dev \
-                 wx3.1-headers \
-                 wx-common libnotify-dev libnotify4
+       sudo apt-get install libwxbase3.2-0-unofficial \
+                libwxbase3.2unofficial-dev \
+                libwxgtk3.2-0-unofficial \
+                libwxgtk3.2unofficial-dev \
+                wx3.2-headers \
+                wx-common libnotify-dev libnotify4
     - name: "Install libcurl"
       run: |
        sudo apt-get install libcurl4-openssl-dev
-    - name: "Install GCC 11"
-      run: |
-       sudo apt-get install gcc-11 g++-11
     - name: "Link gcc-11 and g++-11 to their standard commands"
       run: |
        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
-    - name: "Export CC and CXX to tell cmake which compiler to use"
-      run: |
-       export CC=/usr/bin/gcc-11
-       export CXX=/usr/bin/g++-11
-    - name: "Check versions of gcc, g++ and cmake"
-      run: |
-       gcc -v && g++ -v && cmake --version
     - name: "Build"
       run: |
        chmod u+x build_linux.sh
        ./build_linux.sh
-    - name: "Build updater executable"
-      run: |
-       cd Updater
-       pip install -r requirements.txt
-       pyinstaller --icon=updater.ico updater.py
-       mkdir -p ../Release/
-       mv dist/updater/ ../Release/Updater/
        
   build_windows_local:
     name: Build Windows local
     if: github.repository_owner == 'ParadoxGameConverters'
     runs-on: [self-hosted, windows]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
+        submodules: recursive
     - name: "Build solution"
       run: |
        cd "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\"
        .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\Fronter.sln
-    - name: "Build updater executable"
-      run: |
-       cd Updater
-       pip install -r requirements.txt
-       pyinstaller --icon=updater.ico updater.py
-       mv dist/updater/ ../Release/Updater/
     - name: "Cleanup"
       if: always()
       run: |
@@ -110,30 +71,14 @@ jobs:
     if: github.repository_owner == 'ParadoxGameConverters'
     runs-on: [self-hosted, linux]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Init submodules"
-      run: |
-       git submodule update --init --recursive
-    - name: "Export CC and CXX to tell cmake which compiler to use"
-      run: |
-       export CC=/usr/bin/gcc-11
-       export CXX=/usr/bin/g++-11
-    - name: "Check versions of gcc, g++ and cmake"
-      run: |
-       gcc -v && g++ -v && cmake --version
+        submodules: recursive
     - name: "Build"
       run: |
        chmod u+x build_linux.sh
        ./build_linux.sh
-    - name: "Build updater executable"
-      run: |
-       cd Updater
-       pip install -r requirements.txt
-       ~/.local/bin/pyinstaller --icon=updater.ico updater.py
-       mkdir -p ../Release/
-       mv dist/updater/ ../Release/Updater/
     - name: Cleanup
       uses: colpal/actions-clean@v1
       if: always() # To ensure this step runs even when earlier steps fail

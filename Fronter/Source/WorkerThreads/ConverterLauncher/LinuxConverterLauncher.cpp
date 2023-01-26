@@ -15,7 +15,7 @@ void* ConverterLauncher::Entry()
 	auto backendExePath = fs::path(configuration->getBackendExePath());
 	auto backendExePathRelativeToFrontend = converterFolder / backendExePath;
 	auto backendExePathString = backendExePathRelativeToFrontend.string();
-	
+
 	if (backendExePath.empty())
 	{
 		Log(LogLevel::Error) << "Converter location has not been set!";
@@ -39,18 +39,19 @@ void* ConverterLauncher::Entry()
 	const char* exeCommandChar = exeCommand.c_str();
 
 	auto result = system(exeCommandChar);
-    const auto stopWatchEnd = std::chrono::steady_clock::now();
+	const auto stopWatchEnd = std::chrono::steady_clock::now();
 	if (result > 0)
 	{
 		evt.SetInt(1);
-		Log(LogLevel::Info) << "Converter finished at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count() << " seconds.";
+		Log(LogLevel::Info) << "Converter finished at: " << std::chrono::duration_cast<std::chrono::seconds>(stopWatchEnd - stopWatchStart).count()
+								  << " seconds.";
 	}
 	else
 	{
 		evt.SetInt(0);
 		Log(LogLevel::Error) << "Could not execute converter!";
 	}
-	
+
 	m_pParent->AddPendingEvent(evt);
 	return nullptr;
 }

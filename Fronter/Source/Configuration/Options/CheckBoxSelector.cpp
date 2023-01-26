@@ -1,7 +1,7 @@
 #include "CheckBoxSelector.h"
+#include "CommonRegexes.h"
 #include "Log.h"
 #include "ParserHelpers.h"
-#include "CommonRegexes.h"
 
 CheckBoxSelector::CheckBoxSelector(std::istream& theStream)
 {

@@ -35,7 +35,7 @@ void PathsTab::initializePaths()
 			documentsDir = std::string(userDir) + R"(/Documents)";
 		}
 	}
-	for (const auto& folder : configuration->getRequiredFolders() | std::ranges::views::values)
+	for (const auto& folder: configuration->getRequiredFolders() | std::ranges::views::values)
 	{
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(folder->getDisplayName()), wxDefaultPosition);
@@ -63,7 +63,8 @@ void PathsTab::initializePaths()
 		if (!commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(folderPath)))
 			folderPath.clear();
 
-		auto* dirPickerCtrl = new wxDirPickerCtrl(this, pickerCounter, folderPath, tr("BROWSE"), wxDefaultPosition, wxSize(650, wxDefaultCoord), wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
+		auto* dirPickerCtrl =
+			 new wxDirPickerCtrl(this, pickerCounter, folderPath, tr("BROWSE"), wxDefaultPosition, wxSize(650, wxDefaultCoord), wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		dirPickerCtrl->Bind(wxEVT_DIRPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
 		folder->setID(pickerCounter);
@@ -77,7 +78,7 @@ void PathsTab::initializePaths()
 		GetSizer()->Add(dirPickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 	}
 
-	for (const auto& file : configuration->getRequiredFiles() | std::ranges::views::values)
+	for (const auto& file: configuration->getRequiredFiles() | std::ranges::views::values)
 	{
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(file->getDisplayName()), wxDefaultPosition);
@@ -121,13 +122,13 @@ void PathsTab::initializePaths()
 		}
 
 		auto* filePickerCtrl = new wxFilePickerCtrl(this,
-		                                            pickerCounter,
-		                                            filePath,
-		                                            tr("BROWSE"),
-		                                            allowedExtension,
-		                                            wxDefaultPosition,
-		                                            wxSize(650, wxDefaultCoord),
-		                                            wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
+			 pickerCounter,
+			 filePath,
+			 tr("BROWSE"),
+			 allowedExtension,
+			 wxDefaultPosition,
+			 wxSize(650, wxDefaultCoord),
+			 wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		filePickerCtrl->Bind(wxEVT_FILEPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		filePickerCtrl->SetInitialDirectory(wxString(initialPath));
 		st->SetToolTip(tr(file->getTooltip()));
@@ -141,7 +142,7 @@ void PathsTab::initializePaths()
 
 void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 {
-	for (const auto& folder : configuration->getRequiredFolders() | std::ranges::views::values)
+	for (const auto& folder: configuration->getRequiredFolders() | std::ranges::views::values)
 		if (folder->getID() == evt.GetId())
 		{
 			const auto validPath = commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring()));
@@ -162,7 +163,7 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 				m_pParent->AddPendingEvent(evt);
 			}
 		}
-	for (const auto& file : configuration->getRequiredFiles() | std::ranges::views::values)
+	for (const auto& file: configuration->getRequiredFiles() | std::ranges::views::values)
 		if (file->getID() == evt.GetId())
 		{
 			if (!commonItems::DoesFileExist(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())))

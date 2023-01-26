@@ -9,7 +9,7 @@
 
 wxDECLARE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
 
-class ConverterLauncher final : public wxThread
+class ConverterLauncher final: public wxThread
 {
   public:
 	explicit ConverterLauncher(wxEvtHandler* pParent): wxThread(wxTHREAD_DETACHED), m_pParent(pParent) {}
