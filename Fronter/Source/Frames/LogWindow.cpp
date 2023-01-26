@@ -163,8 +163,8 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->HideRow(logCounter);
 
 	auto needUpdate = false;
-	if (logMessage.logLevel == LogLevel::Debug && logLevel >= 3 || logMessage.logLevel == LogLevel::Info && logLevel >= 2 ||
-		 logMessage.logLevel == LogLevel::Warning && logLevel >= 1 || logMessage.logLevel == LogLevel::Error || logMessage.logLevel == LogLevel::Notice)
+	if ((logMessage.logLevel == LogLevel::Debug && logLevel >= 3) || (logMessage.logLevel == LogLevel::Info && logLevel >= 2) ||
+		 (logMessage.logLevel == LogLevel::Warning && logLevel >= 1) || (logMessage.logLevel == LogLevel::Error || logMessage.logLevel == LogLevel::Notice))
 	{
 		theGrid->ShowRow(logCounter);
 		needUpdate = true;
