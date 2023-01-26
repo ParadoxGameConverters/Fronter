@@ -175,6 +175,9 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Fronter\Resources\LICENSE-openssl.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{D4E43E3D-E131-466D-9AA7-704C2298EACC}</ProjectGuid>

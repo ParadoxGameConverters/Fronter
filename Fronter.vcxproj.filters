@@ -347,4 +347,9 @@
       <Filter>Resources</Filter>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Fronter\Resources\LICENSE-openssl.txt">
+      <Filter>Resources</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
