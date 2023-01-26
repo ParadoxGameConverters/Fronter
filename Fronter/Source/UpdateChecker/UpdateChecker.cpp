@@ -217,29 +217,3 @@ std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo
 	body.append(converter.from_bytes(description));
 	return body;
 }
-
-void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName)
-{
-	if (!commonItems::DeleteFolder("./Updater-running"))
-	{
-		return;
-	}
-	if (!commonItems::CopyFolder("./Updater", "./Updater-running"))
-	{
-		return;
-	}
-#ifdef _WIN32
-	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
-		"./Updater-running/updater.exe " + zipURL + " " + converterBackendDirName
-	);
-#else
-	const std::wstring commandLineString = commonItems::convertUTF8ToUTF16(
-		"./Updater-running/updater " + zipURL + " " + converterBackendDirName
-	);
-#endif
-
-	wxExecute(commandLineString, wxEXEC_SHOW_CONSOLE);
-
-	// Die (the updater will start Fronter after a successful update)
-	exit(0);
-}

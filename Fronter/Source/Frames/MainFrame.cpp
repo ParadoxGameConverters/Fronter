@@ -116,7 +116,7 @@ void MainFrame::OnCheckForUpdates(wxCommandEvent& WXUNUSED(event))
 		{
 			if (info.zipURL)
 			{
-				startUpdaterAndDie(*info.zipURL, configuration->getConverterFolder());
+				wxLaunchDefaultBrowser(*info.zipURL);
 			}
 			else
 			{

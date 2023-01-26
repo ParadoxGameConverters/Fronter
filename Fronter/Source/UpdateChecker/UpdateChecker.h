@@ -1,10 +1,7 @@
 #ifndef UPDATE_CHECKER_H
 #define UPDATE_CHECKER_H
-
-
 #include <optional>
 #include <string>
-
 
 struct UpdateInfo
 {
@@ -13,11 +10,8 @@ struct UpdateInfo
 	std::optional<std::string> zipURL;
 };
 
-
 bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& commitIdURL);
 UpdateInfo getLatestReleaseInfo(const std::string& converterName);
 std::wstring getUpdateMessageBody(const std::wstring& baseBody, const UpdateInfo& updateInfo);
-void startUpdaterAndDie(const std::string& zipURL, const std::string& converterBackendDirName);
-
 
 #endif // UPDATE_CHECKER_H
