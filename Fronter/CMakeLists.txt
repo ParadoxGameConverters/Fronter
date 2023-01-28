@@ -18,7 +18,7 @@ include_directories("../external/commonItems")
 include_directories("../external/commonItems/external/zip/src")
 include_directories("../external/single_include")
 include_directories("../external/SQLiteCpp/include")
-include_directories("../external/sqlite3")
+include_directories("../external/SQLiteCpp/sqlite3")
 include_directories("/usr/include/wx-3.2-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial")
 include_directories("${PROJECT_SOURCE_DIR}")
@@ -48,7 +48,7 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ModLoader/ModFiles
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ModLoader/ModLoader.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ModLoader/ModParser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/external/zip/src/zip.c")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/SQLiteCpp/sqlite3/sqlite3.c ")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../external/SQLiteCpp/sqlite3/sqlite3.c")
 
 add_executable(ConverterFrontend
 	${MAIN_SOURCES}
