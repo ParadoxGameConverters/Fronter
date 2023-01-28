@@ -35,6 +35,7 @@ list(REMOVE_ITEM CONVERTERLAUNCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/
 file(GLOB LOGWATCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/LogWatcher/*.cpp")
 file(GLOB MODCOPIER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp")
 file(GLOB UPDATECHECKER_SOURCES "${PROJECT_SOURCE_DIR}/UpdateChecker/*.cpp")
+file(GLOB SQLITE_SOURCES "${PROJECT_SOURCE_DIR}/external/SQLiteCpp/src/*.cpp")
 set(COMMON_SOURCES "../external/commonItems/CommonFunctions.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ConvenientParser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/LinuxUtils.cpp")
