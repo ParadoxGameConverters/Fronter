@@ -37,6 +37,8 @@ file(GLOB MODCOPIER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp
 file(GLOB UPDATECHECKER_SOURCES "${PROJECT_SOURCE_DIR}/UpdateChecker/*.cpp")
 file(GLOB SQLITE_SOURCES "${PROJECT_SOURCE_DIR}/external/SQLiteCpp/src/*.cpp")
 set(COMMON_SOURCES "../external/commonItems/CommonFunctions.cpp")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/external/zip/src/zip.c")
+set(COMMON_SOURCES ${COMMON_SOURCES} "../external/SQLiteCpp/sqlite3/sqlite3.c")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ConvenientParser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/LinuxUtils.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/Log.cpp")
@@ -48,8 +50,6 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/StringUtils.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ModLoader/ModFilesystem.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ModLoader/ModLoader.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ModLoader/ModParser.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/external/zip/src/zip.c")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/SQLiteCpp/sqlite3/sqlite3.c")
 
 add_executable(ConverterFrontend
 	${MAIN_SOURCES}
@@ -63,6 +63,7 @@ add_executable(ConverterFrontend
 	${LOGWATCHER_SOURCES}
 	${MODCOPIER_SOURCES}
 	${UPDATECHECKER_SOURCES}
+	${SQLITE_SOURCES}
 	${COMMON_SOURCES}
 )
 
