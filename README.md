@@ -63,12 +63,13 @@ autoGenerateModsFrom:
 overwritePlayset: [true, false]
 -   If true, and if Frontend encounters an existing playset in the launcher's database, it'll set it as active. It won't actually overwrite its contents.
 -   If false, it will inform the user the playset exists, and bail.
+
 In both cases, if there's no matching playset present, it will create a playset with the mod inside.
 
 searchPathType:
 -   converterFolder - looks in the provided converterFolder in current directory
 -   steamFolder - uses searchPathID to look for an "installation path" from Windows/Steam registry. If there's a match it will also append searchPath at the end so you can use this for Vic2installdir/mods.
--   windowsUsersFolder - looks in $USERHOMEDIR$\Documents folder
+-   windowsUsersFolder - looks in \[\$USERHOMEDIR\$\]\Documents folder
 -   direct - copies over an absolute path from searchPath
 
 mandatory:
