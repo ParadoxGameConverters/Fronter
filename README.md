@@ -57,25 +57,25 @@ requiredFolder = {
 }
 ```
 
-autoGenerateModsFrom:
+`autoGenerateModsFrom`
 -   Looks in that directory for mods to show in Fronter Mod tab. If "/mod/" subdirectory exists, it swaps to that instead. (Ie. you can use documents directory if you want)
 
-overwritePlayset: [true, false]
+`overwritePlayset` (true or false)
 -   If true, and if Frontend encounters an existing playset in the launcher's database, it'll set it as active. It won't actually overwrite its contents.
 -   If false, it will inform the user the playset exists, and bail.
 
 In both cases, if there's no matching playset present, it will create a playset with the mod inside.
 
-searchPathType:
+`searchPathType`
 -   converterFolder - looks in the provided converterFolder in current directory
 -   steamFolder - uses searchPathID to look for an "installation path" from Windows/Steam registry. If there's a match it will also append searchPath at the end so you can use this for Vic2installdir/mods.
 -   windowsUsersFolder - looks in \[\$USERHOMEDIR\$\]\Documents folder
 -   direct - copies over an absolute path from searchPath
 
-mandatory:
+`mandatory`
 -   true - path will be checked and converter won't run without it.
 
-outputtable (relevant for files only):
+`outputtable` (relevant for files only)
 -   true - will be sent to configuration.txt
 
 Rest is self-explanatory! Shoestring Budget!
