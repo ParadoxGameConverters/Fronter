@@ -25,6 +25,7 @@ displayName = DISPLAYNAME
 sourceGame = SOURCEGAME
 targetGame = TARGETGAME
 autoGenerateModsFrom = CK2ModsDirectory
+overwritePlayset = true
 
 requiredFile = {
 	name = SaveGame
@@ -58,6 +59,11 @@ requiredFolder = {
 
 autoGenerateModsFrom:
 -   Looks in that directory for mods to show in Fronter Mod tab. If "/mod/" subdirectory exists, it swaps to that instead. (Ie. you can use documents directory if you want)
+
+overwritePlayset: [true, false]
+-   If true, and if Frontend encounters an existing playset in the launcher's database, it'll set it as active. It won't actually overwrite its contents.
+-   If false, it will inform the user the playset exists, and bail.
+In both cases, if there's no matching playset present, it will create a playset with the mod inside.
 
 searchPathType:
 -   converterFolder - looks in the provided converterFolder in current directory
@@ -169,7 +175,7 @@ Look for these blank strings to see where you made a typo.
 
 #### cofiguration.txt
 
-Fronter will export a single configuration.txt in converterFolder/ with paired values, for all outputtable files/folders and all options:
+Fronter will export a single configuration.txt in \[converterFolder\]/ with paired values, for all outputtable files/folders and all options:
 
 ```
 SaveGame = "somepath/autosave.ck2"
@@ -186,4 +192,7 @@ Slashes and backslashes depend on OS, so Converter is responsible for parsing th
 ### Mod move after conversion
 
 Fronter will attempt to move "\[output_name\].mod" and "\[output_name\]/" folder (or "\[SaveGame\].mod" and "\[SaveGame\]/" in case output_name was not set) from "\[converterFolder\]/output/" subdirectory to "\[targetGameModPath\]/".
+
+In case of Vic3 and newer games that don't have a .mod file, Fronter detects the presence of \[output_name\]/.metadata/ folder and won't try to move any .mod files (even if they exist by accident).
+
 Success will undoubtedly vary of the amount of effort invested in this program.
