@@ -20,8 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\commonItems\CommonFunctions.cpp" />
-    <ClCompile Include="external\commonItems\ConvenientParser.cpp" />
-    <ClCompile Include="external\commonItems\Date.cpp" />
     <ClCompile Include="external\commonItems\external\zip\src\zip.c" />
     <ClCompile Include="external\commonItems\iconvlite.cpp" />
     <ClCompile Include="external\commonItems\LinuxUtils.cpp">
@@ -29,8 +27,6 @@
     </ClCompile>
     <ClCompile Include="external\commonItems\Log.cpp" />
     <ClCompile Include="external\commonItems\ModLoader\ModFilesystem.cpp" />
-    <ClCompile Include="external\commonItems\ModLoader\ModLoader.cpp" />
-    <ClCompile Include="external\commonItems\ModLoader\ModParser.cpp" />
     <ClCompile Include="external\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="external\commonItems\Parser.cpp" />
     <ClCompile Include="external\commonItems\ParserHelpers.cpp" />
@@ -75,16 +71,12 @@
   <ItemGroup>
     <ClInclude Include="external\commonItems\CommonFunctions.h" />
     <ClInclude Include="external\commonItems\CommonRegexes.h" />
-    <ClInclude Include="external\commonItems\ConvenientParser.h" />
-    <ClInclude Include="external\commonItems\Date.h" />
     <ClInclude Include="external\commonItems\external\zip\src\miniz.h" />
     <ClInclude Include="external\commonItems\external\zip\src\zip.h" />
     <ClInclude Include="external\commonItems\iconvlite.h" />
     <ClInclude Include="external\commonItems\Log.h" />
     <ClInclude Include="external\commonItems\ModLoader\Mod.h" />
     <ClInclude Include="external\commonItems\ModLoader\ModFilesystem.h" />
-    <ClInclude Include="external\commonItems\ModLoader\ModLoader.h" />
-    <ClInclude Include="external\commonItems\ModLoader\ModParser.h" />
     <ClInclude Include="external\commonItems\OSCompatibilityLayer.h" />
     <ClInclude Include="external\commonItems\Parser.h" />
     <ClInclude Include="external\commonItems\ParserHelpers.h" />

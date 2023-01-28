@@ -147,12 +147,6 @@
     <ClCompile Include="external\commonItems\CommonFunctions.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
-    <ClCompile Include="external\commonItems\ConvenientParser.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\Date.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="external\commonItems\Log.cpp">
       <Filter>commonItems</Filter>
     </ClCompile>
@@ -172,12 +166,6 @@
       <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="external\commonItems\ModLoader\ModFilesystem.cpp">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\ModLoader\ModLoader.cpp">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\ModLoader\ModParser.cpp">
       <Filter>commonItems\ModLoader</Filter>
     </ClCompile>
     <ClCompile Include="external\commonItems\external\zip\src\zip.c">
@@ -296,12 +284,6 @@
     <ClInclude Include="external\commonItems\CommonRegexes.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="external\commonItems\ConvenientParser.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\Date.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="external\commonItems\Log.h">
       <Filter>commonItems</Filter>
     </ClInclude>
@@ -321,12 +303,6 @@
       <Filter>commonItems\ModLoader</Filter>
     </ClInclude>
     <ClInclude Include="external\commonItems\ModLoader\ModFilesystem.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\ModLoader\ModLoader.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\ModLoader\ModParser.h">
       <Filter>commonItems\ModLoader</Filter>
     </ClInclude>
     <ClInclude Include="external\commonItems\external\zip\src\miniz.h">
