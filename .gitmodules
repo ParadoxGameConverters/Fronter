@@ -1,6 +1,9 @@
-[submodule "commonItems"]
-	path = commonItems
-	url = https://github.com/ParadoxGameConverters/commonItems.git
-[submodule "wxWidgets"]
-	path = wxWidgets
-	url = https://github.com/ParadoxGameConverters/wxWidgets.git
+[submodule "external/wxWidgets"]
+	path = external/wxWidgets
+	url = https://github.com/ParadoxGameConverters/wxWidgets
+[submodule "external/commonItems"]
+	path = external/commonItems
+	url = https://github.com/ParadoxGameConverters/commonItems
+[submodule "external/SQLiteCpp"]
+	path = external/SQLiteCpp
+	url = https://github.com/SRombauts/SQLiteCpp
