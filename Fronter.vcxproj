@@ -189,8 +189,12 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <None Include="external\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll" />
-    <None Include="external\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll" />
+    <CopyFileToFolders Include="external\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="external\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
