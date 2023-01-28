@@ -182,14 +182,14 @@ void* ModCopier::Entry()
 	}
 	Log(LogLevel::Notice) << "Mod successfully copied to: " << destinationFolder + "/" + targetName;
 
-	CreatePlayset(destinationFolder, targetName, destinationFolder + "/" + targetName);
+	createPlayset(destinationFolder, targetName, destinationFolder + "/" + targetName);
 
 	evt.SetInt(1);
 	m_pParent->AddPendingEvent(evt);
 	return nullptr;
 }
 
-void ModCopier::CreatePlayset(const std::string& destModFolder, const std::string& targetName, const std::string& destModFolderPath)
+void ModCopier::createPlayset(const std::string& destModFolder, const std::string& targetName, const std::string& destModFolderPath)
 {
 	const auto gameDocsDirectory = destModFolder + "/..";
 	if (!commonItems::DoesFolderExist(gameDocsDirectory))
@@ -198,7 +198,7 @@ void ModCopier::CreatePlayset(const std::string& destModFolder, const std::strin
 		return;
 	}
 
-	const auto latestDbFilePath = GetLastUpdatedLauncherDbPath(gameDocsDirectory);
+	const auto latestDbFilePath = getLastUpdatedLauncherDbPath(gameDocsDirectory);
 	if (latestDbFilePath.empty())
 	{
 		Log(LogLevel::Info) << "Launcher's database not found or this game doesn't have a launcher.";
@@ -221,7 +221,7 @@ void ModCopier::CreatePlayset(const std::string& destModFolder, const std::strin
 		{
 			if (configuration->getOverwritePlayset())
 			{
-				DeactivateCurrentPlayset(db);
+				deactivateCurrentPlayset(db);
 
 				Log(LogLevel::Notice) << "Reactivating existing playset " << playsetName << ".";
 				SQLite::Statement query2(db, "UPDATE playsets SET isActive=true, updatedOn = ? WHERE name = ?");
@@ -237,7 +237,7 @@ void ModCopier::CreatePlayset(const std::string& destModFolder, const std::strin
 		}
 		else
 		{
-			DeactivateCurrentPlayset(db);
+			deactivateCurrentPlayset(db);
 			const auto playsetID = generate_uuid();
 			SQLite::Statement query2(db,
 				 "INSERT INTO playsets(id, name, isActive, isRemoved, hasNotApprovedChanges, createdOn) "
@@ -248,8 +248,8 @@ void ModCopier::CreatePlayset(const std::string& destModFolder, const std::strin
 			query2.exec();
 
 			auto gameRegistryId = "mod/" + targetName + ".mod";
-			auto modId = AddModToDb(db, targetName, gameRegistryId, destModFolder);
-			AddModToPlayset(db, modId, playsetID);
+			auto modId = addModToDb(db, targetName, gameRegistryId, destModFolder);
+			addModToPlayset(db, modId, playsetID);
 			Log(LogLevel::Notice) << "Playset " + playsetName + " created, select it and play. Have fun! -- Paradox Game Converters Team";
 		}
 	}
@@ -260,7 +260,7 @@ void ModCopier::CreatePlayset(const std::string& destModFolder, const std::strin
 	}
 }
 
-std::string ModCopier::GetLastUpdatedLauncherDbPath(const std::string& gameDocsDirectory) const
+std::string ModCopier::getLastUpdatedLauncherDbPath(const std::string& gameDocsDirectory)
 {
 	const std::set<std::string> possibleDbFileNames = {"launcher-v2.sqlite", "launcher-v2_openbeta.sqlite"};
 	fs::file_time_type lastAccess;
@@ -281,14 +281,14 @@ std::string ModCopier::GetLastUpdatedLauncherDbPath(const std::string& gameDocsD
 	return gameDocsDirectory + "/" + actualName;
 }
 
-void ModCopier::DeactivateCurrentPlayset(SQLite::Database& db)
+void ModCopier::deactivateCurrentPlayset(SQLite::Database& db)
 {
 	Log(LogLevel::Debug) << "Deactivating currently active playset.";
 	SQLite::Statement query(db, "UPDATE playsets SET isActive=false");
 	query.exec();
 }
 
-std::string ModCopier::AddModToDb(SQLite::Database& db, const std::string& modName, const std::string& gameRegistryId, const std::string& dirPath)
+std::string ModCopier::addModToDb(SQLite::Database& db, const std::string& modName, const std::string& gameRegistryId, const std::string& dirPath)
 {
 	auto modID = generate_uuid();
 	SQLite::Statement query(db,
@@ -303,7 +303,7 @@ std::string ModCopier::AddModToDb(SQLite::Database& db, const std::string& modNa
 	return modID;
 }
 
-void ModCopier::AddModToPlayset(SQLite::Database& db, const std::string& modID, const std::string& playsetID)
+void ModCopier::addModToPlayset(SQLite::Database& db, const std::string& modID, const std::string& playsetID)
 {
 	SQLite::Statement query(db, "INSERT INTO playsets_mods(playsetId, modId) VALUES(?, ?)");
 	query.bind(1, playsetID);
