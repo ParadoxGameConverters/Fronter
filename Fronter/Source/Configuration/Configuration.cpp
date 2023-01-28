@@ -44,7 +44,7 @@ Configuration::Configuration()
 
 void Configuration::registerPreloadKeys()
 {
-	registerRegex("[a-zA-Z0-9_-]+", [this](const std::string& incomingKey, std::istream& theStream) {
+	registerRegex(commonItems::catchallRegex, [this](const std::string& incomingKey, std::istream& theStream) {
 		const commonItems::stringOfItem valueStr(theStream);
 		std::stringstream ss;
 		ss.str(valueStr.getString());
@@ -146,6 +146,9 @@ void Configuration::registerKeys()
 	});
 	registerKeyword("enableUpdateChecker", [this](std::istream& theStream) {
 		enableUpdateChecker = commonItems::getString(theStream) == "true";
+	});
+	registerKeyword("overwritePlayset", [this](std::istream& theStream) {
+		overwritePlayset = commonItems::getString(theStream) == "true";
 	});
 	registerKeyword("checkForUpdatesOnStartup", [this](std::istream& theStream) {
 		checkForUpdatesOnStartup = commonItems::getString(theStream) == "true";

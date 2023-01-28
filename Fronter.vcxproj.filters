@@ -44,25 +44,31 @@
       <UniqueIdentifier>{42d0697b-4e02-46a2-8d0a-a57eba5aee15}</UniqueIdentifier>
     </Filter>
     <Filter Include="commonItems\ModLoader">
-      <UniqueIdentifier>{1e0e62b0-66e4-4430-bb44-1651848077fd}</UniqueIdentifier>
+      <UniqueIdentifier>{713bed5b-3ace-4c7f-ae41-dfc09eb8cc69}</UniqueIdentifier>
     </Filter>
     <Filter Include="commonItems\zip">
-      <UniqueIdentifier>{4c4b5079-8658-41c2-bf0c-bb2f9b888271}</UniqueIdentifier>
+      <UniqueIdentifier>{e2873d00-5cab-4968-ad8b-6e4d2b4da6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{76157976-1e28-4aae-ac40-bb3e7b85562f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SQLiteCpp">
+      <UniqueIdentifier>{2da470ef-ae96-4fdb-82eb-8a9cbc9ec128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SQLiteCpp\include">
+      <UniqueIdentifier>{71afc7a3-4cd9-4211-a5ba-2d92dadbbb47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SQLiteCpp\include\SQLiteCpp">
+      <UniqueIdentifier>{c2bcf04d-002e-40c9-bdf4-4c7f27de701b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SQLiteCpp\src">
+      <UniqueIdentifier>{eb3a05fd-e833-4477-9050-d52d720bb26d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SQLiteCpp\sqlite3">
+      <UniqueIdentifier>{fa02a81e-ddf7-4ad0-a91b-d906ce881525}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="commonItems\ParserHelpers.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\Log.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\WinUtils.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\iconvlite.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\Frontend.cpp">
       <Filter>Fronter</Filter>
     </ClCompile>
@@ -105,12 +111,6 @@
     <ClCompile Include="Fronter\Source\Configuration\Options\TextSelector.cpp">
       <Filter>Fronter\Configuration\Options</Filter>
     </ClCompile>
-    <ClCompile Include="commonItems\Parser.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\StringUtils.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\WinConverterLauncher.cpp">
       <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
     </ClCompile>
@@ -129,14 +129,8 @@
     <ClCompile Include="Fronter\Source\Configuration\Options\CheckBoxSelector.cpp">
       <Filter>Fronter\Configuration\Options</Filter>
     </ClCompile>
-    <ClCompile Include="commonItems\OSCommonLayer.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\Utils\SliceMessage.cpp">
       <Filter>Fronter\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\CommonFunctions.cpp">
-      <Filter>commonItems</Filter>
     </ClCompile>
     <ClCompile Include="Fronter\Source\Configuration\FronterMod.cpp">
       <Filter>Fronter\Configuration</Filter>
@@ -147,44 +141,68 @@
     <ClCompile Include="Fronter\Source\UpdateChecker\UpdateChecker.cpp">
       <Filter>Fronter\UpdateChecker</Filter>
     </ClCompile>
-    <ClCompile Include="commonItems\ModLoader\ModFilesystem.cpp">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\ModLoader\ModLoader.cpp">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\ModLoader\ModParser.cpp">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\ConvenientParser.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\ConverterVersion.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="commonItems\GameVersion.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\LinuxConverterLauncher.cpp">
       <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
     </ClCompile>
-    <ClCompile Include="commonItems\external\zip\src\zip.c">
+    <ClCompile Include="external\commonItems\CommonFunctions.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\Log.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\OSCommonLayer.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\Parser.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\ParserHelpers.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\StringUtils.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\WinUtils.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\ModLoader\ModFilesystem.cpp">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\external\zip\src\zip.c">
       <Filter>commonItems\zip</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\iconvlite.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\commonItems\LinuxUtils.cpp">
+      <Filter>commonItems</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\src\Backup.cpp">
+      <Filter>external\SQLiteCpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\src\Column.cpp">
+      <Filter>external\SQLiteCpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\src\Database.cpp">
+      <Filter>external\SQLiteCpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\src\Exception.cpp">
+      <Filter>external\SQLiteCpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\src\Savepoint.cpp">
+      <Filter>external\SQLiteCpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\src\Statement.cpp">
+      <Filter>external\SQLiteCpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\src\Transaction.cpp">
+      <Filter>external\SQLiteCpp\src</Filter>
+    </ClCompile>
+    <ClCompile Include="external\SQLiteCpp\sqlite3\sqlite3.c">
+      <Filter>external\SQLiteCpp\sqlite3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="commonItems\ParserHelpers.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\Log.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\OSCompatibilityLayer.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\iconvlite.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="Fronter\Source\Frontend.h">
       <Filter>Fronter</Filter>
     </ClInclude>
@@ -227,12 +245,6 @@
     <ClInclude Include="Fronter\Source\Configuration\Options\TextSelector.h">
       <Filter>Fronter\Configuration\Options</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\Parser.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\StringUtils.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="Fronter\Source\WorkerThreads\ConverterLauncher\ConverterLauncher.h">
       <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
     </ClInclude>
@@ -257,9 +269,6 @@
     <ClInclude Include="Fronter\Source\Utils\SliceMessage.h">
       <Filter>Fronter\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\CommonFunctions.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
     <ClInclude Include="Fronter\Source\Configuration\FronterMod.h">
       <Filter>Fronter\Configuration</Filter>
     </ClInclude>
@@ -269,35 +278,80 @@
     <ClInclude Include="Fronter\Source\UpdateChecker\UpdateChecker.h">
       <Filter>Fronter\UpdateChecker</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\CommonRegexes.h">
+    <ClInclude Include="external\commonItems\CommonFunctions.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\ModLoader\Mod.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\ModLoader\ModFilesystem.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\ModLoader\ModLoader.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\ModLoader\ModParser.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="commonItems\ConvenientParser.h">
+    <ClInclude Include="external\commonItems\CommonRegexes.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\ConverterVersion.h">
+    <ClInclude Include="external\commonItems\Log.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\GameVersion.h">
+    <ClInclude Include="external\commonItems\OSCompatibilityLayer.h">
       <Filter>commonItems</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\external\zip\src\miniz.h">
+    <ClInclude Include="external\commonItems\Parser.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="external\commonItems\ParserHelpers.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="external\commonItems\StringUtils.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="external\commonItems\ModLoader\Mod.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="external\commonItems\ModLoader\ModFilesystem.h">
+      <Filter>commonItems\ModLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="external\commonItems\external\zip\src\miniz.h">
       <Filter>commonItems\zip</Filter>
     </ClInclude>
-    <ClInclude Include="commonItems\external\zip\src\zip.h">
+    <ClInclude Include="external\commonItems\external\zip\src\zip.h">
       <Filter>commonItems\zip</Filter>
+    </ClInclude>
+    <ClInclude Include="external\commonItems\iconvlite.h">
+      <Filter>commonItems</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Assertion.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Backup.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Column.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Database.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Exception.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\ExecuteMany.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Savepoint.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\SQLiteCpp.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Statement.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Transaction.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Utils.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\VariadicBind.h">
+      <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="external\SQLiteCpp\sqlite3\sqlite3.h">
+      <Filter>external\SQLiteCpp\sqlite3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -337,17 +391,19 @@
     <CopyFileToFolders Include="Fronter\Resources\libcrypto-1_1-x64.dll">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="curl\bin\libcurl-x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
-      <Filter>Resources</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="Fronter\Resources\LICENSE-openssl.txt">
       <Filter>Resources</Filter>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="external\curl\bin\libcurl-x64.dll">
+      <Filter>Resources</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="external\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxbase32u_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="external\wxWidgets\3.2.1\lib\vc14x_x64_dll\wxmsw32u_core_vc14x_x64.dll">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -19,6 +19,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getAutoGenerateModsFrom() const { return autoGenerateModsFrom; }
 	[[nodiscard]] const auto& getAutoLocatedMods() const { return autolocatedMods; }
 	[[nodiscard]] auto getEnableUpdateChecker() const { return enableUpdateChecker; }
+	[[nodiscard]] auto getOverwritePlayset() const { return overwritePlayset; }
 	[[nodiscard]] auto getCheckForUpdatesOnStartup() const { return checkForUpdatesOnStartup; }
 	[[nodiscard]] const auto& getConverterReleaseForumThread() const { return converterReleaseForumThread; }
 	[[nodiscard]] const auto& getLatestGitHubConverterReleaseUrl() const { return latestGitHubConverterReleaseUrl; }
@@ -50,6 +51,7 @@ class Configuration: commonItems::parser
 	std::string autoGenerateModsFrom;
 	bool enableUpdateChecker = false;
 	bool checkForUpdatesOnStartup = false;
+	bool overwritePlayset = false;
 	std::string converterReleaseForumThread;
 	std::string latestGitHubConverterReleaseUrl;
 	std::string pagesCommitIdUrl;
