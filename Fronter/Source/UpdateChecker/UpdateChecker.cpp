@@ -190,7 +190,13 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 		std::ranges::transform(assetName, assetName.begin(), [](const unsigned char c) {
 			return std::tolower(c);
 		});
+#ifdef _WIN32
+		if (assetName.ends_with("-" + osName + "-x64.exe"))
+#elif __linux__
 		if (assetName.ends_with("-" + osName + "-x64.zip"))
+#elif __APPLE__
+		if (assetName.ends_with("-" + osName + "-x64.zip"))
+#endif
 		{
 			info.zipURL = asset["browser_download_url"];
 			break;
