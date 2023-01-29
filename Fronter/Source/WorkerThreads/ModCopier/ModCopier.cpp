@@ -182,14 +182,14 @@ void* ModCopier::Entry()
 	}
 	Log(LogLevel::Notice) << "Mod successfully copied to: " << destinationFolder + "/" + targetName;
 
-	createPlayset(destinationFolder, targetName, destinationFolder + "/" + targetName);
+	createPlayset(destinationFolder, targetName, vic3OnwardSkipModFile);
 
 	evt.SetInt(1);
 	m_pParent->AddPendingEvent(evt);
 	return nullptr;
 }
 
-void ModCopier::createPlayset(const std::string& destModFolder, const std::string& targetName, const std::string& destModFolderPath)
+void ModCopier::createPlayset(const std::string& destModFolder, const std::string& targetName, const bool metadataApproach)
 {
 	const auto gameDocsDirectory = destModFolder + "/..";
 	if (!commonItems::DoesFolderExist(gameDocsDirectory))
@@ -224,7 +224,7 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 				deactivateCurrentPlayset(db);
 
 				Log(LogLevel::Notice) << "Reactivating existing playset " << playsetName << ".";
-				SQLite::Statement query2(db, "UPDATE playsets SET isActive=true, updatedOn = ? WHERE name = ?");
+				SQLite::Statement query2(db, "UPDATE playsets SET isActive=true, isRemoved=false updatedOn = ? WHERE name = ?");
 				query2.bind(1, unixTimeMilliSeconds);
 				query2.bind(2, playsetName);
 				query2.exec();
@@ -248,7 +248,7 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 			query2.exec();
 
 			auto gameRegistryId = "mod/" + targetName + ".mod";
-			auto modId = addModToDb(db, targetName, gameRegistryId, destModFolder);
+			auto modId = addModToDb(db, targetName, gameRegistryId, destModFolder + "\\" + targetName, metadataApproach);
 			addModToPlayset(db, modId, playsetID);
 			Log(LogLevel::Notice) << "Playset " + playsetName + " created, select it and play. Have fun! -- Paradox Game Converters Team";
 		}
@@ -288,17 +288,36 @@ void ModCopier::deactivateCurrentPlayset(SQLite::Database& db)
 	query.exec();
 }
 
-std::string ModCopier::addModToDb(SQLite::Database& db, const std::string& modName, const std::string& gameRegistryId, const std::string& dirPath)
+std::string ModCopier::addModToDb(SQLite::Database& db,
+	 const std::string& modName,
+	 const std::string& gameRegistryId,
+	 const std::string& dirPath,
+	 const bool metadataApproach)
 {
 	auto modID = generate_uuid();
-	SQLite::Statement query(db,
-		 "INSERT INTO mods(id, status, source, version, gameRegistryId, name, dirPath) "
-		 "VALUES(?, 'ready_to_play', 'local', 1, ?, ?, ?)");
-	query.bind(1, modID);
-	query.bind(2, gameRegistryId);
-	query.bind(3, modName);
-	query.bind(4, dirPath);
-	query.exec();
+	if (!metadataApproach)
+	{
+		SQLite::Statement query(db,
+			 "INSERT INTO mods(id, status, source, version, gameRegistryId, name, dirPath) "
+			 "VALUES(?, 'ready_to_play', 'local', 1, ?, ?, ?)");
+		query.bind(1, modID);
+		query.bind(2, gameRegistryId);
+		query.bind(3, modName);
+		query.bind(4, dirPath);
+		query.exec();
+	}
+	else
+	{
+		// newer vic3+ mods.
+		SQLite::Statement query(db,
+			 "INSERT INTO mods(id, status, source, displayName, name, dirPath, metadataStatus) "
+			 "VALUES(?, 'ready_to_play', 'local', ?, ?, ?, 'not_applied')");
+		query.bind(1, modID);
+		query.bind(2, modName);
+		query.bind(3, modName);
+		query.bind(4, dirPath);
+		query.exec();
+	}
 
 	return modID;
 }
