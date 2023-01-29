@@ -224,7 +224,7 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 				deactivateCurrentPlayset(db);
 
 				Log(LogLevel::Notice) << "Reactivating existing playset " << playsetName << ".";
-				SQLite::Statement query2(db, "UPDATE playsets SET isActive=true, isRemoved=false updatedOn = ? WHERE name = ?");
+				SQLite::Statement query2(db, "UPDATE playsets SET isActive=true, isRemoved=false, updatedOn = ? WHERE name = ?");
 				query2.bind(1, unixTimeMilliSeconds);
 				query2.bind(2, playsetName);
 				query2.exec();
