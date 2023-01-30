@@ -20,13 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\commonItems\CommonFunctions.cpp" />
-    <ClCompile Include="external\commonItems\external\zip\src\zip.c" />
     <ClCompile Include="external\commonItems\iconvlite.cpp" />
     <ClCompile Include="external\commonItems\LinuxUtils.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="external\commonItems\Log.cpp" />
-    <ClCompile Include="external\commonItems\ModLoader\ModFilesystem.cpp" />
     <ClCompile Include="external\commonItems\OSCommonLayer.cpp" />
     <ClCompile Include="external\commonItems\Parser.cpp" />
     <ClCompile Include="external\commonItems\ParserHelpers.cpp" />
@@ -71,12 +69,8 @@
   <ItemGroup>
     <ClInclude Include="external\commonItems\CommonFunctions.h" />
     <ClInclude Include="external\commonItems\CommonRegexes.h" />
-    <ClInclude Include="external\commonItems\external\zip\src\miniz.h" />
-    <ClInclude Include="external\commonItems\external\zip\src\zip.h" />
     <ClInclude Include="external\commonItems\iconvlite.h" />
     <ClInclude Include="external\commonItems\Log.h" />
-    <ClInclude Include="external\commonItems\ModLoader\Mod.h" />
-    <ClInclude Include="external\commonItems\ModLoader\ModFilesystem.h" />
     <ClInclude Include="external\commonItems\OSCompatibilityLayer.h" />
     <ClInclude Include="external\commonItems\Parser.h" />
     <ClInclude Include="external\commonItems\ParserHelpers.h" />
@@ -260,6 +254,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>ConverterFrontend</TargetName>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)Intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>ConverterFrontend</TargetName>

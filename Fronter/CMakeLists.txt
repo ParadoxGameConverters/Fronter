@@ -15,7 +15,6 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
 include_directories("../external/commonItems")
-include_directories("../external/commonItems/external/zip/src")
 include_directories("../external/single_include")
 include_directories("../external/SQLiteCpp/include")
 include_directories("../external/SQLiteCpp/sqlite3")
@@ -37,7 +36,6 @@ file(GLOB MODCOPIER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp
 file(GLOB UPDATECHECKER_SOURCES "${PROJECT_SOURCE_DIR}/UpdateChecker/*.cpp")
 file(GLOB SQLITE_SOURCES "${PROJECT_SOURCE_DIR}/../../external/SQLiteCpp/src/*.cpp")
 set(COMMON_SOURCES "../external/commonItems/CommonFunctions.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/external/zip/src/zip.c")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/SQLiteCpp/sqlite3/sqlite3.c")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/LinuxUtils.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/Log.cpp")
@@ -45,7 +43,6 @@ set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/OSCommonLayer.cpp"
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/Parser.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ParserHelpers.cpp")
 set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/StringUtils.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ModLoader/ModFilesystem.cpp")
 
 add_executable(ConverterFrontend
 	${MAIN_SOURCES}
