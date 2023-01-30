@@ -5,11 +5,12 @@ jobs:
     name: Build Windows foreign
     if: github.repository_owner != 'ParadoxGameConverters'
     runs-on: windows-latest
+
     steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
-        submodules: recursive
+        submodules: true
+
     - name: "Build solution"
       run: |
        cd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\"
@@ -19,11 +20,11 @@ jobs:
     name: Build Linux foreign
     if: github.repository_owner != 'ParadoxGameConverters'
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
-        submodules: recursive
+        submodules: true
 
     - name: "Install prerequisites"
       run: |
@@ -37,10 +38,12 @@ jobs:
                 wx3.2-headers \
                 wx-common \
                 libnotify-dev libnotify4 libcurl4-openssl-dev
+
     - name: "Link gcc-11 and g++-11 to their standard commands"
       run: |
        sudo ln -s /usr/bin/gcc-11 /usr/local/bin/gcc
        sudo ln -s /usr/bin/g++-11 /usr/local/bin/g++
+
     - name: "Build"
       run: |
        chmod u+x build_linux.sh
@@ -50,15 +53,17 @@ jobs:
     name: Build Windows local
     if: github.repository_owner == 'ParadoxGameConverters'
     runs-on: [self-hosted, windows]
+
     steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
-        submodules: recursive
+        submodules: true
+
     - name: "Build solution"
       run: |
        cd "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\"
        .\MSBuild.exe -m -p:Configuration=Release $Env:GITHUB_WORKSPACE\Fronter.sln
+
     - name: "Cleanup"
       if: always()
       run: |
@@ -68,15 +73,17 @@ jobs:
     name: Build Linux local
     if: github.repository_owner == 'ParadoxGameConverters'
     runs-on: [self-hosted, linux]
+
     steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
-        submodules: recursive
+        submodules: true
+
     - name: "Build"
       run: |
        chmod u+x build_linux.sh
        ./build_linux.sh
+
     - name: Cleanup
       uses: colpal/actions-clean@v1
       if: always()

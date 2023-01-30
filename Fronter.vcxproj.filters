@@ -43,12 +43,6 @@
     <Filter Include="Fronter\UpdateChecker">
       <UniqueIdentifier>{42d0697b-4e02-46a2-8d0a-a57eba5aee15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="commonItems\ModLoader">
-      <UniqueIdentifier>{713bed5b-3ace-4c7f-ae41-dfc09eb8cc69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="commonItems\zip">
-      <UniqueIdentifier>{e2873d00-5cab-4968-ad8b-6e4d2b4da6f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="external">
       <UniqueIdentifier>{76157976-1e28-4aae-ac40-bb3e7b85562f}</UniqueIdentifier>
     </Filter>
@@ -164,12 +158,6 @@
     </ClCompile>
     <ClCompile Include="external\commonItems\WinUtils.cpp">
       <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\ModLoader\ModFilesystem.cpp">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\external\zip\src\zip.c">
-      <Filter>commonItems\zip</Filter>
     </ClCompile>
     <ClCompile Include="external\commonItems\iconvlite.cpp">
       <Filter>commonItems</Filter>
@@ -298,18 +286,6 @@
     </ClInclude>
     <ClInclude Include="external\commonItems\StringUtils.h">
       <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\ModLoader\Mod.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\ModLoader\ModFilesystem.h">
-      <Filter>commonItems\ModLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\external\zip\src\miniz.h">
-      <Filter>commonItems\zip</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\external\zip\src\zip.h">
-      <Filter>commonItems\zip</Filter>
     </ClInclude>
     <ClInclude Include="external\commonItems\iconvlite.h">
       <Filter>commonItems</Filter>
