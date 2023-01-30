@@ -254,7 +254,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>ConverterFrontend</TargetName>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration)Intermediate</IntDir>
+    <IntDir>$(SolutionDir)$(Configuration)Intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>ConverterFrontend</TargetName>
