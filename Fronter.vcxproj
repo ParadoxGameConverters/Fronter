@@ -283,7 +283,7 @@
       </PrecompiledHeader>
       <PreprocessorDefinitions>WXUSINGDLL;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)external\wxWidgets\3.2.1\include\msvc;$(ProjectDir)external\wxWidgets\3.2.1\include;$(ProjectDir)external\commonItems;$(ProjectDir)external\curl\include;$(ProjectDir)external\single_include;$(ProjectDir)external\SQLiteCpp\include;$(ProjectDir)external\SQLiteCpp\sqlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)external\wxWidgets\3.2.1\include\msvc;$(ProjectDir)external\wxWidgets\3.2.1\include;$(ProjectDir)external\commonItems;$(ProjectDir)external\curl\include;$(ProjectDir)external\single_include;$(ProjectDir)external\SQLiteCpp\include;$(ProjectDir)external\SQLiteCpp\sqlite3;$(SolutionDir)external\commonItems;$(SolutionDir)external\common_items;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
