@@ -19,17 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="external\commonItems\CommonFunctions.cpp" />
-    <ClCompile Include="external\commonItems\iconvlite.cpp" />
-    <ClCompile Include="external\commonItems\LinuxUtils.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\Log.cpp" />
-    <ClCompile Include="external\commonItems\OSCommonLayer.cpp" />
-    <ClCompile Include="external\commonItems\Parser.cpp" />
-    <ClCompile Include="external\commonItems\ParserHelpers.cpp" />
-    <ClCompile Include="external\commonItems\StringUtils.cpp" />
-    <ClCompile Include="external\commonItems\WinUtils.cpp" />
     <ClCompile Include="external\SQLiteCpp\sqlite3\sqlite3.c" />
     <ClCompile Include="external\SQLiteCpp\src\Backup.cpp" />
     <ClCompile Include="external\SQLiteCpp\src\Column.cpp" />
@@ -67,14 +56,6 @@
     <ClCompile Include="Fronter\Source\WorkerThreads\ModCopier\ModCopier.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="external\commonItems\CommonFunctions.h" />
-    <ClInclude Include="external\commonItems\CommonRegexes.h" />
-    <ClInclude Include="external\commonItems\iconvlite.h" />
-    <ClInclude Include="external\commonItems\Log.h" />
-    <ClInclude Include="external\commonItems\OSCompatibilityLayer.h" />
-    <ClInclude Include="external\commonItems\Parser.h" />
-    <ClInclude Include="external\commonItems\ParserHelpers.h" />
-    <ClInclude Include="external\commonItems\StringUtils.h" />
     <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Assertion.h" />
     <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Backup.h" />
     <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Column.h" />
@@ -307,8 +288,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProjectDir)external\curl\lib;$(ProjectDir)external\wxWidgets\3.2.1\lib\vc14x_x64_dll\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl.a;libcurl.dll.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)external\curl\lib;$(ProjectDir)external\wxWidgets\3.2.1\lib\vc14x_x64_dll\;$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcurl.a;libcurl.dll.a;CommonItems.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>

@@ -1,5 +1,10 @@
 name: Build
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 jobs:
   build_windows_foreign:
     name: Build Windows foreign
@@ -9,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        submodules: true
+        submodules: recursive
 
     - name: "Build solution"
       run: |
@@ -24,7 +29,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        submodules: true
+        submodules: recursive
 
     - name: "Install prerequisites"
       run: |
@@ -57,7 +62,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        submodules: true
+        submodules: recursive
 
     - name: "Build solution"
       run: |
@@ -77,7 +82,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        submodules: true
+        submodules: recursive
 
     - name: "Build"
       run: |

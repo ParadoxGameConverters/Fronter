@@ -7,9 +7,6 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{e4e5c633-3b78-4090-abce-2bba593c3205}</UniqueIdentifier>
     </Filter>
-    <Filter Include="commonItems">
-      <UniqueIdentifier>{969ac4a9-09b8-41ab-90c0-49ad0670d34c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fronter\Frames">
       <UniqueIdentifier>{09fe9420-b6ad-4203-8ee4-168ef6a56fef}</UniqueIdentifier>
     </Filter>
@@ -138,33 +135,6 @@
     <ClCompile Include="Fronter\Source\WorkerThreads\ConverterLauncher\LinuxConverterLauncher.cpp">
       <Filter>Fronter\WorkerThreads\ConverterLauncher</Filter>
     </ClCompile>
-    <ClCompile Include="external\commonItems\CommonFunctions.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\Log.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\OSCommonLayer.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\Parser.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\ParserHelpers.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\StringUtils.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\WinUtils.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\iconvlite.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
-    <ClCompile Include="external\commonItems\LinuxUtils.cpp">
-      <Filter>commonItems</Filter>
-    </ClCompile>
     <ClCompile Include="external\SQLiteCpp\src\Backup.cpp">
       <Filter>external\SQLiteCpp\src</Filter>
     </ClCompile>
@@ -265,30 +235,6 @@
     </ClInclude>
     <ClInclude Include="Fronter\Source\UpdateChecker\UpdateChecker.h">
       <Filter>Fronter\UpdateChecker</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\CommonFunctions.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\CommonRegexes.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\Log.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\OSCompatibilityLayer.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\Parser.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\ParserHelpers.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\StringUtils.h">
-      <Filter>commonItems</Filter>
-    </ClInclude>
-    <ClInclude Include="external\commonItems\iconvlite.h">
-      <Filter>commonItems</Filter>
     </ClInclude>
     <ClInclude Include="external\SQLiteCpp\include\SQLiteCpp\Assertion.h">
       <Filter>external\SQLiteCpp\include\SQLiteCpp</Filter>
