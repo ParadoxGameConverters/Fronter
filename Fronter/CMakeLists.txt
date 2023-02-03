@@ -15,7 +15,7 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
 include_directories("../external/commonItems")
-include_directories("../external/single_include")
+include_directories("../external/commonItems/external/json/single_include")
 include_directories("../external/SQLiteCpp/include")
 include_directories("../external/SQLiteCpp/sqlite3")
 include_directories("/usr/include/wx-3.2-unofficial")
