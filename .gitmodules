@@ -4,6 +4,3 @@
 [submodule "external/commonItems"]
 	path = external/commonItems
 	url = https://github.com/ParadoxGameConverters/commonItems
-[submodule "external/SQLiteCpp"]
-	path = external/SQLiteCpp
-	url = https://github.com/SRombauts/SQLiteCpp
