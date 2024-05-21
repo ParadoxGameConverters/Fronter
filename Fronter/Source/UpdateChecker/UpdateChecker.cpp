@@ -172,35 +172,42 @@ UpdateInfo getLatestReleaseInfo(const std::string& converterName)
 	std::string jsonResponse = buffer;
 	buffer.clear();
 
-	auto j = json::parse(jsonResponse);
-	info.description = j["body"];
-	info.version = j["name"];
-	auto& assets = j["assets"];
-	for (auto& asset: assets)
+	try
 	{
-		std::string assetName = asset["name"];
+		auto j = json::parse(jsonResponse);
+		info.description = j["body"];
+		info.version = j["name"];
+		auto& assets = j["assets"];
+		for (auto& asset: assets)
+		{
+			std::string assetName = asset["name"];
 #ifdef _WIN32
-		const std::string osName = "win";
+			const std::string osName = "win";
 #elif __linux__
-		const std::string osName = "linux";
+			const std::string osName = "linux";
 #elif __APPLE__
-		const std::string osName = "osx";
+			const std::string osName = "osx";
 #endif
 
-		std::ranges::transform(assetName, assetName.begin(), [](const unsigned char c) {
-			return std::tolower(c);
-		});
+			std::ranges::transform(assetName, assetName.begin(), [](const unsigned char c) {
+				return std::tolower(c);
+			});
 #ifdef _WIN32
-		if (assetName.ends_with("-" + osName + "-x64.exe"))
+			if (assetName.ends_with("-" + osName + "-x64.exe"))
 #elif __linux__
-		if (assetName.ends_with("-" + osName + "-x64.zip"))
+			if (assetName.ends_with("-" + osName + "-x64.zip"))
 #elif __APPLE__
-		if (assetName.ends_with("-" + osName + "-x64.zip"))
+			if (assetName.ends_with("-" + osName + "-x64.zip"))
 #endif
-		{
-			info.zipURL = asset["browser_download_url"];
-			break;
+			{
+				info.zipURL = asset["browser_download_url"];
+				break;
+			}
 		}
+	}
+	catch (std::exception&)
+	{
+		return {};
 	}
 	if (!info.zipURL)
 	{

@@ -52,17 +52,20 @@ bool Frontend::OnInit()
 		 isUpdateAvailable("commit_id.txt", configuration->getPagesCommitIdUrl()))
 	{
 		const auto info = getLatestReleaseInfo(configuration->getName());
-		const auto msgBody = getUpdateMessageBody(tr("NEWVERSIONBODY"), info);
-		if (wxMessageBox(msgBody, tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
+		if (!info.version.empty())
 		{
-			if (info.zipURL)
+			const auto msgBody = getUpdateMessageBody(tr("NEWVERSIONBODY"), info);
+			if (wxMessageBox(msgBody, tr("NEWVERSIONTITLE"), wxYES_NO | wxICON_INFORMATION) == wxYES)
 			{
-				wxLaunchDefaultBrowser(*info.zipURL);
-			}
-			else
-			{
-				wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
-				wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+				if (info.zipURL)
+				{
+					wxLaunchDefaultBrowser(*info.zipURL);
+				}
+				else
+				{
+					wxLaunchDefaultBrowser(configuration->getConverterReleaseForumThread());
+					wxLaunchDefaultBrowser(configuration->getLatestGitHubConverterReleaseUrl());
+				}
 			}
 		}
 	}
