@@ -84,7 +84,7 @@ void OptionBox::initializeOption()
 		textField->SetToolTip(tr(selector->getTooltip()));
 
 		textField->Bind(wxEVT_TEXT, [this](wxCommandEvent& event) {
-			const auto result = commonItems::UTF16ToUTF8(event.GetString().ToStdWstring());
+			const auto result = commonItems::convertUTF8ToASCII(commonItems::UTF16ToUTF8(event.GetString().ToStdWstring()));
 			option->setTextSelectorValue(result);
 			if (event.GetString() != wxString(result))
 			{
