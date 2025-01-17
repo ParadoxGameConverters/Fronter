@@ -294,7 +294,7 @@ void Configuration::autoLocateMods()
 	}
 
 	// filter broken filenames from preloaded list.
-	std::set<std::string> modNames;
+	std::set<std::filesystem::path> modNames;
 	for (const auto& mod: autolocatedMods)
 		modNames.insert(mod.getFileName());
 
