@@ -40,13 +40,13 @@ void PathsTab::initializePaths()
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(folder->getDisplayName()), wxDefaultPosition);
 
-		std::wstring folderPath;
+		std::filesystem::path folderPath;
 		if (!folder->getValue().empty())
 		{
-			folderPath = commonItems::convertUTF8ToUTF16(folder->getValue());
+			folderPath = folder->getValue();
 		}
 		else if (folder->getSearchPathType() == "windowsUsersFolder")
-			folderPath = commonItems::convertUTF8ToUTF16(documentsDir + '\\' + folder->getSearchPath());
+			folderPath = documentsDir / folder->getSearchPath();
 		else if (folder->getSearchPathType() == "steamFolder")
 		{
 			const auto& possiblePath = commonItems::getSteamInstallPath(folder->getSearchPathID());
@@ -54,21 +54,26 @@ void PathsTab::initializePaths()
 			{
 				folderPath = *possiblePath;
 				if (!folder->getSearchPath().empty())
-					folderPath += L"/" + commonItems::convertUTF8ToUTF16(folder->getSearchPath());
+					folderPath /= folder->getSearchPath();
 			}
 		}
 		else if (folder->getSearchPathType() == "direct")
-			folderPath = commonItems::convertUTF8ToUTF16(folder->getSearchPath());
+			folderPath = folder->getSearchPath();
 
-		if (!commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(folderPath)))
+		if (!commonItems::DoesFolderExist(folderPath))
 			folderPath.clear();
 
-		auto* dirPickerCtrl =
-			 new wxDirPickerCtrl(this, pickerCounter, folderPath, tr("BROWSE"), wxDefaultPosition, wxSize(650, wxDefaultCoord), wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
+		auto* dirPickerCtrl = new wxDirPickerCtrl(this,
+			 pickerCounter,
+			 folderPath.string(),
+			 tr("BROWSE"),
+			 wxDefaultPosition,
+			 wxSize(650, wxDefaultCoord),
+			 wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		dirPickerCtrl->Bind(wxEVT_DIRPICKER_CHANGED, &PathsTab::OnPathChanged, this);
-		dirPickerCtrl->SetInitialDirectory(wxString(folderPath));
+		dirPickerCtrl->SetInitialDirectory(wxString(folderPath.string()));
 		folder->setID(pickerCounter);
-		folder->setValue(commonItems::UTF16ToUTF8(folderPath));
+		folder->setValue(folderPath.string());
 		// Intermezzo for mod detection
 		if (!configuration->getAutoGenerateModsFrom().empty() && folder->getName() == configuration->getAutoGenerateModsFrom())
 			configuration->autoLocateMods();

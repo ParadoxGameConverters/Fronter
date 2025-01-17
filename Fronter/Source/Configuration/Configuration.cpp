@@ -186,7 +186,7 @@ bool Configuration::exportConfiguration() const
 
 	for (const auto& [requiredFolderName, folderPtr]: requiredFolders)
 	{
-		confFile << requiredFolderName << " = \"" << folderPtr->getValue() << "\"\n";
+		confFile << requiredFolderName << " = \"" << folderPtr->getValue().string() << "\"\n";
 	}
 	for (const auto& [requiredFileName, filePtr]: requiredFiles)
 	{
@@ -241,7 +241,7 @@ void Configuration::autoLocateMods()
 {
 	autolocatedMods.clear();
 	// Do we have a mod path?
-	std::string modPath;
+	std::filesystem::path modPath;
 	for (const auto& filePtr: requiredFolders | std::views::values)
 	{
 		if (filePtr->getName() == autoGenerateModsFrom)

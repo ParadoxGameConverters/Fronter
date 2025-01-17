@@ -113,7 +113,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 	{
 		if (folder->isMandatory() && !commonItems::DoesFolderExist(folder->getValue()))
 		{
-			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder->getName() << " at " << folder->getValue() << " not found.";
+			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder->getName() << " at " << folder->getValue().string() << " not found.";
 			return;
 		}
 	}

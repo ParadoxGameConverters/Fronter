@@ -1,6 +1,12 @@
 #ifndef CONFIGURATION_REQUIRED_FOLDER
 #define CONFIGURATION_REQUIRED_FOLDER
-#include "Parser.h"
+
+
+
+#include <filesystem>
+#include <Parser.h>
+
+
 
 class RequiredFolder: commonItems::parser
 {
@@ -33,9 +39,9 @@ class RequiredFolder: commonItems::parser
 	std::string tooltip;
 	std::string displayName;
 	std::string searchPathType;
-	std::string searchPath;
+	std::filesystem::path searchPath;
 	std::string searchPathID;
-	std::string value;
+	std::filesystem::path value;
 };
 
 #endif // CONFIGURATION_REQUIRED_FOLDER
