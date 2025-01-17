@@ -146,7 +146,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 	converterLauncher->loadConfiguration(configuration);
 	converterLauncher->Create();
 	converterLauncher->Run();
-	mainFrame->initSecondTail(configuration->getSecondTailSource());
+	mainFrame->initSecondTail(configuration->getSecondTailSource().string());
 }
 
 void ConvertTab::onConverterDone(wxCommandEvent& event)

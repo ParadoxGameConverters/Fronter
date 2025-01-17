@@ -16,7 +16,7 @@ Configuration::Configuration()
 	registerKeys();
 	if (fs::exists("Configuration/fronter-configuration.txt"))
 	{
-		parseFile("Configuration/fronter-configuration.txt");
+		parseFile(std::filesystem::path("Configuration/fronter-configuration.txt"));
 		Log(LogLevel::Info) << "Frontend configuration loaded.";
 	}
 	else
@@ -25,7 +25,7 @@ Configuration::Configuration()
 	}
 	if (fs::exists("Configuration/fronter-options.txt"))
 	{
-		parseFile("Configuration/fronter-options.txt");
+		parseFile(std::filesystem::path("Configuration/fronter-options.txt"));
 		Log(LogLevel::Info) << "Frontend options loaded.";
 	}
 	else
@@ -34,10 +34,10 @@ Configuration::Configuration()
 	}
 	clearRegisteredKeywords();
 	registerPreloadKeys();
-	if (!converterFolder.empty() && fs::exists(fs::u8path(converterFolder + "/configuration.txt")))
+	if (!converterFolder.empty() && fs::exists(converterFolder / "configuration.txt"))
 	{
 		Log(LogLevel::Info) << "Previous configuration located, preloading selections.";
-		parseFile(converterFolder + "/configuration.txt");
+		parseFile(converterFolder / "configuration.txt");
 	}
 	clearRegisteredKeywords();
 }
@@ -172,12 +172,12 @@ bool Configuration::exportConfiguration() const
 		Log(LogLevel::Error) << "Converter folder is not set!";
 		return false;
 	}
-	if (!fs::exists(fs::u8path(converterFolder)))
+	if (!fs::exists(converterFolder))
 	{
 		Log(LogLevel::Error) << "Could not find converter folder!";
 		return false;
 	}
-	std::ofstream confFile(fs::u8path(converterFolder + "/configuration.txt"));
+	std::ofstream confFile(converterFolder / "configuration.txt");
 	if (!confFile.is_open())
 	{
 		Log(LogLevel::Error) << "Could not open configuration.txt!";
@@ -226,14 +226,14 @@ bool Configuration::exportConfiguration() const
 	return true;
 }
 
-std::string Configuration::getSecondTailSource() const
+std::filesystem::path Configuration::getSecondTailSource() const
 {
-	return converterFolder + "/log.txt";
+	return converterFolder / "log.txt";
 }
 
 void Configuration::clearSecondLog() const
 {
-	std::ofstream clearSecondLog(converterFolder + "/log.txt");
+	std::ofstream clearSecondLog(converterFolder / "log.txt");
 	clearSecondLog.close();
 }
 
@@ -255,23 +255,19 @@ void Configuration::autoLocateMods()
 	// Does it exist?
 	if (!commonItems::DoesFolderExist(modPath))
 	{
-		Log(LogLevel::Warning) << "Mod path: " << modPath << " does not exist or can not be accessed!";
+		Log(LogLevel::Warning) << "Mod path: " << modPath.string() << " does not exist or can not be accessed!";
 		return;
 	}
 
 	// Are we looking at documents directory?
-	if (commonItems::DoesFolderExist(modPath + "/mod"))
-		modPath += "/mod";
+	if (commonItems::DoesFolderExist(modPath / "mod"))
+		modPath /= "mod";
 
 	// Are there mods inside?
-	std::vector<std::string> validModFiles;
+	std::vector<std::filesystem::path> validModFiles;
 	for (const auto& file: commonItems::GetAllFilesInFolder(modPath))
 	{
-		const auto lastDot = file.find_last_of('.');
-		if (lastDot == std::string::npos)
-			continue;
-		const auto extension = file.substr(lastDot + 1, file.length() - lastDot - 1);
-		if (extension != "mod")
+		if (file.extension() != ".mod")
 			continue;
 		validModFiles.emplace_back(file);
 	}
@@ -284,10 +280,10 @@ void Configuration::autoLocateMods()
 
 	for (const auto& modFile: validModFiles)
 	{
-		FronterMod theMod(modPath + "/" + modFile);
+		FronterMod theMod(modPath / modFile);
 		if (theMod.getName().empty())
 		{
-			Log(LogLevel::Warning) << "Mod at " << modPath + "/" + modFile << " has no defined name, skipping.";
+			Log(LogLevel::Warning) << "Mod at " << (modPath / modFile).string() << " has no defined name, skipping.";
 			continue;
 		}
 		autolocatedMods.emplace_back(theMod);
