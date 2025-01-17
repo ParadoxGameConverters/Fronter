@@ -121,7 +121,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 	{
 		if (file->isMandatory() && !commonItems::DoesFileExist(file->getValue()))
 		{
-			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file->getName() << " at " << file->getValue() << " not found.";
+			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file->getName() << " at " << file->getValue().string() << " not found.";
 			return;
 		}
 	}

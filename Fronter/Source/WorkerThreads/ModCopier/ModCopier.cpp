@@ -111,27 +111,27 @@ void* ModCopier::Entry()
 			m_pParent->AddPendingEvent(evt);
 			return nullptr;
 		}
-		if (fs::is_directory(fs::u8path(saveGamePath)))
+		if (fs::is_directory(saveGamePath))
 		{
 			Log(LogLevel::Error) << "Copy Failed - Save game is a directory...";
 			evt.SetInt(0);
 			m_pParent->AddPendingEvent(evt);
 			return nullptr;
 		}
-		saveGamePath = trimPath(saveGamePath);
-		saveGamePath = normalizeStringPath(saveGamePath);
-		const auto pos = saveGamePath.find_last_of('.');
-		if (pos != std::string::npos)
-			saveGamePath = saveGamePath.substr(0, pos);
-		targetName = saveGamePath;
+		saveGamePath = saveGamePath.filename();
+		saveGamePath = normalizeStringPath(saveGamePath.string());
+		targetName = saveGamePath.stem().string();
 	}
 	targetName = replaceCharacter(targetName, '-');
 	targetName = replaceCharacter(targetName, ' ');
 	targetName = commonItems::normalizeUTF8Path(targetName);
+	std::filesystem::path targetPath(targetName);
+	std::filesystem::path targetModPath(targetName);
+	targetModPath += ".mod";
 
-	if (!commonItems::DoesFolderExist(converterFolder + "/output/" + targetName))
+	if (!commonItems::DoesFolderExist(converterFolder / "output" / targetPath))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Could not find mod folder: " << converterFolder + "/output/" + targetName;
+		Log(LogLevel::Error) << "Copy Failed - Could not find mod folder: " << converterFolder / "output" / targetPath;
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
@@ -139,39 +139,43 @@ void* ModCopier::Entry()
 
 	// for vic3 and onwards we need to skip .mod requirement
 
+	fs::path targetMetadataPath = targetPath;
+	targetMetadataPath += ".metadata";
 	bool vic3OnwardSkipModFile = false;
-	if (commonItems::DoesFolderExist(converterFolder + "/output/" + targetName + "/.metadata"))
+	if (commonItems::DoesFolderExist(converterFolder / "output" / targetMetadataPath))
 		vic3OnwardSkipModFile = true;
-	if (!vic3OnwardSkipModFile && !commonItems::DoesFileExist(converterFolder + "/output/" + targetName + ".mod"))
+	if (!vic3OnwardSkipModFile && !commonItems::DoesFileExist(converterFolder / "output" / targetModPath))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Could not find mod: " << converterFolder + "/output/" + targetName + ".mod";
+		Log(LogLevel::Error) << "Copy Failed - Could not find mod: " << converterFolder / "output" / targetModPath;
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!fs::is_directory(fs::u8path(converterFolder + "/output/" + targetName)))
+	if (!fs::is_directory(converterFolder / "output" / targetPath))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Mod folder is not a directory: " << converterFolder + "/output/" + targetName;
+		Log(LogLevel::Error) << "Copy Failed - Mod folder is not a directory: " << converterFolder / "output" / targetPath;
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!vic3OnwardSkipModFile && commonItems::DoesFileExist(destinationFolder + "/" + targetName + ".mod"))
+	if (!vic3OnwardSkipModFile && commonItems::DoesFileExist(destinationFolder / targetModPath))
 	{
 		Log(LogLevel::Info) << "Previous mod file found, deleting.";
-		fs::remove(fs::u8path(destinationFolder + "/" + targetName + ".mod"));
+		fs::remove(destinationFolder / targetModPath);
 	}
-	if (commonItems::DoesFolderExist(destinationFolder + "/" + targetName))
+	if (commonItems::DoesFolderExist(destinationFolder / targetPath))
 	{
 		Log(LogLevel::Info) << "Previous mod directory found, deleting.";
-		commonItems::DeleteFolder(destinationFolder + "/" + targetName);
+		std::filesystem::remove_all(destinationFolder / targetPath);
 	}
 	try
 	{
 		Log(LogLevel::Info) << "Copying mod to target location...";
 		if (!vic3OnwardSkipModFile)
-			commonItems::TryCopyFile(converterFolder + "/output/" + targetName + ".mod", destinationFolder + "/" + targetName + ".mod");
-		commonItems::CopyFolder(converterFolder + "/output/" + targetName, destinationFolder + "/" + targetName);
+			std::filesystem::copy_file(converterFolder / "output" / targetModPath,
+				 destinationFolder / targetModPath,
+				 std::filesystem::copy_options::overwrite_existing);
+		std::filesystem::copy(converterFolder / "output" / targetPath, destinationFolder / targetPath, fs::copy_options::recursive);
 	}
 	catch (std::filesystem::filesystem_error& theError)
 	{

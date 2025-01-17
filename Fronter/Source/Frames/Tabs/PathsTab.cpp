@@ -83,39 +83,31 @@ void PathsTab::initializePaths()
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(file->getDisplayName()), wxDefaultPosition);
 
-		std::wstring filePath;
-		std::wstring initialPath;
+		std::filesystem::path filePath;
+		std::filesystem::path initialPath;
 
 		if (!file->getValue().empty())
 		{
-			filePath = commonItems::convertUTF8ToUTF16(file->getValue());
-			auto pos(filePath.find_last_of('\\'));
-			initialPath = filePath.substr(0, pos + 1);
+			filePath = file->getValue();
+			initialPath = filePath.parent_path();
 		}
 		else if (file->getSearchPathType() == "windowsUsersFolder")
 		{
-			filePath = commonItems::convertUTF8ToUTF16(documentsDir + '\\' + file->getSearchPath() + '\\' + file->getFilename());
-			initialPath = commonItems::convertUTF8ToUTF16(documentsDir + '\\' + file->getSearchPath() + '\\');
+			filePath = documentsDir / file->getSearchPath() / file->getFilename();
+			initialPath = documentsDir / file->getSearchPath();
 		}
 		else if (file->getSearchPathType() == "converterFolder")
 		{
-			auto buf = commonItems::GetCurrentDirectoryWString();
-#if defined __WIN32__
-			auto currentDirectory = buf + '\\';
-			filePath = currentDirectory + commonItems::convertUTF8ToUTF16(file->getSearchPath() + '\\' + file->getFilename());
-			initialPath = currentDirectory + commonItems::convertUTF8ToUTF16(file->getSearchPath() + '\\');
-#elif defined __linux
-			auto currentDirectory = buf + '/';
-			filePath = currentDirectory + commonItems::convertUTF8ToUTF16(file->getSearchPath() + '/' + file->getFilename());
-			initialPath = currentDirectory + commonItems::convertUTF8ToUTF16(file->getSearchPath() + '/');
-#endif
+			auto currentDirectory = std::filesystem::current_path();
+			filePath = currentDirectory / file->getSearchPath() / file->getFilename();
+			initialPath = currentDirectory / file->getSearchPath();
 		}
 		std::string allowedExtension;
 #if defined __WIN32__
 		allowedExtension = file->getAllowedExtension();
 #endif
 
-		if (!commonItems::DoesFileExist(commonItems::UTF16ToUTF8(filePath)) || !commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(initialPath)))
+		if (!commonItems::DoesFileExist(filePath) || !commonItems::DoesFolderExist(initialPath))
 		{
 			filePath.clear();
 			initialPath.clear();
@@ -123,17 +115,17 @@ void PathsTab::initializePaths()
 
 		auto* filePickerCtrl = new wxFilePickerCtrl(this,
 			 pickerCounter,
-			 filePath,
+			 filePath.string(),
 			 tr("BROWSE"),
 			 allowedExtension,
 			 wxDefaultPosition,
 			 wxSize(650, wxDefaultCoord),
 			 wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		filePickerCtrl->Bind(wxEVT_FILEPICKER_CHANGED, &PathsTab::OnPathChanged, this);
-		filePickerCtrl->SetInitialDirectory(wxString(initialPath));
+		filePickerCtrl->SetInitialDirectory(wxString(initialPath.string()));
 		st->SetToolTip(tr(file->getTooltip()));
 		file->setID(pickerCounter);
-		file->setValue(commonItems::UTF16ToUTF8(filePath));
+		file->setValue(filePath.string());
 		GetSizer()->Add(st, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 		GetSizer()->Add(filePickerCtrl, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_VERTICAL, 5, nullptr);
 	}

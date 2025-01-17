@@ -192,7 +192,7 @@ bool Configuration::exportConfiguration() const
 	{
 		if (!filePtr->isOutputtable())
 			continue;
-		confFile << requiredFileName << " = \"" << filePtr->getValue() << "\"\n";
+		confFile << requiredFileName << " = \"" << filePtr->getValue().string() << "\"\n";
 	}
 
 	if (!autoGenerateModsFrom.empty())
