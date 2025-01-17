@@ -21,10 +21,10 @@ void PathsTab::initializePaths()
 	SetSizer(gridSizer);
 
 	auto* userDir = std::getenv("USERPROFILE");
-	std::string documentsDir;
+	std::filesystem::path documentsDir;
 	if (userDir)
 	{
-		documentsDir = std::string(userDir) + R"(\Documents)";
+		documentsDir = std::filesystem::path(userDir) / "Documents";
 	}
 
 	if (!userDir)
@@ -32,7 +32,7 @@ void PathsTab::initializePaths()
 		userDir = std::getenv("HOME");
 		if (userDir)
 		{
-			documentsDir = std::string(userDir) + R"(/Documents)";
+			documentsDir = std::filesystem::path(userDir) / "Documents";
 		}
 	}
 	for (const auto& folder: configuration->getRequiredFolders() | std::ranges::views::values)
