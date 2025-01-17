@@ -51,7 +51,7 @@ void* ModCopier::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFolderExist(converterFolder + "/output"))
+	if (!commonItems::DoesFolderExist(converterFolder / "output"))
 	{
 		Log(LogLevel::Error) << "Copy failed - where is the converter's output folder?";
 		evt.SetInt(0);
@@ -193,9 +193,9 @@ void* ModCopier::Entry()
 	return nullptr;
 }
 
-void ModCopier::createPlayset(const std::string& destModFolder, const std::string& targetName, const bool metadataApproach)
+void ModCopier::createPlayset(const std::filesystem::path& destModFolder, const std::filesystem::path& targetName, const bool metadataApproach)
 {
-	const auto gameDocsDirectory = destModFolder + "/..";
+	const auto gameDocsDirectory = destModFolder / "..";
 	if (!commonItems::DoesFolderExist(gameDocsDirectory))
 	{
 		Log(LogLevel::Warning) << "Couldn't resolve parent folder of " << destModFolder;
@@ -215,7 +215,7 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 	try
 	{
 		SQLite::Database db(latestDbFilePath, SQLite::OPEN_READWRITE);
-		std::string playsetName = configuration->getName() + ": " + targetName;
+		std::string playsetName = configuration->getName() + ": " + targetName.string();
 		auto unixTimeMilliSeconds = std::chrono::system_clock::now().time_since_epoch().count();
 
 		SQLite::Statement query(db, "SELECT COUNT(*) FROM playsets WHERE name = ?");
@@ -251,8 +251,10 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 			query2.bind(3, unixTimeMilliSeconds);
 			query2.exec();
 
-			auto gameRegistryId = "mod/" + targetName + ".mod";
-			auto modId = addModToDb(db, targetName, gameRegistryId, destModFolder + "\\" + targetName, metadataApproach);
+			fs::path targetModPath(targetName);
+			targetModPath += ".mod";
+			auto gameRegistryId = "mod" / targetModPath;
+			auto modId = addModToDb(db, targetName.string(), gameRegistryId.string(), (destModFolder / targetName).string(), metadataApproach);
 			addModToPlayset(db, modId, playsetID);
 			Log(LogLevel::Notice) << "Playset " + playsetName + " created, select it and play. Have fun! -- Paradox Game Converters Team";
 		}
@@ -264,25 +266,25 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 	}
 }
 
-std::string ModCopier::getLastUpdatedLauncherDbPath(const std::string& gameDocsDirectory)
+std::filesystem::path ModCopier::getLastUpdatedLauncherDbPath(const std::filesystem::path& gameDocsDirectory)
 {
 	const std::set<std::string> possibleDbFileNames = {"launcher-v2.sqlite", "launcher-v2_openbeta.sqlite"};
 	fs::file_time_type lastAccess;
 	std::string actualName;
 	for (const auto& name: possibleDbFileNames)
 	{
-		auto path = std::filesystem::path(gameDocsDirectory + "/" + name);
-		if (!commonItems::DoesFileExist(gameDocsDirectory + "/" + name))
+		auto path = std::filesystem::path(gameDocsDirectory / name);
+		if (!commonItems::DoesFileExist(gameDocsDirectory / name))
 			continue;
-		if (lastAccess < last_write_time(path))
+		if (lastAccess < fs::last_write_time(path))
 		{
-			lastAccess = last_write_time(path);
+			lastAccess = fs::last_write_time(path);
 			actualName = name;
 		}
 	}
 	if (actualName.empty())
 		return actualName;
-	return gameDocsDirectory + "/" + actualName;
+	return gameDocsDirectory / actualName;
 }
 
 void ModCopier::deactivateCurrentPlayset(SQLite::Database& db)
