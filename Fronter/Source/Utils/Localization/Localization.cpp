@@ -1,8 +1,12 @@
 #include "Localization.h"
+
 #include "OSCompatibilityLayer.h"
+
 #include <filesystem>
 #include <fstream>
 #include <regex>
+
+
 namespace fs = std::filesystem;
 
 Localization::Localization()
@@ -44,18 +48,16 @@ Localization::Localization()
 
 void Localization::loadLanguages()
 {
-	auto fileNames = commonItems::GetAllFilesInFolder("Configuration/");
-
-	for (const auto& fileName: fileNames)
+	for (const auto& file_name: commonItems::GetAllFilesInFolder(std::filesystem::path("Configuration/")))
 	{
-		if (fileName.find(".yml") == std::string::npos)
+		if (file_name.extension() != ".yml")
 			continue;
-		std::ifstream langfile("Configuration/" + fileName);
+		std::ifstream langfile("Configuration/" / file_name);
 		std::string line;
 		std::getline(langfile, line);
 		if (line.find("l_") != 0)
 		{
-			Log(LogLevel::Error) << "Configuration/" << fileName << " is not a localization file!";
+			Log(LogLevel::Error) << "Configuration/" << file_name.string() << " is not a localization file!";
 			langfile.close();
 			continue;
 		}
