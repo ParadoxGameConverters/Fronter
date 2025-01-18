@@ -99,7 +99,7 @@ static bool init(CURL*& conn, char* url)
 	return true;
 }
 
-bool isUpdateAvailable(const std::string& commitIdFilePath, const std::string& commitIdURL)
+bool isUpdateAvailable(const std::filesystem::path& commitIdFilePath, const std::string& commitIdURL)
 {
 	if (!commonItems::DoesFileExist(commitIdFilePath))
 	{

@@ -142,7 +142,7 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& folder: configuration->getRequiredFolders() | std::ranges::views::values)
 		if (folder->getID() == evt.GetId())
 		{
-			const auto validPath = commonItems::DoesFolderExist(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring()));
+			const auto validPath = commonItems::DoesFolderExist(std::filesystem::path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())));
 			if (!validPath)
 			{
 				Log(LogLevel::Error) << "Cannot access folder: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
@@ -163,7 +163,7 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& file: configuration->getRequiredFiles() | std::ranges::views::values)
 		if (file->getID() == evt.GetId())
 		{
-			if (!commonItems::DoesFileExist(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())))
+			if (!commonItems::DoesFileExist(std::filesystem::path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring()))))
 			{
 				Log(LogLevel::Error) << "Cannot access file: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
 											<< " - Onedrive and similar symlink folders are not supported!";
