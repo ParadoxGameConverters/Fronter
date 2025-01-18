@@ -57,5 +57,5 @@ find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
 target_link_libraries(ConverterFrontend commonLib sqlite3 ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
 
-add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
-add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
+add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x Copy_Files.sh)
+add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND Copy_Files.sh)
