@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(Fronter)
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Source)
-set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/Source)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/../Release)
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Fronter/Source)
+set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/Fronter/Source)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Release)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
 
 add_compile_options(-lstdc++fs)
@@ -14,10 +14,10 @@ set(CURL_LIBRARY "-lcurl")
 find_package(CURL REQUIRED) 
 include_directories(${CURL_INCLUDE_DIR})
 
-include_directories("../external/commonItems")
-include_directories("../external/commonItems/external/json/single_include")
-include_directories("../external/SQLiteCpp/include")
-include_directories("../external/SQLiteCpp/sqlite3")
+include_directories("external/commonItems")
+include_directories("external/commonItems/external/json/single_include")
+include_directories("external/SQLiteCpp/include")
+include_directories("external/SQLiteCpp/sqlite3")
 include_directories("/usr/include/wx-3.2-unofficial")
 include_directories("/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2-unofficial")
 include_directories("${PROJECT_SOURCE_DIR}")
@@ -35,14 +35,8 @@ file(GLOB LOGWATCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/LogWatcher/*.c
 file(GLOB MODCOPIER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp")
 file(GLOB UPDATECHECKER_SOURCES "${PROJECT_SOURCE_DIR}/UpdateChecker/*.cpp")
 file(GLOB SQLITE_SOURCES "${PROJECT_SOURCE_DIR}/../../external/SQLiteCpp/src/*.cpp")
-set(COMMON_SOURCES "../external/commonItems/CommonFunctions.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/SQLiteCpp/sqlite3/sqlite3.c")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/LinuxUtils.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/Log.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/OSCommonLayer.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/Parser.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/ParserHelpers.cpp")
-set(COMMON_SOURCES ${COMMON_SOURCES} "../external/commonItems/StringUtils.cpp")
+
+add_subdirectory(external/commonItems EXCLUDE_FROM_ALL)
 
 add_executable(ConverterFrontend
 	${MAIN_SOURCES}
@@ -57,12 +51,11 @@ add_executable(ConverterFrontend
 	${MODCOPIER_SOURCES}
 	${UPDATECHECKER_SOURCES}
 	${SQLITE_SOURCES}
-	${COMMON_SOURCES}
 )
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(ConverterFrontend ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
+target_link_libraries(ConverterFrontend commonLib ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
 
 add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
 add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
