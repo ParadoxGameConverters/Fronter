@@ -4,9 +4,8 @@ project(Fronter)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Fronter/Source)
 set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/Fronter/Source)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Release)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++latest")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
 
-add_compile_options(-lstdc++fs)
 add_compile_options(-D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -Wall -O2 -Wno-unused-variable)
 add_link_options(-no-pie)
 
