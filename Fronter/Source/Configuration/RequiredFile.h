@@ -26,7 +26,7 @@ class RequiredFile: commonItems::parser
 	[[nodiscard]] auto getID() const { return ID; }
 
 	void setID(const int theID) { ID = theID; }
-	void setValue(const std::string& theValue) { value = theValue; }
+	void setValue(const std::filesystem::path& theValue) { value = theValue; }
 
   private:
 	void registerKeys();

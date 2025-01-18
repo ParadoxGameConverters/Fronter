@@ -148,16 +148,14 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& folder: configuration->getRequiredFolders() | std::ranges::views::values)
 		if (folder->getID() == evt.GetId())
 		{
-			const auto validPath = commonItems::DoesFolderExist(path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())));
+			const auto validPath = commonItems::DoesFolderExist(path(evt.GetPath().ToStdWstring()));
 			if (!validPath)
 			{
-				Log(LogLevel::Error) << "Cannot access folder: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
-											<< " - Onedrive and similar symlink folders are not supported!";
+				Log(LogLevel::Error) << "Cannot access folder: " << evt.GetPath().ToStdWstring() << " - Onedrive and similar symlink folders are not supported!";
 				// Not bailing. We may not be able to access it but who knows, maybe converter can.
 			}
-			const auto result = commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
-			folder->setValue(result);
-			Log(LogLevel::Info) << folder->getName() << " set to: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			folder->setValue(evt.GetPath().ToStdWstring());
+			Log(LogLevel::Info) << folder->getName() << " set to: " << evt.GetPath().ToStdWstring();
 			// Intermezzo for mod detection
 			if (!configuration->getAutoGenerateModsFrom().empty() && folder->getName() == configuration->getAutoGenerateModsFrom())
 			{
@@ -169,13 +167,11 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& file: configuration->getRequiredFiles() | std::ranges::views::values)
 		if (file->getID() == evt.GetId())
 		{
-			if (!commonItems::DoesFileExist(path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring()))))
+			if (!commonItems::DoesFileExist(path(evt.GetPath().ToStdWstring())))
 			{
-				Log(LogLevel::Error) << "Cannot access file: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
-											<< " - Onedrive and similar symlink folders are not supported!";
+				Log(LogLevel::Error) << "Cannot access file: " << evt.GetPath().ToStdWstring() << " - Onedrive and similar symlink folders are not supported!";
 			}
-			auto result = commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
-			file->setValue(result);
-			Log(LogLevel::Info) << file->getName() << " set to: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring());
+			file->setValue(evt.GetPath().ToStdWstring());
+			Log(LogLevel::Info) << file->getName() << " set to: " << evt.GetPath().ToStdWstring();
 		}
 }
