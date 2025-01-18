@@ -3,9 +3,15 @@
 #include <filesystem>
 #include <ranges>
 #include <wx/filepicker.h>
-namespace fs = std::filesystem;
-#define tr localization->translate
 #include <cstdlib>
+
+
+using std::filesystem::current_path;
+using std::filesystem::path;
+
+#define tr localization->translate
+
+
 
 wxDEFINE_EVENT(wxEVT_UPDATEMODS, wxCommandEvent);
 
@@ -21,10 +27,10 @@ void PathsTab::initializePaths()
 	SetSizer(gridSizer);
 
 	auto* userDir = std::getenv("USERPROFILE");
-	std::filesystem::path documentsDir;
+	path documentsDir;
 	if (userDir)
 	{
-		documentsDir = std::filesystem::path(userDir) / "Documents";
+		documentsDir = path(userDir) / "Documents";
 	}
 
 	if (!userDir)
@@ -32,7 +38,7 @@ void PathsTab::initializePaths()
 		userDir = std::getenv("HOME");
 		if (userDir)
 		{
-			documentsDir = std::filesystem::path(userDir) / "Documents";
+			documentsDir = path(userDir) / "Documents";
 		}
 	}
 	for (const auto& folder: configuration->getRequiredFolders() | std::ranges::views::values)
@@ -40,7 +46,7 @@ void PathsTab::initializePaths()
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(folder->getDisplayName()), wxDefaultPosition);
 
-		std::filesystem::path folderPath;
+		path folderPath;
 		if (!folder->getValue().empty())
 		{
 			folderPath = folder->getValue();
@@ -88,8 +94,8 @@ void PathsTab::initializePaths()
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(file->getDisplayName()), wxDefaultPosition);
 
-		std::filesystem::path filePath;
-		std::filesystem::path initialPath;
+		path filePath;
+		path initialPath;
 
 		if (!file->getValue().empty())
 		{
@@ -103,7 +109,7 @@ void PathsTab::initializePaths()
 		}
 		else if (file->getSearchPathType() == "converterFolder")
 		{
-			auto currentDirectory = std::filesystem::current_path();
+			auto currentDirectory = current_path();
 			filePath = currentDirectory / file->getSearchPath() / file->getFilename();
 			initialPath = currentDirectory / file->getSearchPath();
 		}
@@ -142,7 +148,7 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& folder: configuration->getRequiredFolders() | std::ranges::views::values)
 		if (folder->getID() == evt.GetId())
 		{
-			const auto validPath = commonItems::DoesFolderExist(std::filesystem::path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())));
+			const auto validPath = commonItems::DoesFolderExist(path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())));
 			if (!validPath)
 			{
 				Log(LogLevel::Error) << "Cannot access folder: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
@@ -163,7 +169,7 @@ void PathsTab::OnPathChanged(wxFileDirPickerEvent& evt)
 	for (const auto& file: configuration->getRequiredFiles() | std::ranges::views::values)
 		if (file->getID() == evt.GetId())
 		{
-			if (!commonItems::DoesFileExist(std::filesystem::path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring()))))
+			if (!commonItems::DoesFileExist(path(commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring()))))
 			{
 				Log(LogLevel::Error) << "Cannot access file: " << commonItems::UTF16ToUTF8(evt.GetPath().ToStdWstring())
 											<< " - Onedrive and similar symlink folders are not supported!";

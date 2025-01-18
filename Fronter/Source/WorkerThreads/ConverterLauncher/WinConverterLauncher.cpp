@@ -7,10 +7,12 @@
 #include <filesystem>
 #include <handleapi.h>
 #include <processthreadsapi.h>
-namespace fs = std::filesystem;
+
 
 
 wxDEFINE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
+
+
 
 void* ConverterLauncher::Entry()
 {

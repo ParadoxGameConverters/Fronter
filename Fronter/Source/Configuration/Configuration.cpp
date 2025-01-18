@@ -7,25 +7,30 @@
 #include <fstream>
 #include <ranges>
 
-namespace fs = std::filesystem;
+
+
+using std::filesystem::exists;
+using std::filesystem::path;
+
+
 
 Configuration::Configuration()
 {
 	std::ofstream clearLog("log.txt");
 	clearLog.close();
 	registerKeys();
-	if (fs::exists("Configuration/fronter-configuration.txt"))
+	if (exists("Configuration/fronter-configuration.txt"))
 	{
-		parseFile(std::filesystem::path("Configuration/fronter-configuration.txt"));
+		parseFile(path("Configuration/fronter-configuration.txt"));
 		Log(LogLevel::Info) << "Frontend configuration loaded.";
 	}
 	else
 	{
 		Log(LogLevel::Warning) << "Configuration/fronter-configuration.txt not found!";
 	}
-	if (fs::exists("Configuration/fronter-options.txt"))
+	if (exists("Configuration/fronter-options.txt"))
 	{
-		parseFile(std::filesystem::path("Configuration/fronter-options.txt"));
+		parseFile(path("Configuration/fronter-options.txt"));
 		Log(LogLevel::Info) << "Frontend options loaded.";
 	}
 	else
@@ -34,7 +39,7 @@ Configuration::Configuration()
 	}
 	clearRegisteredKeywords();
 	registerPreloadKeys();
-	if (!converterFolder.empty() && fs::exists(converterFolder / "configuration.txt"))
+	if (!converterFolder.empty() && exists(converterFolder / "configuration.txt"))
 	{
 		Log(LogLevel::Info) << "Previous configuration located, preloading selections.";
 		parseFile(converterFolder / "configuration.txt");
@@ -172,7 +177,7 @@ bool Configuration::exportConfiguration() const
 		Log(LogLevel::Error) << "Converter folder is not set!";
 		return false;
 	}
-	if (!fs::exists(converterFolder))
+	if (!exists(converterFolder))
 	{
 		Log(LogLevel::Error) << "Could not find converter folder!";
 		return false;
@@ -226,7 +231,7 @@ bool Configuration::exportConfiguration() const
 	return true;
 }
 
-std::filesystem::path Configuration::getSecondTailSource() const
+path Configuration::getSecondTailSource() const
 {
 	return converterFolder / "log.txt";
 }
@@ -241,7 +246,7 @@ void Configuration::autoLocateMods()
 {
 	autolocatedMods.clear();
 	// Do we have a mod path?
-	std::filesystem::path modPath;
+	path modPath;
 	for (const auto& filePtr: requiredFolders | std::views::values)
 	{
 		if (filePtr->getName() == autoGenerateModsFrom)
@@ -264,7 +269,7 @@ void Configuration::autoLocateMods()
 		modPath /= "mod";
 
 	// Are there mods inside?
-	std::vector<std::filesystem::path> validModFiles;
+	std::vector<path> validModFiles;
 	for (const auto& file: commonItems::GetAllFilesInFolder(modPath))
 	{
 		if (file.extension() != ".mod")
@@ -290,7 +295,7 @@ void Configuration::autoLocateMods()
 	}
 
 	// filter broken filenames from preloaded list.
-	std::set<std::filesystem::path> modNames;
+	std::set<path> modNames;
 	for (const auto& mod: autolocatedMods)
 		modNames.insert(mod.getFileName());
 

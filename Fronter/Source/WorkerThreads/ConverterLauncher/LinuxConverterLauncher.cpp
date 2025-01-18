@@ -3,9 +3,12 @@
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <filesystem>
-namespace fs = std::filesystem;
+
+
 
 wxDEFINE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
+
+
 
 void* ConverterLauncher::Entry()
 {

@@ -7,11 +7,14 @@
 #include <regex>
 
 
-namespace fs = std::filesystem;
+
+using std::filesystem::exists;
+
+
 
 Localization::Localization()
 {
-	if (!fs::exists("Configuration/converter_languages.yml"))
+	if (!exists("Configuration/converter_languages.yml"))
 	{
 		Log(LogLevel::Error) << "No localization found!";
 		return;
@@ -34,7 +37,7 @@ Localization::Localization()
 	langfile.close();
 	loadLanguages();
 
-	if (fs::exists("Configuration/fronter-language.txt"))
+	if (exists("Configuration/fronter-language.txt"))
 	{
 		std::ifstream userFile("Configuration/fronter-language.txt");
 		std::getline(userFile, line);

@@ -1,7 +1,8 @@
 #include "SliceMessage.h"
 #include "Log.h"
 #include <filesystem>
-namespace fs = std::filesystem;
+
+
 
 LogMessage sliceMessage(const std::string& message)
 {
