@@ -3,5 +3,5 @@ export CC=/usr/bin/gcc-11 &&
 export CXX=/usr/bin/g++-11 &&
 rm -rf build &&
 rm -rf Release &&
-cmake -H. -Bbuild -DCMAKE_C_COMPILER=/usr/bin/gcc-11 -DCMAKE_CXX_COMPILER=/usr/bin/g++-11 &&
-cmake --build build -- -j40
+cmake -H. --preset x64-coverage-linux -DCMAKE_C_COMPILER=/usr/bin/gcc-11 -DCMAKE_CXX_COMPILER=/usr/bin/g++-11 &&
+cmake --preset build-x64-coverage-linux -- -j40
