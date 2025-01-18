@@ -37,6 +37,7 @@ file(GLOB UPDATECHECKER_SOURCES "${PROJECT_SOURCE_DIR}/UpdateChecker/*.cpp")
 file(GLOB SQLITE_SOURCES "${PROJECT_SOURCE_DIR}/../../external/SQLiteCpp/src/*.cpp")
 
 add_subdirectory(external/commonItems EXCLUDE_FROM_ALL)
+add_subdirectory(external/SQLiteCpp/sqlite3 EXCLUDE_FROM_ALL)
 
 add_executable(ConverterFrontend
 	${MAIN_SOURCES}
@@ -55,7 +56,7 @@ add_executable(ConverterFrontend
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(ConverterFrontend commonLib ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
+target_link_libraries(ConverterFrontend commonLib sqlite3 ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
 
 add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND chmod u+x ../Copy_Files.sh)
 add_custom_command(TARGET ConverterFrontend POST_BUILD WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ../Copy_Files.sh)
