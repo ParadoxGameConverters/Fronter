@@ -17,8 +17,8 @@ class ModCopier final: public wxThread
 
   private:
 	void* Entry() override;
-	void createPlayset(const std::string& destModFolder, const std::string& targetName, bool metadataApproach);
-	[[nodiscard]] static std::string getLastUpdatedLauncherDbPath(const std::string& gameDocsDirectory);
+	void createPlayset(const std::filesystem::path& destModFolder, const std::filesystem::path& targetName, bool metadataApproach);
+	[[nodiscard]] static std::filesystem::path getLastUpdatedLauncherDbPath(const std::filesystem::path& gameDocsDirectory);
 	void deactivateCurrentPlayset(SQLite::Database& db);
 	[[nodiscard]] static std::string addModToDb(SQLite::Database& db,
 		 const std::string& modName,

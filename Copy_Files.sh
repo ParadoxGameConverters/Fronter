@@ -1,8 +1,8 @@
 #!/bin/sh
 # Copy required resources
-cp Resources/converter.ico ../Release/
-cp Resources/GeneralFAQ-READ.ME.FIRST.txt ../Release/
+cp Fronter/Resources/converter.ico Release/
+cp Fronter/Resources/GeneralFAQ-READ.ME.FIRST.txt Release/
 
-rm -rf ../Release/Configuration
-mkdir ../Release/Configuration
-cp Resources/*.yml ../Release/Configuration/
+rm -rf Release/Configuration
+mkdir Release/Configuration
+cp Fronter/Resources/*.yml Release/Configuration/

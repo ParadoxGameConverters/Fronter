@@ -1,6 +1,12 @@
 #ifndef CONFIGURATION_REQUIRED_FOLDER
 #define CONFIGURATION_REQUIRED_FOLDER
-#include "Parser.h"
+
+
+
+#include <Parser.h>
+#include <filesystem>
+
+
 
 class RequiredFolder: commonItems::parser
 {
@@ -9,7 +15,7 @@ class RequiredFolder: commonItems::parser
 	explicit RequiredFolder(std::istream& theStream);
 
 	void setID(const int theID) { ID = theID; }
-	void setValue(const std::string& theValue) { value = theValue; }
+	void setValue(const std::filesystem::path& theValue) { value = theValue; }
 
 	[[nodiscard]] const auto& getName() const { return name; }
 	[[nodiscard]] const auto& getDisplayName() const { return displayName; }
@@ -33,9 +39,9 @@ class RequiredFolder: commonItems::parser
 	std::string tooltip;
 	std::string displayName;
 	std::string searchPathType;
-	std::string searchPath;
+	std::filesystem::path searchPath;
 	std::string searchPathID;
-	std::string value;
+	std::filesystem::path value;
 };
 
 #endif // CONFIGURATION_REQUIRED_FOLDER

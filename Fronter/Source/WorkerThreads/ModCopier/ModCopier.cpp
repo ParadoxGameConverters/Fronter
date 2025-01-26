@@ -5,9 +5,19 @@
 #include <chrono>
 #include <filesystem>
 #include <random>
-namespace fs = std::filesystem;
+
+
+
+using std::filesystem::copy_options;
+using std::filesystem::exists;
+using std::filesystem::file_time_type;
+using std::filesystem::path;
+
+
 
 wxDEFINE_EVENT(wxEVT_COPIERDONE, wxCommandEvent);
+
+
 
 namespace
 {
@@ -51,7 +61,7 @@ void* ModCopier::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFolderExist(converterFolder + "/output"))
+	if (!commonItems::DoesFolderExist(converterFolder / "output"))
 	{
 		Log(LogLevel::Error) << "Copy failed - where is the converter's output folder?";
 		evt.SetInt(0);
@@ -111,27 +121,27 @@ void* ModCopier::Entry()
 			m_pParent->AddPendingEvent(evt);
 			return nullptr;
 		}
-		if (fs::is_directory(fs::u8path(saveGamePath)))
+		if (is_directory(saveGamePath))
 		{
 			Log(LogLevel::Error) << "Copy Failed - Save game is a directory...";
 			evt.SetInt(0);
 			m_pParent->AddPendingEvent(evt);
 			return nullptr;
 		}
-		saveGamePath = trimPath(saveGamePath);
-		saveGamePath = normalizeStringPath(saveGamePath);
-		const auto pos = saveGamePath.find_last_of('.');
-		if (pos != std::string::npos)
-			saveGamePath = saveGamePath.substr(0, pos);
-		targetName = saveGamePath;
+		saveGamePath = saveGamePath.filename();
+		saveGamePath = normalizeStringPath(saveGamePath.string());
+		targetName = saveGamePath.stem().string();
 	}
 	targetName = replaceCharacter(targetName, '-');
 	targetName = replaceCharacter(targetName, ' ');
 	targetName = commonItems::normalizeUTF8Path(targetName);
+	std::filesystem::path targetPath(targetName);
+	std::filesystem::path targetModPath(targetName);
+	targetModPath += ".mod";
 
-	if (!commonItems::DoesFolderExist(converterFolder + "/output/" + targetName))
+	if (!commonItems::DoesFolderExist(converterFolder / "output" / targetPath))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Could not find mod folder: " << converterFolder + "/output/" + targetName;
+		Log(LogLevel::Error) << "Copy Failed - Could not find mod folder: " << converterFolder / "output" / targetPath;
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
@@ -139,39 +149,43 @@ void* ModCopier::Entry()
 
 	// for vic3 and onwards we need to skip .mod requirement
 
+	path targetMetadataPath = targetPath;
+	targetMetadataPath += ".metadata";
 	bool vic3OnwardSkipModFile = false;
-	if (commonItems::DoesFolderExist(converterFolder + "/output/" + targetName + "/.metadata"))
+	if (commonItems::DoesFolderExist(converterFolder / "output" / targetMetadataPath))
 		vic3OnwardSkipModFile = true;
-	if (!vic3OnwardSkipModFile && !commonItems::DoesFileExist(converterFolder + "/output/" + targetName + ".mod"))
+	if (!vic3OnwardSkipModFile && !commonItems::DoesFileExist(converterFolder / "output" / targetModPath))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Could not find mod: " << converterFolder + "/output/" + targetName + ".mod";
+		Log(LogLevel::Error) << "Copy Failed - Could not find mod: " << converterFolder / "output" / targetModPath;
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!fs::is_directory(fs::u8path(converterFolder + "/output/" + targetName)))
+	if (!is_directory(converterFolder / "output" / targetPath))
 	{
-		Log(LogLevel::Error) << "Copy Failed - Mod folder is not a directory: " << converterFolder + "/output/" + targetName;
+		Log(LogLevel::Error) << "Copy Failed - Mod folder is not a directory: " << converterFolder / "output" / targetPath;
 		evt.SetInt(0);
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!vic3OnwardSkipModFile && commonItems::DoesFileExist(destinationFolder + "/" + targetName + ".mod"))
+	if (!vic3OnwardSkipModFile && commonItems::DoesFileExist(destinationFolder / targetModPath))
 	{
 		Log(LogLevel::Info) << "Previous mod file found, deleting.";
-		fs::remove(fs::u8path(destinationFolder + "/" + targetName + ".mod"));
+		remove(destinationFolder / targetModPath);
 	}
-	if (commonItems::DoesFolderExist(destinationFolder + "/" + targetName))
+	if (commonItems::DoesFolderExist(destinationFolder / targetPath))
 	{
 		Log(LogLevel::Info) << "Previous mod directory found, deleting.";
-		commonItems::DeleteFolder(destinationFolder + "/" + targetName);
+		std::filesystem::remove_all(destinationFolder / targetPath);
 	}
 	try
 	{
 		Log(LogLevel::Info) << "Copying mod to target location...";
 		if (!vic3OnwardSkipModFile)
-			commonItems::TryCopyFile(converterFolder + "/output/" + targetName + ".mod", destinationFolder + "/" + targetName + ".mod");
-		commonItems::CopyFolder(converterFolder + "/output/" + targetName, destinationFolder + "/" + targetName);
+			std::filesystem::copy_file(converterFolder / "output" / targetModPath,
+				 destinationFolder / targetModPath,
+				 std::filesystem::copy_options::overwrite_existing);
+		std::filesystem::copy(converterFolder / "output" / targetPath, destinationFolder / targetPath, copy_options::recursive);
 	}
 	catch (std::filesystem::filesystem_error& theError)
 	{
@@ -180,18 +194,18 @@ void* ModCopier::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	Log(LogLevel::Notice) << "Mod successfully copied to: " << destinationFolder + "/" + targetName;
+	Log(LogLevel::Notice) << "Mod successfully copied to: " << destinationFolder / targetPath;
 
-	createPlayset(destinationFolder, targetName, vic3OnwardSkipModFile);
+	createPlayset(destinationFolder, targetPath, vic3OnwardSkipModFile);
 
 	evt.SetInt(1);
 	m_pParent->AddPendingEvent(evt);
 	return nullptr;
 }
 
-void ModCopier::createPlayset(const std::string& destModFolder, const std::string& targetName, const bool metadataApproach)
+void ModCopier::createPlayset(const std::filesystem::path& destModFolder, const std::filesystem::path& targetName, const bool metadataApproach)
 {
-	const auto gameDocsDirectory = destModFolder + "/..";
+	const auto gameDocsDirectory = destModFolder / "..";
 	if (!commonItems::DoesFolderExist(gameDocsDirectory))
 	{
 		Log(LogLevel::Warning) << "Couldn't resolve parent folder of " << destModFolder;
@@ -211,7 +225,7 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 	try
 	{
 		SQLite::Database db(latestDbFilePath, SQLite::OPEN_READWRITE);
-		std::string playsetName = configuration->getName() + ": " + targetName;
+		std::string playsetName = configuration->getName() + ": " + targetName.string();
 		auto unixTimeMilliSeconds = std::chrono::system_clock::now().time_since_epoch().count();
 
 		SQLite::Statement query(db, "SELECT COUNT(*) FROM playsets WHERE name = ?");
@@ -247,8 +261,10 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 			query2.bind(3, unixTimeMilliSeconds);
 			query2.exec();
 
-			auto gameRegistryId = "mod/" + targetName + ".mod";
-			auto modId = addModToDb(db, targetName, gameRegistryId, destModFolder + "\\" + targetName, metadataApproach);
+			path targetModPath(targetName);
+			targetModPath += ".mod";
+			auto gameRegistryId = "mod" / targetModPath;
+			auto modId = addModToDb(db, targetName.string(), gameRegistryId.string(), (destModFolder / targetName).string(), metadataApproach);
 			addModToPlayset(db, modId, playsetID);
 			Log(LogLevel::Notice) << "Playset " + playsetName + " created, select it and play. Have fun! -- Paradox Game Converters Team";
 		}
@@ -260,15 +276,15 @@ void ModCopier::createPlayset(const std::string& destModFolder, const std::strin
 	}
 }
 
-std::string ModCopier::getLastUpdatedLauncherDbPath(const std::string& gameDocsDirectory)
+std::filesystem::path ModCopier::getLastUpdatedLauncherDbPath(const std::filesystem::path& gameDocsDirectory)
 {
 	const std::set<std::string> possibleDbFileNames = {"launcher-v2.sqlite", "launcher-v2_openbeta.sqlite"};
-	fs::file_time_type lastAccess;
+	file_time_type lastAccess;
 	std::string actualName;
 	for (const auto& name: possibleDbFileNames)
 	{
-		auto path = std::filesystem::path(gameDocsDirectory + "/" + name);
-		if (!commonItems::DoesFileExist(gameDocsDirectory + "/" + name))
+		auto path = std::filesystem::path(gameDocsDirectory / name);
+		if (!commonItems::DoesFileExist(gameDocsDirectory / name))
 			continue;
 		if (lastAccess < last_write_time(path))
 		{
@@ -278,7 +294,7 @@ std::string ModCopier::getLastUpdatedLauncherDbPath(const std::string& gameDocsD
 	}
 	if (actualName.empty())
 		return actualName;
-	return gameDocsDirectory + "/" + actualName;
+	return gameDocsDirectory / actualName;
 }
 
 void ModCopier::deactivateCurrentPlayset(SQLite::Database& db)

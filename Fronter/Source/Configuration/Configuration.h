@@ -1,10 +1,17 @@
 #ifndef CONFIGURATION
 #define CONFIGURATION
+
+
+
+#include <Parser.h>
+#include <filesystem>
+
 #include "FronterMod.h"
 #include "Options/Option.h"
-#include "Parser.h"
 #include "RequiredFile.h"
 #include "RequiredFolder.h"
+
+
 
 class Configuration: commonItems::parser
 {
@@ -31,7 +38,7 @@ class Configuration: commonItems::parser
 	[[nodiscard]] const auto& getBackendExePath() const { return backendExePath; }
 	[[nodiscard]] const auto& getOptions() const { return options; }
 
-	[[nodiscard]] std::string getSecondTailSource() const;
+	[[nodiscard]] std::filesystem::path getSecondTailSource() const;
 	[[nodiscard]] bool exportConfiguration() const;
 	void clearSecondLog() const;
 	void autoLocateMods();
@@ -43,8 +50,8 @@ class Configuration: commonItems::parser
 	void registerPreloadKeys();
 
 	std::string name;
-	std::string converterFolder;
-	std::string backendExePath; // relative to converterFolder
+	std::filesystem::path converterFolder;
+	std::filesystem::path backendExePath; // relative to converterFolder
 	std::string displayName;
 	std::string sourceGame;
 	std::string targetGame;
@@ -59,7 +66,7 @@ class Configuration: commonItems::parser
 	std::map<std::string, std::shared_ptr<RequiredFolder>> requiredFolders;
 	std::vector<std::shared_ptr<Option>> options;
 	std::vector<FronterMod> autolocatedMods;
-	std::set<std::string> preloadedModFileNames;
+	std::set<std::filesystem::path> preloadedModFileNames;
 	int optionCounter = 0;
 };
 

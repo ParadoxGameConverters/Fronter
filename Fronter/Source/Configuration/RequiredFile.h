@@ -1,6 +1,11 @@
 #ifndef CONFIGURATION_REQUIRED_FILE
 #define CONFIGURATION_REQUIRED_FILE
-#include "Parser.h"
+
+
+#include <Parser.h>
+#include <filesystem>
+
+
 
 class RequiredFile: commonItems::parser
 {
@@ -21,7 +26,7 @@ class RequiredFile: commonItems::parser
 	[[nodiscard]] auto getID() const { return ID; }
 
 	void setID(const int theID) { ID = theID; }
-	void setValue(const std::string& theValue) { value = theValue; }
+	void setValue(const std::filesystem::path& theValue) { value = theValue; }
 
   private:
 	void registerKeys();
@@ -33,10 +38,10 @@ class RequiredFile: commonItems::parser
 	std::string tooltip;
 	std::string displayName;
 	std::string searchPathType;
-	std::string searchPath;
-	std::string fileName;
+	std::filesystem::path searchPath;
+	std::filesystem::path fileName;
 	std::string allowedExtension;
-	std::string value;
+	std::filesystem::path value;
 };
 
 #endif // CONFIGURATION_REQUIRED_FILE

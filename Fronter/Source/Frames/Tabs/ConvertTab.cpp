@@ -113,7 +113,8 @@ void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 	{
 		if (folder->isMandatory() && !commonItems::DoesFolderExist(folder->getValue()))
 		{
-			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder->getName() << " at " << folder->getValue() << " not found.";
+			Log(LogLevel::Error) << "Launching converter failed - mandatory folder " << folder->getName() << " at " << folder->getValue().string()
+										<< " not found.";
 			return;
 		}
 	}
@@ -121,7 +122,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 	{
 		if (file->isMandatory() && !commonItems::DoesFileExist(file->getValue()))
 		{
-			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file->getName() << " at " << file->getValue() << " not found.";
+			Log(LogLevel::Error) << "Launching converter failed - mandatory file " << file->getName() << " at " << file->getValue().string() << " not found.";
 			return;
 		}
 	}
@@ -146,7 +147,7 @@ void ConvertTab::onConvertStarted(wxCommandEvent& WXUNUSED(event))
 	converterLauncher->loadConfiguration(configuration);
 	converterLauncher->Create();
 	converterLauncher->Run();
-	mainFrame->initSecondTail(configuration->getSecondTailSource());
+	mainFrame->initSecondTail(configuration->getSecondTailSource().string());
 }
 
 void ConvertTab::onConverterDone(wxCommandEvent& event)

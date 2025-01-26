@@ -7,19 +7,21 @@
 #include <filesystem>
 #include <handleapi.h>
 #include <processthreadsapi.h>
-namespace fs = std::filesystem;
+
 
 
 wxDEFINE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
+
+
 
 void* ConverterLauncher::Entry()
 {
 	wxCommandEvent evt(wxEVT_CONVERTERDONE);
 
 	const auto& backendExePath = configuration->getBackendExePath();
-	auto backendExePathRelativeToFrontend = (fs::path(configuration->getConverterFolder()) / backendExePath).string();
+	auto backendExePathRelativeToFrontend = configuration->getConverterFolder() / backendExePath;
 
-	auto extension = getExtension(backendExePath);
+	auto extension = backendExePath.extension();
 	if (extension.empty())
 	{
 		backendExePathRelativeToFrontend += ".exe";
@@ -43,18 +45,19 @@ void* ConverterLauncher::Entry()
 	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi = {.hProcess = nullptr, .hThread = nullptr, .dwProcessId = 0, .dwThreadId = 0};
 
-	const auto workDir = commonItems::convertUTF8ToUTF16(getPath(backendExePathRelativeToFrontend));
+	const auto workDir = backendExePathRelativeToFrontend.parent_path();
 	const auto* workDirPtr = workDir.c_str();
 
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
 	auto command = backendExePathRelativeToFrontend;
-	if (extension == "jar")
+	if (extension == ".jar")
 	{
-		command = "java.exe -jar " + trimPath(backendExePath);
+		command = std::filesystem::path("java.exe -jar ");
+		command += backendExePath.filename();
 	}
 	WCHAR commandLine[MAX_PATH]{};
-	wcscpy(static_cast<LPWSTR>(commandLine), commonItems::convertUTF8ToUTF16(command).c_str());
+	wcscpy(static_cast<LPWSTR>(commandLine), command.c_str());
 
 	if (CreateProcess(nullptr,						// No module name (use command line)
 			  static_cast<LPWSTR>(commandLine), // Command line

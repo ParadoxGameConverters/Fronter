@@ -3,16 +3,19 @@
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #include <filesystem>
-namespace fs = std::filesystem;
+
+
 
 wxDEFINE_EVENT(wxEVT_CONVERTERDONE, wxCommandEvent);
+
+
 
 void* ConverterLauncher::Entry()
 {
 	wxCommandEvent evt(wxEVT_CONVERTERDONE);
 
-	auto converterFolder = fs::path(configuration->getConverterFolder());
-	auto backendExePath = fs::path(configuration->getBackendExePath());
+	auto converterFolder = configuration->getConverterFolder();
+	auto backendExePath = configuration->getBackendExePath();
 	auto backendExePathRelativeToFrontend = converterFolder / backendExePath;
 	auto backendExePathString = backendExePathRelativeToFrontend.string();
 
@@ -23,7 +26,7 @@ void* ConverterLauncher::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	if (!commonItems::DoesFileExist(backendExePathString))
+	if (!commonItems::DoesFileExist(backendExePathRelativeToFrontend))
 	{
 		Log(LogLevel::Error) << "Could not find converter executable!";
 		evt.SetInt(0);
@@ -31,11 +34,11 @@ void* ConverterLauncher::Entry()
 		return nullptr;
 	}
 
-	const auto backendExeName = trimPath(backendExePathString);
-	const auto workDir = getPath(backendExePathString);
+	const auto backendExeName = backendExePathRelativeToFrontend.filename();
+	const auto workDir = backendExePathRelativeToFrontend.parent_path();
 	const auto stopWatchStart = std::chrono::steady_clock::now();
 
-	auto exeCommand = "cd " + workDir + "; ./" + backendExeName;
+	auto exeCommand = "cd " + workDir.string() + "; ./" + backendExeName.string();
 	const char* exeCommandChar = exeCommand.c_str();
 
 	auto result = system(exeCommandChar);
