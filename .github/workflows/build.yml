@@ -42,7 +42,7 @@ jobs:
                 libwxgtk3.2unofficial-dev \
                 wx3.2-headers \
                 wx-common \
-                libnotify-dev libnotify4 libcurl4-openssl-dev ž
+                libnotify-dev libnotify4 libcurl4-openssl-dev \
                 ninja-build
 
     - name: "Link gcc-11 and g++-11 to their standard commands"
