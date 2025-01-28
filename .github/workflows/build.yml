@@ -24,7 +24,7 @@ jobs:
   build_linux_foreign:
     name: Build Linux foreign
     if: github.repository_owner != 'ParadoxGameConverters'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v4
@@ -42,7 +42,8 @@ jobs:
                 libwxgtk3.2unofficial-dev \
                 wx3.2-headers \
                 wx-common \
-                libnotify-dev libnotify4 libcurl4-openssl-dev
+                libnotify-dev libnotify4 libcurl4-openssl-dev \
+                ninja-build
 
     - name: "Link gcc-11 and g++-11 to their standard commands"
       run: |
