@@ -263,8 +263,9 @@ void ModCopier::createPlayset(const std::filesystem::path& destModFolder, const 
 
 			path targetModPath(targetName);
 			targetModPath += ".mod";
-			auto gameRegistryId = "mod" / targetModPath;
-			auto modId = addModToDb(db, targetName.string(), gameRegistryId.string(), (destModFolder / targetName).string(), metadataApproach);
+			auto gameRegistryId = ("mod" / targetModPath).string();
+			std::replace(gameRegistryId.begin(), gameRegistryId.end(), '\\', '/');
+			auto modId = addModToDb(db, targetName.string(), gameRegistryId, (destModFolder / targetName).string(), metadataApproach);
 			addModToPlayset(db, modId, playsetID);
 			Log(LogLevel::Notice) << "Playset " + playsetName + " created, select it and play. Have fun! -- Paradox Game Converters Team";
 		}
