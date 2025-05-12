@@ -150,7 +150,7 @@ void* ModCopier::Entry()
 	// for vic3 and onwards we need to skip .mod requirement
 
 	path targetMetadataPath = targetPath;
-	targetMetadataPath += ".metadata";
+	targetMetadataPath += "/.metadata";
 	bool vic3OnwardSkipModFile = false;
 	if (commonItems::DoesFolderExist(converterFolder / "output" / targetMetadataPath))
 		vic3OnwardSkipModFile = true;
