@@ -206,7 +206,7 @@ bool Configuration::exportConfiguration() const
 		for (const auto& mod: autolocatedMods)
 			if (preloadedModFileNames.count(mod.getFileName()))
 			{
-				confFile << "\t\"" << mod.getFileName() << "\"\n";
+				confFile << "\t" << mod.getFileName() << "\n";
 			}
 		confFile << "}\n";
 	}
