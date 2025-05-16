@@ -194,7 +194,7 @@ void* ModCopier::Entry()
 		m_pParent->AddPendingEvent(evt);
 		return nullptr;
 	}
-	Log(LogLevel::Notice) << "Mod successfully copied to: " << destinationFolder / targetPath;
+	Log(LogLevel::Notice) << "Mod successfully copied to: " << (destinationFolder / targetPath).string();
 
 	createPlayset(destinationFolder, targetPath, vic3OnwardSkipModFile);
 
