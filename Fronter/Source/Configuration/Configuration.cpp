@@ -205,7 +205,7 @@ bool Configuration::exportConfiguration() const
 		}
 		catch (...)
 		{
-			// we ran into a case where C++ can't stringify the path, but can still use it. So copy the file to a safe name (temp.ck3)
+			// we ran into a case where C++ can't stringify the path, but can still use it. So copy the file to a safe name
 			std::filesystem::path dir = filePtr->getValue().parent_path();
 			auto extension = filePtr->getValue().extension();
 			auto temp_file = dir / ("temp" + extension.string());
