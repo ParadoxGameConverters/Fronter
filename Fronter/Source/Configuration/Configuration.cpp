@@ -197,9 +197,11 @@ bool Configuration::exportConfiguration() const
 	{
 		if (!filePtr->isOutputtable())
 			continue;
+
+		std::string fileValue;
 		try
 		{
-			confFile << requiredFileName << " = \"" << filePtr->getValue().string() << "\"\n";
+			fileValue = filePtr->getValue().string();
 		}
 		catch (...)
 		{
@@ -210,7 +212,10 @@ bool Configuration::exportConfiguration() const
 			std::filesystem::copy_file(filePtr->getValue(), temp_file, std::filesystem::copy_options::overwrite_existing);
 			confFile << temp_file.string() << "\"\n";
 			filePtr->setValue(temp_file);
+			fileValue = filePtr->getValue().string();
 		}
+
+		confFile << requiredFileName << " = \"" << fileValue << "\"\n";
 	}
 
 	if (!autoGenerateModsFrom.empty())
