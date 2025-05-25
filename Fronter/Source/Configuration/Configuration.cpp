@@ -197,7 +197,28 @@ bool Configuration::exportConfiguration() const
 	{
 		if (!filePtr->isOutputtable())
 			continue;
-		confFile << requiredFileName << " = \"" << filePtr->getValue().string() << "\"\n";
+		try
+		{
+			confFile << requiredFileName << " = \"" << filePtr->getValue().string() << "\"\n";
+		}
+		catch (...)
+		{
+			// we ran into a case where C++ can't stringify the path, but can still use it. So copy the file to a safe name (temp.ck3)
+			std::filesystem::path dir = filePtr->getValue().parent_path();
+			auto extension = filePtr->getValue().extension();
+			auto temp_file = dir / ("temp" + extension.string());
+			std::filesystem::copy_file(filePtr->getValue(), temp_file, std::filesystem::copy_options::overwrite_existing);
+			confFile << temp_file.string() << "\"\n";
+
+			// make sure we can find the output data - if the user hasn't set an output name we'll do so
+			for (const auto& option: options)
+			{
+				if (option->getName() == "output_name" && option->getValue().empty())
+				{
+					option->setValue("temp");
+				}
+			}
+		}
 	}
 
 	if (!autoGenerateModsFrom.empty())
