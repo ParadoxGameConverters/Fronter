@@ -197,7 +197,25 @@ bool Configuration::exportConfiguration() const
 	{
 		if (!filePtr->isOutputtable())
 			continue;
-		confFile << requiredFileName << " = \"" << filePtr->getValue().string() << "\"\n";
+
+		std::string fileValue;
+		try
+		{
+			fileValue = filePtr->getValue().string();
+		}
+		catch (...)
+		{
+			// we ran into a case where C++ can't stringify the path, but can still use it. So copy the file to a safe name
+			std::filesystem::path dir = filePtr->getValue().parent_path();
+			auto extension = filePtr->getValue().extension();
+			auto temp_file = dir / ("temp" + extension.string());
+			std::filesystem::copy_file(filePtr->getValue(), temp_file, std::filesystem::copy_options::overwrite_existing);
+			confFile << temp_file.string() << "\"\n";
+			filePtr->setValue(temp_file);
+			fileValue = filePtr->getValue().string();
+		}
+
+		confFile << requiredFileName << " = \"" << fileValue << "\"\n";
 	}
 
 	if (!autoGenerateModsFrom.empty())
