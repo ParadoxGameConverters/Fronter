@@ -51,7 +51,7 @@ Localization::Localization()
 
 void Localization::loadLanguages()
 {
-	for (const auto& file_name: commonItems::GetAllFilesInFolder(std::filesystem::path("Configuration/")))
+	for (const auto& file_name: commonItems::GetAllFilesInFolder("Configuration/"))
 	{
 		if (file_name.extension() != ".yml")
 			continue;

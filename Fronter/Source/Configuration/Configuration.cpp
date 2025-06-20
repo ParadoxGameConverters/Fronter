@@ -21,7 +21,7 @@ Configuration::Configuration()
 	registerKeys();
 	if (exists("Configuration/fronter-configuration.txt"))
 	{
-		parseFile(path("Configuration/fronter-configuration.txt"));
+		parseFile("Configuration/fronter-configuration.txt");
 		Log(LogLevel::Info) << "Frontend configuration loaded.";
 	}
 	else
@@ -30,7 +30,7 @@ Configuration::Configuration()
 	}
 	if (exists("Configuration/fronter-options.txt"))
 	{
-		parseFile(path("Configuration/fronter-options.txt"));
+		parseFile("Configuration/fronter-options.txt");
 		Log(LogLevel::Info) << "Frontend options loaded.";
 	}
 	else
