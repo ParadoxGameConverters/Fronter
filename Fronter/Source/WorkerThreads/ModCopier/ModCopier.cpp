@@ -284,7 +284,7 @@ std::filesystem::path ModCopier::getLastUpdatedLauncherDbPath(const std::filesys
 	std::string actualName;
 	for (const auto& name: possibleDbFileNames)
 	{
-		auto path = std::filesystem::path(gameDocsDirectory / name);
+		auto path = gameDocsDirectory / name;
 		if (!commonItems::DoesFileExist(gameDocsDirectory / name))
 			continue;
 		if (lastAccess < last_write_time(path))
