@@ -1,6 +1,3 @@
 [submodule "external/wxWidgets"]
 	path = external/wxWidgets
 	url = https://github.com/ParadoxGameConverters/wxWidgets
-[submodule "external/commonItems"]
-	path = external/commonItems
-	url = https://github.com/ParadoxGameConverters/commonItems
