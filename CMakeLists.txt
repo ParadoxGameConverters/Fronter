@@ -16,7 +16,6 @@ if (MSVC)
 	add_compile_definitions(UNICODE _UNICODE)
 elseif (UNIX)
 	add_compile_options(-pthread -Wall -O2 -Wno-unused-variable)
-	# -no-pie is handled by CMake default policies usually, but explicit if needed:
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -no-pie")
 endif ()
 
@@ -24,27 +23,29 @@ endif ()
 include(FetchContent)
 
 # 1. SQLiteCpp
-find_package(SQLiteCpp 3.3.3 QUIET)
-if (NOT SQLiteCpp_FOUND)
-	message(STATUS "SQLiteCpp not found installed, fetching from source...")
-	set(SQLITECPP_RUN_CPPCHECK OFF CACHE BOOL "" FORCE)
-	set(SQLITECPP_RUN_CPPLINT OFF CACHE BOOL "" FORCE)
-	set(SQLITECPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-	set(SQLITECPP_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+# We FORCE build from source to avoid VCPKG mismatch (DLL vs Static & C++ Standard issues)
+message(STATUS "Fetching SQLiteCpp from source to ensure C++23/Filesystem support...")
+set(SQLITECPP_RUN_CPPCHECK OFF CACHE BOOL "" FORCE)
+set(SQLITECPP_RUN_CPPLINT OFF CACHE BOOL "" FORCE)
+set(SQLITECPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(SQLITECPP_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
-	FetchContent_Declare(
-			SQLiteCpp
-			GIT_REPOSITORY https://github.com/SRombauts/SQLiteCpp.git
-			GIT_TAG 3.3.3
-			)
-	FetchContent_MakeAvailable(SQLiteCpp)
-endif ()
+FetchContent_Declare(
+		SQLiteCpp
+		GIT_REPOSITORY https://github.com/SRombauts/SQLiteCpp.git
+		GIT_TAG 3.3.3
+		)
+FetchContent_MakeAvailable(SQLiteCpp)
+# Create an alias so linking below remains consistent if the target name differs
+if(TARGET SQLiteCpp AND NOT TARGET SQLiteCpp::SQLiteCpp)
+    add_library(SQLiteCpp::SQLiteCpp ALIAS SQLiteCpp)
+endif()
 
 # 2. CURL
 # Try Config mode first (CURL::libcurl target)
 find_package(CURL 8.17.0 QUIET CONFIG)
 
-# If Config failed, try Module mode (CURL::libcurl target provided by CMake's FindCURL)
+# If Config failed, try Module mode
 if (NOT CURL_FOUND)
 	find_package(CURL 8.17.0 QUIET)
 endif ()
@@ -57,7 +58,6 @@ if (NOT CURL_FOUND)
 	if (PC_CURL_FOUND)
 		message(STATUS "Found libcurl via PkgConfig")
 		set(CURL_FOUND TRUE)
-		# Manually create the imported target so linking logic remains consistent
 		if (NOT TARGET CURL::libcurl)
 			add_library(CURL::libcurl INTERFACE IMPORTED)
 			target_include_directories(CURL::libcurl INTERFACE ${PC_CURL_INCLUDE_DIRS})
@@ -88,10 +88,15 @@ endif ()
 find_package(wxWidgets 3.2.0 QUIET COMPONENTS net core base)
 
 if (wxWidgets_FOUND)
-	include(${wxWidgets_USE_FILE})
-	set(WX_LIBS ${wxWidgets_LIBRARIES})
+    # Check if we have targets (VCPKG/Config mode) or variables (Module mode)
+    if (TARGET wx::core)
+        set(WX_LIBS wx::net wx::core wx::base)
+    else()
+	    include(${wxWidgets_USE_FILE})
+	    set(WX_LIBS ${wxWidgets_LIBRARIES})
+    endif()
 else ()
-	message(STATUS "wxWidgets not found installed, fetching v3.3.1 from source (this may take a while)...")
+	message(STATUS "wxWidgets not found installed, fetching v3.3.1 from source...")
 
 	set(wxBUILD_SHARED ON CACHE BOOL "" FORCE)
 	set(wxBUILD_SAMPLES OFF CACHE BOOL "" FORCE)
@@ -110,7 +115,6 @@ else ()
 			)
 	FetchContent_MakeAvailable(wxWidgets)
 
-	# Create standard aliases if they don't exist
 	if (NOT TARGET wx::net)
 		add_library(wx::net ALIAS wxnet)
 		add_library(wx::core ALIAS wxcore)
@@ -156,7 +160,7 @@ file(GLOB CONVERTERLAUNCHER_COMMON "${PROJECT_SOURCE_DIR}/WorkerThreads/Converte
 list(APPEND CONVERTERLAUNCHER_SOURCES ${CONVERTERLAUNCHER_COMMON})
 
 # --- Target ---
-add_executable(ConverterFrontend
+add_executable(ConverterFrontend WIN32
                ${MAIN_SOURCES}
                ${CONFIGURATION_SOURCES}
                ${CONFIGURATION_OPTIONS_SOURCES}
@@ -176,9 +180,10 @@ target_include_directories(ConverterFrontend PRIVATE
                            )
 
 # --- Linking ---
+# Note: SQLiteCpp::SQLiteCpp here refers to the ALIAS created above for the source build
 target_link_libraries(ConverterFrontend PRIVATE
                       commonItems::commonItems
-                      SQLiteCpp
+                      SQLiteCpp::SQLiteCpp
                       CURL::libcurl
                       ${WX_LIBS}
                       )

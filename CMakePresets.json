@@ -3,12 +3,10 @@
   "configurePresets": [
     {
       "name": "windows-base",
-      "description": "Target Windows with the Visual Studio development environment.",
-      "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/${presetName}",
-      "installDir": "${sourceDir}/install/${presetName}",
+      "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe"
       },
@@ -18,7 +16,7 @@
         "rhs": "Windows"
       }
     },
-	{
+    {
       "name": "linux-base",
       "description": "Target Linux with the gcc/g++ build environment.",
       "hidden": true,
@@ -35,7 +33,7 @@
         "rhs": "Linux"
       }
     },
-	{
+    {
       "name": "x64-release-windows",
       "displayName": "x64 Release Windows",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (Release)",
@@ -44,7 +42,10 @@
         "value": "x64",
         "strategy": "external"
       },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "PLATFORM": "Windows" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PLATFORM": "Windows"
+      }
     },
     {
       "name": "x64-debug-windows",
@@ -55,7 +56,10 @@
         "value": "x64",
         "strategy": "external"
       },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "PLATFORM": "Windows" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "PLATFORM": "Windows"
+      }
     },
     {
       "name": "x64-debug-linux",
@@ -66,7 +70,10 @@
         "value": "x64",
         "strategy": "external"
       },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "PLATFORM": "Linux" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "PLATFORM": "Linux"
+      }
     },
     {
       "name": "x64-release-linux",
@@ -77,9 +84,11 @@
         "value": "x64",
         "strategy": "external"
       },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "PLATFORM": "Linux" }
-    }
-	,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PLATFORM": "Linux"
+      }
+    },
     {
       "name": "x64-coverage-linux",
       "displayName": "x64 Release Linux",
@@ -89,7 +98,11 @@
         "value": "x64",
         "strategy": "external"
       },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Coverage", "PLATFORM": "Linux", "COVERAGE": "true" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Coverage",
+        "PLATFORM": "Linux",
+        "COVERAGE": "true"
+      }
     }
   ],
   "buildPresets": [
@@ -103,7 +116,7 @@
         "rhs": "Windows"
       }
     },
-	{
+    {
       "name": "build-x64-debug-windows",
       "displayName": "x64 debug",
       "configurePreset": "x64-debug-windows",
@@ -113,7 +126,7 @@
         "rhs": "Windows"
       }
     },
-	{
+    {
       "name": "build-x64-debug-linux",
       "displayName": "x64 debug",
       "configurePreset": "x64-debug-linux",
