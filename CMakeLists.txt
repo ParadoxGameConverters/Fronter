@@ -23,8 +23,8 @@ endif ()
 include(FetchContent)
 
 # 1. SQLiteCpp
-# We FORCE build from source to avoid VCPKG mismatch (DLL vs Static & C++ Standard issues)
-message(STATUS "Fetching SQLiteCpp from source to ensure C++23/Filesystem support...")
+# Always fetch from source to avoid VCPKG DLL/Static mismatches
+message(STATUS "Fronter: Fetching SQLiteCpp from source...")
 set(SQLITECPP_RUN_CPPCHECK OFF CACHE BOOL "" FORCE)
 set(SQLITECPP_RUN_CPPLINT OFF CACHE BOOL "" FORCE)
 set(SQLITECPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -36,21 +36,19 @@ FetchContent_Declare(
 		GIT_TAG 3.3.3
 		)
 FetchContent_MakeAvailable(SQLiteCpp)
-# Create an alias so linking below remains consistent if the target name differs
+
+# Alias to ensure consistent naming
 if(TARGET SQLiteCpp AND NOT TARGET SQLiteCpp::SQLiteCpp)
     add_library(SQLiteCpp::SQLiteCpp ALIAS SQLiteCpp)
 endif()
 
 # 2. CURL
-# Try Config mode first (CURL::libcurl target)
 find_package(CURL 8.17.0 QUIET CONFIG)
 
-# If Config failed, try Module mode
 if (NOT CURL_FOUND)
 	find_package(CURL 8.17.0 QUIET)
 endif ()
 
-# If Module failed, try PkgConfig (Common on Linux)
 if (NOT CURL_FOUND)
 	find_package(PkgConfig QUIET)
 	pkg_check_modules(PC_CURL QUIET libcurl>=8.17.0)
@@ -69,7 +67,6 @@ if (NOT CURL_FOUND)
 	endif ()
 endif ()
 
-# If all local searches failed, build from source
 if (NOT CURL_FOUND)
 	message(STATUS "CURL not found installed, fetching from source...")
 	set(BUILD_CURL_EXE OFF CACHE BOOL "" FORCE)
@@ -88,7 +85,6 @@ endif ()
 find_package(wxWidgets 3.2.0 QUIET COMPONENTS net core base)
 
 if (wxWidgets_FOUND)
-    # Check if we have targets (VCPKG/Config mode) or variables (Module mode)
     if (TARGET wx::core)
         set(WX_LIBS wx::net wx::core wx::base)
     else()
@@ -138,28 +134,30 @@ if (NOT commonItems_FOUND)
 endif ()
 
 # --- Sources ---
-set(PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Fronter/Source)
+# Use CMAKE_CURRENT_SOURCE_DIR to work correctly when built as submodule
+set(FRONTER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Fronter/Source)
 
-file(GLOB MAIN_SOURCES "${PROJECT_SOURCE_DIR}/*.cpp")
-file(GLOB CONFIGURATION_SOURCES "${PROJECT_SOURCE_DIR}/Configuration/*.cpp")
-file(GLOB CONFIGURATION_OPTIONS_SOURCES "${PROJECT_SOURCE_DIR}/Configuration/Options/*.cpp")
-file(GLOB FRAMES_SOURCES "${PROJECT_SOURCE_DIR}/Frames/*.cpp")
-file(GLOB FRAMES_TABS_SOURCES "${PROJECT_SOURCE_DIR}/Frames/Tabs/*.cpp")
-file(GLOB UTILS_SOURCES "${PROJECT_SOURCE_DIR}/Utils/*.cpp")
-file(GLOB UTILS_LOCALIZATION_SOURCES "${PROJECT_SOURCE_DIR}/Utils/Localization/*.cpp")
-file(GLOB LOGWATCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/LogWatcher/*.cpp")
-file(GLOB MODCOPIER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp")
-file(GLOB UPDATECHECKER_SOURCES "${PROJECT_SOURCE_DIR}/UpdateChecker/*.cpp")
+file(GLOB MAIN_SOURCES "${FRONTER_SOURCE_DIR}/*.cpp")
+file(GLOB CONFIGURATION_SOURCES "${FRONTER_SOURCE_DIR}/Configuration/*.cpp")
+file(GLOB CONFIGURATION_OPTIONS_SOURCES "${FRONTER_SOURCE_DIR}/Configuration/Options/*.cpp")
+file(GLOB FRAMES_SOURCES "${FRONTER_SOURCE_DIR}/Frames/*.cpp")
+file(GLOB FRAMES_TABS_SOURCES "${FRONTER_SOURCE_DIR}/Frames/Tabs/*.cpp")
+file(GLOB UTILS_SOURCES "${FRONTER_SOURCE_DIR}/Utils/*.cpp")
+file(GLOB UTILS_LOCALIZATION_SOURCES "${FRONTER_SOURCE_DIR}/Utils/Localization/*.cpp")
+file(GLOB LOGWATCHER_SOURCES "${FRONTER_SOURCE_DIR}/WorkerThreads/LogWatcher/*.cpp")
+file(GLOB MODCOPIER_SOURCES "${FRONTER_SOURCE_DIR}/WorkerThreads/ModCopier/*.cpp")
+file(GLOB UPDATECHECKER_SOURCES "${FRONTER_SOURCE_DIR}/UpdateChecker/*.cpp")
 
 if (WIN32)
-	set(CONVERTERLAUNCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ConverterLauncher/WinConverterLauncher.cpp")
+	set(CONVERTERLAUNCHER_SOURCES "${FRONTER_SOURCE_DIR}/WorkerThreads/ConverterLauncher/WinConverterLauncher.cpp")
 elseif (UNIX)
-	set(CONVERTERLAUNCHER_SOURCES "${PROJECT_SOURCE_DIR}/WorkerThreads/ConverterLauncher/LinuxConverterLauncher.cpp")
+	set(CONVERTERLAUNCHER_SOURCES "${FRONTER_SOURCE_DIR}/WorkerThreads/ConverterLauncher/LinuxConverterLauncher.cpp")
 endif ()
-file(GLOB CONVERTERLAUNCHER_COMMON "${PROJECT_SOURCE_DIR}/WorkerThreads/ConverterLauncher/ConverterLauncher.cpp")
+file(GLOB CONVERTERLAUNCHER_COMMON "${FRONTER_SOURCE_DIR}/WorkerThreads/ConverterLauncher/ConverterLauncher.cpp")
 list(APPEND CONVERTERLAUNCHER_SOURCES ${CONVERTERLAUNCHER_COMMON})
 
 # --- Target ---
+# WIN32 is required for wxWidgets Entry Point
 add_executable(ConverterFrontend WIN32
                ${MAIN_SOURCES}
                ${CONFIGURATION_SOURCES}
@@ -176,11 +174,10 @@ add_executable(ConverterFrontend WIN32
 
 # --- Includes ---
 target_include_directories(ConverterFrontend PRIVATE
-                           "${PROJECT_SOURCE_DIR}"
+                           "${FRONTER_SOURCE_DIR}"
                            )
 
 # --- Linking ---
-# Note: SQLiteCpp::SQLiteCpp here refers to the ALIAS created above for the source build
 target_link_libraries(ConverterFrontend PRIVATE
                       commonItems::commonItems
                       SQLiteCpp::SQLiteCpp
@@ -195,9 +192,12 @@ if (WIN32)
 endif ()
 
 # --- Post Build ---
+# NOTE: We use PROJECT_SOURCE_DIR here so that the path is correct
+# whether building Fronter standalone or as a dependency of another project.
+
 if (UNIX)
 	add_custom_command(TARGET ConverterFrontend POST_BUILD
-	                   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	                   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 	                   COMMAND chmod u+x ./Copy_Files.sh
 	                   COMMAND ./Copy_Files.sh
 	                   COMMENT "Copying resources via script..."
@@ -205,16 +205,16 @@ if (UNIX)
 elseif (WIN32)
 	add_custom_command(TARGET ConverterFrontend POST_BUILD
 	                   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration
-	                   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/Fronter/Resources/converter.ico ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
-	                   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/Fronter/Resources/GeneralFAQ-READ.ME.FIRST.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
-	                   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_languages.yml ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_l_english.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_l_french.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_l_german.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_l_italian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_l_latin.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_l_russian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/Fronter/Resources/converter_l_simp_chinese.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+	                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/converter.ico ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+	                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/GeneralFAQ-READ.ME.FIRST.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+	                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_languages.yml ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_english.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_french.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_german.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_italian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_latin.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_russian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_simp_chinese.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
 	                   COMMENT "Copying resources..."
 	                   )
 endif ()
