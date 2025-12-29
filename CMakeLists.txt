@@ -39,7 +39,7 @@ FetchContent_MakeAvailable(SQLiteCpp)
 
 # Alias to ensure consistent naming
 if(TARGET SQLiteCpp AND NOT TARGET SQLiteCpp::SQLiteCpp)
-    add_library(SQLiteCpp::SQLiteCpp ALIAS SQLiteCpp)
+	add_library(SQLiteCpp::SQLiteCpp ALIAS SQLiteCpp)
 endif()
 
 # 2. CURL
@@ -85,12 +85,12 @@ endif ()
 find_package(wxWidgets 3.2.0 QUIET COMPONENTS net core base)
 
 if (wxWidgets_FOUND)
-    if (TARGET wx::core)
-        set(WX_LIBS wx::net wx::core wx::base)
-    else()
-	    include(${wxWidgets_USE_FILE})
-	    set(WX_LIBS ${wxWidgets_LIBRARIES})
-    endif()
+	if (TARGET wx::core)
+		set(WX_LIBS wx::net wx::core wx::base)
+	else ()
+		include(${wxWidgets_USE_FILE})
+		set(WX_LIBS ${wxWidgets_LIBRARIES})
+	endif ()
 else ()
 	message(STATUS "wxWidgets not found installed, fetching v3.3.1 from source...")
 
@@ -192,29 +192,21 @@ if (WIN32)
 endif ()
 
 # --- Post Build ---
-# NOTE: We use PROJECT_SOURCE_DIR here so that the path is correct
-# whether building Fronter standalone or as a dependency of another project.
+# Unified Post-Build for all platforms.
+# We discard Copy_Files.sh because it hardcodes paths relative to standalone builds,
+# breaking submodule/FetchContent builds on Linux.
 
-if (UNIX)
-	add_custom_command(TARGET ConverterFrontend POST_BUILD
-	                   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-	                   COMMAND chmod u+x ./Copy_Files.sh
-	                   COMMAND ./Copy_Files.sh
-	                   COMMENT "Copying resources via script..."
-	                   )
-elseif (WIN32)
-	add_custom_command(TARGET ConverterFrontend POST_BUILD
-	                   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration
-	                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/converter.ico ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
-	                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/GeneralFAQ-READ.ME.FIRST.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
-	                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_languages.yml ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_english.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_french.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_german.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_italian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_latin.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_russian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_simp_chinese.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
-	                   COMMENT "Copying resources..."
-	                   )
-endif ()
+add_custom_command(TARGET ConverterFrontend POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration
+                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/converter.ico ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/GeneralFAQ-READ.ME.FIRST.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+                   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_languages.yml ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_english.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_french.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_german.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_italian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_latin.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_russian.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/Fronter/Resources/converter_l_simp_chinese.yml" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Configuration/"
+                   COMMENT "Copying resources..."
+                   )
