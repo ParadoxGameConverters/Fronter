@@ -1,4 +1,5 @@
 #include "PathsTab.h"
+#include "../../Utils/Theme.h"
 #include "OSCompatibilityLayer.h"
 #include <cstdlib>
 #include <filesystem>
@@ -45,6 +46,7 @@ void PathsTab::initializePaths()
 	{
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(folder->getDisplayName()), wxDefaultPosition);
+		st->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 
 		path folderPath;
 		if (!folder->getValue().empty())
@@ -93,6 +95,7 @@ void PathsTab::initializePaths()
 	{
 		pickerCounter++;
 		auto* st = new wxStaticText(this, wxID_ANY, tr(file->getDisplayName()), wxDefaultPosition);
+		st->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 
 		path filePath;
 		path initialPath;
