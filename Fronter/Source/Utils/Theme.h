@@ -1,8 +1,8 @@
 #pragma once
-#include <wx/settings.h>
-#include <wx/colour.h>
 #include <cstdlib>
 #include <string>
+#include <wx/colour.h>
+#include <wx/settings.h>
 
 namespace Theme
 {
