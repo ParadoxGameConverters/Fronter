@@ -80,6 +80,20 @@ void PathsTab::initializePaths()
 			 wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		dirPickerCtrl->Bind(wxEVT_DIRPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		dirPickerCtrl->SetInitialDirectory(wxString(folderPath.string()));
+		if (Theme::IsDarkMode())
+		{
+			if (auto* tc = dirPickerCtrl->GetTextCtrl())
+			{
+				tc->SetBackgroundColour(wxColour(60, 60, 60));
+				tc->SetForegroundColour(wxColour(220, 220, 220));
+			}
+			// Also theme the picker button
+			for (auto* child: dirPickerCtrl->GetChildren())
+			{
+				child->SetBackgroundColour(wxColour(70, 70, 70));
+				child->SetForegroundColour(wxColour(220, 220, 220));
+			}
+		}
 		folder->setID(pickerCounter);
 		folder->setValue(folderPath.string());
 		// Intermezzo for mod detection
@@ -137,6 +151,19 @@ void PathsTab::initializePaths()
 			 wxFLP_USE_TEXTCTRL | wxFLP_SMALL);
 		filePickerCtrl->Bind(wxEVT_FILEPICKER_CHANGED, &PathsTab::OnPathChanged, this);
 		filePickerCtrl->SetInitialDirectory(wxString(initialPath.string()));
+		if (Theme::IsDarkMode())
+		{
+			if (auto* tc = filePickerCtrl->GetTextCtrl())
+			{
+				tc->SetBackgroundColour(wxColour(60, 60, 60));
+				tc->SetForegroundColour(wxColour(220, 220, 220));
+			}
+			for (auto* child: filePickerCtrl->GetChildren())
+			{
+				child->SetBackgroundColour(wxColour(70, 70, 70));
+				child->SetForegroundColour(wxColour(220, 220, 220));
+			}
+		}
 		st->SetToolTip(tr(file->getTooltip()));
 		file->setID(pickerCounter);
 		file->setValue(filePath.string());

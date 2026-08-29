@@ -108,6 +108,11 @@ void ConvertTab::initializeConvert()
 	// in third row goes a button
 
 	convertButton = new wxButton(this, wxID_ANY, tr("CONVERTBUTTON"), wxDefaultPosition, wxDefaultSize);
+	if (Theme::IsDarkMode())
+	{
+		convertButton->SetBackgroundColour(wxColour(60, 60, 60));
+		convertButton->SetForegroundColour(wxColour(220, 220, 220));
+	}
 	convertButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, (wxEventFunction)&ConvertTab::onConvertStarted, nullptr, this);
 
 	convertSizer->AddStretchSpacer(0);

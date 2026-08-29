@@ -8,6 +8,10 @@ namespace Theme
 {
 inline bool IsDarkMode()
 {
+#ifdef __WXMSW__
+	// Dark mode disabled on Windows because the native controls do not fully support it.
+	return false;
+#else
 	try
 	{
 		const auto appearance = wxSystemSettings::GetAppearance();
@@ -46,6 +50,7 @@ inline bool IsDarkMode()
 			return true;
 	}
 	return false;
+#endif
 }
 
 inline wxColour GetThemedColour(const wxColour& light, const wxColour& dark)

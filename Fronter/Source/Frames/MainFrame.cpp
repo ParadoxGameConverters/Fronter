@@ -26,6 +26,11 @@ void MainFrame::initFrame()
 	auto* vbox = new wxBoxSizer(wxVERTICAL);
 	notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	notebook->SetMaxSize(wxSize(-1, 400));
+	if (Theme::IsDarkMode())
+	{
+		notebook->SetBackgroundColour(wxColour(45, 45, 45));
+		notebook->SetForegroundColour(wxColour(220, 220, 220));
+	}
 
 	auto* pathsTab = new PathsTab(notebook);
 	pathsTab->loadConfiguration(configuration);
@@ -65,6 +70,10 @@ void MainFrame::initFrame()
 	vbox->Add(logWindow, wxSizerFlags(1).Expand().Border(wxALL, 1));
 
 	this->SetSizer(vbox);
+	if (Theme::IsDarkMode())
+	{
+		this->SetBackgroundColour(wxColour(45, 45, 45));
+	}
 	this->Centre();
 	Bind(wxEVT_SIZE, &MainFrame::onResize, this);
 }
