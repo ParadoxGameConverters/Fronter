@@ -1,6 +1,7 @@
 #include "OptionBox.h"
 #include "../../Configuration/Configuration.h"
 #include "../../Configuration/Options/Option.h"
+#include "../../Utils/Theme.h"
 #include "OSCompatibilityLayer.h"
 #include <wx/textctrl.h>
 #define tr localization->translate
@@ -17,7 +18,7 @@ void OptionBox::initializeOption()
 
 	auto* boxSizer = new wxBoxSizer(wxHORIZONTAL);
 	SetSizer(boxSizer);
-	SetBackgroundColour(wxColour(240, 240, 240));
+	SetBackgroundColour(Theme::GetThemedColour(wxColour(240, 240, 240), wxColour(50, 50, 50)));
 
 	auto* boxHolder = new wxWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxEXPAND);
 	boxHolder->SetMinSize(wxSize(270, 240));
@@ -25,10 +26,11 @@ void OptionBox::initializeOption()
 	boxSizer->Add(boxHolder, wxSizerFlags(1).Border(wxALL, 5));
 	auto* flexGridSizer = new wxFlexGridSizer(1, 3, 3);
 	boxHolder->SetSizer(flexGridSizer);
-	boxHolder->SetBackgroundColour(wxColour(230, 230, 230));
+	boxHolder->SetBackgroundColour(Theme::GetThemedColour(wxColour(230, 230, 230), wxColour(60, 60, 60)));
 
 	auto* st = new wxStaticText(boxHolder, wxID_ANY, tr(option->getDisplayName()), wxDefaultPosition, wxDefaultSize);
 	st->SetToolTip(tr(option->getTooltip()));
+	st->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 	flexGridSizer->Add(st, wxSizerFlags(1).Border(wxALL, 5));
 	st->SetMinSize(wxSize(260, -1));
 	st->Wrap(260);
@@ -50,6 +52,7 @@ void OptionBox::initializeOption()
 				theButton = new wxRadioButton(boxHolder, radioOption->getID(), tr(radioOption->getDisplayName()), wxDefaultPosition, wxDefaultSize, wxEXPAND);
 			}
 			theButton->SetToolTip(tr(radioOption->getTooltip()));
+			theButton->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 			if (!option->getRadioSelector().second->getSelectedValue().empty() && option->getRadioSelector().second->getSelectedID() == radioOption->getID())
 			{
 				theButton->SetValue(true);
@@ -82,6 +85,11 @@ void OptionBox::initializeOption()
 		}
 		textField = new wxTextCtrl(boxHolder, wxID_ANY, selector->getValue(), wxDefaultPosition, wxDefaultSize, flag);
 		textField->SetToolTip(tr(selector->getTooltip()));
+		if (Theme::IsDarkMode())
+		{
+			textField->SetBackgroundColour(wxColour(60, 60, 60));
+			textField->SetForegroundColour(wxColour(220, 220, 220));
+		}
 
 		textField->Bind(wxEVT_TEXT, [this](wxCommandEvent& event) {
 			const auto result = commonItems::convertUTF8ToASCII(commonItems::UTF16ToUTF8(event.GetString().ToStdWstring()));
@@ -108,6 +116,7 @@ void OptionBox::initializeOption()
 				 wxDefaultValidator,
 				 checkBoxOption->getName());
 			theCheckBox->SetToolTip(tr(checkBoxOption->getTooltip()));
+			theCheckBox->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 			if (option->isCheckBoxSelectorPreloaded())
 			{
 				if (option->getCheckBoxSelector().second->getSelectedIDs().count(checkBoxOption->getID()))

@@ -1,4 +1,5 @@
 #include "LogWindow.h"
+#include "../Utils/Theme.h"
 #include "Log.h"
 #include "OSCompatibilityLayer.h"
 #define tr localization->translate
@@ -37,6 +38,23 @@ LogWindow::LogWindow(wxWindow* parent, std::shared_ptr<Localization> theLocaliza
 	theGrid->SetColLabelAlignment(wxLEFT, wxCENTER);
 	theGrid->SetScrollRate(0, 20);
 	theGrid->SetColLabelSize(20);
+	// Adapt grid colours to system theme (dark/light).
+	if (Theme::IsDarkMode())
+	{
+		theGrid->SetDefaultCellBackgroundColour(wxColour(45, 45, 45));
+		theGrid->SetDefaultCellTextColour(wxColour(220, 220, 220));
+		theGrid->SetLabelBackgroundColour(wxColour(55, 55, 55));
+		theGrid->SetLabelTextColour(wxColour(220, 220, 220));
+		theGrid->SetGridLineColour(wxColour(70, 70, 70));
+	}
+	else
+	{
+		theGrid->SetDefaultCellBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW));
+		theGrid->SetDefaultCellTextColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		theGrid->SetLabelBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
+		theGrid->SetLabelTextColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNTEXT));
+		theGrid->SetGridLineColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW));
+	}
 	theGrid->Bind(wxEVT_GRID_CELL_LEFT_CLICK, &LogWindow::eatClick, this);
 	theGrid->Bind(wxEVT_GRID_CELL_LEFT_DCLICK, &LogWindow::eatClick, this);
 	theGrid->Bind(wxEVT_GRID_CELL_RIGHT_CLICK, &LogWindow::eatClick, this);
@@ -104,30 +122,36 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	const auto timestamp = "  " + logMessage.timestamp + "  ";
 
 	auto bgcolor = wxColour(0, 0, 0);
+	auto fgcolor = wxColour(0, 0, 0);
 	std::string severity;
 	if (logMessage.logLevel == LogLevel::Info)
 	{
-		bgcolor = wxColour(255, 255, 255);
+		bgcolor = Theme::GetThemedColour(wxColour(255, 255, 255), wxColour(50, 50, 50));
+		fgcolor = Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220));
 		severity = "  INFO  ";
 	}
 	else if (logMessage.logLevel == LogLevel::Debug)
 	{
-		bgcolor = wxColour(200, 200, 200);
+		bgcolor = Theme::GetThemedColour(wxColour(200, 200, 200), wxColour(65, 65, 65));
+		fgcolor = Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(200, 200, 200));
 		severity = "  DEBUG  ";
 	}
 	else if (logMessage.logLevel == LogLevel::Warning)
 	{
-		bgcolor = wxColour(255, 255, 200);
+		bgcolor = Theme::GetThemedColour(wxColour(255, 255, 200), wxColour(85, 72, 0));
+		fgcolor = Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(255, 230, 130));
 		severity = "  WARNING  ";
 	}
 	else if (logMessage.logLevel == LogLevel::Error)
 	{
-		bgcolor = wxColour(255, 200, 200);
+		bgcolor = Theme::GetThemedColour(wxColour(255, 200, 200), wxColour(85, 35, 35));
+		fgcolor = Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(255, 180, 180));
 		severity = "  ERROR  ";
 	}
 	else if (logMessage.logLevel == LogLevel::Notice)
 	{
-		bgcolor = wxColour(200, 255, 200);
+		bgcolor = Theme::GetThemedColour(wxColour(200, 255, 200), wxColour(35, 70, 35));
+		fgcolor = Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(170, 255, 170));
 		severity = "  NOTICE  ";
 	}
 	else if (logMessage.logLevel == LogLevel::Progress)
@@ -152,13 +176,17 @@ void LogWindow::OnTailPush(LogMessageEvent& event)
 	theGrid->AppendRows(1, false);
 	theGrid->SetRowSize(logCounter, 20);
 	theGrid->SetCellValue(logCounter, 0, timestamp);
+	theGrid->SetCellBackgroundColour(logCounter, 0, bgcolor);
+	theGrid->SetCellTextColour(logCounter, 0, fgcolor);
 	theGrid->SetCellAlignment(logCounter, 0, wxCENTER, wxCENTER);
 	theGrid->SetCellValue(logCounter, 1, severity);
 	theGrid->SetCellBackgroundColour(logCounter, 1, bgcolor);
+	theGrid->SetCellTextColour(logCounter, 1, fgcolor);
 	theGrid->SetCellAlignment(logCounter, 1, wxCENTER, wxCENTER);
 	theGrid->SetCellValue(logCounter, 2, commonItems::convertUTF8ToUTF16(message));
 	theGrid->SetCellBackgroundColour(logCounter, 2, bgcolor);
-	theGrid->SetCellAlignment(logCounter, 1, wxLEFT, wxCENTER);
+	theGrid->SetCellTextColour(logCounter, 2, fgcolor);
+	theGrid->SetCellAlignment(logCounter, 2, wxLEFT, wxCENTER);
 	theGrid->DisableRowResize(logCounter);
 	theGrid->HideRow(logCounter);
 

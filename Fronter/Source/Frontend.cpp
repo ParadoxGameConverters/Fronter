@@ -1,6 +1,7 @@
 #include "Frontend.h"
 #include "Frames/MainFrame.h"
 #include "UpdateChecker/UpdateChecker.h"
+#include "Utils/Theme.h"
 
 wxIMPLEMENT_APP(Frontend);
 #define tr localization->translate
@@ -43,8 +44,18 @@ bool Frontend::OnInit()
 	frame->SetMenuBar(menuBar);
 	frame->CreateStatusBar();
 	frame->SetStatusText(tr("FOOTER"));
-
+	if (Theme::IsDarkMode())
+	{
+		if (auto* sb = frame->GetStatusBar())
+		{
+			sb->SetBackgroundColour(wxColour(45, 45, 45));
+			sb->SetForegroundColour(wxColour(220, 220, 220));
+		}
+	}
 	frame->Show(true);
+	frame->SendSizeEvent();
+	frame->Refresh();
+	frame->Update();
 
 
 	// check for updates on startup

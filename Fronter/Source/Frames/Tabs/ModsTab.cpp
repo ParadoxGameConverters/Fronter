@@ -1,4 +1,5 @@
 #include "ModsTab.h"
+#include "../../Utils/Theme.h"
 #include "../MainFrame.h"
 #include <wx/wrapsizer.h>
 #define tr localization->translate
@@ -10,6 +11,7 @@ ModsTab::ModsTab(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefault
 	SetScrollRate(0, 16);
 	SetSizer(modsTabSizer);
 	title = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize);
+	title->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 	modsTabSizer->Add(title, wxSizerFlags(0).Border(wxLEFT | wxRIGHT | wxTOP, 5));
 }
 
@@ -35,7 +37,7 @@ void ModsTab::initializeMods()
 
 	modsTabSizer->Add(boxHolder, wxSizerFlags(1).Border(wxALL, 5));
 	boxHolder->SetSizer(boxSizer);
-	boxHolder->SetBackgroundColour(wxColour(230, 230, 230));
+	boxHolder->SetBackgroundColour(Theme::GetThemedColour(wxColour(230, 230, 230), wxColour(60, 60, 60)));
 
 	auto modCounter = 0;
 	for (const auto& mod: configuration->getAutoLocatedMods())
@@ -43,6 +45,7 @@ void ModsTab::initializeMods()
 		auto* theCheckBox =
 			 new wxCheckBox(boxHolder, modCounter, mod.getName(), wxDefaultPosition, wxDefaultSize, wxEXPAND, wxDefaultValidator, mod.getFileName().string());
 		theCheckBox->SetToolTip(mod.getFileName().string());
+		theCheckBox->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 
 		if (configuration->getPreloadedModFileNames().count(mod.getFileName()))
 		{

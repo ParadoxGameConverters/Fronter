@@ -1,5 +1,6 @@
 #include "MainFrame.h"
 #include "../UpdateChecker/UpdateChecker.h"
+#include "../Utils/Theme.h"
 #include "LogWindow.h"
 #include "Tabs/ConvertTab.h"
 #include "Tabs/OptionsTab.h"
@@ -25,31 +26,36 @@ void MainFrame::initFrame()
 	auto* vbox = new wxBoxSizer(wxVERTICAL);
 	notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	notebook->SetMaxSize(wxSize(-1, 400));
+	if (Theme::IsDarkMode())
+	{
+		notebook->SetBackgroundColour(wxColour(45, 45, 45));
+		notebook->SetForegroundColour(wxColour(220, 220, 220));
+	}
 
 	auto* pathsTab = new PathsTab(notebook);
 	pathsTab->loadConfiguration(configuration);
 	pathsTab->loadLocalization(localization);
 	pathsTab->initializePaths();
-	pathsTab->SetBackgroundColour(wxColour(255, 245, 245));
+	pathsTab->SetBackgroundColour(Theme::GetThemedColour(wxColour(255, 245, 245), wxColour(55, 35, 35)));
 
 	modsTab = new ModsTab(notebook);
 	modsTab->loadConfiguration(configuration);
 	modsTab->loadLocalization(localization);
 	modsTab->initializeMods();
-	modsTab->SetBackgroundColour(wxColour(245, 255, 255));
+	modsTab->SetBackgroundColour(Theme::GetThemedColour(wxColour(245, 255, 255), wxColour(35, 55, 55)));
 
 	optionsTab = new OptionsTab(notebook);
 	optionsTab->loadConfiguration(configuration);
 	optionsTab->loadLocalization(localization);
 	optionsTab->initializeOptions();
-	optionsTab->SetBackgroundColour(wxColour(245, 255, 245));
+	optionsTab->SetBackgroundColour(Theme::GetThemedColour(wxColour(245, 255, 245), wxColour(35, 55, 35)));
 
 	convertTab = new ConvertTab(notebook);
 	convertTab->loadConfiguration(configuration);
 	convertTab->loadLocalization(localization);
 	convertTab->loadSelf(this);
 	convertTab->initializeConvert();
-	convertTab->SetBackgroundColour(wxColour(245, 245, 255));
+	convertTab->SetBackgroundColour(Theme::GetThemedColour(wxColour(245, 245, 255), wxColour(35, 35, 55)));
 
 	notebook->AddPage(pathsTab, tr("PATHSTAB"));
 	notebook->AddPage(modsTab, tr("MODSTAB"));
@@ -64,6 +70,10 @@ void MainFrame::initFrame()
 	vbox->Add(logWindow, wxSizerFlags(1).Expand().Border(wxALL, 1));
 
 	this->SetSizer(vbox);
+	if (Theme::IsDarkMode())
+	{
+		this->SetBackgroundColour(wxColour(45, 45, 45));
+	}
 	this->Centre();
 	Bind(wxEVT_SIZE, &MainFrame::onResize, this);
 }
@@ -162,7 +172,7 @@ void MainFrame::OnUpdateMods(wxCommandEvent& WXUNUSED(event))
 	modsTab->loadConfiguration(configuration);
 	modsTab->loadLocalization(localization);
 	modsTab->initializeMods();
-	modsTab->SetBackgroundColour(wxColour(245, 255, 255));
+	modsTab->SetBackgroundColour(Theme::GetThemedColour(wxColour(245, 255, 255), wxColour(35, 55, 55)));
 
 	notebook->InsertPage(1, modsTab, tr("MODSTAB"), true, -1); // Back where it was.
 	notebook->Layout();

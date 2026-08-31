@@ -275,6 +275,9 @@
     <ClInclude Include="external\SQLiteCpp\sqlite3\sqlite3.h">
       <Filter>external\SQLiteCpp\sqlite3</Filter>
     </ClInclude>
+    <ClInclude Include="Fronter\Source\Utils\Theme.h">
+      <Filter>Fronter\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Fronter\Resources\converter.ico">

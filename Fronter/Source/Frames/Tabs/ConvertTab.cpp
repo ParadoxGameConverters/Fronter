@@ -1,4 +1,5 @@
 #include "ConvertTab.h"
+#include "../../Utils/Theme.h"
 #include "../MainFrame.h"
 #include "OSCompatibilityLayer.h"
 #include <fstream>
@@ -25,7 +26,7 @@ void ConvertTab::initializeConvert()
 	// convertSizer->SetVGap(50);
 
 	auto* logPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
-	logPanel->SetBackgroundColour(wxColour(230, 230, 245));
+	logPanel->SetBackgroundColour(Theme::GetThemedColour(wxColour(230, 230, 245), wxColour(45, 45, 60)));
 	auto* logSizer = new wxGridSizer(1, 1, 5, 5);
 	logPanel->SetSizer(logSizer);
 
@@ -37,6 +38,14 @@ void ConvertTab::initializeConvert()
 
 	auto* theButtonBox = new wxRadioBox(logPanel, wxID_ANY, tr("LOGLEVEL"), wxDefaultPosition, wxDefaultSize, boxChoices, 4);
 	theButtonBox->SetSelection(1);
+	theButtonBox->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
+	theButtonBox->SetBackgroundColour(Theme::GetThemedColour(wxColour(230, 230, 245), wxColour(45, 45, 60)));
+	// wxRadioBox on MSW does not propagate foreground to its internal radio buttons - set on children as well.
+	for (auto* child: theButtonBox->GetChildren())
+	{
+		child->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
+		child->SetBackgroundColour(Theme::GetThemedColour(wxColour(230, 230, 245), wxColour(45, 45, 60)));
+	}
 	theButtonBox->Bind(wxEVT_RADIOBOX, [this](wxCommandEvent& event) {
 		wxCommandEvent evt(wxEVT_LOGLEVELCHANGED);
 		evt.SetInt(event.GetInt());
@@ -49,16 +58,22 @@ void ConvertTab::initializeConvert()
 
 	// In the first cell goes a 2cx3r status table
 	auto* statusPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
-	statusPanel->SetBackgroundColour(wxColour(240, 240, 240));
+	statusPanel->SetBackgroundColour(Theme::GetThemedColour(wxColour(240, 240, 240), wxColour(50, 50, 50)));
 	auto* statusSizer = new wxGridSizer(3, 2, 5, 5);
 	statusPanel->SetSizer(statusSizer);
 
 	auto* cell11 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSAVING"));
+	cell11->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 	statusSave = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
+	statusSave->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 	auto* cell21 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCONVERTING"));
+	cell21->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 	statusConvert = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
+	statusConvert->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 	auto* cell31 = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTCOPYING"));
+	cell31->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 	statusCopy = new wxStaticText(statusPanel, wxID_ANY, tr("CONVERTSTATUSPRE"));
+	statusCopy->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 
 	statusSizer->Add(cell11);
 	statusSizer->Add(statusSave, wxSizerFlags(1).Align(1).CenterHorizontal());
@@ -74,13 +89,14 @@ void ConvertTab::initializeConvert()
 
 	// In goes a 1cx2r holder table
 	auto* gaugePanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED);
-	gaugePanel->SetBackgroundColour(wxColour(230, 245, 230));
+	gaugePanel->SetBackgroundColour(Theme::GetThemedColour(wxColour(230, 245, 230), wxColour(45, 60, 45)));
 	auto* gaugeSizer = new wxGridSizer(2, 1, 5, 5);
 	gaugePanel->SetSizer(gaugeSizer);
 
 	// Scale goes to 109.
 	gauge = new wxGauge(gaugePanel, wxID_ANY, 109, wxDefaultPosition, wxDefaultSize, wxHORIZONTAL);
 	gaugeCounter = new wxStaticText(gaugePanel, wxID_ANY, "0%");
+	gaugeCounter->SetForegroundColour(Theme::GetThemedColour(wxColour(0, 0, 0), wxColour(220, 220, 220)));
 
 	gaugeSizer->Add(gauge, wxSizerFlags(1).Top().CenterHorizontal());
 	gaugeSizer->Add(gaugeCounter, wxSizerFlags(1).Top().CenterHorizontal());
@@ -92,6 +108,11 @@ void ConvertTab::initializeConvert()
 	// in third row goes a button
 
 	convertButton = new wxButton(this, wxID_ANY, tr("CONVERTBUTTON"), wxDefaultPosition, wxDefaultSize);
+	if (Theme::IsDarkMode())
+	{
+		convertButton->SetBackgroundColour(wxColour(60, 60, 60));
+		convertButton->SetForegroundColour(wxColour(220, 220, 220));
+	}
 	convertButton->Connect(wxEVT_COMMAND_BUTTON_CLICKED, (wxEventFunction)&ConvertTab::onConvertStarted, nullptr, this);
 
 	convertSizer->AddStretchSpacer(0);
