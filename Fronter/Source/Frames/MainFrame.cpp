@@ -62,6 +62,10 @@ void MainFrame::initFrame()
 	notebook->AddPage(optionsTab, tr("OPTIONSTAB"));
 	notebook->AddPage(convertTab, tr("CONVERTTAB"));
 	notebook->Layout();
+	// The options tab is a scrolled window: its virtual size must cover every option box,
+	// otherwise the scrollbar range stays at the (empty) window size and the options that
+	// don't fit into the visible area cannot be reached.
+	optionsTab->FitInside();
 
 	logWindow = new LogWindow(this, localization);
 	logWindow->SetMinSize(wxSize(-1, 200));
@@ -81,7 +85,7 @@ void MainFrame::initFrame()
 void MainFrame::onResize(wxSizeEvent& event)
 {
 	// layout everything in the dialog
-	optionsTab->SetVirtualSize(event.GetSize());
+	optionsTab->FitInside();
 	optionsTab->Layout();
 	event.Skip();
 }
