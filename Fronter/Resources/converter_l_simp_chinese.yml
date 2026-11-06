@@ -7,7 +7,7 @@ l_simp_chinese:
  MENUCONVERTER: "转换器"
  MENUPGCG: "PGCG"
  FOOTER: "Paradox游戏转换器制作组"
- ABOUTBODY: "Copyright (c) 2020 The Paradox Game Converters Group\n\n该转换器，如其他所有一样，是免费的并且可在Github库访问获取。\n\n如果你需要联系我们、汇报BUG、提供建议或者希望参与项目，你可以在Github、论坛、Wiki页、Steam处找到我们。"
+ ABOUTBODY: "Copyright (c) 2020 The Paradox Game Converters Group\n\n该转换器，如其他转换器一样，是免费的并且可在Github库访问获取。\n\n如果你需要联系我们、汇报BUG、提供建议或者希望参与项目，你可以在Github、论坛、Wiki页、Steam处找到我们。"
  ABOUTTITLE: "Paradox游戏转换器制作组 - 通用前端"
  LOGTIME: "时间戳"
  LOGSEVERITY: "优先级"
